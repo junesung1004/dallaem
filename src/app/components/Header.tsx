@@ -4,7 +4,7 @@ import React from "react";
 export default function Header() {
   return (
     <header className="flex flex-col justify-center w-full h-[60px] mx-auto p-2 pr-6  bg-orange-600 border-black border-b-2">
-      <nav className="md:mx-auto md:w-[744px] gap-4 lg:w-[996px] flex justify-between text-sm md:text-base lg:text-lg text-white">
+      <nav className="md:mx-auto md:w-[744px] gap-4 lg:w-[996px] flex justify-between text-xs md:text-base lg:text-lg text-white">
         <ul className="flex gap-2 sm:gap-4 lg:gap-5">
           <li>
             <Link href={"/"}>같이 달램</Link>
