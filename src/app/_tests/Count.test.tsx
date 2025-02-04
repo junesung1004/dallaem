@@ -21,7 +21,7 @@ describe("Count Component", () => {
   it("increments count when + button is clicked", () => {
     render(<Count />);
 
-    //초기 count 값이 0인지 확인
+    //초기 count 값이 0인지 확인.
     expect(screen.getByText("Count : 0")).toBeInTheDocument();
 
     // + 버튼 클릭
