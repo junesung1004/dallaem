@@ -17,7 +17,7 @@ describe("Count Component", () => {
     expect(screen.getByText("- 버튼")).toBeInTheDocument();
   });
 
-  //+버튼 기능이 잘 작동 되는지 test case code
+  //+버튼 기능이 잘 작동 되는지 test case code.
   it("increments count when + button is clicked", () => {
     render(<Count />);
 
