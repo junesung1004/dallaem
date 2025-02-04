@@ -1,0 +1,77 @@
+name: Next.js CI/CD with Vercel and Cypress
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  # actions: write #  to cancel/stop running workflows (styfle/cancel-workflow-action)
+  contents: read #  to fetch code (actions/checkout)
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ 리포지토리 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Node.js 설정 (최신 LTS 버전 사용)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      # 3️⃣ 의존성 설치
+      - name: Install dependencies
+        run: npm ci
+
+      # 4️⃣ ESLint 실행 (코드 품질 체크)
+      - name: Run ESLint
+        run: npm run lint
+
+      # 5️⃣ TypeScript 타입 검사
+      - name: Run TypeScript type checking
+        run: npx tsc --noEmit
+
+      # 6️⃣ Jest 테스트 실행
+      - name: Run Jest tests
+        run: npm test
+
+      # 7️⃣ Cypress 통합 테스트 (develop 브랜치에서만 실행)
+      - name: Run Cypress tests
+        if: github.ref == 'refs/heads/develop'
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm run start
+          wait-on: "http://localhost:3000"
+
+      # 8️⃣ 코드 커버리지 업로드 (Codecov)
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      # 9️⃣ Next.js 빌드 실행
+      - name: Build Next.js app
+        run: npm run build
+
+  deploy:
+    needs: test-and-build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
