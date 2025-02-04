@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
+    "test": "jest --coverage",
     "test:watch": "jest --watch",
     "coverage": "jest-coverage",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "type-check": "npx tsc --noEmit"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.66.0",
