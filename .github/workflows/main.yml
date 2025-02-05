@@ -48,7 +48,6 @@ jobs:
 
       # 7️⃣ Cypress 통합 테스트 (develop 브랜치에서만 실행)dsddasdad
       - name: Run Cypress tests
-        if: github.ref == 'refs/heads/develop'
         uses: cypress-io/github-action@v6
         with:
           build: npm run build
