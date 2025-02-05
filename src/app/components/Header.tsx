@@ -22,7 +22,7 @@ export default function Header() {
 
         <ul className="flex">
           <li>
-            <Link href={"/auth/login"}>로그인</Link>
+            <Link href={"/login"}>로그인</Link>
           </li>
         </ul>
       </nav>
