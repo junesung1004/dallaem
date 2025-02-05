@@ -46,21 +46,12 @@ jobs:
       - name: Run Jest tests
         run: npm test
 
-      # 7️⃣ Cypress 통합 테스트 (develop 브랜치에서만 실행)dsddasdad
-      - name: Run Cypress tests
-        if: github.ref == 'refs/heads/develop'
-        uses: cypress-io/github-action@v6
-        with:
-          build: npm run build
-          start: npm run start
-          wait-on: "http://localhost:3000"
-
       # 8️⃣ 코드 커버리지 업로드 (Codecov)
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: junesung1004/codeit-init-project
+          slug: junesung1004/dallaem
 
       # 9️⃣ Next.js 빌드 실행
       - name: Build Next.js app
