@@ -1,0 +1,26 @@
+{
+  "files": ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
+    "env": {
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
+  ],
+    "parserOptions": {
+    "ecmaVersion": 2021,
+      "sourceType": "module",
+        "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    // 필요한 규칙들을 여기에 추가하세요
+  }
+}
