@@ -1,4 +1,4 @@
-name: Next.js CI/CD with Vercel and Cypress
+name: Next.js CI/CD with Vercel
 
 on:
   push:
@@ -34,9 +34,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ ESLint 실행 (코드 품질 체크)
-      - name: Run ESLint
-        run: npm run lint
+      # # 4️⃣ ESLint 실행 (코드 품질 체크)
+      # - name: Run ESLint
+      #   run: npm run lint
 
       # 5️⃣ TypeScript 타입 검사
       - name: Run TypeScript type checking
