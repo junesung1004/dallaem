@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Mypage() {
-  return <div>my page</div>;
+	return <div>my page(예지 담당)</div>;
 }
