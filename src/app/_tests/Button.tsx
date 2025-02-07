@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 export default function Button() {
 	const router = useRouter();
-	// console.log('asdadsda');
+
 	return (
 		<div className="flex justify-end pr-10">
 			<button
