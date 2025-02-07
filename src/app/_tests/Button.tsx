@@ -11,7 +11,7 @@ export default function Button() {
 				className="px-4 py-2 bg-blue-500 text-white rounded"
 				onClick={() => router.push('/createmodal')}
 			>
-				모임 만들기!!!!!!!!!!!
+				모임 만들기!!!!!!!!!!!!!!
 			</button>
 		</div>
 	);
