@@ -6,7 +6,7 @@ import Dummy from '../_tests/Dummy';
 export default async function Home() {
 	return (
 		<main className="relative w-full">
-			<p className="font-bold text-4xl pb-10">모임찾기 home page!!!!!!</p>
+			<p className="font-bold text-4xl pb-10">모임찾기 home page!!</p>
 			<Button />
 			<Dummy />
 			<Count />
