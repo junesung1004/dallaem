@@ -8,6 +8,9 @@ export default {
 	],
 	theme: {
 		extend: {
+			screens: {
+				xs: '343px',
+			},
 			fontFamily: {
 				sans: ['Pretendard', 'sans-serif'],
 			},
