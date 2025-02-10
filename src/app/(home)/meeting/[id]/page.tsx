@@ -1,9 +1,38 @@
-export default async function DetailPage({
-	params,
-}: {
-	params: Promise<{ id: string }>;
-}) {
-	const { id } = await params;
-	// console.log("id : ", id);
-	return <div>{id}테스트</div>;
+'use client';
+
+import { LikeButton } from '@/app/components/LikeButton';
+import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
+const mockData = [
+	{ id: 1, name: '게시물 1' },
+	{ id: 2, name: '게시물 2' },
+	{ id: 3, name: '게시물 3' },
+	{ id: 4, name: '게시물 4' },
+	{ id: 5, name: '게시물 5' },
+];
+
+export default function DetailPage() {
+	const { id } = useParams();
+	const [userId, setUserId] = useState<number | undefined>(undefined);
+
+	useEffect(() => {
+		const storedUserId = localStorage.getItem('userId');
+		if (storedUserId) {
+			setUserId(Number(storedUserId));
+		}
+	}, []);
+
+	return (
+		<div>
+			{id}테스트
+			<div>
+				{mockData.map((item) => (
+					<div key={item.id}>
+						<LikeButton itemId={item.id} userId={userId} />
+					</div>
+				))}
+			</div>
+		</div>
+	);
 }
