@@ -11,7 +11,7 @@ export default {
 	theme: {
 		extend: {
 			screens: {
-				sx: '380px',
+				xs: '380px',
 			},
 			fontFamily: {
 				sans: ['Pretendard', 'sans-serif'],
