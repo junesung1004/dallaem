@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function FavoriteMeetingPage() {
-  return <div>찜한 페이지</div>;
+	return <div>찜한 페이지(예지 담당)</div>;
 }

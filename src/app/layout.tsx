@@ -1,28 +1,29 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-import "./globals.css";
-import { ReactQueryProvider } from "./lib/ReactQueryProvider";
-import Header from "./components/Header";
+import './globals.css';
+import { ReactQueryProvider } from './lib/ReactQueryProvider';
+import Header from './components/Header';
 
 export const metadata: Metadata = {
-  title: "같이달램",
-  description: "오프라인 모임을 주최하는 플랫폼",
+	title: '같이달램',
+	description: '오프라인 모임을 주최하는 플랫폼',
 };
 
+
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="ko">
-      <body className="font-sans antialiased">
-        <ReactQueryProvider>
-          <Header />
-          {children}
-          <footer>푸터</footer>
-        </ReactQueryProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="ko">
+			<body className="font-sans antialiased">
+				<ReactQueryProvider>
+					<Header />
+					{children}
+					<footer>푸터</footer>
+				</ReactQueryProvider>
+			</body>
+		</html>
+	);
 }
