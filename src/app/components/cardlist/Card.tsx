@@ -3,20 +3,19 @@ import React from 'react';
 
 export default function Card() {
 	return (
-		<section className="flex flex-col sm:flex-row w-full xl:w-[996px]  border-2 rounded-[24px] mt-6 ">
-			{/* 이미지 */}
-			<div className=" w-[280px] h-[156px] relative border-r-2">
+		<section className="flex flex-col sm:flex-row h-[316px] sm:h-[156px] w-full xs:w-[343px] sm:w-full xl:w-[996px]  border-2 rounded-[24px] mt-6 ">
+			{/* 이미지. */}
+			<div className="w-[343px] sm:w-[280px] h-full relative sm:border-r-2">
 				<Image
 					alt="이미지 예시"
 					src="/globe.svg"
-					width={280}
-					height={156}
+					fill
 					className="h-full w-full object-contain"
 				/>
 			</div>
 
 			{/* 인포 */}
-			<div className="flex-1 p-5">
+			<div className="flex-1 ">
 				{/* top layout */}
 				<div className="flex justify-between ">
 					{/* left info */}
@@ -24,7 +23,7 @@ export default function Card() {
 						<div>달램핏 오피스 스트레칭 | 어쩌고 샬라샬라</div>
 						<div className="flex gap-5">
 							<div>1월 7일</div>
-							<div>2시 30분분</div>
+							<div>2시 30분</div>
 						</div>
 					</div>
 					{/* 찜하기 아이콘 */}
