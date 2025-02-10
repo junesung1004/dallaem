@@ -3,10 +3,16 @@ import React from 'react';
 
 export default function Card() {
 	return (
-		<section className="flex w-full xl:w-[996px]  border-2 rounded-[24px] mt-6 ">
+		<section className="flex flex-col sm:flex-row w-full xl:w-[996px]  border-2 rounded-[24px] mt-6 ">
 			{/* 이미지 */}
-			<div className=" w-[280px] md:h-[156px] relative border-r-2">
-				<Image alt="이미지 예시" src="/globe.svg" fill />
+			<div className=" w-[280px] h-[156px] relative border-r-2">
+				<Image
+					alt="이미지 예시"
+					src="/globe.svg"
+					width={280}
+					height={156}
+					className="h-full w-full object-contain"
+				/>
 			</div>
 
 			{/* 인포 */}
