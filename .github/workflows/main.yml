@@ -65,5 +65,5 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy to Vercel
-        run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+      # - name: Deploy to Vercel
+      #   run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
