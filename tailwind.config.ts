@@ -10,9 +10,6 @@ export default {
 	],
 	theme: {
 		extend: {
-			screens: {
-				xs: '380px',
-			},
 			fontFamily: {
 				sans: ['Pretendard', 'sans-serif'],
 			},
