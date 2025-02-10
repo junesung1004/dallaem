@@ -27,3 +27,14 @@ export const getTods = async () => {
 		},
 	]);
 };
+
+export const getTodoFetchData = async () => {
+	const res = await fetch('주소');
+	if (!res.ok) {
+		throw new Error();
+	}
+
+	const data = await res.json();
+
+	return data;
+};
