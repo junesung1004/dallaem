@@ -28,6 +28,7 @@ export default {
 				foreground: 'var(--foreground)',
 			},
 			fontWeight: {},
+
 		},
 	},
 	plugins: [],
