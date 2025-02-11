@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css'; // 추가
 
 // react-datepicker 라이브러리 = 달력 + 시간 표기
 export const CalenderTime = () => {
-	const [startDate, setStartDate] = useState(
+	const [startDate, setStartDate] = useState<Date | null>(
 		setHours(setMinutes(new Date(), 30), 16),
 	);
 
