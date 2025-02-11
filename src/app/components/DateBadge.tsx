@@ -1,11 +1,9 @@
 export const DateBadge = ({
 	text,
 	type,
-	isClear,
 }: {
 	text: string;
 	type: 'date' | 'time';
-	isClear?: boolean;
 }) => {
 	const formatDateOrTime = (
 		isoString: string,
@@ -35,7 +33,7 @@ export const DateBadge = ({
 			type="button"
 			className={`inline-block bg-[#111827] px-2 py-1 rounded-md text-xs ${
 				type === 'date' ? 'text-white' : 'text-orange-500'
-			} ${isClear === true ? 'bg-opacity-30 text-opacity-30' : undefined}`}
+			}`}
 		>
 			{formatDateOrTime(text, type)}
 		</button>
