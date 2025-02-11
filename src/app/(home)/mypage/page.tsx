@@ -1,6 +1,6 @@
 import ProgressBar from '@/app/components/ProgressBar/ProgressBar';
 import Badge from '@/app/components/Badge/Badge';
-import ReviewForm from './components/ReviewForm/ReviewForm';
+import HeartRatings from '@/app/components/HeartRatings/HeartRatings';
 
 function MyPage() {
 	return (
@@ -16,8 +16,14 @@ function MyPage() {
 					<Badge content={'0'} />
 					<Badge content={'19'} />
 				</div>
+				Review Hearts
+				<HeartRatings rating={2.7} maxHearts={5} />
+				<HeartRatings rating={4.8} maxHearts={5} />
+				<HeartRatings rating={5} maxHearts={5} />
+				<HeartRatings rating={0} maxHearts={5} />
+				Mypage Hearts
+				<HeartRatings rating={0} maxHearts={5} isInteractive={true} />
 			</div>
-			<ReviewForm />
 		</div>
 	);
 }
