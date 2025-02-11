@@ -124,15 +124,17 @@ function Footer({
 	max,
 	value,
 	status,
+	isClear = false,
 	onClick,
 }: {
 	max: number;
 	value: number;
 	status: string;
+	isClear: boolean;
 	onClick: () => void;
 }) {
 	return (
-		<div className={'flex justify-between gap-10 items-center mt-5 relative'}>
+		<div className={'flex justify-between gap-10 items-center mt-5'}>
 			{/* 왼쪽 레이아웃 */}
 			<div className="flex flex-col flex-1 gap-2">
 				<div className="flex gap-2">
@@ -141,6 +143,7 @@ function Footer({
 					</p>
 					<p>{status}</p>
 				</div>
+
 				<ProgressBar
 					max={max}
 					value={value}
@@ -152,7 +155,11 @@ function Footer({
 			{/* 오른쪽 버튼 */}
 			<div
 				onClick={onClick}
-				className="flex gap-2 cursor-pointer text-orange-600 font-semibold"
+				className={
+					isClear
+						? `text-opacity-20 flex gap-2 cursor-pointer text-orange-600 font-semibold`
+						: `flex gap-2 cursor-pointer text-orange-600 font-semibold`
+				}
 			>
 				<p>join now</p>
 				<p>→</p>

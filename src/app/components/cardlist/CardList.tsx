@@ -20,15 +20,16 @@ export default function CardList() {
 						isClear={true}
 						src="/images/save.png"
 						onClick={() => {
-							console.log('클릭');
+							// console.log('클릭');
 						}}
 					/>
 					<Card.Footer
 						max={40}
 						value={30}
+						isClear={true}
 						status="개설확정"
 						onClick={() => {
-							console.log('푸터 클릭');
+							// console.log('푸터 클릭');
 						}}
 					/>
 				</Card.Content>
@@ -49,15 +50,16 @@ export default function CardList() {
 						src="/images/save.png"
 						isClear={false}
 						onClick={() => {
-							console.log('클릭');
+							// console.log('클릭');
 						}}
 					/>
 					<Card.Footer
 						max={40}
 						value={30}
+						isClear={false}
 						status="개설확정"
 						onClick={() => {
-							console.log('푸터 클릭');
+							// console.log('푸터 클릭');
 						}}
 					/>
 				</Card.Content>
@@ -78,15 +80,16 @@ export default function CardList() {
 						isClear={true}
 						src="/images/save.png"
 						onClick={() => {
-							console.log('클릭');
+							// console.log('클릭');
 						}}
 					/>
 					<Card.Footer
 						max={40}
 						value={30}
+						isClear={true}
 						status="개설확정"
 						onClick={() => {
-							console.log('푸터 클릭');
+							// console.log('푸터 클릭');
 						}}
 					/>
 				</Card.Content>
