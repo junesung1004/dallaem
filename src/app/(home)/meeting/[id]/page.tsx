@@ -28,7 +28,11 @@ export default function DetailPage() {
 		<div>
 			{id}테스트
 			<DateBadge text={`2025-02-14T04:48:55.087Z`} type={'date'} />
-			<DateBadge text={`2025-02-14T04:48:55.087Z`} type={'time'} />
+			<DateBadge
+				text={`2025-02-14T04:48:55.087Z`}
+				type={'time'}
+				isClear={true}
+			/>
 			<div>
 				{mockData.map((item) => (
 					<div key={item.id}>
