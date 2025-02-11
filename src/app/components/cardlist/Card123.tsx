@@ -4,7 +4,7 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 
 export default function Card({
 	children,
-	isClear = true,
+	isClear = false,
 }: {
 	children: React.ReactNode;
 	isClear: boolean;
@@ -12,11 +12,11 @@ export default function Card({
 	return (
 		<section
 			className={`flex flex-col sm:flex-row h-[316px] sm:h-[156px] w-full xs:w-[343px] sm:w-full xl:w-[996px] border-2 rounded-[24px] mt-6 relative overflow-hidden
-				`}
+				${isClear ? 'bg-black bg-opacity-80' : 'bg-white'}`}
 		>
 			{children}
 			{isClear && (
-				<div className="absolute bg-black bg-opacity-80 inset-0 flex items-center justify-center text-white">
+				<div className="absolute inset-0 flex items-center justify-center text-white">
 					<div className="text-center">
 						<p>마감된 챌린지예요,</p>
 						<p>다음 기회에 만나요 🙏</p>
@@ -28,20 +28,30 @@ export default function Card({
 }
 
 //이미지 섹션
-function ImageSection({ src, alt }: { src: string; alt: string }) {
+function ImageSection({
+	src,
+	alt,
+	isClear = false,
+}: {
+	src: string;
+	alt: string;
+	isClear: boolean;
+}) {
 	return (
 		// 이미지
 		<div
-			className={`w-[343px] sm:w-[280px] h-full relative 'bg-white sm:border-r-2`}
+			className={`w-[343px] sm:w-[280px] h-full relative ${isClear ? 'bg-black bg-opacity-80' : 'bg-white sm:border-r-2'}`}
 		>
 			<Image
 				alt={alt}
 				src={src}
 				fill
 				priority
-				className="h-full w-full object-cover"
+				className="h-full w-full object-contain"
 				sizes="(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw"
 			/>
+			{/* isClear 상태일 때 어두운 오버레이 추가 */}
+			{isClear && <div className="absolute inset-0 bg-black bg-opacity-80" />}
 		</div>
 	);
 }
@@ -62,14 +72,14 @@ function Header({
 	title,
 	place,
 	src,
-
+	isClear = false,
 	onClick,
 }: {
 	children: React.ReactNode;
 	title: string;
 	place: string;
 	src: string;
-
+	isClear: boolean;
 	onClick: () => void;
 }) {
 	return (
@@ -85,12 +95,16 @@ function Header({
 
 			{/* 오른쪽 찜하기 버튼 */}
 			<div
-				className={'w-[48px] h-[48px] relative cursor-pointer'}
+				className={
+					isClear
+						? 'z-30 w-[48px] h-[48px] relative cursor-pointer'
+						: 'w-[48px] h-[48px] relative cursor-pointer'
+				}
 				onClick={onClick}
 			>
 				<Image
 					alt="찜하기 아이콘"
-					src={src}
+					src={isClear ? '/icons/discard/discardImg.png' : src}
 					fill
 					sizes="(max-width: 640px) 48px, (max-width: 1024px) 48px, 100vw"
 				/>
@@ -104,11 +118,13 @@ function Footer({
 	max,
 	value,
 	status,
+	isClear = false,
 	onClick,
 }: {
 	max: number;
 	value: number;
 	status: string;
+	isClear: boolean;
 	onClick: () => void;
 }) {
 	return (
@@ -127,13 +143,18 @@ function Footer({
 					value={value}
 					isNeutral={false}
 					isAnimate={false}
+					isClear={false}
 				/>
 			</div>
 
 			{/* 오른쪽 버튼 */}
 			<div
 				onClick={onClick}
-				className={`flex gap-2 cursor-pointer text-orange-600 font-semibold`}
+				className={
+					isClear
+						? `text-opacity-20 flex gap-2 cursor-pointer text-orange-600 font-semibold`
+						: `flex gap-2 cursor-pointer text-orange-600 font-semibold`
+				}
 			>
 				<p>join now</p>
 				<p>→</p>
