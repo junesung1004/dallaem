@@ -1,3 +1,3 @@
-export interface TimeBadgeProps {
+export interface DateBadgeProps {
 	registrationEnd: string;
 }
