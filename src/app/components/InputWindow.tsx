@@ -6,6 +6,7 @@ interface InputWindowProps {
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	value: string;
 	isError?: boolean;
+	isHidden?: boolean;
 }
 /*  
 placeholderText: placeholder로 설정할 텍스트
@@ -19,6 +20,7 @@ const InputWindow = ({
 	onChange,
 	value,
 	isError,
+	isHidden,
 }: InputWindowProps) => {
 	// 입력 상태 관리 hook
 	const [typeStatus, setTypeStatus] = useState<'empty' | 'typing' | 'error'>(
@@ -54,6 +56,7 @@ const InputWindow = ({
 				onChange={handleChange}
 				value={value}
 				className={`w-full h-full outline-none text-base bg-gray-50 px-3 ${borderStyle}`}
+				type={isHidden ? 'password' : 'text'}
 			></input>
 		</div>
 	);

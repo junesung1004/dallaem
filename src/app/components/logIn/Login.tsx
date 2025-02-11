@@ -1,16 +1,22 @@
-import { useState } from 'react';
-import { InputWindow } from './InputWindow';
+import React, { useState } from 'react';
+import { InputWindow } from '../InputWindow';
 import Form from 'next/form';
+import { HideToggle } from './HideToggle';
 
 const Login = () => {
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
+	const [isHidden, setIsHidden] = useState(true); //비밀번호 숨김 토글 관리
 	// 입력 handle 함수
 	const onIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setId(e.target.value);
 	};
 	const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
+	};
+	const onHideToggleChange = () => {
+		setIsHidden((prev) => !prev);
+		console.log(isHidden);
 	};
 
 	return (
@@ -33,7 +39,9 @@ const Login = () => {
 						placeholderText="비밀번호를 입력해주세요."
 						onChange={onPasswordChange}
 						value={password}
+						isHidden={isHidden}
 					/>
+					<HideToggle onClick={onHideToggleChange} isHidden={isHidden} />
 				</div>
 				<div className="h-1/4 flex flex-col justify-center items-center">
 					<button className="w-full aspect-[311/40] bg-gray-400 rounded-xl">
