@@ -21,6 +21,21 @@ export default function Card({
 					<div className='text-center'>
 						<p>마감된 챌린지예요,</p>
 						<p>다음 기회에 만나요 🙏</p>
+						{/* 작은 화면에서는 작은 아이콘, 큰 화면에서는 큰 아이콘 */}
+						<Image
+							src='/icons/discard/discardText.png'
+							alt='모임 마감 아이콘 (작은 화면)'
+							width={116}
+							height={36}
+							className='absolute bottom-16 right-28 sm:hidden'
+						/>
+						<Image
+							src='/icons/discard/discardImg.png'
+							alt='모임 마감 아이콘 (큰 화면)'
+							width={36}
+							height={36}
+							className='absolute top-4 right-7 hidden sm:block'
+						/>
 					</div>
 				</div>
 			)}
