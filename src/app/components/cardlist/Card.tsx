@@ -2,25 +2,56 @@ import Image from 'next/image';
 import React from 'react';
 import ProgressBar from '../ProgressBar/ProgressBar';
 
-export default function Card({ children }: { children: React.ReactNode }) {
+export default function Card({
+	children,
+	isClear = false,
+}: {
+	children: React.ReactNode;
+	isClear: boolean;
+}) {
 	return (
-		<section className="flex flex-col sm:flex-row h-[316px] sm:h-[156px] w-full xs:w-[343px] sm:w-full xl:w-[996px] border-2 rounded-[24px] mt-6 ">
+		<section
+			className={`flex flex-col sm:flex-row h-[316px] sm:h-[156px] w-full xs:w-[343px] sm:w-full xl:w-[996px] border-2 rounded-[24px] mt-6 relative overflow-hidden
+				${isClear ? 'bg-black bg-opacity-80' : 'bg-white'}`}
+		>
 			{children}
+			{isClear && (
+				<div className="absolute inset-0 flex items-center justify-center text-white">
+					<div className="text-center">
+						<p>마감된 챌린지예요,</p>
+						<p>다음 기회에 만나요 🙏</p>
+					</div>
+				</div>
+			)}
 		</section>
 	);
 }
 
 //이미지 섹션
-function ImageSection({ src, alt }: { src: string; alt: string }) {
+function ImageSection({
+	src,
+	alt,
+	isClear = false,
+}: {
+	src: string;
+	alt: string;
+	isClear: boolean;
+}) {
 	return (
 		// 이미지
-		<div className="w-[343px] sm:w-[280px] h-full relative sm:border-r-2">
+		<div
+			className={`w-[343px] sm:w-[280px] h-full relative ${isClear ? 'bg-black bg-opacity-80' : 'bg-white sm:border-r-2'}`}
+		>
 			<Image
 				alt={alt}
 				src={src}
 				fill
+				priority
 				className="h-full w-full object-contain"
+				sizes="(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw"
 			/>
+			{/* isClear 상태일 때 어두운 오버레이 추가 */}
+			{isClear && <div className="absolute inset-0 bg-black bg-opacity-80" />}
 		</div>
 	);
 }
@@ -42,6 +73,7 @@ function Header({
 	date,
 	time,
 	src,
+	isClear = false,
 	onClick,
 }: {
 	title: string;
@@ -49,6 +81,7 @@ function Header({
 	date: string;
 	time: string;
 	src: string;
+	isClear: boolean;
 	onClick: () => void;
 }) {
 	return (
@@ -68,10 +101,19 @@ function Header({
 
 			{/* 오른쪽 찜하기 버튼 */}
 			<div
-				className="w-[48px] h-[48px] relative cursor-pointer"
+				className={
+					isClear
+						? 'z-30 w-[48px] h-[48px] relative cursor-pointer'
+						: 'w-[48px] h-[48px] relative cursor-pointer'
+				}
 				onClick={onClick}
 			>
-				<Image alt="찜하기 아이콘" src={src} fill />
+				<Image
+					alt="찜하기 아이콘"
+					src={isClear ? '/icons/discard/discardImg.png' : src}
+					fill
+					sizes="(max-width: 640px) 48px, (max-width: 1024px) 48px, 100vw"
+				/>
 			</div>
 		</div>
 	);
@@ -90,7 +132,7 @@ function Footer({
 	onClick: () => void;
 }) {
 	return (
-		<div className="flex justify-between gap-10 items-center mt-5">
+		<div className={'flex justify-between gap-10 items-center mt-5 relative'}>
 			{/* 왼쪽 레이아웃 */}
 			<div className="flex flex-col flex-1 gap-2">
 				<div className="flex gap-2">
@@ -124,61 +166,3 @@ Card.ImageSection = ImageSection;
 Card.Content = Content;
 Card.Header = Header;
 Card.Footer = Footer;
-
-// export default function Card() {
-// 	return (
-// 		<section className="flex flex-col sm:flex-row h-[316px] sm:h-[156px] w-full xs:w-[343px] sm:w-full xl:w-[996px] border-2 rounded-[24px] mt-6 ">
-// 			{/* 이미지 */}
-// 			<div className="w-[343px] sm:w-[280px] h-full relative sm:border-r-2">
-// 				<Image
-// 					alt="이미지 예시"
-// 					src="/images/imgLogin.png"
-// 					fill
-// 					className="h-full w-full object-contain"
-// 				/>
-// 			</div>
-
-// 			{/* 인포 */}
-// 			<div className="flex-1 p-4">
-// 				{/* top layout */}
-// 				<div className="flex justify-between ">
-// 					{/* left info */}
-// 					<div className="flex flex-col gap-1">
-// 						<div>달램핏 오피스 스트레칭 | 어쩌고</div>
-// 						<div className="flex gap-5">
-// 							<div>1월 7일</div>
-// 							<div>2시 30분</div>
-// 						</div>
-// 					</div>
-// 					{/* right info 찜하기 아이콘 */}
-// 					<div className="w-[48px] h-[48px] relative cursor-pointer">
-// 						<Image alt="찜하기 아이콘" src={'/images/save.png'} fill />
-// 					</div>
-// 				</div>
-
-// 				{/* bottom layout */}
-// 				<div className="flex justify-between gap-10 items-center mt-5">
-// 					{/* left layout */}
-// 					<div className="flex flex-col flex-1 gap-2">
-// 						<div className="flex gap-2">
-// 							<p>18/20</p>
-// 							<p>개설확정</p>
-// 						</div>
-// 						<ProgressBar
-// 							max={40}
-// 							value={30}
-// 							isNeutral={false}
-// 							isAnimate={false}
-// 						/>
-// 					</div>
-
-// 					{/* right layout */}
-// 					<div className="flex gap-2 cursor-pointer text-orange-600 font-semibold">
-// 						<p>join now</p>
-// 						<p>→</p>
-// 					</div>
-// 				</div>
-// 			</div>
-// 		</section>
-// 	);
-// }
