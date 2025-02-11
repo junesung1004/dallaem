@@ -4,8 +4,31 @@ interface MembersProps {
 }
 
 function Members({ max, value }: MembersProps) {
-	const fillColor =
-		Math.floor(max) == Math.floor(value) ? 'fill-orange-400' : 'fill-gray-700';
+	let maxCount = max;
+	let curCount = value;
+	const styleProp = {
+		textColor: 'text-gray-700',
+		fillColor: 'fill-gray-700',
+	};
+
+	// number 가 아니면 둘다 0으로 초기화
+	if (typeof max !== 'number' || typeof value !== 'number') {
+		maxCount = 0;
+		curCount = 0;
+	}
+
+	if (max < 0 || value < 0) {
+		maxCount = 0;
+		curCount = 0;
+	}
+
+	// 들어온 값이 최대 인원을 초과할 경우 최대 인원까지만 표시
+	if (value >= max) {
+		curCount = Math.min(...[max, value].map((num) => Math.floor(num)));
+		styleProp.fillColor = 'fill-orange-400';
+		styleProp.textColor = 'text-orange-400';
+	}
+
 	return (
 		<div className='flex items-center'>
 			<svg
@@ -14,7 +37,7 @@ function Members({ max, value }: MembersProps) {
 				height='16'
 				viewBox='0 0 16 16'
 				fill='none'
-				className={fillColor}
+				className={styleProp.fillColor}
 			>
 				<circle cx='7.99967' cy='5.33335' r='2.66667' fill='current' />
 				<path
@@ -22,10 +45,8 @@ function Members({ max, value }: MembersProps) {
 					fill='current'
 				/>
 			</svg>
-			<span
-				className={`${max === value ? 'text-orange-400' : 'text-gray-700'} font-medium`}
-			>
-				{value}/{max}
+			<span className={`${styleProp.textColor} font-medium`}>
+				{curCount}/{maxCount}
 			</span>
 		</div>
 	);

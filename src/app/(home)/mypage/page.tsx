@@ -17,7 +17,10 @@ function MyPage() {
 					<Badge content={'19'} />
 				</div>
 			</div>
+			Members
 			<Members max={10} value={10} />
+			<Members max={10} value={15} />
+			<Members max={10} value={5} />
 		</div>
 	);
 }
