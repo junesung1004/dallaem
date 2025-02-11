@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputWindow } from '../InputWindow';
 import Form from 'next/form';
 import { HideToggle } from './HideToggle';
-import { text } from 'stream/consumers';
+import { signinUser } from '@/app/api/userAuth';
+import { getUserData } from '@/app/api/getUserData';
 
 const Login = () => {
 	const [id, setId] = useState('');
@@ -17,8 +18,14 @@ const Login = () => {
 	};
 	const onHideToggleChange = () => {
 		setIsHidden((prev) => !prev);
-		console.log(isHidden);
 	};
+
+	const onButtonClick = () => {
+		signinUser({ email: id, password: password });
+		getUserData();
+	};
+
+	useEffect(() => {});
 
 	return (
 		<div className="w-full h-full bg-white rounded-3xl px-5">
@@ -52,7 +59,10 @@ const Login = () => {
 					</div>
 				</div>
 				<div className="h-1/4 flex flex-col justify-center items-center">
-					<button className="w-full aspect-[311/40] bg-gray-400 rounded-xl">
+					<button
+						className="w-full aspect-[311/40] bg-gray-400 rounded-xl"
+						onClick={onButtonClick}
+					>
 						확인
 					</button>
 					<div className="text-sm text-gray-800 my-3 flex gap-2">
