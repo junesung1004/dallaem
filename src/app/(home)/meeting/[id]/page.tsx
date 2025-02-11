@@ -3,6 +3,7 @@
 import { LikeButton } from '@/app/components/LikeButton';
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { DateBadge } from '@/app/components/DateBadge';
 
 const mockData = [
 	{ id: 1, name: '게시물 1' },
@@ -26,6 +27,8 @@ export default function DetailPage() {
 	return (
 		<div>
 			{id}테스트
+			<DateBadge text={`2025-02-14T04:48:55.087Z`} type={'date'} />
+			<DateBadge text={`2025-02-14T04:48:55.087Z`} type={'time'} />
 			<div>
 				{mockData.map((item) => (
 					<div key={item.id}>
