@@ -38,7 +38,7 @@ const PageNavbar = ({ pageKey }: NavBarProps) => {
 
 	// 버튼 너비 추적을 위한 ref
 	const mainNavRef = useRef<(HTMLButtonElement | null)[]>([]);
-	const [CurrentButton, setCurrentButton] = useState({ width: 0 });
+	const [CurrentButton, setCurrentButton] = useState({ left: 0, width: 0 });
 
 	// 활성화 버튼 추적
 	useEffect(() => {
@@ -49,7 +49,8 @@ const PageNavbar = ({ pageKey }: NavBarProps) => {
 
 		if (activeButton) {
 			setCurrentButton({
-				width: activeButton.offsetWidth,
+				width: activeButton.offsetLeft,
+				left: activeButton.offsetWidth,
 			});
 		}
 	}, [activeMainId, pageKey]);
@@ -78,6 +79,7 @@ const PageNavbar = ({ pageKey }: NavBarProps) => {
 					className='absolute bottom-0 h-[2px] bg-black rounded-full'
 					animate={{
 						width: CurrentButton.width,
+						left: CurrentButton.left,
 					}}
 				/>
 			</div>
