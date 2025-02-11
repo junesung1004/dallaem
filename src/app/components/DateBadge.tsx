@@ -1,17 +1,41 @@
-import React from 'react';
-import { DateBadgeProps } from '../types/dateType';
+export const DateBadge = ({
+	text,
+	type,
+}: {
+	text: string;
+	type: 'date' | 'time';
+}) => {
+	const formatDateOrTime = (
+		isoString: string,
+		type: 'date' | 'time',
+	): string => {
+		const date = new Date(isoString);
 
-const formatDate = (isoString: string): string => {
-	const registrationEnd = new Date(isoString);
-	const month = registrationEnd.getMonth() + 1;
-	const day = registrationEnd.getDate();
-	return `${month}월 ${day}일`;
-};
+		if (type === 'date') {
+			const month = date.getMonth() + 1;
+			const day = date.getDate();
+			return `${month}월 ${day}일`;
+		}
 
-export const DateBadge: React.FC<DateBadgeProps> = ({ registrationEnd }) => {
+		if (type === 'time') {
+			const hours = date.getHours();
+			const minutes = date.getMinutes();
+			return `${hours.toString().padStart(2, '0')} : ${minutes
+				.toString()
+				.padStart(2, '0')}`;
+		}
+
+		return '';
+	};
+
 	return (
-		<div className="bg-[#111827] text-white px-2 py-1 rounded-md text-xs w-[60px]">
-			{formatDate(registrationEnd)}
-		</div>
+		<button
+			type="button"
+			className={`inline-block bg-[#111827] px-2 py-1 rounded-md text-xs ${
+				type === 'date' ? 'text-white' : 'text-orange-500'
+			}`}
+		>
+			{formatDateOrTime(text, type)}
+		</button>
 	);
 };
