@@ -1,6 +1,7 @@
 'use client';
 
 import { DateBadge } from '../DateBadge';
+import { LikeButton } from '../LikeButton';
 import Card from './Card';
 
 type Dummy = {
@@ -10,7 +11,7 @@ type Dummy = {
 
 export default function CardList() {
 	const dummy: Dummy[] = [
-		{ id: 1, isClear: true },
+		{ id: 1, isClear: false },
 		{ id: 2, isClear: true },
 		{ id: 3, isClear: false },
 		{ id: 4, isClear: true },
@@ -27,21 +28,24 @@ export default function CardList() {
 				<Card key={el.id} isClear={el.isClear}>
 					<Card.ImageSection src='/images/imgLogin.png' alt='이미지 예시' />
 					<Card.Content>
-						<Card.Header
-							title='달램핏 오피스 스트레칭 |'
-							place='을지로 3가'
-							src='/images/save.png'
-							onClick={() => {
-								// console.log('클릭');
-							}}
-						>
-							<DateBadge text='2025-02-11T00:29:52.866Z' type='date' />
-							<DateBadge text='2025-02-11T00:29:52.866Z' type='time' />
+						<Card.Header>
+							{/* 왼쪽 섹션 */}
+							<Card.Header.Left
+								title='달램핏 오피스 스트레칭 |'
+								place='을지로 3가'
+							>
+								<DateBadge text='2025-02-11T00:29:52.866Z' type='date' />
+								<DateBadge text='2025-02-11T00:29:52.866Z' type='time' />
+							</Card.Header.Left>
+
+							{/* 오른쪽 섹션 (찜 버튼) */}
+							<Card.Header.Right>
+								<LikeButton itemId={el.id} />
+							</Card.Header.Right>
 						</Card.Header>
 						<Card.Footer
 							max={40}
 							value={30}
-							status='개설확정'
 							onClick={() => {
 								// console.log('푸터 클릭');
 							}}
