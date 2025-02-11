@@ -31,6 +31,7 @@ const Login = () => {
 						placeholderText="이메일을 입력해주세요."
 						onChange={onIdChange}
 						value={id}
+						type="email"
 					/>
 				</div>
 				<div className="h-1/4">
