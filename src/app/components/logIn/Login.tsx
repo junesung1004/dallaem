@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { InputWindow } from '../InputWindow';
 import Form from 'next/form';
 import { HideToggle } from './HideToggle';
+import { text } from 'stream/consumers';
 
 const Login = () => {
 	const [id, setId] = useState('');
@@ -41,12 +42,12 @@ const Login = () => {
 							placeholderText="비밀번호를 입력해주세요."
 							onChange={onPasswordChange}
 							value={password}
-							isHidden={isHidden}
+							type={isHidden ? 'password' : 'text'}
 						/>
 						<HideToggle
 							onClick={onHideToggleChange}
 							isHidden={isHidden}
-							className="absolute inset-y-1 right-2"
+							className="absolute inset-y-1 right-2 lg:inset-y-2"
 						/>
 					</div>
 				</div>

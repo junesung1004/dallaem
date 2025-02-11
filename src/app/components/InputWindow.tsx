@@ -6,7 +6,6 @@ interface InputWindowProps {
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	value: string;
 	isError?: boolean;
-	isHidden?: boolean;
 	type?: string;
 }
 /*  
@@ -14,8 +13,7 @@ placeholderText: placeholder로 설정할 텍스트
 onChange: 부모가 입력창 관리함
 value: 부모로부터 받아온 입력 값
 isError: 부모가 에러 트리거 가능하도록 함 (옵션)
-isHidden: 텍스트를 password 처리(숨김) 여부 (옵션)
-type: input Type 받아옴 (옵션)
+type: input Type 받아옴. 기본값: text (옵션)
 */
 
 const InputWindow = ({
@@ -23,7 +21,6 @@ const InputWindow = ({
 	onChange,
 	value,
 	isError,
-	isHidden,
 	type,
 }: InputWindowProps) => {
 	// 입력 상태 관리 hook
@@ -60,7 +57,7 @@ const InputWindow = ({
 				onChange={handleChange}
 				value={value}
 				className={`w-full h-full outline-none text-base bg-gray-50 px-3 ${borderStyle}`}
-				type={isHidden ? 'password' : type || 'text'} //props에 type이 지정되어있으면 해당 type 쓰고 지정되지 않았으면 기본값 text 사용
+				type={type || 'text'} //props에 type이 지정되어있으면 해당 type 쓰고 지정되지 않았으면 기본값 text 사용
 			></input>
 		</div>
 	);
