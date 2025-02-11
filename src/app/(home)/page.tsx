@@ -1,5 +1,5 @@
 import Button from '@/app/_tests/Button';
-import CardList from '../components/Cardlist/CardList';
+import CardList from '../components/cardlist/CardList';
 
 export default async function Home() {
 	return (
