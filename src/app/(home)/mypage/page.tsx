@@ -1,6 +1,7 @@
 import ProgressBar from '@/app/components/ProgressBar/ProgressBar';
 import Badge from '@/app/components/Badge/Badge';
 import HeartRatings from '@/app/components/HeartRatings/HeartRatings';
+import Members from '@/app/components/Members/Members';
 
 function MyPage() {
 	return (
@@ -24,6 +25,10 @@ function MyPage() {
 				Mypage Hearts
 				<HeartRatings rating={0} maxHearts={5} isInteractive={true} />
 			</div>
+			Members
+			<Members max={10} value={10} />
+			<Members max={10} value={15} />
+			<Members max={10} value={5} />
 		</div>
 	);
 }
