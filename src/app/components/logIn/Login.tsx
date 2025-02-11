@@ -33,15 +33,21 @@ const Login = () => {
 						value={id}
 					/>
 				</div>
-				<div className="h-1/4 relative">
+				<div className="h-1/4">
 					<span className="text-sm">비밀번호</span>
-					<InputWindow
-						placeholderText="비밀번호를 입력해주세요."
-						onChange={onPasswordChange}
-						value={password}
-						isHidden={isHidden}
-					/>
-					<HideToggle onClick={onHideToggleChange} isHidden={isHidden} />
+					<div className="relative">
+						<InputWindow
+							placeholderText="비밀번호를 입력해주세요."
+							onChange={onPasswordChange}
+							value={password}
+							isHidden={isHidden}
+						/>
+						<HideToggle
+							onClick={onHideToggleChange}
+							isHidden={isHidden}
+							className="absolute inset-y-1 right-2"
+						/>
+					</div>
 				</div>
 				<div className="h-1/4 flex flex-col justify-center items-center">
 					<button className="w-full aspect-[311/40] bg-gray-400 rounded-xl">
