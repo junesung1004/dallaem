@@ -23,7 +23,7 @@ export default function Card({
 					<div className='text-center'>
 						<p>마감된 챌린지예요,</p>
 						<p>다음 기회에 만나요 🙏</p>
-						{/* 작은 화면에서는 작은 아이콘, 큰 화면에서는 큰 아이콘 */}
+						{/* 작은 화면에서는 작은 아이콘, 큰 화면에서는 큰 아이콘. */}
 						<div
 							onClick={() => {
 								// console.log('클릭');
