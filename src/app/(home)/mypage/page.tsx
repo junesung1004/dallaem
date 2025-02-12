@@ -2,6 +2,8 @@ import ProgressBar from '@/app/components/ProgressBar/ProgressBar';
 import Badge from '@/app/components/Badge/Badge';
 import HeartRatings from '@/app/components/HeartRatings/HeartRatings';
 import Members from '@/app/components/Members/Members';
+import Link from 'next/link';
+import GlobalModal from './components/GlobalModal';
 import Button from '@/app/components/Button/Button';
 
 function MyPage() {
@@ -43,6 +45,10 @@ function MyPage() {
 						생성하기
 					</Button>
 				</div>
+			</div>
+			<div className='flex flex-col items-start'>
+				<Link href={'/mypage/create-review/3'}>Open Modal with Routes</Link>
+				<GlobalModal />
 			</div>
 		</div>
 	);

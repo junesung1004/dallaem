@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ReactQueryProvider } from './lib/ReactQueryProvider';
 import Header from './components/Header';
+import { ModalProvider } from './lib/ModalProvider';
 
 export const metadata: Metadata = {
 	title: '같이달램',
@@ -11,16 +12,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
 	children,
+	modal,
 }: Readonly<{
 	children: React.ReactNode;
+	modal: React.ReactNode;
 }>) {
 	return (
 		<html lang='ko'>
 			<body className='font-sans antialiased'>
 				<ReactQueryProvider>
 					<Header />
-					{children}
+					<ModalProvider>
+						{children}
+						{modal}
+					</ModalProvider>
 				</ReactQueryProvider>
+				<div id='modal-root'></div>
 			</body>
 		</html>
 	);
