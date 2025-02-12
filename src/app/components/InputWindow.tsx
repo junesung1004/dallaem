@@ -40,7 +40,7 @@ const InputWindow = ({
 		setTypeStatus('typing');
 	};
 
-	//함수: onFocus, onBlur 처리 (typeStatus 변경)
+	//함수: onFocus, onBlur 확장 (typeStatus 변경)
 	const handleFocusIn = () => {
 		onFocus?.();
 		setTypeStatus('typing');
@@ -56,7 +56,6 @@ const InputWindow = ({
 	// 부모로부터 error 전달 받을 경우 error state 설정
 	useEffect(() => {
 		if (isError) {
-			console.log('자식: error');
 			setTypeStatus('error');
 		}
 	});
