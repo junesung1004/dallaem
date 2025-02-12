@@ -22,7 +22,8 @@ export const CalenderTime = () => {
 				setHours(setMinutes(new Date(), 30), 19),
 				setHours(setMinutes(new Date(), 30), 17),
 			]}
-			dateFormat='MMMM d, yyyy h:mm aa'
+			dateFormat='yyyy-MM-dd h:mm aa'
+			showIcon
 			className='border border-gray-300 rounded-lg p-2'
 		/>
 	);
