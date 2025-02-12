@@ -3,6 +3,7 @@ import React from 'react';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { StatusBadge } from '../StatusBadge';
 import Members from '../Members/Members';
+import { Tag } from '@/app/_tests/Tag';
 
 export default function Card({
 	children,
@@ -73,6 +74,7 @@ function ImageSection({ src, alt }: { src: string; alt: string }) {
 				className='h-full w-full object-cover'
 				sizes='(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw'
 			/>
+			<Tag text={'오늘 21시 마감'} isPosition />
 		</div>
 	);
 }
@@ -80,7 +82,7 @@ function ImageSection({ src, alt }: { src: string; alt: string }) {
 // 카드 내부 컨텐츠 섹션
 function Content({ children }: { children: React.ReactNode }) {
 	return (
-		<div className='flex-1 p-4'>
+		<div className='flex-1 p-4 '>
 			{/* top && bottom layout  */}
 			{children}
 		</div>
