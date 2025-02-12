@@ -11,6 +11,7 @@ export const Calender = () => {
 	return (
 		<DatePicker
 			selected={startDate}
+			showIcon
 			onChange={(date) => setStartDate(date)}
 			dateFormat='MMMM d, yyyy' // 날짜만 표시
 			className='border border-gray-300 rounded-lg p-2'
