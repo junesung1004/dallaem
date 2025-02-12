@@ -10,7 +10,8 @@ const Login = () => {
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
 	const [isHidden, setIsHidden] = useState(true); //비밀번호 숨김 토글 관리
-	const [error, setError] = useState<{ id?: string; password?: string }>({}); //로그인 에러 관리
+	const [errorId, setErrorId] = useState(''); //로그인 에러 관리
+	const [errorPassword, setErrorPassword] = useState('');
 
 	// 입력 handle 함수
 	const onIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,27 +30,49 @@ const Login = () => {
 		try {
 			//로그인 성공. 에러 메시지 초기화
 			await signinUser({ email: id, password: password });
-			setError({ id: '', password: '' });
+			setErrorId('');
+			setErrorPassword('');
 		} catch (err: any) {
-			//로그인 실패. 에러 메시지 저장장
+			//로그인 실패. 에러 메시지 저장
 			console.log(err.message);
 			if (err.message === '존재하지 않는 아이디입니다') {
-				setError({ id: err.message, password: '' });
+				setErrorId(err.message);
 			} else if (err.message === '비밀번호가 아이디와 일치하지 않습니다') {
-				setError({ id: '', password: err.message });
+				setErrorPassword(err.message);
 			}
 		}
 	};
+
+	//형식 유효성 검사 함수. 작성중 에러 처리
+	const validateInput = (id: string) => {
+		const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+		if (id === '') {
+			setErrorId('아이디를 입력해주세요');
+		} else if (!email_regex.test(id)) {
+			setErrorId('유효하지 않은 이메일 형식입니다');
+		} else {
+			setErrorId('');
+			return;
+		}
+	};
+	//작성 중 1초 지나면 형식 유효성 검사사
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			console.log('1초 경과되었습니다. 유효성 검사 실시합니다');
+			validateInput(id);
+		}, 1000);
+		return () => clearTimeout(timer);
+	}, [id]); //id 변경 되면 이메일 유효성 검사
 
 	return (
 		<div className='w-full h-full bg-white rounded-3xl px-5'>
 			<div className='w-[90%] h-full mx-auto flex flex-col gap-4'>
 				<div className='w-full h-1/4 flex justify-center items-center'>
-					<span className='text-xl'>로그인</span>
+					<span className='text-xl md:text-2xl'>로그인</span>
 				</div>
 				{/* Section: ID */}
 				<div className='h-1/4 grid grid-rows-[3fr_6fr_2fr]'>
-					<span className='text-sm'>아이디</span>
+					<span className='text-sm md:text-lg'>아이디</span>
 					<InputWindow
 						placeholderText='이메일을 입력해주세요.'
 						onChange={onIdChange}
@@ -57,11 +80,11 @@ const Login = () => {
 						type='text'
 					/>
 					{/* 에러 메시지: 아이디가 존재하지 않습니다 */}
-					{error.id && <span className='text-sm text-red-600'>{error.id}</span>}
+					{errorId && <span className='text-sm text-red-600'>{errorId}</span>}
 				</div>
 				{/* Section: Password */}
 				<div className='h-1/4 grid grid-rows-[3fr_6fr_2fr]'>
-					<span className='text-sm'>비밀번호</span>
+					<span className='text-sm md:text-lg'>비밀번호</span>
 					<div className='relative'>
 						<InputWindow
 							placeholderText='비밀번호를 입력해주세요.'
@@ -76,8 +99,8 @@ const Login = () => {
 						/>
 					</div>
 					{/* 에러 메시지: 비밀번호가 틀립니다 */}
-					{error.password && (
-						<span className='text-sm text-red-600'>{error.password}</span>
+					{errorPassword && (
+						<span className='text-sm text-red-600'>{errorPassword}</span>
 					)}
 				</div>
 				<div className='h-1/4 flex flex-col justify-center items-center'>
