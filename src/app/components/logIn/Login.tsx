@@ -79,7 +79,7 @@ const Login = () => {
 		}, 1000);
 		console.log('errror: ', errorId);
 		return () => clearTimeout(timer);
-	}, [id, errorId]);
+	}, [id]);
 
 	// return
 	return (
