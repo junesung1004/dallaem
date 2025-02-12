@@ -2,6 +2,8 @@ import Image from 'next/image';
 import React from 'react';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { StatusBadge } from '../StatusBadge';
+import Members from '../Members/Members';
+import { Tag } from '@/app/_tests/Tag';
 
 export default function Card({
 	children,
@@ -21,21 +23,35 @@ export default function Card({
 					<div className='text-center'>
 						<p>마감된 챌린지예요,</p>
 						<p>다음 기회에 만나요 🙏</p>
-						{/* 작은 화면에서는 작은 아이콘, 큰 화면에서는 큰 아이콘 */}
-						<Image
-							src='/icons/discard/discardText.png'
-							alt='모임 마감 아이콘 (작은 화면)'
-							width={116}
-							height={36}
-							className='absolute bottom-16 right-28 sm:hidden'
-						/>
-						<Image
-							src='/icons/discard/discardImg.png'
-							alt='모임 마감 아이콘 (큰 화면)'
-							width={36}
-							height={36}
-							className='absolute top-4 right-7 hidden sm:block'
-						/>
+						{/* 작은 화면에서는 작은 아이콘, 큰 화면에서는 큰 아이콘. */}
+						<div
+							onClick={() => {
+								// console.log('클릭');
+							}}
+							className='cursor-pointer'
+						>
+							<Image
+								src='/icons/discard/discardText.png'
+								alt='모임 마감 아이콘 (작은 화면)'
+								width={116}
+								height={36}
+								className='absolute bottom-16 right-28 sm:hidden'
+							/>
+						</div>
+						<div
+							onClick={() => {
+								// console.log('클릭');
+							}}
+							className='cursor-pointer'
+						>
+							<Image
+								src='/icons/discard/discardImg.png'
+								alt='모임 마감 아이콘 (큰 화면)'
+								width={36}
+								height={36}
+								className='absolute top-4 right-7 hidden sm:block'
+							/>
+						</div>
 					</div>
 				</div>
 			)}
@@ -58,6 +74,7 @@ function ImageSection({ src, alt }: { src: string; alt: string }) {
 				className='h-full w-full object-cover'
 				sizes='(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw'
 			/>
+			<Tag text={'오늘 21시 마감'} isPosition />
 		</div>
 	);
 }
@@ -65,7 +82,7 @@ function ImageSection({ src, alt }: { src: string; alt: string }) {
 // 카드 내부 컨텐츠 섹션
 function Content({ children }: { children: React.ReactNode }) {
 	return (
-		<div className='flex-1 p-4'>
+		<div className='flex-1 p-4 '>
 			{/* top && bottom layout  */}
 			{children}
 		</div>
@@ -119,9 +136,7 @@ function Footer({
 			{/* 왼쪽 레이아웃 */}
 			<div className='flex flex-col flex-1 gap-2'>
 				<div className='flex gap-2'>
-					<p>
-						{value}/{max}
-					</p>
+					<Members max={20} value={14} />
 					<StatusBadge />
 				</div>
 
