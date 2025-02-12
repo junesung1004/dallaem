@@ -30,7 +30,7 @@ export const DateBadge = ({
 
 	return (
 		<button
-			type="button"
+			type='button'
 			className={`inline-block bg-[#111827] px-2 py-1 rounded-md text-xs ${type === 'date' ? 'text-white' : 'text-orange-500'} `}
 		>
 			{formatDateOrTime(text, type)}
