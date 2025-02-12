@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { StatusBadge } from '../StatusBadge';
+import Members from '../Members/Members';
 
 export default function Card({
 	children,
@@ -22,20 +23,34 @@ export default function Card({
 						<p>마감된 챌린지예요,</p>
 						<p>다음 기회에 만나요 🙏</p>
 						{/* 작은 화면에서는 작은 아이콘, 큰 화면에서는 큰 아이콘 */}
-						<Image
-							src='/icons/discard/discardText.png'
-							alt='모임 마감 아이콘 (작은 화면)'
-							width={116}
-							height={36}
-							className='absolute bottom-16 right-28 sm:hidden'
-						/>
-						<Image
-							src='/icons/discard/discardImg.png'
-							alt='모임 마감 아이콘 (큰 화면)'
-							width={36}
-							height={36}
-							className='absolute top-4 right-7 hidden sm:block'
-						/>
+						<div
+							onClick={() => {
+								// console.log('클릭');
+							}}
+							className='cursor-pointer'
+						>
+							<Image
+								src='/icons/discard/discardText.png'
+								alt='모임 마감 아이콘 (작은 화면)'
+								width={116}
+								height={36}
+								className='absolute bottom-16 right-28 sm:hidden'
+							/>
+						</div>
+						<div
+							onClick={() => {
+								// console.log('클릭');
+							}}
+							className='cursor-pointer'
+						>
+							<Image
+								src='/icons/discard/discardImg.png'
+								alt='모임 마감 아이콘 (큰 화면)'
+								width={36}
+								height={36}
+								className='absolute top-4 right-7 hidden sm:block'
+							/>
+						</div>
 					</div>
 				</div>
 			)}
@@ -119,9 +134,7 @@ function Footer({
 			{/* 왼쪽 레이아웃 */}
 			<div className='flex flex-col flex-1 gap-2'>
 				<div className='flex gap-2'>
-					<p>
-						{value}/{max}
-					</p>
+					<Members max={20} value={14} />
 					<StatusBadge />
 				</div>
 
