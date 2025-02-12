@@ -24,14 +24,15 @@ const Login = () => {
 		setIsHidden((prev) => !prev);
 	};
 
-	//로그인 함수. 인풋 유효성 검사 미통과 시에 메시지 저장
+	//로그인 함수. 인풋 유효성 검사 미통과 시에 에러 메시지 설정
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			//로그인 성공. 에러 메시지 초기화
+			//로그인 성공. 에러 메시지 초기화. 이전 페이지로 돌아감감
 			await signinUser({ email: id, password: password });
 			setErrorId('');
 			setErrorPassword('');
+			router.back();
 		} catch (err: any) {
 			//로그인 실패. 에러 메시지 저장
 			console.log(err.message);
@@ -43,7 +44,7 @@ const Login = () => {
 		}
 	};
 
-	//형식 유효성 검사 함수. 작성중 에러 처리
+	//함수: 아이디 형식 유효성 검사 함수
 	const validateInput = (id: string) => {
 		const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 		if (id === '') {
@@ -55,21 +56,40 @@ const Login = () => {
 			return;
 		}
 	};
-	//작성 중 1초 지나면 형식 유효성 검사사
-	useEffect(() => {
+
+	//함수: onFocus) Input 창을 포커스 할 경우 1초 후에 유효성 검사 시작한다.
+	const handleFocus = () => {
 		const timer = setTimeout(() => {
-			console.log('1초 경과되었습니다. 유효성 검사 실시합니다');
 			validateInput(id);
 		}, 1000);
 		return () => clearTimeout(timer);
-	}, [id]); //id 변경 되면 이메일 유효성 검사
+	};
+	//함수: onBlur) Input 창을 벗어나면 유효성 검사 진행한다. id가 빈칸일 경우 에러 메시지를 띄우지 않는다.
+	const handleFocusOut = () => {
+		validateInput(id);
+		if (id === '') {
+			setErrorId('');
+		}
+	};
 
+	//useEffect: ID 변경 후 1초 지났을 때 유효성 검사 시작한다
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			validateInput(id);
+		}, 1000);
+		console.log('errror: ', errorId);
+		return () => clearTimeout(timer);
+	}, [id, errorId]);
+
+	// return
 	return (
 		<div className='w-full h-full bg-white rounded-3xl px-5'>
-			<div className='w-[90%] h-full mx-auto flex flex-col gap-4'>
+			<div className='w-[90%] h-full mx-auto flex flex-col justify-center gap-4'>
+				{/* Section: 제목 */}
 				<div className='w-full h-1/4 flex justify-center items-center'>
 					<span className='text-xl md:text-2xl'>로그인</span>
 				</div>
+
 				{/* Section: ID */}
 				<div className='h-1/4 grid grid-rows-[3fr_6fr_2fr]'>
 					<span className='text-sm md:text-lg'>아이디</span>
@@ -78,10 +98,14 @@ const Login = () => {
 						onChange={onIdChange}
 						value={id}
 						type='text'
+						isError={errorId ? true : false}
+						onBlur={handleFocusOut}
+						onFocus={handleFocus}
 					/>
 					{/* 에러 메시지: 아이디가 존재하지 않습니다 */}
 					{errorId && <span className='text-sm text-red-600'>{errorId}</span>}
 				</div>
+
 				{/* Section: Password */}
 				<div className='h-1/4 grid grid-rows-[3fr_6fr_2fr]'>
 					<span className='text-sm md:text-lg'>비밀번호</span>
@@ -91,6 +115,7 @@ const Login = () => {
 							onChange={onPasswordChange}
 							value={password}
 							type={isHidden ? 'password' : 'text'}
+							isError={errorPassword ? true : false}
 						/>
 						<HideToggle
 							onClick={onHideToggleChange}
@@ -103,6 +128,8 @@ const Login = () => {
 						<span className='text-sm text-red-600'>{errorPassword}</span>
 					)}
 				</div>
+
+				{/* Section: 로그인 버튼 */}
 				<div className='h-1/4 flex flex-col justify-center items-center'>
 					<button
 						className='w-full aspect-[311/40] bg-gray-400 rounded-xl'
