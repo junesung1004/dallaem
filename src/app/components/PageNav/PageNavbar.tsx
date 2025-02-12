@@ -12,13 +12,14 @@ interface NavBarProps {
 
 const PageNavbar = ({ pageKey }: NavBarProps) => {
 	const pathname = usePathname();
-	const isMyPage = pageKey === 'myPage';
+	const isMyPage = pageKey === 'mypage';
+	const [currentPath, setCurrentPath] = useState('');
 
 	const [stateMainId, setStateMainId] = useState(NAV_DATA[pageKey][0].id);
 	const [stateSubId, setStateSubId] = useState('all');
 
 	const activeMainId = isMyPage
-		? pathname.split('/')[2] || 'myMeetings'
+		? currentPath.split('/')[2] || 'myMeetings'
 		: stateMainId;
 	const activeSubId = isMyPage ? null : stateSubId;
 
@@ -46,19 +47,22 @@ const PageNavbar = ({ pageKey }: NavBarProps) => {
 			(item) => item.id === activeMainId,
 		);
 		const activeButton = mainNavRef.current[activeIndex];
-
 		if (activeButton) {
 			setCurrentButton({
-				width: activeButton.offsetLeft,
-				left: activeButton.offsetWidth,
+				width: activeButton.offsetWidth,
+				left: activeButton.offsetLeft,
 			});
 		}
 	}, [activeMainId, pageKey]);
 
+	useEffect(() => {
+		setCurrentPath(pathname);
+	}, [pathname]);
+
 	return (
 		<div className='flex flex-col relative'>
 			{/* 메인 네비게이션 */}
-			<div className='flex relative '>
+			<div className='flex relative'>
 				{pageNavData.map((item, index) => (
 					<PageNavButton
 						key={item.id}
