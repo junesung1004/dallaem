@@ -22,13 +22,23 @@ export default function CreateMeetingForm() {
 		meetingEndDateChangeHandler,
 	} = useMeetingForm();
 
-	console.log('meetingName : ', meetingName);
-	console.log('meetingPlace : ', meetingPlace);
-	console.log('meetingImage : ', meetingImage);
-	console.log('meetingSelectedService : ', meetingSelectedService);
-	console.log('meetingStartDate : ', meetingStartDate);
-	console.log('meetingEndDate : ', meetingEndDate);
-	console.log('meetingPeople : ', meetingPeople);
+	// console.log('meetingName : ', meetingName);
+	// console.log('meetingPlace : ', meetingPlace);
+	// console.log('meetingImage : ', meetingImage);
+	// console.log('meetingSelectedService : ', meetingSelectedService);
+	// console.log('meetingStartDate : ', meetingStartDate);
+	// console.log('meetingEndDate : ', meetingEndDate);
+	// console.log('meetingPeople : ', meetingPeople);
+
+	// 모든 입력 필드가 채워졌는지 체크
+	const isFormValid =
+		meetingName &&
+		meetingPlace &&
+		meetingImage &&
+		meetingSelectedService &&
+		meetingStartDate &&
+		meetingEndDate &&
+		meetingPeople;
 
 	return (
 		<form
@@ -141,7 +151,7 @@ export default function CreateMeetingForm() {
 
 			{/* 버튼 */}
 			<div className='mb-5'>
-				<Button text='확인' type='submit' />
+				<Button text='확인' type='submit' disabled={!isFormValid} />
 			</div>
 		</form>
 	);
