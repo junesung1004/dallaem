@@ -25,12 +25,22 @@ function Button({ children, state, isOutlined, isFull, ...rest }: ButtonProps) {
 		},
 	};
 
+	const hoverProp = isOutlined
+		? `hover:${buttonStateMap['hover']['outlined']} hover:outline`
+		: `hover:${buttonStateMap['hover']['initial']} hover:no-outline`;
+
+	const activeProp = isOutlined
+		? `active:${buttonStateMap['click']['outlined']} active:outline`
+		: `active:${buttonStateMap['click']['initial']} active:no-outline`;
+
 	return (
 		<button
 			className={`
                 inline-flex px-8 py-2 rounded-xl justify-center item-center
                 ${buttonStateMap[state][isOutlined ? 'outlined' : 'initial']} 
                 ${isFull ? 'w-full' : ''} 
+				${hoverProp}
+				${activeProp}
                 `}
 			{...rest}
 		>
