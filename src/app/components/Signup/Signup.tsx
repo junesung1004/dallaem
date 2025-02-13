@@ -1,9 +1,10 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { SignupInputSection } from './SignupInputSection';
+
 import { signupUser } from '@/app/api/userAuth';
 import { HideToggle } from '../HideToggle';
+import { SignupInputSection } from './SignupInputSection';
 
 const Signup = () => {
 	const router = useRouter();
