@@ -24,17 +24,10 @@ const signinUser = async ({ email, password }: signinUserInterface) => {
 
 	const data = await response.json();
 	const token = data.token;
-	// 토큰 저장
+	// 토큰 저장 (임시적으로 로컬 스토리지에 저장)
 	localStorage.setItem('authToken', token);
 	console.log(data);
 };
-
-/* 로그인 반환 예시
-  "teamId": "7",
-  "userId": 1122,
-  "iat": 1739323087,
-  "exp": 1739326687
-*/
 
 // 회원가입 기능
 const signupUser = async ({
@@ -68,4 +61,4 @@ const signupUser = async ({
 	console.log(data);
 };
 
-export { signinUser };
+export { signinUser, signupUser };

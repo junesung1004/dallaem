@@ -1,7 +1,6 @@
-'use client';
-import { InputWindow } from '@/app/components/InputWindow';
 import { Login } from '@/app/components/logIn/Login';
-import React, { useEffect, useState } from 'react';
+
+import React from 'react';
 
 export default function LoginPage() {
 	return (
