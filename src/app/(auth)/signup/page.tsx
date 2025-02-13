@@ -10,7 +10,7 @@ export default function SignupPage() {
 				<span className='text-sm'>이제는 같이 달램과 함께 해보세요.</span>
 				<img src='/images/imgLogin.png' alt='main image' />
 			</div>
-			<div className='w-[90%] md:w-[45%] aspect-[2/3] md:aspect-[10/17] mx-auto  '>
+			<div className='w-[90%] md:w-[45%] aspect-[3/5] md:aspect-[1/2] mx-auto  '>
 				<Signup />
 			</div>
 		</main>
