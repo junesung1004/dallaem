@@ -14,7 +14,12 @@ export default function CreateModal() {
 					onClick={() => router.back()}
 					className='w-[24px] h-[24px] absolute right-5'
 				>
-					<Image src={'/icons/X.png'} alt='x 모양 아이콘' fill />
+					<Image
+						src={'/icons/X.png'}
+						alt='x 모양 아이콘'
+						fill
+						sizes='(max-width: 768px) 24px, 24px'
+					/>
 				</button>
 				<CreateMeetingForm />
 			</div>

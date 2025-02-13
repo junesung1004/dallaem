@@ -20,6 +20,24 @@ export function useMeetingForm() {
 	const [meetingEndDate, setMeetingEndDate] = useState<Date | null>(null);
 	const [meetingPeople, setMeetingPeople] = useState<string>('');
 
+	const [nameValid, setNameValid] = useState<boolean>(false);
+
+	//모임 이름 유효성 검사
+	const nameValidErrorMessage = () => {
+		const nameRegex = /^[가-힣a-zA-Z]{2,8}$/;
+
+		if (nameRegex.test(meetingPeople)) {
+			setNameValid(false);
+		} else {
+			setNameValid(true);
+		}
+	};
+
+	const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		meetingNameTextChangeHandler(e);
+		nameValidErrorMessage();
+	};
+
 	// 모임 이름
 	const meetingNameTextChangeHandler = (
 		e: React.ChangeEvent<HTMLInputElement>,
@@ -65,6 +83,16 @@ export function useMeetingForm() {
 		setMeetingEndDate(date);
 	};
 
+	// 모든 입력 필드가 채워졌는지 체크
+	const isFormValid =
+		meetingName &&
+		meetingPlace &&
+		meetingImage &&
+		meetingSelectedService &&
+		meetingStartDate &&
+		meetingEndDate &&
+		meetingPeople;
+
 	return {
 		meetingName,
 		meetingPlace,
@@ -73,6 +101,8 @@ export function useMeetingForm() {
 		meetingStartDate,
 		meetingEndDate,
 		meetingPeople,
+		isFormValid,
+		nameValid,
 		meetingNameTextChangeHandler,
 		meetingPlaceTextChangeHandler,
 		meetingImageTextChangeHandler,
@@ -80,5 +110,6 @@ export function useMeetingForm() {
 		meetingPeopleTextChangeHandler,
 		meetingStartDateChangeHandler,
 		meetingEndDateChangeHandler,
+		handleNameChange,
 	};
 }

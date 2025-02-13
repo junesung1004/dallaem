@@ -3,6 +3,7 @@ import ServiceSelector from '@/app/_tests/Service';
 import { CalenderTime } from '@/app/components/Calendar/CalenderTime';
 import { InputWindow } from '@/app/components/InputWindow';
 import { useMeetingForm } from '@/app/hooks/useMeeting';
+import { useState } from 'react';
 
 export default function CreateMeetingForm() {
 	const {
@@ -13,32 +14,36 @@ export default function CreateMeetingForm() {
 		meetingStartDate,
 		meetingEndDate,
 		meetingPeople,
-		meetingNameTextChangeHandler,
+		isFormValid,
+		nameValid,
 		meetingPlaceTextChangeHandler,
 		meetingImageTextChangeHandler,
 		meetingSelectedServiceChangeHandler,
 		meetingPeopleTextChangeHandler,
 		meetingStartDateChangeHandler,
 		meetingEndDateChangeHandler,
+		handleNameChange,
 	} = useMeetingForm();
 
-	// console.log('meetingName : ', meetingName);
-	// console.log('meetingPlace : ', meetingPlace);
-	// console.log('meetingImage : ', meetingImage);
-	// console.log('meetingSelectedService : ', meetingSelectedService);
-	// console.log('meetingStartDate : ', meetingStartDate);
-	// console.log('meetingEndDate : ', meetingEndDate);
-	// console.log('meetingPeople : ', meetingPeople);
+	const [peopleCountValid, setPeopleCountValid] = useState<boolean | null>(
+		false,
+	);
 
-	// 모든 입력 필드가 채워졌는지 체크
-	const isFormValid =
-		meetingName &&
-		meetingPlace &&
-		meetingImage &&
-		meetingSelectedService &&
-		meetingStartDate &&
-		meetingEndDate &&
-		meetingPeople;
+	//모임 정원수 유효성 검사
+	const peopleCountValidErrorMessage = () => {
+		const peopleRegex = /^(0?[5-9]|1[0-9]|20)$/;
+
+		if (peopleRegex.test(meetingPeople)) {
+			setPeopleCountValid(false);
+		} else {
+			setPeopleCountValid(true);
+		}
+	};
+
+	const handlePeopleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		meetingPeopleTextChangeHandler(e);
+		peopleCountValidErrorMessage();
+	};
 
 	return (
 		<form
@@ -56,10 +61,15 @@ export default function CreateMeetingForm() {
 				</label>
 				<InputWindow
 					placeholderText='모임 이름을 작성해주세요'
-					onChange={(e) => meetingNameTextChangeHandler(e)}
+					onChange={handleNameChange}
 					value={meetingName}
 					id='meeting-name'
 				/>
+				<div className='text-red-600 text-sm mb-2 ml-2'>
+					{nameValid && meetingName.length > 0 && (
+						<div>모임 이름은 2~8자 사이로 한글 또는 영문만 가능합니다.</div>
+					)}
+				</div>
 			</div>
 
 			{/* 모임 장소 */}
@@ -143,10 +153,15 @@ export default function CreateMeetingForm() {
 				</label>
 				<InputWindow
 					placeholderText='최소 5인 이상 입력해주세요'
-					onChange={(e) => meetingPeopleTextChangeHandler(e)}
+					onChange={handlePeopleCountChange}
 					value={meetingPeople}
 					id='meeting-available-people'
 				/>
+				<div className='text-red-600 text-sm mb-2 ml-2'>
+					{peopleCountValid && meetingPeople?.length > 0 && (
+						<div>모집 최소 인원은 5명 이상 20명 이하로 숫자로 기입해주세요</div>
+					)}
+				</div>
 			</div>
 
 			{/* 버튼 */}
