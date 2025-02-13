@@ -134,6 +134,11 @@ const Signup = () => {
 	/* 함수: handleSubmit) 회원가입 및 제출 시 에러 처리*/
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		if (companyName.length < 3 || companyName.length > 12) {
+			setErrorCompanyName('회사명은 3자 이상, 12자 이하여야 합니다');
+			return;
+		}
+
 		try {
 			//로그인 성공. 에러 메시지 초기화. 이전 페이지로 돌아감
 			await signupUser({
@@ -154,6 +159,8 @@ const Signup = () => {
 				setErrorId(err.message);
 			} else if (err.message === '비밀번호는 최소 8자 이상이어야 합니다') {
 				setErrorPassword(err.message);
+			} else if (err.message === '이미 사용 중인 이메일입니다') {
+				setErrorId(err.message);
 			} else {
 				console.log(err.message);
 			}
