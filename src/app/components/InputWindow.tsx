@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 interface InputWindowProps {
 	placeholderText: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	value: string;
+	value: string | number;
 	isError?: boolean;
 	type?: string;
 	id?: string;
