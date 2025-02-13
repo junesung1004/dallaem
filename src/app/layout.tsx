@@ -20,7 +20,6 @@ export default function RootLayout({
 				<ReactQueryProvider>
 					<Header />
 					{children}
-					<footer className='bg-red-400'>푸터</footer>
 				</ReactQueryProvider>
 			</body>
 		</html>

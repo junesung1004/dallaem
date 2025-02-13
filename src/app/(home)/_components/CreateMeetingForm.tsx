@@ -2,43 +2,33 @@ import Button from '@/app/_tests/Button';
 import ServiceSelector from '@/app/_tests/Service';
 import { CalenderTime } from '@/app/components/Calendar/CalenderTime';
 import { InputWindow } from '@/app/components/InputWindow';
-import React, { useState } from 'react';
+import { useMeetingForm } from '@/app/hooks/useMeeting';
 
 export default function CreateMeetingForm() {
-	const [meetingName, setMeetingName] = useState('');
-	const [meetingPlace, setMeetingPlace] = useState('');
-	const [meetingImage, setMeetingImage] = useState('');
-	const [meetingPeople, setMeetingPeople] = useState('');
+	const {
+		meetingName,
+		meetingPlace,
+		meetingImage,
+		meetingSelectedService,
+		meetingStartDate,
+		meetingEndDate,
+		meetingPeople,
+		meetingNameTextChangeHandler,
+		meetingPlaceTextChangeHandler,
+		meetingImageTextChangeHandler,
+		meetingSelectedServiceChangeHandler,
+		meetingPeopleTextChangeHandler,
+		meetingStartDateChangeHandler,
+		meetingEndDateChangeHandler,
+	} = useMeetingForm();
 
-	// 모임 이름
-	const meetingNameTextChangeHandler = (
-		e: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		setMeetingName(e.target.value);
-	};
-
-	//모임 장소
-	const meetingPlaceTextChangeHandler = (
-		e: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		setMeetingPlace(e.target.value);
-	};
-
-	//모임 이미지
-	const meetingImageTextChangeHandler = (
-		e: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		if (e.target.files && e.target.files.length > 0) {
-			setMeetingImage(e.target.files[0].name);
-		}
-	};
-
-	//미팅 정원 인원수수
-	const meetingPeopleTextChangeHandler = (
-		e: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		setMeetingPeople(e.target.value);
-	};
+	console.log('meetingName : ', meetingName);
+	console.log('meetingPlace : ', meetingPlace);
+	console.log('meetingImage : ', meetingImage);
+	console.log('meetingSelectedService : ', meetingSelectedService);
+	console.log('meetingStartDate : ', meetingStartDate);
+	console.log('meetingEndDate : ', meetingEndDate);
+	console.log('meetingPeople : ', meetingPeople);
 
 	return (
 		<form
@@ -111,23 +101,29 @@ export default function CreateMeetingForm() {
 
 			{/* 선택 서비스 */}
 			<div className='mb-5'>
-				<ServiceSelector />
+				<ServiceSelector onSelect={meetingSelectedServiceChangeHandler} />
 			</div>
 
-			{/* 모임 날짜 */}
+			{/* 모임 시작 날짜 */}
 			<div className='flex flex-col gap-2 mb-5'>
 				<label className='font-semibold' htmlFor='meeting-date'>
 					모임 날짜
 				</label>
-				<CalenderTime />
+				<CalenderTime
+					selectedDate={meetingStartDate}
+					onDateChange={(date) => meetingStartDateChangeHandler(date)}
+				/>
 			</div>
 
-			{/* 모임 마감 종료 날짜 */}
+			{/* 모임 모집 마감 종료 날짜 */}
 			<div className='flex flex-col gap-2 mb-5'>
 				<label className='font-semibold' htmlFor='meeting-name'>
 					마감 날짜
 				</label>
-				<CalenderTime />
+				<CalenderTime
+					selectedDate={meetingEndDate}
+					onDateChange={(date) => meetingEndDateChangeHandler(date)}
+				/>
 			</div>
 
 			{/* 모집 정원 */}

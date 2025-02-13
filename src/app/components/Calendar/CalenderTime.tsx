@@ -1,20 +1,34 @@
 'use client';
 
 import { setHours, setMinutes } from 'date-fns';
+
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css'; // 추가
+import 'react-datepicker/dist/react-datepicker.css';
+
+interface CalenderPropsType {
+	selectedDate?: Date | null;
+	onDateChange?: (date: Date | null) => void;
+}
 
 // react-datepicker 라이브러리 = 달력 + 시간 표기
-export const CalenderTime = () => {
+export const CalenderTime = ({
+	selectedDate,
+	onDateChange,
+}: CalenderPropsType) => {
 	const [startDate, setStartDate] = useState<Date | null>(
-		setHours(setMinutes(new Date(), 30), 16),
+		selectedDate ?? setHours(setMinutes(new Date(), 30), 16),
 	);
 
 	return (
 		<DatePicker
 			selected={startDate}
-			onChange={(date) => setStartDate(date)}
+			onChange={(date) => {
+				setStartDate(date);
+				if (onDateChange) {
+					onDateChange(date); // 부모 컴포넌트에도 변경된 값 전달
+				}
+			}}
 			timeIntervals={5} // 5분 단위로 조정
 			showTimeSelect
 			excludeTimes={[

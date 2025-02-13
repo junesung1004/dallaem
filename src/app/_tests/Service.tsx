@@ -2,7 +2,17 @@
 
 import { useState } from 'react';
 
-export default function ServiceSelector() {
+type OnselectProps = {
+	id: string;
+	name: string;
+	description: string;
+};
+
+export default function ServiceSelector({
+	onSelect,
+}: {
+	onSelect: (service: OnselectProps) => void;
+}) {
 	const [selected, setSelected] = useState<string | null>('office');
 	// console.log('selected : ', selected);
 
@@ -11,6 +21,11 @@ export default function ServiceSelector() {
 		{ id: 'mindfulness', name: '달랭핏', description: '마인드풀니스' },
 		{ id: 'workation', name: '워크에이션', description: '리프레쉬' },
 	];
+
+	const handleServiceSelect = (service: OnselectProps) => {
+		setSelected(service.id);
+		onSelect(service);
+	};
 
 	return (
 		<div>
@@ -31,7 +46,7 @@ export default function ServiceSelector() {
 								name='service'
 								id={item.id}
 								checked={selected === item.id}
-								onChange={() => setSelected(item.id)}
+								onChange={() => handleServiceSelect(item)}
 								className='hidden'
 							/>
 							{/* 네모난 박스 스타일 */}
