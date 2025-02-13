@@ -1,5 +1,6 @@
 import { MeetingCard } from '@/app/components/MeetingCard';
 import { DeadlineBadge } from '@/app/components/DeadlineBadge';
+import { Footer } from '../_components/footer';
 import Image from 'next/image';
 
 const DummyData = [
@@ -15,7 +16,7 @@ const DummyData = [
 		capacity: 10,
 		image:
 			'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1738904240393_EVERYTHING.jpg',
-		createdBy: 1115,
+		createdBy: 9310151325,
 		canceledAt: null,
 	},
 ];
@@ -46,6 +47,9 @@ export default function DetailPage() {
 						id={DummyData[0].id}
 					/>
 				</div>
+			</div>
+			<div className='fixed bottom-0 left-0 w-full'>
+				<Footer createdBy={DummyData[0].createdBy} />
 			</div>
 		</div>
 	);
