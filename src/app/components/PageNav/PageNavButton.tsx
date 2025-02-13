@@ -25,9 +25,17 @@ const PageNavButton = forwardRef<HTMLButtonElement, PageNavButtonProps>(
 
 		const buttonElement = (
 			<button ref={ref} className={buttonClass} onClick={onClick}>
-				<div className='flex items-center'>
+				<div className='flex items-center transition-all'>
 					{label}
-					{icon && <Image src={icon} alt={id} width={32} height={32} />}
+					{icon && (
+						<Image
+							src={icon}
+							alt={id}
+							width={32}
+							height={32}
+							className={` ${isActive ? 'opacity-100' : 'opacity-50'}`}
+						/>
+					)}
 				</div>
 			</button>
 		);
