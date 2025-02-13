@@ -21,9 +21,9 @@ export function Footer({ createdBy }: { createdBy: number }) {
 	const handleJoinClick = () => {
 		if (!userId) {
 			toast.error('로그인하세요~');
-			setIsJoinDisabled(true);
 		} else {
 			toast.success('참여했습니다~');
+			setIsJoinDisabled(true);
 		}
 	};
 
