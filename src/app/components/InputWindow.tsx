@@ -28,6 +28,7 @@ const InputWindow = ({
 	value,
 	isError,
 	type,
+	id,
 	onBlur,
 	onFocus,
 	id,
@@ -77,12 +78,14 @@ const InputWindow = ({
 			<input
 				placeholder={placeholderText}
 				onChange={handleChange}
+				id={id}
 				onFocus={handleFocusIn}
 				onBlur={handleFocusOut}
 				value={value}
 				className={`w-full h-full outline-none text-base bg-gray-50 px-3 ${borderStyle}`}
 				type={type || 'text'} //type이 지정되어있으면 해당 type 쓰고 지정되지 않았으면 기본값 text 사용
 				id={id || undefined} //id가 지정되어있으면 해당 id 쓰고 지정되지 않았으면 기본값 undefined 사용
+
 			></input>
 		</div>
 	);
