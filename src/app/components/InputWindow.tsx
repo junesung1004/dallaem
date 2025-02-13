@@ -7,6 +7,7 @@ interface InputWindowProps {
 	value: string;
 	isError?: boolean;
 	type?: string;
+	id?: string;
 	onBlur?: () => void;
 	onFocus?: () => void;
 }
@@ -18,6 +19,7 @@ isError: 부모가 에러 트리거 가능하도록 함 (옵션)
 type: input Type 받아옴. 기본값: text (옵션)
 onBlur: blur 됐을 때 불러오는 함수 (옵션)
 onFocus: focus 됐을 때 불러오는 함수 (옵션)
+id: id (옵션)
 */
 
 const InputWindow = ({
@@ -28,6 +30,7 @@ const InputWindow = ({
 	type,
 	onBlur,
 	onFocus,
+	id,
 }: InputWindowProps) => {
 	// 변수: 입력 상태 관리, focus 관리,
 	const [typeStatus, setTypeStatus] = useState<'empty' | 'typing' | 'error'>(
@@ -78,7 +81,8 @@ const InputWindow = ({
 				onBlur={handleFocusOut}
 				value={value}
 				className={`w-full h-full outline-none text-base bg-gray-50 px-3 ${borderStyle}`}
-				type={type || 'text'} //props에 type이 지정되어있으면 해당 type 쓰고 지정되지 않았으면 기본값 text 사용
+				type={type || 'text'} //type이 지정되어있으면 해당 type 쓰고 지정되지 않았으면 기본값 text 사용
+				id={id || undefined} //id가 지정되어있으면 해당 id 쓰고 지정되지 않았으면 기본값 undefined 사용
 			></input>
 		</div>
 	);
