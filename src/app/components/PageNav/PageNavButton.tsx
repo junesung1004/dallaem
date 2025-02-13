@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { forwardRef } from 'react';
 
 interface PageNavButtonProps {
@@ -8,19 +7,18 @@ interface PageNavButtonProps {
 	icon?: string;
 	isActive: boolean;
 	onClick: () => void;
-	href?: string;
 	variant?: 'main' | 'sub';
 }
 
 // forwardRef를 적용 - `ref`를 button에 전달
 const PageNavButton = forwardRef<HTMLButtonElement, PageNavButtonProps>(
-	({ id, label, icon, isActive, onClick, href, variant = 'main' }, ref) => {
+	({ id, label, icon, isActive, onClick, variant = 'main' }, ref) => {
 		const mainButtonClass = `relative text-lg py-2 mr-4 font-bold ${
 			isActive ? 'text-black' : 'text-gray-400'
 		}`;
 
-		const subButtonClass = `px-4 py-2 mr-2 rounded-[12px] ${
-			isActive ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-600'
+		const subButtonClass = `text-sm font-medium mr-2 px-2 py-1 sm:px-4 sm:px-2 h-[36px] sm:h-[40px] rounded-[12px] ${
+			isActive ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-900'
 		}`;
 
 		const buttonClass = variant === 'main' ? mainButtonClass : subButtonClass;
@@ -34,17 +32,9 @@ const PageNavButton = forwardRef<HTMLButtonElement, PageNavButtonProps>(
 			</button>
 		);
 
-		return href ? (
-			<Link key={id} href={href} passHref>
-				{buttonElement}
-			</Link>
-		) : (
-			buttonElement
-		);
+		return buttonElement;
 	},
 );
 
-//forwardRef 사용 시 displayName을 설정하는 것이 좋음
 PageNavButton.displayName = 'PageNavButton';
-
 export default PageNavButton;
