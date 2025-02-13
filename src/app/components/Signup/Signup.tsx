@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { SignupInputSection } from './SignupInputSection';
 import { signupUser } from '@/app/api/userAuth';
+import { HideToggle } from '../HideToggle';
 
 const Signup = () => {
 	const router = useRouter();
@@ -13,7 +14,6 @@ const Signup = () => {
 	const [companyName, setCompanyName] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordConfirm, setPasswordConfirm] = useState('');
-	const [isHidden, setIsHidden] = useState(true); //비밀번호 숨김 토글 관리
 
 	/* 변수: 회원가입 인풋 에러 상태관리 */
 	const [errorName, setErrorName] = useState('');
@@ -22,7 +22,7 @@ const Signup = () => {
 	const [errorPassword, setErrorPassword] = useState('');
 	const [errorPasswordConfirm, setErrorPasswordConfirm] = useState('');
 
-	/* 함수: onChange */
+	/* 함수: onChange: 인풋 값 변경 */
 	const onChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		type: 'name' | 'id' | 'companyName' | 'password' | 'passwordConfirm',
@@ -316,8 +316,11 @@ const Signup = () => {
 					onFocus={() => handleFocus('password')}
 					onBlur={() => handleBlur('password')}
 					isError={errorPassword ? true : false}
+					type='password'
 				/>
+
 				{/* Section: 비밀번호 확인*/}
+
 				<SignupInputSection
 					id='passwordConfirm'
 					title={'비밀번호 확인'}
@@ -328,7 +331,9 @@ const Signup = () => {
 					onFocus={() => handleFocus('passwordConfirm')}
 					onBlur={() => handleBlur('passwordConfirm')}
 					isError={errorPasswordConfirm ? true : false}
+					type='password'
 				/>
+
 				{/* Section: 로그인 버튼 */}
 				<div className='w-full h-[10%] flex justify-center items-center'>
 					<button
