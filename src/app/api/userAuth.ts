@@ -1,4 +1,5 @@
 import { signinUserInterface, signupUserInterface } from './userInterface';
+import { cookies } from 'next/headers';
 
 // 로그인 기능 : 토큰 반환
 const signinUser = async ({ email, password }: signinUserInterface) => {
@@ -23,13 +24,17 @@ const signinUser = async ({ email, password }: signinUserInterface) => {
 
 	const data = await response.json();
 	const token = data.token;
-	// 토큰 만료 시간을 1시간으로 설정 (현재 시간 + 1시간)
-	const expiryTime = Date.now() + 60 * 60 * 1000;
 	// 토큰 저장
 	localStorage.setItem('authToken', token);
-	localStorage.setItem('tokenExpiryTime', expiryTime.toString()); // 만료 시간 저장
 	console.log(data);
 };
+
+/* 로그인 반환 예시
+  "teamId": "7",
+  "userId": 1122,
+  "iat": 1739323087,
+  "exp": 1739326687
+*/
 
 // 회원가입 기능
 const signupUser = async ({
@@ -46,10 +51,10 @@ const signupUser = async ({
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				email: { email },
-				password: { password },
-				name: { name },
-				companyName: { companyName },
+				email,
+				password,
+				name,
+				companyName,
 			}),
 		},
 	);
