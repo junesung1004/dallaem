@@ -15,6 +15,7 @@ export const CalenderTime = () => {
 		<DatePicker
 			selected={startDate}
 			onChange={(date) => setStartDate(date)}
+			timeIntervals={5} // 5분 단위로 조정
 			showTimeSelect
 			excludeTimes={[
 				setHours(setMinutes(new Date(), 0), 17),

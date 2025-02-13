@@ -9,19 +9,18 @@ export const metadata: Metadata = {
 	description: '오프라인 모임을 주최하는 플랫폼',
 };
 
-
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="ko">
-			<body className="font-sans antialiased">
+		<html lang='ko'>
+			<body className='font-sans antialiased'>
 				<ReactQueryProvider>
 					<Header />
 					{children}
-					<footer>푸터</footer>
+					<footer className='bg-red-400'>푸터</footer>
 				</ReactQueryProvider>
 			</body>
 		</html>
