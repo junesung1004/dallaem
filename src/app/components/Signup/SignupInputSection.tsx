@@ -2,11 +2,12 @@ import React from 'react';
 import { InputWindow } from '../InputWindow';
 
 interface SignupInputSectionInterface {
+	id: string;
 	title: string;
 	placeholderText: string;
 	value: string;
 	type?: string;
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>, type: string) => void;
 	onBlur?: () => void;
 	onFocus?: () => void;
 	errorMsg: string;
@@ -14,6 +15,7 @@ interface SignupInputSectionInterface {
 }
 
 const SignupInputSection = ({
+	id,
 	title,
 	placeholderText,
 	value,
@@ -24,12 +26,16 @@ const SignupInputSection = ({
 	errorMsg,
 	isError,
 }: SignupInputSectionInterface) => {
+	const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		onChange(event, id);
+	};
+
 	return (
 		<div className='relative h-[10%] grid grid-rows-[3fr_6fr_1fr]'>
 			<span className='text-sm md:text-lg'>{title}</span>
 			<InputWindow
 				placeholderText={placeholderText}
-				onChange={onChange}
+				onChange={handleOnChange}
 				onBlur={onBlur || undefined}
 				onFocus={onFocus || undefined}
 				value={value}

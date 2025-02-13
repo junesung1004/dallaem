@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { SignupInputSection } from './SignupInputSection';
+import { signupUser } from '@/app/api/userAuth';
 
 const Signup = () => {
 	const router = useRouter();
@@ -22,20 +23,31 @@ const Signup = () => {
 	const [errorPasswordConfirm, setErrorPasswordConfirm] = useState('');
 
 	/* 함수: onChange */
-	const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setName(e.target.value);
-	};
-	const onIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setId(e.target.value);
-	};
-	const onCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setCompanyName(e.target.value);
-	};
-	const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value);
-	};
-	const onPasswordConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPasswordConfirm(e.target.value);
+	const onChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		type: 'name' | 'id' | 'companyName' | 'password' | 'passwordConfirm',
+	) => {
+		const validationFunctions = {
+			name: () => {
+				setName(e.target.value);
+			},
+			id: () => {
+				setId(e.target.value);
+			},
+			companyName: () => {
+				setCompanyName(e.target.value);
+			},
+			password: () => {
+				setPassword(e.target.value);
+			},
+			passwordConfirm: () => {
+				setPasswordConfirm(e.target.value);
+			},
+		};
+
+		if (validationFunctions[type]) {
+			validationFunctions[type]();
+		}
 	};
 
 	/* 함수: 작성 중 인풋 에러 처리  */
@@ -105,6 +117,13 @@ const Signup = () => {
 		}
 	};
 
+	//비밀번호: 8자 미만일 경우
+	const validatePasswordForm = () => {
+		if (password.length < 8) {
+			setErrorPassword('비밀번호는 최소 8자 이상이어야 합니다');
+		}
+	};
+
 	//비밀번호 재입력: 패스워드와 패스워드 재입력이 일치하지 않을 경우
 	const validatePasswordConfirmSame = () => {
 		if (password !== passwordConfirm) {
@@ -113,7 +132,33 @@ const Signup = () => {
 	};
 
 	/* 함수: handleSubmit) 회원가입 및 제출 시 에러 처리*/
-	const handleSubmit = () => {};
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		try {
+			//로그인 성공. 에러 메시지 초기화. 이전 페이지로 돌아감
+			await signupUser({
+				email: id,
+				password: password,
+				name: name,
+				companyName: companyName,
+			});
+			setErrorId('');
+			setErrorPassword('');
+			setErrorCompanyName('');
+			setErrorPassword('');
+			setErrorPasswordConfirm('');
+			router.back();
+		} catch (err: any) {
+			//로그인 실패. 에러 메시지 저장
+			if (err.message === '유효한 이메일 주소를 입력하세요') {
+				setErrorId(err.message);
+			} else if (err.message === '비밀번호는 최소 8자 이상이어야 합니다') {
+				setErrorPassword(err.message);
+			} else {
+				console.log(err.message);
+			}
+		}
+	};
 
 	/* 함수: onFocus) Input 창을 포커스 할 경우 1초 후에 빈값 유효성 검사 시작한다. 모든 필드에서 빈값 에러 처리 */
 	const handleFocus = (
@@ -162,11 +207,15 @@ const Signup = () => {
 			password: () => {
 				if (password === '') {
 					setErrorPassword('');
+				} else {
+					validatePasswordForm();
 				}
 			},
 			passwordConfirm: () => {
 				if (passwordConfirm === '') {
 					setErrorPasswordConfirm('');
+				} else {
+					validatePasswordConfirmSame();
 				}
 			},
 		};
@@ -176,6 +225,7 @@ const Signup = () => {
 		}
 	};
 
+	//useRef, useEffect: 작성중이면 에러 메시지를 제거한다.
 	const prevValues = useRef({
 		id,
 		name,
@@ -184,7 +234,6 @@ const Signup = () => {
 		passwordConfirm,
 	});
 
-	//useEffect: 작성중이면 에러 메시지를 제거한다.
 	useEffect(() => {
 		if (id !== prevValues.current.id) {
 			setErrorId('');
@@ -215,10 +264,11 @@ const Signup = () => {
 
 				{/* Section: 이름 */}
 				<SignupInputSection
+					id='name'
 					title={'이름'}
 					placeholderText={'이름을 입력해주세요.'}
 					value={name}
-					onChange={onNameChange}
+					onChange={(e) => onChange(e, 'name')}
 					errorMsg={errorName}
 					onFocus={() => handleFocus('name')}
 					onBlur={() => handleBlur('name')}
@@ -226,10 +276,11 @@ const Signup = () => {
 				/>
 				{/* Section: 아이디 */}
 				<SignupInputSection
+					id='id'
 					title={'아이디'}
 					placeholderText={'아이디를 입력해주세요.'}
 					value={id}
-					onChange={onIdChange}
+					onChange={(e) => onChange(e, 'id')}
 					errorMsg={errorId}
 					onFocus={() => handleFocus('id')}
 					onBlur={() => handleBlur('id')}
@@ -237,10 +288,11 @@ const Signup = () => {
 				/>
 				{/* Section: 회사명 */}
 				<SignupInputSection
+					id='companyName'
 					title={'회사명'}
 					placeholderText={'회사명을 입력해주세요.'}
 					value={companyName}
-					onChange={onCompanyNameChange}
+					onChange={(e) => onChange(e, 'companyName')}
 					errorMsg={errorCompanyName}
 					onFocus={() => handleFocus('companyName')}
 					onBlur={() => handleBlur('companyName')}
@@ -248,10 +300,11 @@ const Signup = () => {
 				/>
 				{/* Section: 비밀번호 */}
 				<SignupInputSection
+					id='password'
 					title={'비밀번호'}
 					placeholderText={'비밀번호를 입력해주세요.'}
 					value={password}
-					onChange={onPasswordChange}
+					onChange={(e) => onChange(e, 'password')}
 					errorMsg={errorPassword}
 					onFocus={() => handleFocus('password')}
 					onBlur={() => handleBlur('password')}
@@ -259,10 +312,11 @@ const Signup = () => {
 				/>
 				{/* Section: 비밀번호 확인*/}
 				<SignupInputSection
+					id='passwordConfirm'
 					title={'비밀번호 확인'}
 					placeholderText={'비밀번호를 다시 한 번 입력해주세요.'}
 					value={passwordConfirm}
-					onChange={onPasswordConfirmChange}
+					onChange={(e) => onChange(e, 'passwordConfirm')}
 					errorMsg={errorPasswordConfirm}
 					onFocus={() => handleFocus('passwordConfirm')}
 					onBlur={() => handleBlur('passwordConfirm')}
@@ -281,5 +335,4 @@ const Signup = () => {
 		</div>
 	);
 };
-
 export { Signup };
