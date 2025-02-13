@@ -10,7 +10,6 @@ interface PageNavData {
 	icon?: string;
 	active: boolean;
 	subItems?: PageNavData[];
-	href?: string;
 }
 
 export const PAGE_INFO: Record<string, PageInfoData> = {
@@ -71,6 +70,18 @@ export const NAV_DATA: Record<string, PageNavData[]> = {
 			id: 'reviews',
 			label: '나의 리뷰',
 			active: false,
+			subItems: [
+				{
+					id: 'writable',
+					label: '작성 가능한 리뷰',
+					active: true,
+				},
+				{
+					id: 'written',
+					label: '작성한 리뷰',
+					active: false,
+				},
+			],
 		},
 		{
 			id: 'createdMeetings',
