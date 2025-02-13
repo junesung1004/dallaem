@@ -40,11 +40,14 @@ export function Modal({
 	return isOpen
 		? createPortal(
 				<div className=''>
-					<dialog ref={dialogRef} className={`p-4 rounded-md ${backDrop}`}>
-						{children}
-						<button onClick={onDismiss} className='absolute top-0 right-0 p-4'>
+					<dialog
+						ref={dialogRef}
+						className={`p-4 rounded-md ${backDrop} relative`}
+					>
+						<button onClick={onDismiss} className='absolute m-4 top-0 right-0'>
 							<Image src='/icons/X.png' alt='닫기' width={20} height={20} />
 						</button>
+						<div className='flex justify-center items-center'>{children}</div>
 					</dialog>
 				</div>,
 				document.getElementById('modal-root')!,

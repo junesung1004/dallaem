@@ -1,18 +1,41 @@
 'use client';
 
+import Button from '@/app/components/Button/Button';
 import { useGlobalModal } from '@/app/hooks/useGlobalModal';
+import { useRouter } from 'next/navigation';
 
 function GlobalModal() {
-	const { openModal } = useGlobalModal();
+	const { openModal, closeModal } = useGlobalModal();
+	const router = useRouter();
+
 	return (
 		<button
 			className='bg-orange-600 text-white'
 			onClick={() => {
 				openModal(
-					<div>
-						이 모달은 라우트 없이 전역 상태로만 관리되는 모달입니다 뒤로가기하면
-						페이지가 전체 뒤로가기가 됩니다
+					<div className='p-4'>
+						로그인이 필요해요. 로그인하시겠습니까?
+						<Button
+							state='default'
+							isOutlined={false}
+							onClick={() => {
+								closeModal();
+								router.push('/login');
+							}}
+						>
+							확인
+						</Button>
+						<Button
+							state='default'
+							isOutlined={true}
+							onClick={() => {
+								closeModal();
+							}}
+						>
+							취소
+						</Button>
 					</div>,
+					false,
 				);
 			}}
 		>

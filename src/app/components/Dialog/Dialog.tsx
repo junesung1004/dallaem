@@ -1,5 +1,7 @@
 'use client';
 
+import GlobalButton from '@/app/components/Button/Button';
+
 function Dialog({ children }: { children: React.ReactNode }) {
 	return <div>{children}</div>;
 }
@@ -13,7 +15,7 @@ function Content({
 }) {
 	return (
 		<div className='flex flex-col gap-4'>
-			<h4>{title}</h4>
+			{title && <h4 className='inline-block max-w-[80%]'>{title}</h4>}
 			<div className='flex flex-col gap-2'>{children}</div>
 		</div>
 	);
@@ -28,15 +30,20 @@ function Button({
 	type: 'yes' | 'no';
 	text: string;
 }) {
-	const buttonColor = type === 'yes' ? 'bg-white' : 'bg-orange-400';
+	const buttonProp = {
+		state: 'default',
+		isOutlined: type === 'no' ? true : false,
+	};
 	return (
-		<button className={buttonColor} onClick={onClick}>
+		<GlobalButton {...buttonProp} onClick={onClick}>
 			{text}
-		</button>
+		</GlobalButton>
 	);
 }
 
-function ButtonContainer() {}
+function ButtonContainer({ children }: { children: React.ReactNode }) {
+	return <div className='flex gap-2'>{children}</div>;
+}
 
 Dialog.Content = Content;
 Dialog.ButtonContainer = ButtonContainer;
