@@ -2,16 +2,42 @@
 
 import { useRouter } from 'next/navigation';
 
-export default function Button() {
+interface ButtonProps {
+	text: string;
+	type?: 'button' | 'submit' | 'reset';
+	onClick?: () => void;
+	disabled?: boolean;
+}
+
+export default function Button({
+	text,
+	type = 'button',
+	onClick,
+	disabled = false,
+}: ButtonProps) {
 	const router = useRouter();
 
+	// 기본 동작을 유지하면서, 다른 onClick이 있으면 실행
+	const handleClick = () => {
+		if (onClick) {
+			onClick();
+		} else {
+			router.push('/createmodal');
+		}
+	};
+
 	return (
-		<div className='flex justify-end'>
+		<div className='w-full flex'>
 			<button
-				className='px-4 py-2 h-12 bg-orange-600 text-white rounded'
-				onClick={() => router.push('/createmodal')}
+				type={type}
+				className={`w-full px-4 py-2  text-white rounded
+				${type === 'button' && 'bg-orange-600 h-[44px]'}
+				${type === 'submit' && disabled === true ? ' bg-slate-400 h-[40px] cursor-not-allowed' : 'bg-orange-600 h-[40px]'}
+				`}
+				onClick={handleClick}
+				disabled={disabled}
 			>
-				모임 만들기
+				{text}
 			</button>
 		</div>
 	);
