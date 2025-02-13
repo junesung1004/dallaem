@@ -8,6 +8,8 @@ interface InputWindowProps {
 	isError?: boolean;
 	type?: string;
 	id?: string;
+	onBlur?: () => void;
+	onFocus?: () => void;
 }
 /*  
 placeholderText: placeholder로 설정할 텍스트
@@ -15,6 +17,8 @@ onChange: 부모가 입력창 관리함
 value: 부모로부터 받아온 입력 값
 isError: 부모가 에러 트리거 가능하도록 함 (옵션)
 type: input Type 받아옴. 기본값: text (옵션)
+onBlur: blur 됐을 때 불러오는 함수 (옵션)
+onFocus: focus 됐을 때 불러오는 함수 (옵션)
 */
 
 const InputWindow = ({
@@ -24,16 +28,31 @@ const InputWindow = ({
 	isError,
 	type,
 	id,
+	onBlur,
+	onFocus,
 }: InputWindowProps) => {
-	// 입력 상태 관리 hook
+	// 변수: 입력 상태 관리, focus 관리,
 	const [typeStatus, setTypeStatus] = useState<'empty' | 'typing' | 'error'>(
 		'empty',
 	);
 
-	// onChange 확장 함수 (typeStatus 값 추가)
+	// 함수: onChange 확장 (typeStatus 변경)
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		onChange(e);
 		setTypeStatus('typing');
+	};
+
+	//함수: onFocus, onBlur 확장 (typeStatus 변경)
+	const handleFocusIn = () => {
+		onFocus?.();
+		setTypeStatus('typing');
+	};
+
+	const handleFocusOut = () => {
+		onBlur?.();
+		if (value === '') {
+			setTypeStatus('empty');
+		}
 	};
 
 	// 부모로부터 error 전달 받을 경우 error state 설정
@@ -41,7 +60,7 @@ const InputWindow = ({
 		if (isError) {
 			setTypeStatus('error');
 		}
-	}, [isError]);
+	});
 
 	// 입력 상태에 따라 borderStyle 변경
 	const borderStyle =
@@ -58,6 +77,8 @@ const InputWindow = ({
 				placeholder={placeholderText}
 				onChange={handleChange}
 				id={id}
+				onFocus={handleFocusIn}
+				onBlur={handleFocusOut}
 				value={value}
 				className={`w-full h-[44px] outline-none text-base bg-gray-50 px-3 rounded-xl ${borderStyle}`}
 				type={type || 'text'} //props에 type이 지정되어있으면 해당 type 쓰고 지정되지 않았으면 기본값 text 사용
