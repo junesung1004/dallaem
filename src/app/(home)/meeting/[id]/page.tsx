@@ -1,4 +1,6 @@
 import { MeetingCard } from '@/app/components/MeetingCard';
+import { DeadlineBadge } from '@/app/components/DeadlineBadge';
+import { Footer } from '../_components/footer';
 import Image from 'next/image';
 
 const DummyData = [
@@ -14,7 +16,7 @@ const DummyData = [
 		capacity: 10,
 		image:
 			'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1738904240393_EVERYTHING.jpg',
-		createdBy: 1115,
+		createdBy: 9310151325,
 		canceledAt: null,
 	},
 ];
@@ -23,14 +25,19 @@ export default function DetailPage() {
 	return (
 		<div className='px-28 py-12'>
 			<div className='flex flex-wrap gap-7 justify-center w-full'>
-				<div className='flex-1 '>
-					<Image
-						src='/images/imgLogin.png'
-						alt='더미 이미지'
-						width={400}
-						height={300}
-						className='border-[2px] border-gray-200 shadow-md rounded-3xl p-4 w-full min-w-[300px] h-72'
-					/>
+				<div className='flex-1 w-full min-w-[300px] h-72'>
+					<div className='overflow-hidden border-[2px] border-gray-200 shadow-md rounded-3xl '>
+						<div className='relative'>
+							<DeadlineBadge registrationEnd='2025-02-13T04:48:55.087Z' />
+							<Image
+								src='/images/imgLogin.png'
+								alt='더미 이미지'
+								width={400}
+								height={300}
+								className='w-full min-w-[300px] h-72'
+							/>
+						</div>
+					</div>
 				</div>
 				<div className='flex-1 min-w-[300px]'>
 					<MeetingCard
@@ -40,6 +47,9 @@ export default function DetailPage() {
 						id={DummyData[0].id}
 					/>
 				</div>
+			</div>
+			<div className='fixed bottom-0 left-0 w-full'>
+				<Footer createdBy={DummyData[0].createdBy} />
 			</div>
 		</div>
 	);

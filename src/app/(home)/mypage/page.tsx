@@ -2,6 +2,7 @@ import ProgressBar from '@/app/components/ProgressBar/ProgressBar';
 import Badge from '@/app/components/Badge/Badge';
 import HeartRatings from '@/app/components/HeartRatings/HeartRatings';
 import Members from '@/app/components/Members/Members';
+import Button from '@/app/components/Button/Button';
 
 function MyPage() {
 	return (
@@ -29,6 +30,20 @@ function MyPage() {
 			<Members max={10} value={10} />
 			<Members max={10} value={15} />
 			<Members max={10} value={5} />
+			<div className='flex flex-col items-start max-w-80 gap-2 p-1'>
+				<div>
+					<span className='block'>Default Button</span>
+					<Button state='default' isOutlined={false} type='button'>
+						생성하기
+					</Button>
+				</div>
+				<div className='w-full'>
+					<span className='block'>Full Button</span>
+					<Button state='default' isOutlined={true} type='submit' isFull={true}>
+						생성하기
+					</Button>
+				</div>
+			</div>
 		</div>
 	);
 }
