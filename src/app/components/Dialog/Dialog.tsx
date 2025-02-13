@@ -1,6 +1,7 @@
 'use client';
 
 import GlobalButton from '@/app/components/Button/Button';
+import type { ButtonProps } from '../Button/Button';
 
 function Dialog({ children }: { children: React.ReactNode }) {
 	return <div>{children}</div>;
@@ -30,7 +31,7 @@ function Button({
 	type: 'yes' | 'no';
 	children: React.ReactNode;
 }) {
-	const buttonProp = {
+	const buttonProp: Pick<ButtonProps, 'state' | 'isOutlined'> = {
 		state: 'default',
 		isOutlined: type === 'no' ? true : false,
 	};

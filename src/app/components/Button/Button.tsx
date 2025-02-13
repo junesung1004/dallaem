@@ -1,4 +1,5 @@
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	state: 'default' | 'hover' | 'click' | 'disabled';
 	isOutlined: boolean;
 	children: React.ReactNode;
