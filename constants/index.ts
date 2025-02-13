@@ -10,7 +10,6 @@ interface PageNavData {
 	icon?: string;
 	active: boolean;
 	subItems?: PageNavData[];
-	href?: string;
 }
 
 export const PAGE_INFO: Record<string, PageInfoData> = {
@@ -36,7 +35,7 @@ export const NAV_DATA: Record<string, PageNavData[]> = {
 		{
 			id: 'DALLAEMFIT',
 			label: '달램핏',
-			icon: '/icons/dalaemfit.png',
+			icon: '/icons/dalaemfit.svg',
 			active: true,
 			subItems: [
 				// 해당 메인 아이템에 종속된 subItems
@@ -56,7 +55,7 @@ export const NAV_DATA: Record<string, PageNavData[]> = {
 		{
 			id: 'WORKATION',
 			label: '워케이션',
-			icon: '/icons/workation.png',
+			icon: '/icons/workation.svg',
 			active: false,
 			subItems: [], // 서브 아이템이 없는 경우 빈 배열
 		},
@@ -71,6 +70,18 @@ export const NAV_DATA: Record<string, PageNavData[]> = {
 			id: 'reviews',
 			label: '나의 리뷰',
 			active: false,
+			subItems: [
+				{
+					id: 'writable',
+					label: '작성 가능한 리뷰',
+					active: true,
+				},
+				{
+					id: 'written',
+					label: '작성한 리뷰',
+					active: false,
+				},
+			],
 		},
 		{
 			id: 'createdMeetings',

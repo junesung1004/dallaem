@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_DATA } from '../../../../constants/index';
@@ -8,40 +8,48 @@ import PageNavButton from './PageNavButton';
 
 interface NavBarProps {
 	pageKey: string;
+	onMainClick?: (id: string) => void;
+	onSubClick?: (id: string) => void;
 }
 
-const PageNavbar = ({ pageKey }: NavBarProps) => {
+function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 	const pathname = usePathname();
 	const isMyPage = pageKey === 'mypage';
-	const [currentPath, setCurrentPath] = useState('');
+	const pageNavData = NAV_DATA[pageKey];
 
-	const [stateMainId, setStateMainId] = useState(NAV_DATA[pageKey][0].id);
-	const [stateSubId, setStateSubId] = useState('all');
+	// 현재 경로에서 mainId와 subId 추출 (mypage일 경우)
+	const pathSegments = pathname.split('/');
+	const initialMainId = isMyPage
+		? pathSegments[2] || pageNavData[0]?.id
+		: pageNavData[0]?.id;
+	const initialSubId = isMyPage ? pathSegments[3] : undefined;
 
-	const activeMainId = isMyPage
-		? currentPath.split('/')[2] || 'myMeetings'
-		: stateMainId;
-	const activeSubId = isMyPage ? null : stateSubId;
+	// 내부 상태로 관리
+	const [activeMainId, setActiveMainId] = useState(initialMainId);
+	const [activeSubId, setActiveSubId] = useState(initialSubId);
+
+	const activeMainItem =
+		pageNavData.find((item) => item.id === activeMainId) || pageNavData[0];
 
 	const handleMainClick = (id: string) => {
-		if (isMyPage) return;
-		setStateMainId(id);
-		setStateSubId('all');
+		setActiveMainId(id);
+		const selectedMainItem = pageNavData.find((item) => item.id === id);
+		const firstSubItem = selectedMainItem?.subItems?.[0]?.id || undefined;
+		setActiveSubId(firstSubItem);
+
+		// 외부에서 라우팅 처리를 원하면 실행
+		onMainClick?.(id);
 	};
 
 	const handleSubClick = (id: string) => {
-		if (isMyPage) return;
-		setStateSubId(id);
+		setActiveSubId(id);
+		onSubClick?.(id);
 	};
 
-	const pageNavData = NAV_DATA[pageKey];
-	const activeMainItem = pageNavData.find((item) => item.id === activeMainId);
-
-	// 버튼 너비 추적을 위한 ref
+	// 애니메이션을 위한 활성화 버튼 추적
 	const mainNavRef = useRef<(HTMLButtonElement | null)[]>([]);
 	const [CurrentButton, setCurrentButton] = useState({ left: 0, width: 0 });
 
-	// 활성화 버튼 추적
 	useEffect(() => {
 		const activeIndex = pageNavData.findIndex(
 			(item) => item.id === activeMainId,
@@ -55,10 +63,6 @@ const PageNavbar = ({ pageKey }: NavBarProps) => {
 		}
 	}, [activeMainId, pageKey]);
 
-	useEffect(() => {
-		setCurrentPath(pathname);
-	}, [pathname]);
-
 	return (
 		<div className='flex flex-col relative'>
 			{/* 메인 네비게이션 */}
@@ -71,7 +75,6 @@ const PageNavbar = ({ pageKey }: NavBarProps) => {
 						icon={item.icon}
 						isActive={item.id === activeMainId}
 						onClick={() => handleMainClick(item.id)}
-						href={isMyPage ? `/mypage/${item.id}` : undefined}
 						variant='main'
 						ref={(el) => {
 							mainNavRef.current[index] = el;
@@ -80,25 +83,25 @@ const PageNavbar = ({ pageKey }: NavBarProps) => {
 				))}
 				{/* 메인 버튼 애니메이션 */}
 				<motion.div
-					className='absolute bottom-0 h-[2px] bg-black rounded-full'
+					className='absolute bottom-1 h-[2px] bg-black rounded-full'
 					animate={{
 						width: CurrentButton.width,
 						left: CurrentButton.left,
 					}}
 				/>
 			</div>
-			{/* 서브 네이비게이션 (마이페이지를 제외한 페이지에서 사용) */}
-			{!isMyPage && (
-				<div className='relative overflow-hidden mt-4'>
-					<AnimatePresence mode='wait'>
-						{activeMainItem?.subItems && activeMainItem.subItems.length > 0 && (
-							// 서브 버튼 애니메이션
+
+			{/* 서브 네비게이션 */}
+			{Array.isArray(activeMainItem?.subItems) &&
+				activeMainItem.subItems.length > 0 && (
+					<div className='relative overflow-hidden mt-2 whitespace-nowrap'>
+						<AnimatePresence mode='wait'>
 							<motion.div
 								key={activeMainId}
 								exit={{ opacity: 0 }}
 								transition={{ duration: 0.4, ease: 'easeInOut' }}
 							>
-								{activeMainItem.subItems.map((subItem) => (
+								{(activeMainItem?.subItems ?? []).map((subItem) => (
 									<PageNavButton
 										key={subItem.id}
 										id={subItem.id}
@@ -109,12 +112,11 @@ const PageNavbar = ({ pageKey }: NavBarProps) => {
 									/>
 								))}
 							</motion.div>
-						)}
-					</AnimatePresence>
-				</div>
-			)}
+						</AnimatePresence>
+					</div>
+				)}
 		</div>
 	);
-};
+}
 
 export default PageNavbar;
