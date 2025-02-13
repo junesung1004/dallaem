@@ -7,6 +7,7 @@ interface InputWindowProps {
 	value: string;
 	isError?: boolean;
 	type?: string;
+	id?: string;
 	onBlur?: () => void;
 	onFocus?: () => void;
 }
@@ -26,6 +27,7 @@ const InputWindow = ({
 	value,
 	isError,
 	type,
+	id,
 	onBlur,
 	onFocus,
 }: InputWindowProps) => {
@@ -74,10 +76,11 @@ const InputWindow = ({
 			<input
 				placeholder={placeholderText}
 				onChange={handleChange}
+				id={id}
 				onFocus={handleFocusIn}
 				onBlur={handleFocusOut}
 				value={value}
-				className={`w-full h-full outline-none text-base bg-gray-50 px-3 ${borderStyle}`}
+				className={`w-full h-[44px] outline-none text-base bg-gray-50 px-3 rounded-xl ${borderStyle}`}
 				type={type || 'text'} //props에 type이 지정되어있으면 해당 type 쓰고 지정되지 않았으면 기본값 text 사용
 			></input>
 		</div>

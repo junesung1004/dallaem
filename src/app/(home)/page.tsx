@@ -13,7 +13,7 @@ export default async function Home() {
 			<div className='flex relative mt-10 mb-5'>
 				<PageNavbar pageKey='meetings' />
 				<div className='absolute right-0'>
-					<Button />
+					<Button text='모임 만들기' />
 				</div>
 			</div>
 			<div className='border-b-2'></div>
