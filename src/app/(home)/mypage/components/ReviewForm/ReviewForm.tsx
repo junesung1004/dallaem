@@ -1,40 +1,23 @@
 'use client';
 
-import Button from '@/app/components/Button/Button';
 import Dialog from '@/app/components/Dialog/Dialog';
 import { useGlobalModal } from '@/app/hooks/useGlobalModal';
-import { useRouter } from 'next/navigation';
 import { SyntheticEvent } from 'react';
 
 function ReviewForm() {
-	const { openModal, closeModal } = useGlobalModal(); // 전역 모달 제어
+	const { openModal, closeAllModal } = useGlobalModal(); // 전역 모달 제어
 	const handleSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
 	};
 
-	const router = useRouter();
-
 	// 전역 모달 열기
 	const handleShowGlobalModal = () => {
-		openModal(
-			<div className='p-4'>
-				정말 나가시겠어요?
-				<Button
-					state='default'
-					isOutlined={false}
-					onClick={() => {
-						router.back();
-						closeModal();
-					}}
-				>
-					확인
-				</Button>
-				<Button state='default' isOutlined={true} onClick={() => {}}>
-					취소
-				</Button>
-			</div>,
-			true,
-		);
+		openModal({
+			content: '정말로 나가시겠습니까?',
+			confirmType: 'Alert',
+			onConfirm: closeAllModal,
+			buttonPosition: 'right',
+		});
 	};
 
 	return (
@@ -47,18 +30,17 @@ function ReviewForm() {
 					<textarea defaultValue={'경험'}></textarea>
 				</Dialog.Content>
 				<Dialog.ButtonContainer>
-					<Dialog.Button
-						type='yes'
-						text='저장'
-						onClick={() => {}}
-					></Dialog.Button>
+					<Dialog.Button type='yes' onClick={() => {}}>
+						저장
+					</Dialog.Button>
 					<Dialog.Button
 						type='no'
-						text='취소'
 						onClick={() => {
 							handleShowGlobalModal();
 						}}
-					></Dialog.Button>
+					>
+						취소
+					</Dialog.Button>
 				</Dialog.ButtonContainer>
 			</Dialog>
 		</form>

@@ -46,8 +46,14 @@ function MyPage() {
 					</Button>
 				</div>
 			</div>
-			<div className='flex flex-col items-start'>
-				<Link href={'/mypage/create-review/3'}>Open Modal with Routes</Link>
+			Modal
+			<div className='flex flex-col items-start gap-2 mt-3'>
+				<Link
+					href={'/mypage/create-review/3'}
+					className='bt-white text-orange-700 border border-orange-700 inline-flex px-[3rem] py-2 rounded-xl justify-center item-center'
+				>
+					Open Modal with Routes
+				</Link>
 				<GlobalModal />
 			</div>
 		</div>

@@ -9,38 +9,28 @@ function GlobalModal() {
 	const router = useRouter();
 
 	return (
-		<button
-			className='bg-orange-600 text-white'
+		<Button
+			state='default'
+			isOutlined={false}
 			onClick={() => {
-				openModal(
-					<div className='p-4'>
-						로그인이 필요해요. 로그인하시겠습니까?
-						<Button
-							state='default'
-							isOutlined={false}
-							onClick={() => {
-								closeModal();
-								router.push('/login');
-							}}
-						>
-							확인
-						</Button>
-						<Button
-							state='default'
-							isOutlined={true}
-							onClick={() => {
-								closeModal();
-							}}
-						>
-							취소
-						</Button>
-					</div>,
-					false,
-				);
+				openModal({
+					content: (
+						<span>
+							로그인이 필요해요. <br />
+							로그인 하시겠습니까?
+						</span>
+					),
+					confirmType: 'Confirm',
+					buttonPosition: 'right',
+					onConfirm: () => {
+						router.push('/login');
+						closeModal();
+					},
+				});
 			}}
 		>
 			Open Modal with no routes
-		</button>
+		</Button>
 	);
 }
 

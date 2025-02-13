@@ -24,11 +24,11 @@ function Content({
 function Button({
 	onClick,
 	type,
-	text,
+	children,
 }: {
 	onClick: () => void;
 	type: 'yes' | 'no';
-	text: string;
+	children: React.ReactNode;
 }) {
 	const buttonProp = {
 		state: 'default',
@@ -36,13 +36,29 @@ function Button({
 	};
 	return (
 		<GlobalButton {...buttonProp} onClick={onClick}>
-			{text}
+			{children}
 		</GlobalButton>
 	);
 }
 
-function ButtonContainer({ children }: { children: React.ReactNode }) {
-	return <div className='flex gap-2'>{children}</div>;
+export interface ButtonContainerProps {
+	children: React.ReactNode;
+	position?: 'left' | 'right' | 'center';
+}
+
+function ButtonContainer({
+	children,
+	position = 'center',
+}: ButtonContainerProps) {
+	const positionMap = {
+		left: 'justify-start',
+		right: 'justify-end',
+		center: 'justify-center',
+	};
+
+	return (
+		<div className={`flex gap-2 ${positionMap[position]}`}>{children}</div>
+	);
 }
 
 Dialog.Content = Content;
