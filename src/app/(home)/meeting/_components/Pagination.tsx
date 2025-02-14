@@ -33,28 +33,26 @@ export function Pagination({ data }: PaginationProps) {
 
 			{totalPages > 1 && (
 				<div className='mt-5 flex items-center justify-center gap-3'>
-					{/* 이전 버튼 */}
 					<button
 						onClick={() => handlePageChange(currentPage - 1)}
 						disabled={currentPage === 1}
 					>
-						<div className='flex items-center'>
+						{currentPage === 1 ? (
 							<Image
 								src={'/icons/arrow/arrow.svg'}
-								alt={'Left Arrow'}
+								alt={'Disabled Left Arrow'}
 								width={13}
 								height={13}
 							/>
-							{currentPage > 1 && (
-								<Image
-									src={'/icons/arrow/blackArrow.svg'}
-									alt={'Left Arrow'}
-									width={33}
-									height={33}
-									className='rotate-180'
-								/>
-							)}
-						</div>
+						) : (
+							<Image
+								src={'/icons/arrow/blackArrow.svg'}
+								alt={'Active Left Arrow'}
+								width={33}
+								height={33}
+								className='rotate-180'
+							/>
+						)}
 					</button>
 
 					{Array.from({ length: totalPages }, (_, index) => index + 1).map(
@@ -63,34 +61,34 @@ export function Pagination({ data }: PaginationProps) {
 								key={page}
 								onClick={() => handlePageChange(page)}
 								disabled={page === currentPage}
+								className={`px-3 py-1 text-lg font-medium 
+									${page === currentPage ? 'text-black' : 'text-gray-400'}`}
 							>
 								{page}
 							</button>
 						),
 					)}
 
-					{/* 다음 버튼 */}
 					<button
 						onClick={() => handlePageChange(currentPage + 1)}
 						disabled={currentPage === totalPages}
 					>
-						<div className='flex items-center'>
-							{currentPage < totalPages && (
-								<Image
-									src={'/icons/arrow/blackArrow.svg'}
-									alt={'Right Arrow'}
-									width={33}
-									height={33}
-								/>
-							)}
+						{currentPage === totalPages ? (
 							<Image
 								src={'/icons/arrow/arrow.svg'}
-								alt={'Right Arrow'}
+								alt={'Disabled Right Arrow'}
 								width={13}
 								height={13}
 								className='rotate-180'
 							/>
-						</div>
+						) : (
+							<Image
+								src={'/icons/arrow/blackArrow.svg'}
+								alt={'Active Right Arrow'}
+								width={33}
+								height={33}
+							/>
+						)}
 					</button>
 				</div>
 			)}
