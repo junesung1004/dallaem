@@ -1,6 +1,7 @@
-import { Login } from '@/app/components/logIn/Login';
+import { Login } from '@/app/components/Login/Login';
 
 import React from 'react';
+import { Selectbox } from '@/app/components/InputSection/Selectbox';
 
 export default function LoginPage() {
 	return (

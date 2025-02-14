@@ -1,7 +1,7 @@
 import Button from '@/app/_tests/Button';
 import ServiceSelector from '@/app/_tests/Service';
 import { CalenderTime } from '@/app/components/Calendar/CalenderTime';
-import { InputWindow } from '@/app/components/InputWindow';
+import { InputWindow } from '@/app/components/InputSection/InputWindow';
 import { useMeetingForm } from '@/app/hooks/useMeeting';
 
 export default function CreateMeetingForm() {
