@@ -4,19 +4,11 @@ import { InputWindow } from '../InputSection/InputWindow';
 
 import { signinUser } from '@/api/userAuth';
 import { useRouter } from 'next/navigation';
-<<<<<<< HEAD
-import { HideToggle } from '../InputSection/HideToggle';
-=======
-<<<<<<<< HEAD:src/components/logIn/Login.tsx
-import { HideToggle } from '../InputSection/HideToggle';
-========
 import { HideToggle } from '../Toggle/HideToggle';
->>>>>>>> 4050d0365b4855baece06c18c0379988dfd8af69:src/components/Login/Login.tsx
->>>>>>> 4050d0365b4855baece06c18c0379988dfd8af69
 
 const Login = () => {
 	const router = useRouter();
-	const referrer = document.referrer; // 이전 페이지 URL
+	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
@@ -24,6 +16,10 @@ const Login = () => {
 	const [errorId, setErrorId] = useState(''); //로그인 에러 관리
 	const [errorPassword, setErrorPassword] = useState('');
 
+	// 클라이언트 사이드에서 referrer를 설정하는 useEffect
+	useEffect(() => {
+		setReferrer(document.referrer); // referrer 값 클라이언트 사이드에서만 설정
+	}, []);
 	// 입력 handle 함수
 	const onIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setId(e.target.value);

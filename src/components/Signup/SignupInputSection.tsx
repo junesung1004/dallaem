@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD
 import { InputWindow } from '../InputSection/InputWindow';
-import { HideToggle } from '../InputSection/HideToggle';
-=======
-import { InputWindow } from '../InputWindow';
 import { HideToggle } from '../Toggle/HideToggle';
->>>>>>> 4050d0365b4855baece06c18c0379988dfd8af69
 
 interface SignupInputSectionInterface {
 	id: string;

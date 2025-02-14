@@ -3,10 +3,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { signupUser } from '@/api/userAuth';
-<<<<<<< HEAD
-=======
-import { HideToggle } from '../Toggle/HideToggle';
->>>>>>> 4050d0365b4855baece06c18c0379988dfd8af69
 import { SignupInputSection } from './SignupInputSection';
 
 const Signup = () => {
