@@ -1,5 +1,4 @@
-import { Login } from '@/components/logIn/Login';
-
+import { Login } from '@/components/Login/Login';
 import React from 'react';
 
 export default function LoginPage() {
