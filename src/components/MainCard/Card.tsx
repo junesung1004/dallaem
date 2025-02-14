@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import ProgressBar from '../ProgressBar/ProgressBar';
-import { StatusBadge } from '../StatusBadge';
+import { StatusBadge } from '../Badge/StatusBadge';
 import Members from '../Members/Members';
 import { Tag } from '@/_tests/Tag';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/components/Button/Button';
-import { useGlobalModal } from '@/hooks/useGlobalModal';
+import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
 import { useRouter } from 'next/navigation';
 
 function GlobalModal() {

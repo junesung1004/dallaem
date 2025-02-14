@@ -1,24 +1,33 @@
 'use client';
+
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { isTokenExpired } from '@/api/getUserData';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Header() {
+	const pathname = usePathname();
+	const router = useRouter();
 	const [isLoggedIn, setIsLoggedIn] = useState<null | boolean>(null);
-	const [isLoading, setIsLoading] = useState(true);
+
+	const logoutUser = () => {
+		localStorage.removeItem('authToken'); // 토큰 삭제
+		setIsLoggedIn(false);
+		console.log('로그아웃 되었습니다. 홈으로 이동합니다');
+		router.push('/'); // 홈으로 이동
+	};
 
 	//useEffect: 로그인 여부 확인하고 렌더링
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			const token = localStorage.getItem('authToken');
-			if (token && !isTokenExpired(token)) {
-				setIsLoggedIn(true);
-			} else {
-				setIsLoggedIn(false);
-			}
-			setIsLoading(false);
+		const token = localStorage.getItem('authToken');
+		if (!token) {
+			setIsLoggedIn(false);
+			return;
 		}
-	}, []);
+		const isValid = !isTokenExpired(token);
+		//토큰 유효 여부가 달라진 경우에만 재렌더링
+		setIsLoggedIn((prev) => (prev === isValid ? prev : isValid));
+	}, [pathname]);
 
 	return (
 		<header className='flex flex-col justify-center w-full h-[60px] mx-auto p-2 pr-5  bg-orange-600 border-black border-b-2'>
@@ -38,12 +47,17 @@ export default function Header() {
 					</li>
 				</ul>
 
-				<ul className='flex'>
+				<ul className='flex gap-2 sm:gap-4 lg:gap-5'>
 					<li>
 						<Link href={isLoggedIn ? '/mypage' : '/login'}>
 							{isLoggedIn ? '마이페이지' : '로그인'}
 						</Link>
 					</li>
+					{isLoggedIn && (
+						<li>
+							<button onClick={logoutUser}>로그아웃</button>
+						</li>
+					)}
 				</ul>
 			</nav>
 		</header>

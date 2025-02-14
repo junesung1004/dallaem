@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import './globals.css';
 import { ReactQueryProvider } from '@/lib/ReactQueryProvider';
-import Header from '@/components/Header';
+import Header from '@/components/GNB/Header';
 import { ModalProvider } from '@/lib/ModalProvider';
 
 export const metadata: Metadata = {

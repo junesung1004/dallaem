@@ -1,8 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { DateBadge } from '../DateBadge';
-import { LikeButton } from '../LikeButton';
+import { DateBadge } from '../Badge/DateBadge';
+import { LikeButton } from '../Button/LikeButton';
 import Card from './Card';
 
 type Dummy = {
