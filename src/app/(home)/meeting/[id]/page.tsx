@@ -1,12 +1,74 @@
 import { MeetingCard } from '@/app/(home)/meeting/_components/MeetingCard';
 import { DeadlineBadge } from '@/components/Badge/DeadlineBadge';
 import { Footer } from '../_components/footer';
+import { Pagination } from '../_components/Pagination';
 import Image from 'next/image';
+import { DummyDataType } from '@/types/paginationType';
 
-const DummyData = [
+const DummyData: DummyDataType[] = [
 	{
-		teamId: '7',
-		id: 1733,
+		teamId: '71',
+		id: 173112343,
+		type: 'OFFICE_STRETCHING',
+		name: 'test모임',
+		dateTime: '2025-02-17T04:48:55.087Z',
+		registrationEnd: '2025-02-14T04:48:55.087Z',
+		location: '건대입구',
+		participantCount: 0,
+		capacity: 10,
+		image:
+			'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1738904240393_EVERYTHING.jpg',
+		createdBy: 9310151325,
+		canceledAt: null,
+	},
+	{
+		teamId: '72',
+		id: 17321254323,
+		type: 'OFFICE_STRETCHING',
+		name: 'test모임',
+		dateTime: '2025-02-17T04:48:55.087Z',
+		registrationEnd: '2025-02-14T04:48:55.087Z',
+		location: '건대입구',
+		participantCount: 0,
+		capacity: 10,
+		image:
+			'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1738904240393_EVERYTHING.jpg',
+		createdBy: 9310151325,
+		canceledAt: null,
+	},
+	{
+		teamId: '73',
+		id: 1712345333,
+		type: 'OFFICE_STRETCHING',
+		name: 'test모임',
+		dateTime: '2025-02-17T04:48:55.087Z',
+		registrationEnd: '2025-02-14T04:48:55.087Z',
+		location: '건대입구',
+		participantCount: 0,
+		capacity: 10,
+		image:
+			'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1738904240393_EVERYTHING.jpg',
+		createdBy: 9310151325,
+		canceledAt: null,
+	},
+	{
+		teamId: '74',
+		id: 1733412334,
+		type: 'OFFICE_STRETCHING',
+		name: 'test모임',
+		dateTime: '2025-02-17T04:48:55.087Z',
+		registrationEnd: '2025-02-14T04:48:55.087Z',
+		location: '건대입구',
+		participantCount: 0,
+		capacity: 10,
+		image:
+			'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1738904240393_EVERYTHING.jpg',
+		createdBy: 9310151325,
+		canceledAt: null,
+	},
+	{
+		teamId: '57',
+		id: 171234335,
 		type: 'OFFICE_STRETCHING',
 		name: 'test모임',
 		dateTime: '2025-02-17T04:48:55.087Z',
@@ -47,6 +109,9 @@ export default function DetailPage() {
 						id={DummyData[0].id}
 					/>
 				</div>
+			</div>
+			<div>
+				<Pagination data={DummyData} />
 			</div>
 			<div className='fixed bottom-0 left-0 w-full'>
 				<Footer createdBy={DummyData[0].createdBy} />
