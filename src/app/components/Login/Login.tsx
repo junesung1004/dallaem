@@ -1,13 +1,14 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { InputWindow } from '../InputWindow';
+import { InputWindow } from '../InputSection/InputWindow';
 
 import { signinUser } from '@/app/api/userAuth';
 import { useRouter } from 'next/navigation';
-import { HideToggle } from '../HideToggle';
+import { HideToggle } from '../InputSection/HideToggle';
 
 const Login = () => {
 	const router = useRouter();
+	const referrer = document.referrer; // 이전 페이지 URL
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
@@ -34,7 +35,12 @@ const Login = () => {
 			await signinUser({ email: id, password: password });
 			setErrorId('');
 			setErrorPassword('');
-			router.back();
+			//이전 페이지로 돌아감 (외부 사이트에서 접속했을 경우 홈으로 돌아감)
+			if (!referrer || !referrer.includes(window.location.hostname)) {
+				router.push('/');
+			} else {
+				router.back();
+			}
 		} catch (err: any) {
 			//로그인 실패. 에러 메시지 저장
 			if (err.message === '존재하지 않는 아이디입니다') {
