@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { DateBadge } from './DateBadge';
-import { MeetingCardProps } from '../types/meetingDetail';
-import { LikeButton } from './LikeButton';
+import { DateBadge } from '../../../../components/Badge/DateBadge';
+import { MeetingCardProps } from '../../../../types/meetingDetail';
+import { LikeButton } from '../../../../components/Button/LikeButton';
 
 export const MeetingCard = ({ location, type, date, id }: MeetingCardProps) => {
 	const [userId, setUserId] = useState<number | undefined>(undefined);
