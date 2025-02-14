@@ -1,8 +1,8 @@
-import Button from '@/app/_tests/Button';
-import ServiceSelector from '@/app/_tests/Service';
-import { CalenderTime } from '@/app/components/Calendar/CalenderTime';
-import { InputWindow } from '@/app/components/InputWindow';
-import { useMeetingForm } from '@/app/hooks/useMeeting';
+import Button from '@/_tests/Button';
+import ServiceSelector from '@/_tests/Service';
+import { CalenderTime } from '@/components/Calendar/CalenderTime';
+import { InputWindow } from '@/components/InputWindow';
+import { useMeetingForm } from '@/hooks/useMeeting';
 import { useState } from 'react';
 
 export default function CreateMeetingForm() {
