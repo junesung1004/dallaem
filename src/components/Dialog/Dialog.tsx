@@ -1,6 +1,6 @@
 'use client';
 
-import GlobalButton from '@/app/components/Button/Button';
+import GlobalButton from '@/components/Button/Button';
 import type { ButtonProps } from '../Button/Button';
 
 function Dialog({ children }: { children: React.ReactNode }) {

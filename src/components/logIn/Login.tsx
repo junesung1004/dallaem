@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { InputWindow } from '../InputWindow';
 
-import { signinUser } from '@/app/api/userAuth';
+import { signinUser } from '@/api/userAuth';
 import { useRouter } from 'next/navigation';
 import { HideToggle } from '../HideToggle';
 

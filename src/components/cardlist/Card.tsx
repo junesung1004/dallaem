@@ -3,7 +3,7 @@ import React from 'react';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { StatusBadge } from '../StatusBadge';
 import Members from '../Members/Members';
-import { Tag } from '@/app/_tests/Tag';
+import { Tag } from '@/_tests/Tag';
 
 export default function Card({
 	children,

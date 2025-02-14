@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { PAGE_INFO } from '../../../../constants/index';
+import { PAGE_INFO } from '../../constants/index';
 
 interface PageInfoProps {
 	pageKey: string;

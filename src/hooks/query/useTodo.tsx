@@ -27,8 +27,8 @@ export default function Todo() {
 			{data &&
 				data.length > 0 &&
 				data.map((todo) => (
-					<div key={todo.id} className="pt-10">
-						<h1 className="font-bold text-4xl">{todo.title}</h1>
+					<div key={todo.id} className='pt-10'>
+						<h1 className='font-bold text-4xl'>{todo.title}</h1>
 					</div>
 				))}
 		</div>

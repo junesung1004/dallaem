@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 import './globals.css';
-import { ReactQueryProvider } from './lib/ReactQueryProvider';
-import Header from './components/Header';
-import { ModalProvider } from './lib/ModalProvider';
+import { ReactQueryProvider } from '@/lib/ReactQueryProvider';
+import Header from '@/components/Header';
+import { ModalProvider } from '@/lib/ModalProvider';
 
 export const metadata: Metadata = {
 	title: '같이달램',

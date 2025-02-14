@@ -1,7 +1,7 @@
-import Button from '@/app/_tests/Button';
-import CardList from '../components/cardlist/CardList';
-import PageInfo from '../components/PageInfo/PageInfo';
-import PageNavbar from '../components/PageNav/PageNavbar';
+import Button from '@/_tests/Button';
+import CardList from '@/components/cardlist/CardList';
+import PageInfo from '@/components/PageInfo/PageInfo';
+import PageNavbar from '@/components/PageNav/PageNavbar';
 
 export default async function Home() {
 	return (
