@@ -4,15 +4,7 @@ import { InputWindow } from '../InputSection/InputWindow';
 
 import { signinUser } from '@/api/userAuth';
 import { useRouter } from 'next/navigation';
-<<<<<<< HEAD
-import { HideToggle } from '../InputSection/HideToggle';
-=======
-<<<<<<<< HEAD:src/components/logIn/Login.tsx
-import { HideToggle } from '../InputSection/HideToggle';
-========
 import { HideToggle } from '../Toggle/HideToggle';
->>>>>>>> 4050d0365b4855baece06c18c0379988dfd8af69:src/components/Login/Login.tsx
->>>>>>> 4050d0365b4855baece06c18c0379988dfd8af69
 
 const Login = () => {
 	const router = useRouter();
