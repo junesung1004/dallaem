@@ -1,7 +1,7 @@
 'use client';
 
-import Dialog from '@/app/components/Dialog/Dialog';
-import { useGlobalModal } from '@/app/hooks/useGlobalModal';
+import Dialog from '@/components/Dialog/Dialog';
+import { useGlobalModal } from '@/hooks/useGlobalModal';
 import { SyntheticEvent } from 'react';
 
 function ReviewForm() {
