@@ -1,11 +1,9 @@
 'use client';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { isTokenExpired } from '../api/getUserData';
+import { isTokenExpired } from '@/api/getUserData';
 
 export default function Header() {
-	const token = localStorage.getItem('authToken');
-	const initialLoginState = token && !isTokenExpired(token);
 	const [isLoggedIn, setIsLoggedIn] = useState<null | boolean>(null);
 	const [isLoading, setIsLoading] = useState(true);
 

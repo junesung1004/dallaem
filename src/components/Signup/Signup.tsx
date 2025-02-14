@@ -2,13 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-<<<<<<< HEAD:src/app/components/Signup/Signup.tsx
-import { signupUser } from '@/app/api/userAuth';
-import { HideToggle } from '../InputSection/HideToggle';
-=======
 import { signupUser } from '@/api/userAuth';
-import { HideToggle } from '../HideToggle';
->>>>>>> 6fbb759876818a10365cab59745a8ed87df6ae17:src/components/Signup/Signup.tsx
 import { SignupInputSection } from './SignupInputSection';
 
 const Signup = () => {

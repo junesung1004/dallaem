@@ -8,12 +8,9 @@ export default {
 	],
 	theme: {
 		extend: {
-<<<<<<< HEAD
-=======
 			screens: {
 				xs: '343px',
 			},
->>>>>>> 6fbb759876818a10365cab59745a8ed87df6ae17
 			fontFamily: {
 				sans: ['Pretendard', 'sans-serif'],
 			},
@@ -30,10 +27,7 @@ export default {
 				background: 'var(--background)',
 				foreground: 'var(--foreground)',
 			},
-<<<<<<< HEAD
-=======
 			fontWeight: {},
->>>>>>> 6fbb759876818a10365cab59745a8ed87df6ae17
 		},
 	},
 	plugins: [],

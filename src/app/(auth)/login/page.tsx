@@ -1,8 +1,6 @@
-import { Login } from '@/app/components/Login/Login';
+import { Login } from '@/components/Login/Login';
 
 import React from 'react';
-import { Selectbox } from '@/app/components/InputSection/Selectbox';
-
 export default function LoginPage() {
 	return (
 		<main className='min-h-screen overflow-y-scroll md:w-[744px] lg:w-[996px] mx-auto flex flex-col gap-5 justify-center items-center md:flex-row'>
