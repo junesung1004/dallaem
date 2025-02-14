@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-import { signupUser } from '@/app/api/userAuth';
+import { signupUser } from '@/api/userAuth';
 import { HideToggle } from '../HideToggle';
 import { SignupInputSection } from './SignupInputSection';
 

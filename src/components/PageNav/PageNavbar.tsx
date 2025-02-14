@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { NAV_DATA } from '../../../../constants/index';
+import { NAV_DATA } from '../../constants/index';
 import PageNavButton from './PageNavButton';
 
 interface NavBarProps {

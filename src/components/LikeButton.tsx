@@ -6,8 +6,8 @@ export const LikeButton = ({ itemId, userId }: LikeButtonProps) => {
 	const { isLiked, toggleLike } = useLike(itemId, userId);
 
 	return (
-		<button onClick={toggleLike} className="flex items-center justify-center">
-			<div className="p-1 rounded-full border-2 border-gray-200">
+		<button onClick={toggleLike} className='flex items-center justify-center'>
+			<div className='p-1 rounded-full border-2 border-gray-200'>
 				<Image
 					src={
 						isLiked
@@ -17,7 +17,7 @@ export const LikeButton = ({ itemId, userId }: LikeButtonProps) => {
 					alt={isLiked ? 'Liked' : 'Not Liked'}
 					width={24}
 					height={24}
-					className="rounded-full"
+					className='rounded-full'
 				/>
 			</div>
 		</button>
