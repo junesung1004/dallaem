@@ -1,7 +1,7 @@
 import Button from '@/_tests/Button';
 import ServiceSelector from '@/_tests/Service';
 import { CalenderTime } from '@/components/Calendar/CalenderTime';
-import { InputWindow } from '@/components/InputWindow';
+import { InputWindow } from '@/components/InputSection/InputWindow';
 import { useMeetingForm } from '@/hooks/customs/useMeeting';
 import { useState } from 'react';
 

@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { InputWindow } from '../InputWindow';
+import { InputWindow } from '../InputSection/InputWindow';
 
 import { signinUser } from '@/api/userAuth';
 import { useRouter } from 'next/navigation';
@@ -8,6 +8,7 @@ import { HideToggle } from '../Toggle/HideToggle';
 
 const Login = () => {
 	const router = useRouter();
+	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
@@ -15,6 +16,10 @@ const Login = () => {
 	const [errorId, setErrorId] = useState(''); //로그인 에러 관리
 	const [errorPassword, setErrorPassword] = useState('');
 
+	// 클라이언트 사이드에서 referrer를 설정하는 useEffect
+	useEffect(() => {
+		setReferrer(document.referrer); // referrer 값 클라이언트 사이드에서만 설정
+	}, []);
 	// 입력 handle 함수
 	const onIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setId(e.target.value);
@@ -34,7 +39,12 @@ const Login = () => {
 			await signinUser({ email: id, password: password });
 			setErrorId('');
 			setErrorPassword('');
-			router.back();
+			//이전 페이지로 돌아감 (외부 사이트에서 접속했을 경우 홈으로 돌아감)
+			if (!referrer || !referrer.includes(window.location.hostname)) {
+				router.push('/');
+			} else {
+				router.back();
+			}
 		} catch (err: any) {
 			//로그인 실패. 에러 메시지 저장
 			if (err.message === '존재하지 않는 아이디입니다') {
