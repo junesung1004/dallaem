@@ -1,4 +1,5 @@
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	state: 'default' | 'hover' | 'click' | 'disabled';
 	isOutlined: boolean;
 	children: React.ReactNode;
@@ -36,7 +37,7 @@ function Button({ children, state, isOutlined, isFull, ...rest }: ButtonProps) {
 	return (
 		<button
 			className={`
-                inline-flex px-8 py-2 rounded-xl justify-center item-center
+                inline-flex px-[3rem] py-2 rounded-xl justify-center item-center
                 ${buttonStateMap[state][isOutlined ? 'outlined' : 'initial']} 
                 ${isFull ? 'w-full' : ''} 
 				${hoverProp}
