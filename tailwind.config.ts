@@ -8,9 +8,6 @@ export default {
 	],
 	theme: {
 		extend: {
-			screens: {
-				xs: '343px',
-			},
 			fontFamily: {
 				sans: ['Pretendard', 'sans-serif'],
 			},
@@ -27,7 +24,6 @@ export default {
 				background: 'var(--background)',
 				foreground: 'var(--foreground)',
 			},
-			fontWeight: {},
 		},
 	},
 	plugins: [],
