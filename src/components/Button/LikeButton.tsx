@@ -1,5 +1,5 @@
-import { useLike } from '../hooks/useLike';
-import { LikeButtonProps } from '../types/likeButtonType';
+import { useLike } from '../../hooks/customs/useLike';
+import { LikeButtonProps } from '../../types/likeButtonType';
 import Image from 'next/image';
 
 export const LikeButton = ({ itemId, userId }: LikeButtonProps) => {

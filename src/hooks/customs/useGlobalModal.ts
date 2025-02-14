@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import useModalStore from '../lib/modalStore';
+import useModalStore from '../../lib/modalStore';
 
 export function useGlobalModal() {
 	// 라우터가 있는 모달일 경우의 닫기를 고려

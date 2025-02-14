@@ -2,7 +2,7 @@ import Button from '@/_tests/Button';
 import ServiceSelector from '@/_tests/Service';
 import { CalenderTime } from '@/components/Calendar/CalenderTime';
 import { InputWindow } from '@/components/InputWindow';
-import { useMeetingForm } from '@/hooks/useMeeting';
+import { useMeetingForm } from '@/hooks/customs/useMeeting';
 import { useState } from 'react';
 
 export default function CreateMeetingForm() {

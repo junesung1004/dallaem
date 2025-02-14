@@ -4,7 +4,7 @@ import { InputWindow } from '../InputWindow';
 
 import { signinUser } from '@/api/userAuth';
 import { useRouter } from 'next/navigation';
-import { HideToggle } from '../HideToggle';
+import { HideToggle } from '../Toggle/HideToggle';
 
 const Login = () => {
 	const router = useRouter();

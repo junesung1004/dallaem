@@ -1,5 +1,5 @@
-import { MeetingCard } from '@/components/MeetingCard';
-import { DeadlineBadge } from '@/components/DeadlineBadge';
+import { MeetingCard } from '@/app/(home)/meeting/_components/MeetingCard';
+import { DeadlineBadge } from '@/components/Badge/DeadlineBadge';
 import { Footer } from '../_components/footer';
 import Image from 'next/image';
 

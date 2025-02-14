@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getLikedStatus, saveLike, removeLike } from '../lib/likeStorage';
+import { getLikedStatus, saveLike, removeLike } from '../../lib/likeStorage';
 
 export const useLike = (itemId: number, userId?: number) => {
 	const [isLiked, setIsLiked] = useState<boolean>(false);

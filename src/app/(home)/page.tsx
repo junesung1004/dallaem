@@ -1,5 +1,6 @@
 import Button from '@/_tests/Button';
-import CardList from '@/components/cardlist/CardList';
+import CardList from '@/components/MainCard/CardList';
+
 import PageInfo from '@/components/PageInfo/PageInfo';
 import PageNavbar from '@/components/PageNav/PageNavbar';
 
