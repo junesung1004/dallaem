@@ -1,10 +1,10 @@
-import ProgressBar from '@/app/components/ProgressBar/ProgressBar';
-import Badge from '@/app/components/Badge/Badge';
-import HeartRatings from '@/app/components/HeartRatings/HeartRatings';
-import Members from '@/app/components/Members/Members';
+import ProgressBar from '@/components/ProgressBar/ProgressBar';
+import Badge from '@/components/Badge/Badge';
+import HeartRatings from '@/components/HeartRatings/HeartRatings';
+import Members from '@/components/Members/Members';
 import Link from 'next/link';
 import GlobalModal from './components/GlobalModal';
-import Button from '@/app/components/Button/Button';
+import Button from '@/components/Button/Button';
 
 function MyPage() {
 	return (
