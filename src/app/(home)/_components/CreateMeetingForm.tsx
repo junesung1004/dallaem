@@ -1,9 +1,10 @@
 import { createMeeting } from '@/api/createMeeting';
 import Button from '@/app/(home)/_components/Button';
 import { CalenderTime } from '@/components/Calendar/CalenderTime';
-import { InputWindow } from '@/components/InputWindow';
 import ServiceSelector from '@/components/Service';
+import { InputWindow } from '@/components/InputSection/InputWindow';
 import { useMeetingForm } from '@/hooks/customs/useMeeting';
+import { useRouter } from 'next/navigation';
 
 export default function CreateMeetingForm() {
 	const {
@@ -28,6 +29,8 @@ export default function CreateMeetingForm() {
 		handleEndDateChange,
 	} = useMeetingForm();
 
+	const router = useRouter();
+
 	const clickUpdateMeetingHandler = async (e: React.FormEvent) => {
 		e.preventDefault();
 
@@ -43,6 +46,7 @@ export default function CreateMeetingForm() {
 			});
 
 			console.log('모임 생성 성공 :', res);
+			router.back();
 		} catch (error) {
 			console.error('모임 생성 실패 : ', error);
 		}

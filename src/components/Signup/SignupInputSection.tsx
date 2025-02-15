@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InputWindow } from '../InputWindow';
+import { InputWindow } from '../InputSection/InputWindow';
 import { HideToggle } from '../Toggle/HideToggle';
 
 interface SignupInputSectionInterface {
@@ -7,7 +7,7 @@ interface SignupInputSectionInterface {
 	title: string;
 	placeholderText: string;
 	value: string;
-	type?: string;
+	type: string;
 	errorMsg: string;
 	isError?: boolean;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>, type: string) => void;
@@ -28,7 +28,7 @@ const SignupInputSection = ({
 	isError,
 }: SignupInputSectionInterface) => {
 	const [curType, setCurType] = useState(type);
-	const [isHidden, setIsHidden] = useState(true);
+	const [isHidden, setIsHidden] = useState(type === 'password');
 
 	const handleHideToggle = () => {
 		setIsHidden((prev) => !prev);

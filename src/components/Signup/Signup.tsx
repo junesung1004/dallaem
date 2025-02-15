@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { signupUser } from '@/api/userAuth';
-import { HideToggle } from '../Toggle/HideToggle';
 import { SignupInputSection } from './SignupInputSection';
 
 const Signup = () => {
@@ -273,6 +272,7 @@ const Signup = () => {
 				{/* Section: 이름 */}
 				<SignupInputSection
 					id='name'
+					type='text'
 					title={'이름'}
 					placeholderText={'이름을 입력해주세요.'}
 					value={name}
@@ -285,6 +285,7 @@ const Signup = () => {
 				{/* Section: 아이디 */}
 				<SignupInputSection
 					id='id'
+					type='text'
 					title={'아이디'}
 					placeholderText={'아이디를 입력해주세요.'}
 					value={id}
@@ -297,6 +298,7 @@ const Signup = () => {
 				{/* Section: 회사명 */}
 				<SignupInputSection
 					id='companyName'
+					type='text'
 					title={'회사명'}
 					placeholderText={'회사명을 입력해주세요.'}
 					value={companyName}
@@ -309,6 +311,7 @@ const Signup = () => {
 				{/* Section: 비밀번호 */}
 				<SignupInputSection
 					id='password'
+					type='password'
 					title={'비밀번호'}
 					placeholderText={'비밀번호를 입력해주세요.'}
 					value={password}
@@ -317,13 +320,13 @@ const Signup = () => {
 					onFocus={() => handleFocus('password')}
 					onBlur={() => handleBlur('password')}
 					isError={errorPassword ? true : false}
-					type='password'
 				/>
 
 				{/* Section: 비밀번호 확인*/}
 
 				<SignupInputSection
 					id='passwordConfirm'
+					type='password'
 					title={'비밀번호 확인'}
 					placeholderText={'비밀번호를 다시 한 번 입력해주세요.'}
 					value={passwordConfirm}
@@ -332,7 +335,6 @@ const Signup = () => {
 					onFocus={() => handleFocus('passwordConfirm')}
 					onBlur={() => handleBlur('passwordConfirm')}
 					isError={errorPasswordConfirm ? true : false}
-					type='password'
 				/>
 
 				{/* Section: 로그인 버튼 */}
