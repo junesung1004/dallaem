@@ -11,20 +11,20 @@ type OnselectProps = {
 export default function ServiceSelector({
 	onSelect,
 }: {
-	onSelect: (service: OnselectProps) => void;
+	onSelect: (service: string) => void;
 }) {
-	const [selected, setSelected] = useState<string | null>('office');
+	const [selected, setSelected] = useState<string | null>('OFFICE_STRETCHING');
 	// console.log('selected : ', selected);
 
 	const services = [
-		{ id: 'office', name: '달랭핏', description: '오피스 스트레칭' },
-		{ id: 'mindfulness', name: '달랭핏', description: '마인드풀니스' },
-		{ id: 'workation', name: '워크에이션', description: '리프레쉬' },
+		{ id: 'OFFICE_STRETCHING', name: '달랭핏', description: '오피스 스트레칭' },
+		{ id: 'MINDFULNESS', name: '달랭핏', description: '마인드풀니스' },
+		{ id: 'WORKATION', name: '워크에이션', description: '리프레쉬' },
 	];
 
 	const handleServiceSelect = (service: OnselectProps) => {
 		setSelected(service.id);
-		onSelect(service);
+		onSelect(service.id);
 	};
 
 	return (

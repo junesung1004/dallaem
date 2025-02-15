@@ -1,21 +1,13 @@
 import { useState } from 'react';
 
-type Service = {
-	id: string;
-	name: string;
-	description: string;
-};
-
 export function useMeetingForm() {
 	//상태값 state
 	const [meetingName, setMeetingName] = useState<string>('');
 	const [meetingPlace, setMeetingPlace] = useState<string>('');
 	const [meetingImage, setMeetingImage] = useState<string>('');
-	const [meetingSelectedService, setMeetingSelectedService] = useState<{
-		id: string;
-		name: string;
-		description: string;
-	} | null>(null);
+	const [meetingSelectedService, setMeetingSelectedService] = useState<
+		string | null
+	>(null);
 	const [meetingStartDate, setMeetingStartDate] = useState<Date | null>(null);
 	const [meetingEndDate, setMeetingEndDate] = useState<Date | null>(null);
 	const [meetingPeople, setMeetingPeople] = useState<number | null>(5);
@@ -133,7 +125,7 @@ export function useMeetingForm() {
 	};
 
 	//선택 서비스
-	const meetingSelectedServiceChangeHandler = (service: Service) => {
+	const meetingSelectedServiceChangeHandler = (service: string) => {
 		setMeetingSelectedService(service);
 	};
 

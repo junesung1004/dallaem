@@ -1,9 +1,9 @@
+import { createMeeting } from '@/api/createMeeting';
 import Button from '@/app/(home)/_components/Button';
 import { CalenderTime } from '@/components/Calendar/CalenderTime';
 import { InputWindow } from '@/components/InputWindow';
 import ServiceSelector from '@/components/Service';
 import { useMeetingForm } from '@/hooks/customs/useMeeting';
-import { useState } from 'react';
 
 export default function CreateMeetingForm() {
 	const {
@@ -28,10 +28,29 @@ export default function CreateMeetingForm() {
 		handleEndDateChange,
 	} = useMeetingForm();
 
+	const clickUpdateMeetingHandler = async (e: React.FormEvent) => {
+		e.preventDefault();
+
+		try {
+			const res = await createMeeting({
+				location: meetingPlace,
+				type: meetingSelectedService,
+				name: meetingName,
+				dateTime: meetingStartDate,
+				capacity: meetingPeople,
+				image: meetingImage,
+				registrationEnd: meetingEndDate,
+			});
+
+			console.log('모임 생성 성공 :', res);
+		} catch (error) {
+			console.error('모임 생성 실패 : ', error);
+		}
+	};
+
 	return (
 		<form
-			action={'#'}
-			method='post'
+			onSubmit={clickUpdateMeetingHandler}
 			className='flex flex-col'
 			encType='multipart/form-data'
 		>

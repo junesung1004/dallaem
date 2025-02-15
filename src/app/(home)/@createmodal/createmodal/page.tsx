@@ -6,6 +6,7 @@ import CreateMeetingForm from '../../_components/CreateMeetingForm';
 
 export default function CreateModal() {
 	const router = useRouter();
+	console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings`);
 
 	return (
 		<div className='fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-20 w-screen h-screen overflow-auto'>
