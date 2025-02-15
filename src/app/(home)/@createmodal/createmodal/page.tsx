@@ -8,19 +8,17 @@ export default function CreateModal() {
 	const router = useRouter();
 
 	return (
-		<div className='flex justify-center absolute z-50 w-full sm:w-full lg:w-[996px] xl:w-[1198px] min-h-screen mx-auto bg-black bg-opacity-20'>
-			<div className='bg-white p-3 relative w-[375px] h-[839px]'>
+		<div className='fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-20 w-screen h-screen overflow-auto'>
+			<div className='bg-white sm:rounded-xl sm:p-6 xs:p-3 sm:top-[10px] relative sm:w-[520px] xs:w-[375px] xs:max-h-screen sm:h-[842px] overflow-auto'>
+				{/* 닫기 버튼 */}
 				<button
 					onClick={() => router.back()}
-					className='w-[24px] h-[24px] absolute right-5'
+					className='w-[24px] h-[24px] absolute right-5 top-5'
 				>
-					<Image
-						src={'/icons/X.png'}
-						alt='x 모양 아이콘'
-						fill
-						sizes='(max-width: 768px) 24px, 24px'
-					/>
+					<Image src={'/icons/X.png'} alt='닫기 버튼' width={24} height={24} />
 				</button>
+
+				{/* 모임 생성 폼 */}
 				<CreateMeetingForm />
 			</div>
 		</div>

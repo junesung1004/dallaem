@@ -1,7 +1,7 @@
-import Button from '@/_tests/Button';
-import ServiceSelector from '@/components/Service';
+import Button from '@/app/(home)/_components/Button';
 import { CalenderTime } from '@/components/Calendar/CalenderTime';
 import { InputWindow } from '@/components/InputWindow';
+import ServiceSelector from '@/components/Service';
 import { useMeetingForm } from '@/hooks/customs/useMeeting';
 import { useState } from 'react';
 
@@ -10,40 +10,23 @@ export default function CreateMeetingForm() {
 		meetingName,
 		meetingPlace,
 		meetingImage,
-		// meetingSelectedService,
+		meetingSelectedService,
 		meetingStartDate,
 		meetingEndDate,
 		meetingPeople,
 		isFormValid,
 		nameValid,
+		peopleCountValid,
+		startDateValid,
+		endDateValid,
 		meetingPlaceTextChangeHandler,
 		meetingImageTextChangeHandler,
 		meetingSelectedServiceChangeHandler,
-		meetingPeopleTextChangeHandler,
-		meetingStartDateChangeHandler,
-		meetingEndDateChangeHandler,
 		handleNameChange,
+		handlePeopleCountChange,
+		handleStartDateChange,
+		handleEndDateChange,
 	} = useMeetingForm();
-
-	const [peopleCountValid, setPeopleCountValid] = useState<boolean | null>(
-		false,
-	);
-
-	//모임 정원수 유효성 검사
-	const peopleCountValidErrorMessage = () => {
-		const peopleRegex = /^(0?[5-9]|1[0-9]|20)$/;
-
-		if (peopleRegex.test(meetingPeople)) {
-			setPeopleCountValid(false);
-		} else {
-			setPeopleCountValid(true);
-		}
-	};
-
-	const handlePeopleCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		meetingPeopleTextChangeHandler(e);
-		peopleCountValidErrorMessage();
-	};
 
 	return (
 		<form
@@ -52,7 +35,7 @@ export default function CreateMeetingForm() {
 			className='flex flex-col'
 			encType='multipart/form-data'
 		>
-			<h1 className='font-semibold text-lg mb-6'>모임 만들기</h1>
+			<h1 className='font-semibold text-lg mb-3'>모임 만들기</h1>
 
 			{/* 모임 이름 */}
 			<div>
@@ -65,7 +48,7 @@ export default function CreateMeetingForm() {
 					value={meetingName}
 					id='meeting-name'
 				/>
-				<div className='text-red-600 text-sm mb-2 ml-2'>
+				<div className='text-red-600 text-sm mb-1 ml-2'>
 					{nameValid && meetingName.length > 0 && (
 						<div>모임 이름은 2~8자 사이로 한글 또는 영문만 가능합니다.</div>
 					)}
@@ -92,6 +75,7 @@ export default function CreateMeetingForm() {
 				</label>
 				<div className='flex items-center'>
 					<div
+						className='xs:w-[250px] sm:w-[350px]'
 						onClick={() => document.getElementById('meeting-image')?.click()}
 					>
 						<InputWindow
@@ -120,30 +104,48 @@ export default function CreateMeetingForm() {
 			</div>
 
 			{/* 선택 서비스 */}
-			<div className='mb-5'>
+			<div className='mb-3'>
 				<ServiceSelector onSelect={meetingSelectedServiceChangeHandler} />
 			</div>
 
-			{/* 모임 시작 날짜 */}
-			<div className='flex flex-col gap-2 mb-5'>
-				<label className='font-semibold' htmlFor='meeting-date'>
-					모임 날짜
-				</label>
-				<CalenderTime
-					selectedDate={meetingStartDate}
-					onDateChange={(date) => meetingStartDateChangeHandler(date)}
-				/>
-			</div>
+			{/* 모임 날짜 관련 콘테이너 */}
+			<div className='flex flex-wrap'>
+				{/* 모임 시작 날짜 */}
+				<div className='flex flex-col gap-2 mb-3'>
+					<label className='font-semibold' htmlFor='meeting-date'>
+						모임 날짜
+					</label>
+					<CalenderTime
+						selectedDate={meetingStartDate}
+						onDateChange={handleStartDateChange}
+					/>
 
-			{/* 모임 모집 마감 종료 날짜 */}
-			<div className='flex flex-col gap-2 mb-5'>
-				<label className='font-semibold' htmlFor='meeting-name'>
-					마감 날짜
-				</label>
-				<CalenderTime
-					selectedDate={meetingEndDate}
-					onDateChange={(date) => meetingEndDateChangeHandler(date)}
-				/>
+					<div className='text-red-600 text-sm mb-1 ml-2'>
+						{startDateValid && (
+							<div>모임 날짜는 2틀 이후 부터 선택 가능 ✅</div>
+						)}
+					</div>
+				</div>
+
+				{/* 모임 모집 마감 종료 날짜 */}
+				<div className='flex flex-col gap-2 mb-3'>
+					<label className='font-semibold' htmlFor='meeting-name'>
+						마감 날짜
+					</label>
+
+					<CalenderTime
+						selectedDate={meetingEndDate}
+						onDateChange={handleEndDateChange}
+					/>
+
+					<div className='text-red-600 text-sm mb-1 ml-2'>
+						{endDateValid && (
+							<div>
+								마감 날짜는 현 시점부터 모임 시작 날짜 2시간 이전 까지 ✅
+							</div>
+						)}
+					</div>
+				</div>
 			</div>
 
 			{/* 모집 정원 */}
@@ -152,13 +154,14 @@ export default function CreateMeetingForm() {
 					모집 정원
 				</label>
 				<InputWindow
+					type={'number'}
 					placeholderText='최소 5인 이상 입력해주세요'
 					onChange={handlePeopleCountChange}
-					value={meetingPeople}
+					value={meetingPeople ?? 0}
 					id='meeting-available-people'
 				/>
 				<div className='text-red-600 text-sm mb-2 ml-2'>
-					{peopleCountValid && meetingPeople?.length > 0 && (
+					{peopleCountValid && (
 						<div>모집 최소 인원은 5명 이상 20명 이하로 숫자로 기입해주세요</div>
 					)}
 				</div>

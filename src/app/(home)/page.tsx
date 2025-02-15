@@ -1,4 +1,4 @@
-import Button from '@/_tests/Button';
+import Button from '@/app/(home)/_components/Button';
 import CardList from '@/components/MainCard/CardList';
 
 import PageInfo from '@/components/PageInfo/PageInfo';
@@ -9,7 +9,6 @@ export default async function Home() {
 		<div className='mx-auto px-5 sm:px-16 xl:px-0 py-10  w-full xl:w-[996px] '>
 			{/* 함께 할 사람이 없나요? */}
 			<PageInfo pageKey='meetings' />
-
 			{/* 달램핏 nav 및 filter 및 모임 만들기기 */}
 			<div className='flex relative mt-10 mb-5'>
 				<PageNavbar pageKey='meetings' />

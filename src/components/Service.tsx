@@ -28,18 +28,18 @@ export default function ServiceSelector({
 	};
 
 	return (
-		<div>
+		<div className='w-full'>
 			<label className='font-semibold' htmlFor='service'>
 				선택 서비스
 			</label>
-			<div className='flex gap-2 mt-3'>
+			<div className='flex gap-2 mt-3 w-full'>
 				{services.map((item) => (
 					<label
 						key={item.id}
-						className={`flex flex-col justify-center w-[119px] h-[76px] rounded-xl cursor-pointer transition
+						className={`flex flex-col justify-center w-1/3 h-[76px] rounded-xl cursor-pointer transition
 							${selected === item.id ? 'bg-slate-700 text-white' : 'bg-white text-black border'}`}
 					>
-						<div className='flex gap-2 items-center ml-2'>
+						<div className='flex gap-2 items-center sm:ml-7 xs:ml-2'>
 							{/* 기본 라디오 숨기기 */}
 							<input
 								type='radio'
@@ -58,9 +58,11 @@ export default function ServiceSelector({
 									<span className='text-orange-500 font-bold'>✓</span>
 								)}
 							</div>
-							<h2>{item.name}</h2>
+							<h2 className='font-semibold'>{item.name}</h2>
 						</div>
-						<p className='ml-5 text-xs font-medium'>{item.description}</p>
+						<p className='sm:ml-12 xs:ml-5 text-xs font-medium'>
+							{item.description}
+						</p>
 					</label>
 				))}
 			</div>
