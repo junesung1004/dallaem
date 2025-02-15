@@ -66,7 +66,7 @@ function CardBase({
 	};
 
 	return (
-		<div className='flex gap-4 pt-4 pb-2'>
+		<div className='flex gap-4 pt-4 pb-2 flex-wrap'>
 			<div className='relative overflow-hidden w-[17rem] h-[10rem] rounded-3xl'>
 				<Image
 					src={

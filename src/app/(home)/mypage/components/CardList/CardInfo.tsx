@@ -30,7 +30,7 @@ function MeetingCardInfo({
 					<span>{meetingDate}</span>&middot;
 					<span>{meetingTime}</span>
 				</div>
-				<Members max={fullCount} value={curCount} />
+				<Members max={fullCount} value={curCount} highLight='off' />
 			</div>
 		</div>
 	);

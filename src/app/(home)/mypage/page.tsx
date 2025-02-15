@@ -30,7 +30,7 @@ const mockMeetings: IMeeting[] = [
 		dateTime: '2025-02-02T10:00:00Z',
 		registrationEnd: '2025-02-19T18:00:00Z',
 		location: '서울 본사 2층 회의실',
-		participantCount: 2,
+		participantCount: 10,
 		capacity: 10,
 		image:
 			'https://plus.unsplash.com/premium_photo-1681324259575-f6ad9653e2fd?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
