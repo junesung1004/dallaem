@@ -30,7 +30,7 @@ function MyPage() {
 			</div>
 			Members
 			<Members max={10} value={10} />
-			<Members max={10} value={15} />
+			<Members max={10} value={15} highLight={'off'} />
 			<Members max={10} value={5} />
 			<div className='flex flex-col items-start max-w-80 gap-2 p-1'>
 				<div>
