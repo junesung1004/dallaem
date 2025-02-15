@@ -73,7 +73,7 @@ const InputWindow = ({
 
 	//return
 	return (
-		<div className={`w-full aspect-[460/50] h-[44px] mx-auto m-1 `}>
+		<div className={`w-full aspect-[460/50] h-[44px] mx-auto m-3 `}>
 			<input
 				placeholder={placeholderText}
 				onChange={handleChange}
