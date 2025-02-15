@@ -39,3 +39,12 @@ body {
 	margin: 0;
 	padding: 0;
 }
+
+/* 버튼 full 클래스 */
+.btn-full {
+	@apply w-full;
+}
+
+.btn-default {
+	@apply max-w-64;
+}
