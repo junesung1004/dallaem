@@ -23,4 +23,3 @@ module.exports = {
 		], // 커밋 type 제한
 	},
 };
-a;
