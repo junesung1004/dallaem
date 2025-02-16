@@ -1,7 +1,7 @@
 import { createMeeting } from '@/api/createMeeting';
 import Button from '@/app/(home)/_components/Button';
 import { CalenderTime } from '@/components/Calendar/CalenderTime';
-import ServiceSelector from '@/components/Service';
+import ServiceSelector from '@/components/Service/Service';
 import { InputWindow } from '@/components/InputSection/InputWindow';
 import { useMeetingForm } from '@/hooks/customs/useMeeting';
 import { useRouter } from 'next/navigation';
@@ -45,7 +45,7 @@ export default function CreateMeetingForm() {
 				registrationEnd: meetingEndDate,
 			});
 
-			// console.log('모임 생성 성공 :', res);
+			console.log('모임 생성 성공 :', res);
 			router.back();
 		} catch (error) {
 			console.error('모임 생성 실패 : ', error);
