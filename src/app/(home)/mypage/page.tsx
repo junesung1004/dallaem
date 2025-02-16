@@ -115,7 +115,8 @@ function MyPage() {
 				<HeartRatings rating={5} maxHearts={5} />
 				<HeartRatings rating={0} maxHearts={5} />
 				Mypage Hearts
-				<HeartRatings rating={0} maxHearts={5} isInteractive={true} />
+				{/* @ts-ignore 공통 컴포넌트 시각화를 위한 페이지이므로 여기서는 타입 검사 생략  */}
+				<HeartRatings rating={0} maxHearts={5} handleChange={true} />
 			</div>
 			Members
 			<Members max={10} value={10} />

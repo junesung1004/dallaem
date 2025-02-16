@@ -1,18 +1,26 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Heart from './Heart';
 
 interface HeartRatingsInteractiveProps {
 	maxHearts: number;
 	rating: number;
+	handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function HeartRatingsInteractive({
 	maxHearts,
 	rating,
+	handleChange,
 }: HeartRatingsInteractiveProps) {
 	const [selectedRating, setSelectedRating] = useState(rating);
+	const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+		if (typeof handleChange === 'function') {
+			handleChange(e);
+		}
+		setSelectedRating(Number(e.target.value));
+	};
 
 	return (
 		<div className='flex'>
@@ -27,9 +35,9 @@ export default function HeartRatingsInteractive({
 					/>
 					<input
 						type='radio'
-						name='ratings'
+						name='score'
 						value={i + 1}
-						onChange={(e) => setSelectedRating(Number(e.currentTarget.value))}
+						onChange={changeHandler}
 						className='hidden'
 					/>
 				</label>
