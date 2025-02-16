@@ -3,59 +3,47 @@
 import Button from '@/components/Button/Button';
 import Dialog from '@/components/Dialog/Dialog';
 import ProfileInput from '../ProfileInput/ProfileInput';
-import { SignupInputSection } from '@/components/Signup/SignupInputSection';
+import FormControl from './FormControl';
 
 function ProfileForm() {
 	return (
-		<form id='asdfasdf'>
+		<form>
 			<Dialog>
 				<Dialog.Content title='프로필 수정하기'>
-					<ProfileInput />
-					{/* Section: 회사명 */}
-					<SignupInputSection
-						id='companyName'
-						type='text'
-						title={'회사'}
-						placeholderText={'회사명을 입력해주세요.'}
-						// value={}
-						// onChange={}
-						// errorMsg={}
-						// onFocus={}
-						// onBlur={}
-						// isError={}
-					/>
-					{/* Section: 아이디 */}
-					<SignupInputSection
-						id='id'
-						type='text'
-						title={'이메일'}
-						placeholderText={'아이디를 입력해주세요.'}
-						// value={}
-						// onChange={}
-						// errorMsg={}
-						// onFocus={}
-						// onBlur={}
-						// isError={}
-					/>
+					<div className='flex flex-col gap-4 mb-[24px]'>
+						<ProfileInput />
+						<FormControl.InputControl
+							id='company'
+							title='회사'
+							name='company'
+						/>
+						<FormControl.InputControl
+							id='email'
+							title='이메일'
+							name='email'
+							disabled={true}
+							value={'@codeit.com'}
+						/>
+					</div>
 				</Dialog.Content>
 				<Dialog.ButtonContainer>
-					{/* <Button
+					<Button
 						state='default'
 						isOutlined={true}
 						isFull={true}
-						onClick={}
+						onClick={() => {}}
 						type='button'
 					>
 						취소
 					</Button>
 					<Button
-						state={state.valid ? 'default' : 'disabled'}
+						state={'default'}
 						isOutlined={false}
 						isFull={true}
-						disabled={!state.valid}
+						disabled={false}
 					>
-						리뷰 등록
-					</Button> */}
+						수정 하기
+					</Button>
 				</Dialog.ButtonContainer>
 			</Dialog>
 		</form>

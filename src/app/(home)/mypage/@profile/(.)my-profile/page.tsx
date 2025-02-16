@@ -1,5 +1,12 @@
+import { Modal } from '@/components/Modal/Modal';
+import ProfileForm from '../../components/ProfileForm/ProfileForm';
+
 function Page() {
-	return <div>프로필 slot</div>;
+	return (
+		<Modal isOpen={true}>
+			<ProfileForm />
+		</Modal>
+	);
 }
 
 export default Page;
