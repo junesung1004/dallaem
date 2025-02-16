@@ -48,7 +48,7 @@ export default function CreateMeetingForm() {
 			console.log('모임 생성 성공 :', res);
 			router.back();
 		} catch (error) {
-			console.error('모임 생성 실패 : ', error);
+			// console.error('모임 생성 실패 : ', error);
 		}
 	};
 
