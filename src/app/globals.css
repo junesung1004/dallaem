@@ -23,6 +23,13 @@
 	background-color: darkorange !important;
 }
 
+@layer components {
+	/* 카드 사이 구분선 */
+	.meeting-card + .meeting-card {
+		@apply border-t-2 border-gray-200 border-dashed mt-2;
+	}
+}
+
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: rgba(243, 244, 246, 1);
@@ -31,4 +38,13 @@ body {
 	overflow-x: hidden;
 	margin: 0;
 	padding: 0;
+}
+
+/* 버튼 full 클래스 */
+.btn-full {
+	@apply w-full;
+}
+
+.btn-default {
+	@apply max-w-64;
 }
