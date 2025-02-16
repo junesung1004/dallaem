@@ -45,7 +45,7 @@ export default function CreateMeetingForm() {
 				registrationEnd: meetingEndDate,
 			});
 
-			console.log('모임 생성 성공 :', res);
+			// console.log('모임 생성 성공 :', res);
 			router.back();
 		} catch (error) {
 			console.error('모임 생성 실패 : ', error);
