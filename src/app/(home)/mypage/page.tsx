@@ -5,6 +5,7 @@ import Members from '@/components/Members/Members';
 import Link from 'next/link';
 import GlobalModal from './components/GlobalModal';
 import Button from '@/components/Button/Button';
+import ProfileForm from './components/ProfileForm/ProfileForm';
 import CardBase from './components/CardList/CardBase';
 export interface IMeeting {
 	teamId: number;
@@ -147,6 +148,8 @@ function MyPage() {
 				</Link>
 				<GlobalModal />
 			</div>
+			<Link href={'/mypage/my-profile'}>마이페이지 열기</Link>
+			<ProfileForm />
 			MyCards
 			<div className='px-4'>
 				{mockMeetings?.map((data) => (
