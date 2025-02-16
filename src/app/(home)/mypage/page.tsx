@@ -5,6 +5,7 @@ import Members from '@/components/Members/Members';
 import Link from 'next/link';
 import GlobalModal from './components/GlobalModal';
 import Button from '@/components/Button/Button';
+import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 import ProfileForm from './components/ProfileForm/ProfileForm';
 import CardBase from './components/CardList/CardBase';
 export interface IMeeting {
@@ -175,6 +176,11 @@ function MyPage() {
 					</Link>
 				))}
 			</div>
+			Profile
+			<div className='mx-[3rem]'>
+				<ProfileHeader />
+			</div>
+			<Link href={'/mypage/my-profile'}></Link>
 		</div>
 	);
 }
