@@ -9,12 +9,15 @@ export default {
 	theme: {
 		extend: {
 			screens: {
-				xs: '343px',
+				sm: '375px',
+				md: '744px',
+				lg: '1920px',
 			},
 			fontFamily: {
 				sans: ['Pretendard', 'sans-serif'],
 			},
 			fontSize: {
+				/** 명시적으로 작성 */
 				xs: ['12px', '16px'],
 				sm: ['14px', '20px'],
 				base: ['16px', '24px'],
@@ -23,12 +26,6 @@ export default {
 				'2xl': ['24px', '32px'],
 				'3xl': ['30px', '36px'],
 			},
-			colors: {
-				background: 'var(--background)',
-				foreground: 'var(--foreground)',
-			},
-			fontWeight: {},
 		},
 	},
-	plugins: [],
 } satisfies Config;

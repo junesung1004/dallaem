@@ -1,10 +1,17 @@
-import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
-	/* config options here */
+// next.config.js
+module.exports = {
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
+	reactStrictMode: true,
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'plus.unsplash.com',
+				port: '',
+				pathname: '/*',
+			},
+		],
+	},
 };
-
-export default nextConfig;
