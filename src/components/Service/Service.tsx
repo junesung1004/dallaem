@@ -43,7 +43,6 @@ export default function ServiceSelector({
 							{/* 기본 라디오 숨기기 */}
 							<input
 								type='radio'
-								name='service'
 								id={item.id}
 								checked={selected === item.id}
 								onChange={() => handleServiceSelect(item)}

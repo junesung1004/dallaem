@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation';
 import { DateBadge } from '../Badge/DateBadge';
 import { LikeButton } from '../Button/LikeButton';
 import Card from './Card';
+import { useEffect, useState } from 'react';
+import { getMeetingData } from '@/api/meeting/getMeetingDate';
+import { CreateMeeting } from '@/types/createMeetingType';
 
 type Dummy = {
 	id: number;
@@ -23,13 +26,31 @@ const dummy: Dummy[] = [
 ];
 
 export default function CardList() {
+	const [meetings, setMeetings] = useState<CreateMeeting[]>();
+	console.log(meetings);
 	const router = useRouter();
+
+	const getMeetingListDate = async () => {
+		try {
+			const res = await getMeetingData();
+			setMeetings(res);
+		} catch (error) {
+			console.error('모임 목록 가져오기 기능 실패 : ', error);
+		}
+	};
+
+	useEffect(() => {
+		getMeetingListDate();
+	}, []);
 
 	return (
 		<div className='flex flex-col items-center gap-6'>
-			{dummy.map((el) => (
-				<Card key={el.id} isClear={el.isClear}>
-					<Card.ImageSection src='/images/imgLogin.png' alt='이미지 예시' />
+			{meetings?.map((el) => (
+				<Card key={el.id ?? 0}>
+					<Card.ImageSection
+						src={el.image ? el.image : '/images/default.png'}
+						alt='이미지 예시'
+					/>
 					<Card.Content>
 						<Card.Header>
 							{/* 왼쪽 섹션 */}
@@ -37,13 +58,27 @@ export default function CardList() {
 								title='달램핏 오피스 스트레칭 |'
 								place='을지로 3가'
 							>
-								<DateBadge text='2025-02-11T00:29:52.866Z' type='date' />
-								<DateBadge text='2025-02-11T00:29:52.866Z' type='time' />
+								<DateBadge
+									text={
+										el.dateTime
+											? new Date(el.dateTime).toLocaleString('ko-KR')
+											: ''
+									}
+									type='date'
+								/>
+								<DateBadge
+									text={
+										el.registrationEnd
+											? new Date(el.registrationEnd).toLocaleString('ko-KR')
+											: ''
+									}
+									type='time'
+								/>
 							</Card.Header.Left>
 
 							{/* 오른쪽 섹션 (찜 버튼) */}
 							<Card.Header.Right>
-								<LikeButton itemId={el.id} />
+								<LikeButton itemId={el.id ?? 0} />
 							</Card.Header.Right>
 						</Card.Header>
 						<Card.Footer

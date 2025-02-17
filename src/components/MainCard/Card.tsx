@@ -4,13 +4,14 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 import { StatusBadge } from '../Badge/StatusBadge';
 import Members from '../Members/Members';
 import { Tag } from '@/_tests/Tag';
+import { motion } from 'framer-motion';
 
 export default function Card({
 	children,
-	isClear = true,
+	isClear = false,
 }: {
 	children: React.ReactNode;
-	isClear: boolean;
+	isClear?: boolean;
 }) {
 	return (
 		<section
@@ -154,7 +155,13 @@ function Footer({
 				className={`flex gap-2 cursor-pointer text-orange-600 font-semibold`}
 			>
 				<p>join now</p>
-				<p>→</p>
+				<motion.p
+					className=''
+					animate={{ x: [0, 4, 0] }} // X축으로 3px 이동 후 원위치
+					transition={{ repeat: Infinity, duration: 0.8, ease: 'easeInOut' }}
+				>
+					→
+				</motion.p>
 			</div>
 		</div>
 	);

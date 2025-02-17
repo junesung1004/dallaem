@@ -1,4 +1,4 @@
-import { createMeeting } from '@/api/createMeeting';
+import { createMeeting } from '@/api/meeting/createMeeting';
 import Button from '@/app/(home)/_components/Button';
 import { CalenderTime } from '@/components/Calendar/CalenderTime';
 import ServiceSelector from '@/components/Service/Service';
@@ -10,7 +10,8 @@ export default function CreateMeetingForm() {
 	const {
 		meetingName,
 		meetingPlace,
-		meetingImageFile,
+		// meetingImageFile,
+		meetingImageFileName,
 		meetingSelectedService,
 		meetingStartDate,
 		meetingEndDate,
@@ -29,20 +30,25 @@ export default function CreateMeetingForm() {
 		handleEndDateChange,
 	} = useMeetingForm();
 
+	// console.log('meetingImageFile : ', meetingImageFile);
+
 	const router = useRouter();
 
-	const clickUpdateMeetingHandler = async (e: React.FormEvent) => {
+	const clickUpdateMeetingHandler = async (
+		e: React.FormEvent<HTMLFormElement>,
+	) => {
 		e.preventDefault();
 
-		const formData = new FormData();
+		const formData = new FormData(e.currentTarget);
 		formData.append('location', meetingPlace);
 		formData.append('type', meetingSelectedService || '');
 		formData.append('name', meetingName);
 		formData.append('dateTime', meetingStartDate?.toISOString() || '');
 		formData.append('capacity', String(meetingPeople));
 		formData.append('registrationEnd', meetingEndDate?.toISOString() || '');
-		if (meetingImageFile) {
-			formData.append('image', meetingImageFile);
+
+		for (const [name, value] of formData) {
+			console.log(`${name} = ${value}`); // key1 = value1, then key2 = value2
 		}
 
 		try {
@@ -50,6 +56,7 @@ export default function CreateMeetingForm() {
 			console.log('모임 생성 성공 :', res);
 			router.back();
 		} catch (error) {
+			throw new Error();
 			console.error('모임 생성 실패 : ', error);
 		}
 	};
@@ -106,20 +113,20 @@ export default function CreateMeetingForm() {
 						<InputWindow
 							placeholderText='이미지를 첨부해주세요'
 							onChange={(e) => meetingImageTextChangeHandler(e)}
-							value={meetingImageFile ? meetingImageFile.name : ''}
+							value={meetingImageFileName ?? ''}
 							id='meeting-image'
 						/>
 					</div>
 
 					<div
-						onClick={() => document.getElementById('picture')?.click()}
+						onClick={() => document.getElementById('image')?.click()}
 						className='flex items-center font-medium justify-center  ml-4 w-[100px] h-[40px] border rounded-xl text-orange-500 border-orange-500 cursor-pointer'
 					>
 						파일 찾기
 						<input
 							type='file'
-							id='picture'
-							name='picture'
+							id='image'
+							name='image'
 							accept='image/*'
 							className='hidden'
 							onChange={meetingImageTextChangeHandler}

@@ -4,7 +4,10 @@ export function useMeetingForm() {
 	//상태값 state
 	const [meetingName, setMeetingName] = useState<string>('');
 	const [meetingPlace, setMeetingPlace] = useState<string>('');
-	const [meetingImageFile, setMeetingImageFile] = useState<File | null>(null);
+	// const [meetingImageFile, setMeetingImageFile] = useState<string | null>(null);
+	const [meetingImageFileName, setMeetingImageFileName] = useState<
+		string | null
+	>(null);
 	const [meetingSelectedService, setMeetingSelectedService] = useState<
 		string | null
 	>(null);
@@ -115,21 +118,37 @@ export function useMeetingForm() {
 		setMeetingPlace(e.target.value);
 	};
 
+	// const convertFileToBase64 = (file: File): Promise<string> => {
+	// 	return new Promise((resolve, reject) => {
+	// 		const reader = new FileReader();
+	// 		reader.readAsDataURL(file);
+	// 		reader.onload = () => resolve(reader.result as string);
+	// 		reader.onerror = (error) => reject(error);
+	// 	});
+	// };
+
 	//모임 이미지
-	const meetingImageTextChangeHandler = (
+
+	const meetingImageTextChangeHandler = async (
 		e: React.ChangeEvent<HTMLInputElement>,
 	) => {
 		const file = e.target.files?.[0];
 
-		const MAX_FILE_SIZE = 102400; // 100 KB
+		// const MAX_FILE_SIZE = 102400; // 100 KB
 
-		if (file && file.size > MAX_FILE_SIZE) {
-			alert('파일 크기가 너무 큽니다. 최대 100KB 이하로 업로드 해주세요.');
-			return;
-		}
+		// if (file && file.size > MAX_FILE_SIZE) {
+		// 	alert('파일 크기가 너무 큽니다. 최대 100KB 이하로 업로드 해주세요.');
+		// 	return;
+		// }
 
-		if (file) {
-			setMeetingImageFile(file);
+		try {
+			if (file) {
+				// const base64Image = await convertFileToBase64(file);
+				setMeetingImageFileName(file.name);
+				// setMeetingImageFile(file);
+			}
+		} catch (error) {
+			console.error('파일 업로드 에러 : ', error);
 		}
 	};
 
@@ -159,7 +178,6 @@ export function useMeetingForm() {
 	const isFormValid =
 		meetingName &&
 		meetingPlace &&
-		meetingImageFile &&
 		meetingSelectedService &&
 		meetingStartDate &&
 		meetingEndDate &&
@@ -172,7 +190,7 @@ export function useMeetingForm() {
 	return {
 		meetingName,
 		meetingPlace,
-		meetingImageFile,
+		meetingImageFileName,
 		meetingSelectedService,
 		meetingStartDate,
 		meetingEndDate,
