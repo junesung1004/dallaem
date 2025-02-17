@@ -1,21 +1,18 @@
 import Image from 'next/image';
 import React from 'react';
-import ProgressBar from '../ProgressBar/ProgressBar';
-import { StatusBadge } from '../Badge/StatusBadge';
-import Members from '../Members/Members';
 import { Tag } from '@/_tests/Tag';
 import { motion } from 'framer-motion';
 
 export default function Card({
 	children,
-	isClear = true,
+	isClear = false,
 }: {
 	children: React.ReactNode;
-	isClear: boolean;
+	isClear?: boolean;
 }) {
 	return (
 		<section
-			className={`flex flex-col sm:flex-row h-[316px] sm:h-[156px] w-full sm:w-[343px] sm:w-full xl:w-[996px] border-2 rounded-[24px] mt-6 relative overflow-hidden
+			className={`flex flex-col md:flex-row h-[316px] md:h-[156px] w-full  border-2 rounded-[24px] mt-6 relative overflow-hidden
 				`}
 		>
 			{children}
@@ -65,7 +62,7 @@ function ImageSection({ src, alt }: { src: string; alt: string }) {
 	return (
 		// 이미지
 		<div
-			className={`w-[343px] sm:w-[280px] h-full relative bg-white sm:border-r-2`}
+			className={`sm:w-full md:w-[256px] h-full relative bg-white sm:border-r-2`}
 		>
 			<Image
 				alt={alt}
@@ -124,30 +121,18 @@ Header.Right = function Right({ children }: { children?: React.ReactNode }) {
 
 // 카드 하단 정보(진행 상태)
 function Footer({
-	max,
-	value,
 	onClick,
+	children,
 }: {
 	max: number;
 	value: number;
 	onClick: () => void;
+	children: React.ReactNode;
 }) {
 	return (
 		<div className={'flex justify-between gap-10 items-center mt-5'}>
 			{/* 왼쪽 레이아웃 */}
-			<div className='flex flex-col flex-1 gap-2'>
-				<div className='flex gap-2'>
-					<Members max={20} value={14} />
-					<StatusBadge />
-				</div>
-
-				<ProgressBar
-					max={max}
-					value={value}
-					isNeutral={false}
-					isAnimate={false}
-				/>
-			</div>
+			<div className='flex flex-col flex-1 gap-2'>{children}</div>
 
 			{/* 오른쪽 버튼 */}
 			<div

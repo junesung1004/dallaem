@@ -23,7 +23,7 @@ export const CalenderTime = ({
 	return (
 		<DatePicker
 			selected={startDate}
-			onChange={(date) => {
+			onChange={(date: Date | null) => {
 				setStartDate(date);
 				if (onDateChange) {
 					onDateChange(date); // 부모 컴포넌트에도 변경된 값 전달
@@ -39,7 +39,7 @@ export const CalenderTime = ({
 			]}
 			dateFormat='yyyy-MM-dd h:mm aa'
 			showIcon
-			className='border border-gray-300 rounded-lg p-2'
+			className='border border-gray-300 rounded-lg text-center cursor-pointer sm:flex xs:w-[300px] mr-4'
 		/>
 	);
 };
