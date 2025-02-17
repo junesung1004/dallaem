@@ -118,7 +118,6 @@ export function useMeetingForm() {
 		setMeetingPlace(e.target.value);
 	};
 
-	// const convertFileToBase64 = (file: File): Promise<string> => {
 	// 	return new Promise((resolve, reject) => {
 	// 		const reader = new FileReader();
 	// 		reader.readAsDataURL(file);
@@ -133,13 +132,6 @@ export function useMeetingForm() {
 		e: React.ChangeEvent<HTMLInputElement>,
 	) => {
 		const file = e.target.files?.[0];
-
-		// const MAX_FILE_SIZE = 102400; // 100 KB
-
-		// if (file && file.size > MAX_FILE_SIZE) {
-		// 	alert('파일 크기가 너무 큽니다. 최대 100KB 이하로 업로드 해주세요.');
-		// 	return;
-		// }
 
 		try {
 			if (file) {

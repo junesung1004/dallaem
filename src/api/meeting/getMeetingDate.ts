@@ -1,6 +1,8 @@
 export const getMeetingData = async () => {
 	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings`);
+		const res = await fetch(
+			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=5&offset=13`,
+		);
 
 		if (!res.ok) {
 			throw new Error(`서버 오류: ${res.status} ${res.statusText}`);

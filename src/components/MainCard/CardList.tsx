@@ -7,28 +7,15 @@ import Card from './Card';
 import { useEffect, useState } from 'react';
 import { getMeetingData } from '@/api/meeting/getMeetingDate';
 import { CreateMeeting } from '@/types/createMeetingType';
-
-type Dummy = {
-	id: number;
-	isClear: boolean;
-};
-
-const dummy: Dummy[] = [
-	{ id: 1, isClear: false },
-	{ id: 2, isClear: true },
-	{ id: 3, isClear: false },
-	{ id: 4, isClear: true },
-	{ id: 5, isClear: false },
-	{ id: 6, isClear: false },
-	{ id: 7, isClear: true },
-	{ id: 8, isClear: false },
-	{ id: 9, isClear: false },
-];
+import Members from '../Members/Members';
+import { StatusBadge } from '../Badge/StatusBadge';
+import ProgressBar from '../ProgressBar/ProgressBar';
 
 export default function CardList() {
 	const [meetings, setMeetings] = useState<CreateMeeting[]>();
-	console.log(meetings);
 	const router = useRouter();
+
+	console.log('meetings : ', meetings);
 
 	const getMeetingListDate = async () => {
 		try {
@@ -60,17 +47,18 @@ export default function CardList() {
 							>
 								<DateBadge
 									text={
-										el.dateTime
-											? new Date(el.dateTime).toLocaleString('ko-KR')
+										el.dateTime && !isNaN(new Date(el.dateTime).getTime())
+											? new Date(el.dateTime).toLocaleDateString('ko-KR')
 											: ''
 									}
 									type='date'
 								/>
+
 								<DateBadge
 									text={
 										el.registrationEnd
-											? new Date(el.registrationEnd).toLocaleString('ko-KR')
-											: ''
+											? new Date(el.registrationEnd).toISOString() // Date 객체를 string으로 변환
+											: '유효하지 않은 시간'
 									}
 									type='time'
 								/>
@@ -87,7 +75,18 @@ export default function CardList() {
 							onClick={() => {
 								router.push(`meeting/${el.id}`);
 							}}
-						/>
+						>
+							<div className='flex gap-2'>
+								<Members max={el.capacity ?? 0} value={2} />
+								<StatusBadge />
+							</div>
+							<ProgressBar
+								max={10}
+								value={el.capacity ?? 0}
+								isNeutral={false}
+								isAnimate={false}
+							/>
+						</Card.Footer>
 					</Card.Content>
 				</Card>
 			))}
