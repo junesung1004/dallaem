@@ -12,6 +12,11 @@ interface PageNavData {
 	subItems?: PageNavData[];
 }
 
+interface FilteringData {
+	label: string;
+	value: string;
+}
+
 export const PAGE_INFO: Record<string, PageInfoData> = {
 	meetings: {
 		title: '함께 할 사람이 없나요?',
@@ -87,6 +92,65 @@ export const NAV_DATA: Record<string, PageNavData[]> = {
 			id: 'createdMeetings',
 			label: '내가 만든 모임',
 			active: false,
+		},
+	],
+};
+
+export const FITERING_DATA: Record<string, FilteringData[]> = {
+	location: [
+		{
+			label: '지역 전체',
+			value: '',
+		},
+		{
+			label: '건대입구',
+			value: '건대입구',
+		},
+		{
+			label: '을지로 3가',
+			value: '을지로 3가',
+		},
+		{
+			label: '신림',
+			value: '신림',
+		},
+		{
+			label: '홍대입구',
+			value: '홍대입구',
+		},
+	],
+	date: [
+		{
+			label: '날짜 전체',
+			value: '',
+		},
+	],
+	sortByMeeting: [
+		{
+			label: '날짜 순',
+			value: 'dateTime',
+		},
+		{
+			label: '마감 임박',
+			value: 'registrationEnd',
+		},
+		{
+			label: '참여 인원 순',
+			value: 'participantCount',
+		},
+	],
+	sortByReview: [
+		{
+			label: '최신 순',
+			value: 'createdAt',
+		},
+		{
+			label: '평점 높은 순',
+			value: 'score',
+		},
+		{
+			label: '참여 인원 순',
+			value: 'participantCount',
 		},
 	],
 };
