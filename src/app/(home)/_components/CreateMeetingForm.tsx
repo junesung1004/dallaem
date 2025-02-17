@@ -10,7 +10,7 @@ export default function CreateMeetingForm() {
 	const {
 		meetingName,
 		meetingPlace,
-		meetingImage,
+		meetingImageFile,
 		meetingSelectedService,
 		meetingStartDate,
 		meetingEndDate,
@@ -34,21 +34,23 @@ export default function CreateMeetingForm() {
 	const clickUpdateMeetingHandler = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		try {
-			const res = await createMeeting({
-				location: meetingPlace,
-				type: meetingSelectedService,
-				name: meetingName,
-				dateTime: meetingStartDate,
-				capacity: meetingPeople,
-				image: meetingImage,
-				registrationEnd: meetingEndDate,
-			});
+		const formData = new FormData();
+		formData.append('location', meetingPlace);
+		formData.append('type', meetingSelectedService || '');
+		formData.append('name', meetingName);
+		formData.append('dateTime', meetingStartDate?.toISOString() || '');
+		formData.append('capacity', String(meetingPeople));
+		formData.append('registrationEnd', meetingEndDate?.toISOString() || '');
+		if (meetingImageFile) {
+			formData.append('image', meetingImageFile);
+		}
 
+		try {
+			const res = await createMeeting(formData);
 			console.log('모임 생성 성공 :', res);
 			router.back();
 		} catch (error) {
-			// console.error('모임 생성 실패 : ', error);
+			console.error('모임 생성 실패 : ', error);
 		}
 	};
 
@@ -71,7 +73,7 @@ export default function CreateMeetingForm() {
 					value={meetingName}
 					id='meeting-name'
 				/>
-				<div className='text-red-600 text-sm mb-1 ml-2'>
+				<div className='text-red-600 text-sm mb-1 ml-2 py-'>
 					{nameValid && meetingName.length > 0 && (
 						<div>모임 이름은 2~8자 사이로 한글 또는 영문만 가능합니다.</div>
 					)}
@@ -104,7 +106,7 @@ export default function CreateMeetingForm() {
 						<InputWindow
 							placeholderText='이미지를 첨부해주세요'
 							onChange={(e) => meetingImageTextChangeHandler(e)}
-							value={meetingImage}
+							value={meetingImageFile ? meetingImageFile.name : ''}
 							id='meeting-image'
 						/>
 					</div>

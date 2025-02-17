@@ -1,14 +1,6 @@
 import { CreateMeeting } from '@/types/createMeetingType';
 
-export const createMeeting = async ({
-	location,
-	type,
-	name,
-	dateTime,
-	capacity,
-	image,
-	registrationEnd,
-}: CreateMeeting) => {
+export const createMeeting = async (formData: FormData) => {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings`,
 		{
@@ -17,15 +9,7 @@ export const createMeeting = async ({
 				'Content-Type': 'application/json',
 				Authorization: `Beare ${process.env.NEXT_PUBLIC_API_TOKEN}`,
 			},
-			body: JSON.stringify({
-				location,
-				type,
-				name,
-				dateTime,
-				capacity,
-				image,
-				registrationEnd,
-			}),
+			body: formData,
 		},
 	);
 

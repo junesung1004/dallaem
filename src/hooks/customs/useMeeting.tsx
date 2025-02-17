@@ -4,7 +4,7 @@ export function useMeetingForm() {
 	//상태값 state
 	const [meetingName, setMeetingName] = useState<string>('');
 	const [meetingPlace, setMeetingPlace] = useState<string>('');
-	const [meetingImage, setMeetingImage] = useState<string>('');
+	const [meetingImageFile, setMeetingImageFile] = useState<File | null>(null);
 	const [meetingSelectedService, setMeetingSelectedService] = useState<
 		string | null
 	>(null);
@@ -119,8 +119,17 @@ export function useMeetingForm() {
 	const meetingImageTextChangeHandler = (
 		e: React.ChangeEvent<HTMLInputElement>,
 	) => {
-		if (e.target.files && e.target.files.length > 0) {
-			setMeetingImage(e.target.files[0].name);
+		const file = e.target.files?.[0];
+
+		const MAX_FILE_SIZE = 102400; // 100 KB
+
+		if (file && file.size > MAX_FILE_SIZE) {
+			alert('파일 크기가 너무 큽니다. 최대 100KB 이하로 업로드 해주세요.');
+			return;
+		}
+
+		if (file) {
+			setMeetingImageFile(file);
 		}
 	};
 
@@ -150,7 +159,7 @@ export function useMeetingForm() {
 	const isFormValid =
 		meetingName &&
 		meetingPlace &&
-		meetingImage &&
+		meetingImageFile &&
 		meetingSelectedService &&
 		meetingStartDate &&
 		meetingEndDate &&
@@ -163,7 +172,7 @@ export function useMeetingForm() {
 	return {
 		meetingName,
 		meetingPlace,
-		meetingImage,
+		meetingImageFile,
 		meetingSelectedService,
 		meetingStartDate,
 		meetingEndDate,
