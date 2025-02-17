@@ -42,7 +42,7 @@ export function Modal({
 				<div className=''>
 					<dialog
 						ref={dialogRef}
-						className={`p-4 rounded-md ${backDrop} relative`}
+						className={`p-4 rounded-md ${backDrop} fixed`}
 					>
 						<button onClick={onDismiss} className='absolute m-4 top-0 right-0'>
 							<Image src='/icons/X.png' alt='닫기' width={20} height={20} />

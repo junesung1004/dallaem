@@ -15,19 +15,26 @@ const HeartRatingsInteractive = dynamic(
 interface HeartRatingsProps {
 	rating: number;
 	maxHearts: number;
-	isInteractive?: boolean; // 클라이언트인지 서버 컴포넌트인지 결정하는 prop
+	// isInteractive?: boolean; // 클라이언트인지 서버 컴포넌트인지 결정하는 prop
+	handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function HeartRatings({
 	rating,
 	maxHearts,
-	isInteractive,
+	handleChange,
 }: HeartRatingsProps) {
-	if (!isInteractive) {
+	if (!handleChange) {
 		// 서버에서는 정적 평점 UI만 렌더링
 		return <HeartList rating={rating} maxHearts={maxHearts} />;
 	}
 
 	// 클라이언트에서는 동적으로 평점 인터랙티브 UI 렌더링
-	return <HeartRatingsInteractive rating={0} maxHearts={maxHearts} />;
+	return (
+		<HeartRatingsInteractive
+			rating={0}
+			maxHearts={maxHearts}
+			handleChange={handleChange}
+		/>
+	);
 }
