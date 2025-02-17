@@ -7,7 +7,7 @@ type Props = {
 
 export default function Layout({ children, createmodal }: Props) {
 	return (
-		<main className='w-full relative lg:w-[996px] xl:w-[1198px] min-h-screen mx-auto bg-white'>
+		<main className='px-4 md:px-6 lg:px-[106px] bg-white mx-auto max-w-[1200px] py-10'>
 			{createmodal}
 			{children}
 		</main>

@@ -30,12 +30,17 @@
 	}
 }
 
+* {
+	--scrollbar-width: 24px;
+}
+
 body {
-	font-family: Arial, Helvetica, sans-serif;
+	/* font-family: Arial, Helvetica, sans-serif; */
 	background-color: rgba(243, 244, 246, 1);
-	width: 100dvw;
+	/* width: 100dvw; */
+	/* width: calc(100dvw - var(--scrollbar-width)); */
 	min-height: 100dvh;
-	overflow-x: hidden;
+	/* overflow-x: hidden; */
 	margin: 0;
 	padding: 0;
 }
