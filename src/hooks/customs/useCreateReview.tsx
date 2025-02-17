@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { useGlobalModal } from './useGlobalModal';
+import { useParams } from 'next/navigation';
+import { createReview } from '@/api/reivews';
 
-interface IReviewState {
+export interface IReviewState {
 	valid: boolean;
 	comment: string;
 	score: number;
@@ -12,6 +14,7 @@ interface IReviewState {
 export function useCreateReview(initialState: IReviewState) {
 	const [state, setState] = useState(initialState);
 	const { openModal, closeAllModal } = useGlobalModal(); // 전역 모달 제어
+	const params = useParams<{ id: string }>();
 
 	/** 유효성 검사 */
 	const validate = (
@@ -53,8 +56,12 @@ export function useCreateReview(initialState: IReviewState) {
 	};
 
 	// form submit 핸들러 함수
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		const res = await createReview(params?.id, state);
+		if (res) {
+			closeAllModal();
+		}
 
 		// const formData = new FormData(e.currentTarget);
 
