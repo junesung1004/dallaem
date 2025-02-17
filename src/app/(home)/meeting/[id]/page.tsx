@@ -115,7 +115,7 @@ const DummyData: DummyDataType[] = [
 
 export default function DetailPage() {
 	return (
-		<div className='px-28 py-12'>
+		<div className='px-28 py-12 min-h-screen'>
 			<div className='flex flex-wrap gap-7 justify-center w-full'>
 				<div className='flex-1 w-full min-w-[300px] h-72'>
 					<div className='overflow-hidden border-[2px] border-gray-200 shadow-md rounded-3xl '>
@@ -143,7 +143,7 @@ export default function DetailPage() {
 			<div>
 				<Pagination data={DummyData} />
 			</div>
-			<div className='fixed bottom-0 left-0 w-full'>
+			<div className='fixed bottom-0 left-0 w-full '>
 				<Footer createdBy={DummyData[0].createdBy} />
 			</div>
 		</div>
