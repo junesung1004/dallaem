@@ -1,3 +1,4 @@
+import type { IUser } from '@/types/userType';
 import { jwtDecode } from 'jwt-decode';
 
 //함수: 토큰 디코딩하여 시간 만료되었는지 유효성 검증
@@ -14,7 +15,7 @@ const isTokenExpired = (token: string): boolean => {
 	}
 };
 //함수: 로그인 된 유저데이터를 fetch함. 토큰 만료 확인함
-const getUserData = async () => {
+const getUserData = async (): Promise<IUser> => {
 	const token = localStorage.getItem('authToken'); // 저장된 토큰 가져오기
 	// 토큰이 없으면 에러 처리
 	if (token === null) {
@@ -46,7 +47,8 @@ const getUserData = async () => {
 
 	const data = await response.json();
 	console.log(data);
-	return true;
+	// return true;
+	return data;
 };
 
 export { isTokenExpired, getUserData };
