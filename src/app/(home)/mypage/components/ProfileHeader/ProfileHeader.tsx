@@ -1,7 +1,19 @@
 import Link from 'next/link';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
+import Image from 'next/image';
+import type { IUser } from '@/types/userType';
 
-function ProfileHeader() {
+export type ProfileHeaderProps = Pick<
+	IUser,
+	'name' | 'companyName' | 'image' | 'email'
+>;
+
+function ProfileHeader({
+	name,
+	companyName,
+	image,
+	email,
+}: ProfileHeaderProps) {
 	return (
 		<section className='border border-2 border-gray-200 rounded-3xl overflow-hidden'>
 			<div className='bg-orange-400 flex items-center justify-between pl-6 pr-4 py-4'>
@@ -17,16 +29,21 @@ function ProfileHeader() {
 				/>
 			</span>
 			<div className='bg-white flex pl-4 gap-2'>
-				<div>
+				{!image && (
 					<ProfileIcon.Avatar size='small' className='relative bottom-5' />
-				</div>
-				<div className='pb-5 flex flex-col gap-2'>
-					<strong>사용자 이름</strong>
+				)}
+				{!!image && (
+					<div className='relative bottom-5 border border-2 border-white max-h-[56px] basis-[56px] rounded-full overflow-hidden'>
+						<Image src={image} alt='' fill className='object-cover' />
+					</div>
+				)}
+				<div className='pb-5 flex flex-col gap-2 grow-1'>
+					<strong>{name}</strong>
 					<dl className='grid grid-cols-[max-content_auto] gap-x-4 gap-y-1 items-center'>
 						<dt className='after:content-["."] text-sm font-medium'>company</dt>
-						<dd>코드잇</dd>
+						<dd>{companyName}</dd>
 						<dt className='after:content-["."] text-sm font-medium'>E-mail</dt>
-						<dd>@codeit.com</dd>
+						<dd>{email}</dd>
 					</dl>
 				</div>
 			</div>
