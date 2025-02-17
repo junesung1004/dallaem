@@ -15,7 +15,7 @@ export default function Card({
 }) {
 	return (
 		<section
-			className={`flex flex-col sm:flex-row h-[316px] sm:h-[156px] w-full xs:w-[343px] sm:w-full xl:w-[996px] border-2 rounded-[24px] mt-6 relative overflow-hidden
+			className={`flex flex-col sm:flex-row h-[316px] sm:h-[156px] w-full sm:w-[343px] sm:w-full xl:w-[996px] border-2 rounded-[24px] mt-6 relative overflow-hidden
 				`}
 		>
 			{children}

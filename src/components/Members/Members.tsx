@@ -1,9 +1,10 @@
 interface MembersProps {
 	max: number;
 	value: number;
+	highLight?: 'on' | 'off';
 }
 
-function Members({ max, value }: MembersProps) {
+function Members({ max, value, highLight }: MembersProps) {
 	let maxCount = max;
 	let curCount = value;
 	const styleProp = {
@@ -25,8 +26,11 @@ function Members({ max, value }: MembersProps) {
 	// 들어온 값이 최대 인원을 초과할 경우 최대 인원까지만 표시
 	if (value >= max) {
 		curCount = Math.min(...[max, value].map((num) => Math.floor(num)));
-		styleProp.fillColor = 'fill-orange-400';
-		styleProp.textColor = 'text-orange-400';
+		// heighLight 값이 지정되지 않으면 기본 유지
+		styleProp.fillColor =
+			highLight === 'off' ? styleProp.fillColor : 'fill-orange-400';
+		styleProp.textColor =
+			highLight === 'off' ? styleProp.textColor : 'text-orange-400';
 	}
 
 	return (
