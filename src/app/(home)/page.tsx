@@ -2,10 +2,12 @@ import Button from '@/app/_tests/Button';
 import CardList from '../components/cardlist/CardList';
 import PageInfo from '../components/PageInfo/PageInfo';
 import PageNavbar from '../components/PageNav/PageNavbar';
+import { CalenderImage } from '../components/Calendar/CalenderImage';
 
 export default async function Home() {
 	return (
 		<div className='mx-auto px-5 sm:px-16 xl:px-0 py-10  w-full xl:w-[996px] '>
+			<CalenderImage />
 			{/* 함께 할 사람이 없나요? */}
 			<PageInfo pageKey='meetings' />
 
