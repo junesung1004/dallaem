@@ -17,8 +17,8 @@ export default function ServiceSelector({
 	// console.log('selected : ', selected);
 
 	const services = [
-		{ id: 'OFFICE_STRETCHING', name: '달랭핏', description: '오피스 스트레칭' },
-		{ id: 'MINDFULNESS', name: '달랭핏', description: '마인드풀니스' },
+		{ id: 'OFFICE_STRETCHING', name: '달램핏', description: '오피스 스트레칭' },
+		{ id: 'MINDFULNESS', name: '달램핏', description: '마인드풀니스' },
 		{ id: 'WORKATION', name: '워크에이션', description: '리프레쉬' },
 	];
 

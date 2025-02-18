@@ -10,12 +10,13 @@ import { CreateMeeting } from '@/types/createMeetingType';
 import Members from '../Members/Members';
 import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
+import { DeadlineBadge } from '../Badge/DeadlineBadge';
 
 export default function CardList() {
 	const [meetings, setMeetings] = useState<CreateMeeting[]>();
 	const router = useRouter();
 
-	console.log('meetings : ', meetings);
+	// console.log('meetings : ', meetings);
 
 	const getMeetingListDate = async () => {
 		try {
@@ -34,16 +35,34 @@ export default function CardList() {
 		<div className='flex flex-col items-center gap-6'>
 			{meetings?.map((el) => (
 				<Card key={el.id ?? 0}>
-					<Card.ImageSection
-						src={el.image ? el.image : '/images/default.png'}
-						alt='이미지 예시'
-					/>
+					<Card.ImageContainer>
+						<Card.ImageSection
+							src={el.image ? el.image : '/images/default.png'}
+							alt='이미지 예시'
+						/>
+						<DeadlineBadge
+							registrationEnd={
+								el.registrationEnd
+									? new Date(el.registrationEnd).toISOString()
+									: '유효하지 않은 시간'
+							}
+						/>
+					</Card.ImageContainer>
+
 					<Card.Content>
 						<Card.Header>
 							{/* 왼쪽 섹션 */}
 							<Card.Header.Left
-								title='달램핏 오피스 스트레칭 |'
-								place='을지로 3가'
+								title={
+									el.type === 'OFFICE_STRETCHING'
+										? '달램핏 마인드풀니스 |'
+										: el.type === 'MINDFULNESS'
+											? '달램핏 마인드풀니스 |'
+											: el.type === 'WORKATION'
+												? '워크에이션 리프레쉬 |'
+												: ''
+								}
+								place={el.location}
 							>
 								<DateBadge
 									text={
