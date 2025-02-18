@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import { Tag } from '@/_tests/Tag';
+
 import { motion } from 'framer-motion';
 
 export default function Card({
@@ -57,13 +57,14 @@ export default function Card({
 	);
 }
 
+function ImageContainer({ children }: { children: React.ReactNode }) {
+	return <div className='relative'>{children}</div>;
+}
+
 //이미지 섹션
 function ImageSection({ src, alt }: { src: string; alt: string }) {
 	return (
-		// 이미지
-		<div
-			className={`sm:w-full md:w-[256px] h-full relative bg-white sm:border-r-2`}
-		>
+		<div className='sm:w-full w-[300px] md:w-[256px] h-[156px] bg-white sm:border-r-2'>
 			<Image
 				alt={alt}
 				src={src}
@@ -72,7 +73,6 @@ function ImageSection({ src, alt }: { src: string; alt: string }) {
 				className='h-full w-full object-cover'
 				sizes='(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw'
 			/>
-			<Tag text={'오늘 21시 마감'} isPosition />
 		</div>
 	);
 }
@@ -153,7 +153,8 @@ function Footer({
 }
 
 // 컴파운드 패턴 적용
-Card.ImageSection = ImageSection;
+Card.ImageContainer = ImageContainer;
+Card.ImageSection = ImageSection; // 새로운 이름으로 할당
 Card.Content = Content;
 Card.Header = Header;
 Card.Footer = Footer;

@@ -10,6 +10,7 @@ import { CreateMeeting } from '@/types/createMeetingType';
 import Members from '../Members/Members';
 import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
+import { DeadlineBadge } from '../Badge/DeadlineBadge';
 
 export default function CardList() {
 	const [meetings, setMeetings] = useState<CreateMeeting[]>();
@@ -34,10 +35,14 @@ export default function CardList() {
 		<div className='flex flex-col items-center gap-6'>
 			{meetings?.map((el) => (
 				<Card key={el.id ?? 0}>
-					<Card.ImageSection
-						src={el.image ? el.image : '/images/default.png'}
-						alt='이미지 예시'
-					/>
+					<Card.ImageContainer>
+						<Card.ImageSection
+							src={el.image ? el.image : '/images/default.png'}
+							alt='이미지 예시'
+						/>
+						<DeadlineBadge registrationEnd={el.registrationEnd} />
+					</Card.ImageContainer>
+
 					<Card.Content>
 						<Card.Header>
 							{/* 왼쪽 섹션 */}
