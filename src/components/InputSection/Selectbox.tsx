@@ -3,6 +3,7 @@ interface SelectboxInterface {
 	values: string[];
 	id?: string;
 	className?: string;
+	onChange?: () => void;
 }
 
 const Selectbox = ({
@@ -10,6 +11,7 @@ const Selectbox = ({
 	values,
 	id,
 	className,
+	onChange,
 }: SelectboxInterface) => {
 	return (
 		<div className={`w-full aspect-[460/50] mx-auto m-3 `}>
@@ -17,7 +19,11 @@ const Selectbox = ({
 				name={placeholderText}
 				id={id || undefined}
 				className={`w-full h-full outline-none text-base bg-gray-50 px-3 rounded-xl ${className || ''}`}
+				onChange={onChange}
 			>
+				<option disabled hidden selected>
+					{placeholderText}
+				</option>
 				{values.map((value, index) => (
 					<option key={index} value={value}>
 						{value}
