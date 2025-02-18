@@ -42,8 +42,16 @@ export default function CardList() {
 						<Card.Header>
 							{/* 왼쪽 섹션 */}
 							<Card.Header.Left
-								title='달램핏 오피스 스트레칭 |'
-								place='을지로 3가'
+								title={
+									el.type === 'OFFICE_STRETCHING'
+										? '달램핏 마인드풀니스 |'
+										: el.type === 'MINDFULNESS'
+											? '달램핏 마인드풀니스 |'
+											: el.type === 'WORKATION'
+												? '워크에이션 리프레쉬 |'
+												: ''
+								}
+								place={el.location}
 							>
 								<DateBadge
 									text={

@@ -105,7 +105,7 @@ Header.Left = function Left({
 	return (
 		<div className='flex flex-col gap-1'>
 			<div className='flex items-center gap-2'>
-				<div className='font-semibold'>{title}</div>
+				<div className='font-semibold text-sm md:text-base'>{title}</div>
 				<div className='text-sm'>{place}</div>
 			</div>
 			<div className='flex gap-2'>{children}</div>
