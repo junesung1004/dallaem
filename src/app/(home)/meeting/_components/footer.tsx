@@ -38,7 +38,8 @@ export function Footer({ createdBy }: { createdBy: number }) {
 	return (
 		<div>
 			<div
-				className={`flex justify-between p-3 bg-gray-100 md:flex-row ${isOwner ? 'xs:flex-col ' : ''} 2xl:px-96 xl:px-72 lg:px-64 md:px-36 xs:items-center`}
+				className={`flex p-3 md:justify-between shrink-0
+					 bg-gray-100 border-t-2 border-black ${isOwner ? 'gap-3 flex-wrap justify-center items-center' : 'justify-between flex-nowrap'} 2xl:px-96 xl:px-72 lg:px-64 md:px-36 xs:items-center`}
 			>
 				<div className='text-start xs:mb-2'>
 					<div className='font-bold text-sm'>
@@ -67,7 +68,7 @@ export function Footer({ createdBy }: { createdBy: number }) {
 					<button
 						onClick={handleJoinClick}
 						disabled={isJoinDisabled}
-						className={`px-5 py-2 rounded-xl text-sm transition-colors ${
+						className={`px-5 py-2 rounded-xl text-sm transition-colors whitespace-nowrap max-h-[40px] ${
 							isJoinDisabled
 								? 'bg-gray-400 text-white cursor-not-allowed'
 								: 'bg-orange-600 text-white'
