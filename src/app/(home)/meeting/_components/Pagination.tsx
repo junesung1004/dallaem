@@ -1,32 +1,25 @@
 'use client';
-import React, { useState } from 'react';
-import { DummyDataType } from '@/types/paginationType';
+
+import React from 'react';
 import Image from 'next/image';
+import { PaginationReviewProps } from '@/types/paginationType';
 
-interface PaginationProps {
-	data: DummyDataType[];
-}
-
-export function Pagination({ data }: PaginationProps) {
-	const [currentPage, setCurrentPage] = useState(1);
-	const totalPages = Math.ceil(data.length / 4);
-
-	const startIndex = (currentPage - 1) * 4;
-	const endIndex = startIndex + 4;
-	const currentData = data.slice(startIndex, endIndex);
-
-	const handlePageChange = (page: number) => {
-		setCurrentPage(page);
-	};
-
+export function Pagination({
+	currentData,
+	currentPage,
+	totalPages,
+	onPageChange,
+}: PaginationReviewProps) {
 	return (
 		<div>
 			<ul>
-				{currentData.map((item) => (
-					<li key={item.id}>
-						<div>{item.name}</div>
-						<div>{item.location}</div>
-						<hr />
+				{currentData.map((review) => (
+					<li key={review.id} className='mb-4'>
+						<div className='font-bold'>{review.comment}</div>
+						<div className='text-sm text-gray-500'>
+							{review.Gathering.location}
+						</div>
+						<hr className='mt-2' />
 					</li>
 				))}
 			</ul>
@@ -34,7 +27,7 @@ export function Pagination({ data }: PaginationProps) {
 			{totalPages > 1 && (
 				<div className='mt-5 flex items-center justify-center gap-3'>
 					<button
-						onClick={() => handlePageChange(currentPage - 1)}
+						onClick={() => onPageChange(currentPage - 1)}
 						disabled={currentPage === 1}
 					>
 						{currentPage === 1 ? (
@@ -59,10 +52,11 @@ export function Pagination({ data }: PaginationProps) {
 						(page) => (
 							<button
 								key={page}
-								onClick={() => handlePageChange(page)}
+								onClick={() => onPageChange(page)}
 								disabled={page === currentPage}
-								className={`px-3 py-1 text-lg font-medium 
-									${page === currentPage ? 'text-black' : 'text-gray-400'}`}
+								className={`px-3 py-1 text-lg font-medium ${
+									page === currentPage ? 'text-black' : 'text-gray-400'
+								}`}
 							>
 								{page}
 							</button>
@@ -70,7 +64,7 @@ export function Pagination({ data }: PaginationProps) {
 					)}
 
 					<button
-						onClick={() => handlePageChange(currentPage + 1)}
+						onClick={() => onPageChange(currentPage + 1)}
 						disabled={currentPage === totalPages}
 					>
 						{currentPage === totalPages ? (
