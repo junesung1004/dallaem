@@ -16,7 +16,7 @@ export default function CardList() {
 	const [meetings, setMeetings] = useState<CreateMeeting[]>();
 	const router = useRouter();
 
-	console.log('meetings : ', meetings);
+	// console.log('meetings : ', meetings);
 
 	const getMeetingListDate = async () => {
 		try {
