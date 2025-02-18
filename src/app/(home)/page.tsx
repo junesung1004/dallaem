@@ -9,6 +9,7 @@ export default async function Home() {
 		<div className=''>
 			{/* 함께 할 사람이 없나요? */}
 			<PageInfo pageKey='meetings' />
+
 			{/* 달램핏 nav 및 filter 및 모임 만들기기 */}
 			<div className='flex relative mt-10 mb-5'>
 				<PageNavbar pageKey='meetings' />
@@ -16,7 +17,11 @@ export default async function Home() {
 					<Button text='모임 만들기' />
 				</div>
 			</div>
+
+			{/* 보더 콘테이너너 */}
 			<div className='border-b-2'></div>
+
+			{/* 모임 목록록 */}
 			<CardList />
 		</div>
 	);

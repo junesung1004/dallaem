@@ -40,7 +40,13 @@ export default function CardList() {
 							src={el.image ? el.image : '/images/default.png'}
 							alt='이미지 예시'
 						/>
-						<DeadlineBadge registrationEnd={el.registrationEnd} />
+						<DeadlineBadge
+							registrationEnd={
+								el.registrationEnd
+									? new Date(el.registrationEnd).toISOString()
+									: '유효하지 않은 시간'
+							}
+						/>
 					</Card.ImageContainer>
 
 					<Card.Content>
