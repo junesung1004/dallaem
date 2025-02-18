@@ -125,13 +125,13 @@ function MyPage() {
 			<div className='flex flex-col items-start max-w-80 gap-2 p-1'>
 				<div>
 					<span className='block'>Default Button</span>
-					<Button state='default' isOutlined={false} type='button'>
+					<Button type='button' disabled={true}>
 						생성하기
 					</Button>
 				</div>
 				<div className='w-full'>
 					<span className='block'>Full Button</span>
-					<Button state='default' isOutlined={true} type='submit' isFull={true}>
+					<Button variation='outline' type='submit' isFull={true}>
 						생성하기
 					</Button>
 				</div>
@@ -145,6 +145,9 @@ function MyPage() {
 				>
 					Open Modal with Routes
 				</Link>
+				<Button variation='outline' href='/mypage/create-review/1'>
+					OpenModal with Routes Button Link
+				</Button>
 				<GlobalModal />
 			</div>
 			MyCards
