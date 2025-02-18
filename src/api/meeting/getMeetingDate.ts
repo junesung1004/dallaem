@@ -1,7 +1,10 @@
 export const getMeetingData = async () => {
+	const limit = 5;
+	const offset = 13; // 숫자
+
 	try {
 		const res = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=5&offset=13`,
+			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=${limit}&offset=${offset}`,
 		);
 
 		if (!res.ok) {
