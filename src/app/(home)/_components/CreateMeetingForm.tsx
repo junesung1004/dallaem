@@ -103,7 +103,7 @@ export default function CreateMeetingForm() {
 				</label>
 				<div className='flex items-center'>
 					<div
-						className='xs:w-[250px] sm:w-[350px]'
+						className='sm:w-[230px] md:w-[350px]'
 						onClick={() => document.getElementById('meeting-image')?.click()}
 					>
 						<InputWindow
