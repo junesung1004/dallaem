@@ -1,6 +1,8 @@
 'use client';
 import { signinUserInterface, signupUserInterface } from '@/api/userInterface';
+import { useStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/router';
+
 // 로그인 기능 : 토큰 반환
 const signinUser = async ({ email, password }: signinUserInterface) => {
 	const response = await fetch(
@@ -23,10 +25,9 @@ const signinUser = async ({ email, password }: signinUserInterface) => {
 	}
 
 	const data = await response.json();
-	const token = data.token;
-	// 토큰 저장 로컬 스토리지에 저장
-	localStorage.setItem('authToken', token);
-	console.log('로그인 성공');
+	const newToken = data.token;
+	// 토큰 로컬 스토리지에 저장
+	localStorage.setItem('authToken', newToken);
 };
 
 // 회원가입 기능
