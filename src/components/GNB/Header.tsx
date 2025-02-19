@@ -29,6 +29,9 @@ export default function Header() {
 		setIsLoggedIn((prev) => (prev === isValid ? prev : isValid));
 	}, [pathname]);
 
+	//setInterval이나 reactQuery staletime으로 10분마다 확인하는 useEffect 추가
+	//zustand에 로그인/로그아웃 시 id 변수 추가
+
 	return (
 		<header className='flex flex-col justify-center w-full h-[56px] md:h-[60px] mx-auto bg-orange-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px] py-10'>
 			<div className='max-w-[1200px] w-full mx-auto'>

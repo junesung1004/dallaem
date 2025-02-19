@@ -9,12 +9,10 @@ export default function LoginPage() {
 			 content-center 등 다양한 값 사용해봤지만 두 조건 다 충족시키는 속성이 없습니다 ㅠ 그래서 반응형으로 제작합니다*/}
 			<div className='flex flex-col items-center pt-2.5 md:pt-[2.5rem] '>
 				<span className='text-[20px] md:text-2xl'>Welcome to 같이달램!</span>
-				<span className='text-sm mt-3 md:text-base'>
-					바쁜 일상 속 잠깐의 휴식,
-				</span>
-				<span className='text-sm md:text-base'>
-					이제는 같이 달램과 함께 해보세요.
-				</span>
+				<div className='text-sm md:text-base'>
+					<p>바쁜 일상 속 잠깐의 휴식,</p>
+					<p>이제는 같이 달램과 함께 해보세요.</p>
+				</div>
 				<img
 					src='/images/imgLogin.png'
 					alt='main image'

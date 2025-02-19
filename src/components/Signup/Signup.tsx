@@ -262,11 +262,11 @@ const Signup = () => {
 	}, [name, id, companyName, password, passwordConfirm]);
 
 	return (
-		<div className='w-full h-full bg-white rounded-3xl px-5'>
-			<div className='w-[90%] h-full mx-auto flex flex-col justify-between gap-2 lg:gap-4'>
+		<div className='bg-white rounded-3xl py-8 px-4 md:px-[3.375rem]'>
+			<div className='mx-auto flex flex-col justify-between gap-[24px]'>
 				{/* Section: 제목 */}
-				<div className='w-full h-[10%] flex justify-center items-center'>
-					<span className='text-xl md:text-2xl'>회원가입</span>
+				<div className='flex justify-center text-[20px] md:text-[24px] '>
+					<span>회원가입</span>
 				</div>
 
 				{/* Section: 이름 */}
@@ -337,10 +337,10 @@ const Signup = () => {
 					isError={errorPasswordConfirm ? true : false}
 				/>
 
-				{/* Section: 로그인 버튼 */}
-				<div className='w-full h-[10%] flex justify-center items-center'>
+				{/* Section: 회원가입 버튼 */}
+				<div className='flex justify-center items-center'>
 					<button
-						className='w-full aspect-[311/40] bg-gray-400 rounded-xl'
+						className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
 						onClick={handleSubmit}
 					>
 						확인
