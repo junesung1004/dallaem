@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import FilterInput from './FilterInput';
-import CalendarFilter from '@/components/Calendar/CalendarFilter';
 
 export default function FilterInputList() {
 	const [selectedLocation, setSelectedLocation] = useState('지역 전체');
