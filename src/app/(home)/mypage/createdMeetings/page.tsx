@@ -2,10 +2,10 @@
 
 import { useMyMeetings } from '@/hooks/customs/useMyMeetings';
 import CardList from '../components/CardList/CardList';
-import { useStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 function Page() {
-	const userId = useStore((state) => state.userId);
+	const userId = useAuthStore((state) => state.userId);
 
 	if (!userId) return null;
 

@@ -1,5 +1,5 @@
 import { reviewService } from '@/service/reviewService';
-import { useStore as useAuthStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect, useState } from 'react';
 import type { IReview } from '@/types/reviewType';
 

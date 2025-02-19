@@ -11,7 +11,7 @@ function MyPageNav() {
 	};
 
 	const handleMainClick = (id: string) => navigate(id);
-	const handleSubClick = (id: string) => navigate(`reviews/${id}`);
+	const handleSubClick = (id?: string) => navigate(`reviews/${id}`);
 
 	return (
 		<PageNavbar
