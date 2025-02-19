@@ -7,6 +7,7 @@ import { useMeetingForm } from '@/hooks/customs/useMeeting';
 import { useRouter } from 'next/navigation';
 
 export default function CreateMeetingForm() {
+	// 커스텀 훅훅
 	const {
 		meetingName,
 		meetingPlace,
@@ -31,6 +32,7 @@ export default function CreateMeetingForm() {
 
 	const router = useRouter();
 
+	// form data submit 이벤트 핸들러러
 	const clickUpdateMeetingHandler = async (
 		e: React.FormEvent<HTMLFormElement>,
 	) => {

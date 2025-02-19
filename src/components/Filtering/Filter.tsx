@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FITERING_DATA } from '@/constants';
 import Image from 'next/image';
 
@@ -11,6 +11,8 @@ interface FilterDropdownProps {
 	onSelect: (value: string, order: 'asc' | 'desc') => void;
 	variant?: 'default' | 'sort';
 	calendarComponent?: React.ReactNode;
+	isOpen: boolean; // 🔹 부모에서 내려주는 `isOpen`
+	onToggle: () => void; // 🔹 부모에서 내려주는 `onToggle`
 }
 
 function Filter({
@@ -20,8 +22,9 @@ function Filter({
 	onSelect,
 	variant = 'default',
 	calendarComponent,
+	isOpen,
+	onToggle,
 }: FilterDropdownProps) {
-	const [isOpen, setIsOpen] = useState(false);
 	const data = FITERING_DATA[category] || [];
 
 	const [internalSelected, setInternalSelected] = useState(
@@ -29,7 +32,15 @@ function Filter({
 			(data[0]?.label ?? ''),
 	);
 
-	//`selected` 값 변경될 때 `label` 업데이트
+	const isValidDate = (date: string | Date) => {
+		return date instanceof Date && !isNaN(date.getTime());
+	};
+
+	const formattedDate =
+		selected && isValidDate(new Date(selected))
+			? new Date(selected).toISOString().split('T')[0]
+			: '';
+
 	useEffect(() => {
 		const selectedLabel =
 			data?.find((item) => item.value === selected)?.label ||
@@ -37,43 +48,32 @@ function Filter({
 		setInternalSelected(selectedLabel);
 	}, [selected, data]);
 
-	const isSortVariant = variant === 'sort';
+	const isSort = variant === 'sort';
 
-	//sortBy 변경
-	const handleSelect = (value: string) => {
-		const selectedLabel =
-			data?.find((item) => item.value === value)?.label || value;
-		onSelect(value, sortOrder);
-		setInternalSelected(selectedLabel);
-		setIsOpen(false);
-	};
-
-	//정렬 순서 변경
+	// ✅ 정렬 순서 변경
 	const toggleSortOrder = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		if (isSortVariant && selected) {
+		if (isSort && selected) {
 			const newOrder = sortOrder === 'asc' ? 'desc' : 'asc';
 			onSelect(selected, newOrder);
 		}
 	};
 
-	const buttonBgColor = isSortVariant
+	const buttonBgColor = isSort
 		? 'bg-white text-gray-800'
 		: selected && selected.trim() !== ''
 			? 'bg-black text-white'
 			: 'bg-white text-gray-800';
 
 	return (
-		<div className='relative min-w-[40px] sm:min-w-[110px] items-center'>
+		<div className='relative items-center'>
 			<button
-				className={`w-full h-[36px] sm:h-[40px] px-3 py-2 border-2 border-gray-100 rounded-[12px] flex items-center ${
-					isSortVariant ? 'justify-center' : 'justify-between'
-				} text-sm font-medium focus:outline-none ${buttonBgColor}`}
-				onClick={() => setIsOpen(!isOpen)}
+				className={`content-between md:w-[110px]max-w-[110px] h-[36px] md:h-[40px] px-2 border-2 border-gray-100 rounded-[12px] flex items-center whitespace-nowrap text-sm font-medium focus:outline-none ${buttonBgColor}`}
+				onClick={onToggle} // ✅ 부모에서 `isOpen` 관리
 			>
-				{!isSortVariant && (
-					<div className='flex w-full justify-between'>
-						{internalSelected}
+				{!isSort && (
+					<div className='flex justify-between'>
+						{formattedDate ? <>{formattedDate}</> : <>{internalSelected}</>}
 						<Image
 							src='icons/arrow/arrowDownDefault.svg'
 							alt='open'
@@ -83,31 +83,58 @@ function Filter({
 						/>
 					</div>
 				)}
-				{isSortVariant && (
+				{isSort && (
 					<>
 						<div
-							className={`text-gray-500 mr-1 cursor-pointer transform ${
+							className={`text-gray-500 cursor-pointer transform ${
 								sortOrder === 'desc' ? 'scale-x-[-1]' : ''
 							}`}
-							onClick={toggleSortOrder}
+							onClick={(e) => {
+								e.stopPropagation();
+								if (window.innerWidth < 376) {
+									onToggle();
+								} else {
+									toggleSortOrder(e); //기존 정렬 순서 변경 유지
+								}
+							}}
 						>
 							<Image
 								src='/icons/sort/sortDefault.svg'
 								alt={sortOrder}
 								width={24}
 								height={24}
+								className='max-w-none'
 							/>
 						</div>
-						<div className='hidden sm:block'>{internalSelected}</div>
+						<div
+							className='ml-1 hidden sm:block cursor-pointer'
+							onClick={(e) => {
+								e.stopPropagation();
+								onToggle();
+							}}
+						>
+							{internalSelected}
+						</div>
 					</>
 				)}
 			</button>
 
-			{/*캘린더, 드롭다운 메뉴*/}
+			{/* ✅ 캘린더, 드롭다운 메뉴 */}
 			{isOpen && (
-				<div className='w-[110px] sm:w-full absolute mt-1 p-1 bg-white rounded-lg shadow-lg text-sm font-medium z-10 overflow-hidden'>
+				<div
+					className={`fixed md:absolute w-[110px] min-w-fit mt-1 p-1 bg-white rounded-lg shadow-lg text-sm font-medium z-10 ${isSort ? 'right-4 md:right-0' : ''}`}
+				>
 					{calendarComponent ? (
-						<div className='p-4'>{calendarComponent}</div>
+						<div className='w-fit fixed md:absolute right-1 md:left-0'>
+							{React.cloneElement(
+								calendarComponent as React.ReactElement<{
+									onApply: () => void;
+								}>,
+								{
+									onApply: onToggle,
+								},
+							)}
+						</div>
 					) : (
 						data?.map(({ label, value }) => (
 							<div
@@ -115,7 +142,10 @@ function Filter({
 								className={`px-1 py-2 text-gray-800 hover:bg-orange-100 hover:rounded-[12px] cursor-pointer transition-all whitespace-nowrap ${
 									selected === value ? 'font-bold' : ''
 								}`}
-								onClick={() => handleSelect(value)}
+								onClick={() => {
+									onSelect(value, sortOrder);
+									onToggle();
+								}}
 							>
 								{label}
 							</div>
