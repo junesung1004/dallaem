@@ -1,55 +1,84 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FITERING_DATA } from '@/constants';
 import FilterDropdown from '@/components/Filtering/Filter';
 import { CalenderImage } from '@/app/components/Calendar/CalenderImage';
 
 interface FilterListProps {
 	enabledFilters?: ('location' | 'date' | 'sortByMeeting' | 'sortByReview')[];
-	initialFilters: {
+	selectedFilters: {
 		location?: string;
 		date?: string;
 		sortMeeting?: { sortBy: string; sortOrder: 'asc' | 'desc' };
 		sortReview?: { sortBy: string; sortOrder: 'asc' | 'desc' };
 	};
+	onFilterChange: (filters: {
+		location?: string;
+		date?: string;
+		sortMeeting?: { sortBy: string; sortOrder: 'asc' | 'desc' };
+		sortReview?: { sortBy: string; sortOrder: 'asc' | 'desc' };
+	}) => void;
 }
 
 export default function FilterList({
 	enabledFilters = ['location', 'date', 'sortByMeeting', 'sortByReview'],
-	initialFilters,
+	selectedFilters,
+	onFilterChange,
 }: FilterListProps) {
 	const [selectedLocation, setSelectedLocation] = useState(
-		initialFilters.location || '',
+		selectedFilters.location || FITERING_DATA.location[0].value,
 	);
 	const [selectedDate, setSelectedDate] = useState<Date | null>(
-		initialFilters.date ? new Date(initialFilters.date) : null,
+		selectedFilters.date ? new Date(selectedFilters.date) : null,
 	);
 	const formattedDate = selectedDate?.toISOString().split('T')[0] ?? '';
 
 	const [selectedSortMeeting, setSelectedSortMeeting] = useState(
-		initialFilters.sortMeeting || {
+		selectedFilters.sortMeeting || {
 			sortBy: FITERING_DATA.sortByMeeting[0].value,
 			sortOrder: 'asc' as 'asc' | 'desc',
 		},
 	);
 	const [selectedSortReview, setSelectedSortReview] = useState(
-		initialFilters.sortReview || {
+		selectedFilters.sortReview || {
 			sortBy: FITERING_DATA.sortByReview[0].value,
 			sortOrder: 'asc' as 'asc' | 'desc',
 		},
 	);
 
-	// 현재 열린 드롭다운 ID 관리 (하나만 열리도록)
+	// ✅ 현재 열린 드롭다운 ID 관리 (하나만 열리도록)
 	const [isOpenDropdown, setIsOpenDropdown] = useState<string | null>(null);
 
-	// 드롭다운 토글 함수
+	// ✅ 드롭다운 토글 함수
 	const toggleDropdown = (dropdownId: string) => {
 		setIsOpenDropdown((prev) => (prev === dropdownId ? null : dropdownId));
 	};
 
+	// ✅ 필터 값이 변경될 때 부모에 전달
+	useEffect(() => {
+		onFilterChange({
+			location: enabledFilters.includes('location')
+				? selectedLocation
+				: undefined,
+			date: enabledFilters.includes('date') ? formattedDate : undefined,
+			sortMeeting: enabledFilters.includes('sortByMeeting')
+				? selectedSortMeeting
+				: undefined,
+			sortReview: enabledFilters.includes('sortByReview')
+				? selectedSortReview
+				: undefined,
+		});
+	}, [
+		selectedLocation,
+		formattedDate,
+		selectedSortMeeting,
+		selectedSortReview,
+	]);
+
 	return (
 		<div className='flex relative gap-2'>
+			{/* ✅ 지역 필터 */}
 			{enabledFilters.includes('location') && (
 				<FilterDropdown
 					category='location'
@@ -60,6 +89,7 @@ export default function FilterList({
 				/>
 			)}
 
+			{/* ✅ 날짜 필터 */}
 			{enabledFilters.includes('date') && (
 				<FilterDropdown
 					category='date'
@@ -78,6 +108,7 @@ export default function FilterList({
 			)}
 
 			<div className='absolute right-0'>
+				{/* ✅ 모임 정렬 필터 */}
 				{enabledFilters.includes('sortByMeeting') && (
 					<FilterDropdown
 						category='sortByMeeting'
@@ -92,6 +123,7 @@ export default function FilterList({
 					/>
 				)}
 
+				{/* ✅ 리뷰 정렬 필터 */}
 				{enabledFilters.includes('sortByReview') && (
 					<FilterDropdown
 						category='sortByReview'
@@ -109,3 +141,4 @@ export default function FilterList({
 		</div>
 	);
 }
+
