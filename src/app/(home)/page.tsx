@@ -1,4 +1,3 @@
-import FilterInputList from '@/app/(home)/_components/FilterInputList';
 import Button from '@/app/(home)/_components/Button';
 
 import CardList from '@/components/MainCard/CardList';
@@ -13,7 +12,6 @@ export default async function Home() {
 			<PageInfo pageKey='meetings' />
 
 			{/* 필터 드롭다운 메뉴  */}
-			<FilterInputList />
 
 			{/* 달램핏 nav 및 filter 및 모임 만들기 */}
 			<div className='flex relative mt-10 mb-5'>
