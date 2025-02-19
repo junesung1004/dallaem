@@ -11,8 +11,8 @@ interface FilterDropdownProps {
 	onSelect: (value: string, order: 'asc' | 'desc') => void;
 	variant?: 'default' | 'sort';
 	calendarComponent?: React.ReactNode;
-	isOpen: boolean; // 🔹 부모에서 내려주는 `isOpen`
-	onToggle: () => void; // 🔹 부모에서 내려주는 `onToggle`
+	isOpen: boolean; // 부모에서 내려주는 `isOpen`
+	onToggle: () => void; // 부모에서 내려주는 `onToggle`
 }
 
 function Filter({
@@ -50,7 +50,6 @@ function Filter({
 
 	const isSort = variant === 'sort';
 
-	// ✅ 정렬 순서 변경
 	const toggleSortOrder = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		if (isSort && selected) {
@@ -69,7 +68,7 @@ function Filter({
 		<div className='relative items-center'>
 			<button
 				className={`content-between md:w-[110px]max-w-[110px] h-[36px] md:h-[40px] px-2 border-2 border-gray-100 rounded-[12px] flex items-center whitespace-nowrap text-sm font-medium focus:outline-none ${buttonBgColor}`}
-				onClick={onToggle} // ✅ 부모에서 `isOpen` 관리
+				onClick={onToggle} //부모에서 `isOpen` 관리
 			>
 				{!isSort && (
 					<div className='flex justify-between'>
@@ -119,7 +118,7 @@ function Filter({
 				)}
 			</button>
 
-			{/* ✅ 캘린더, 드롭다운 메뉴 */}
+			{/* 캘린더, 드롭다운 메뉴 */}
 			{isOpen && (
 				<div
 					className={`fixed md:absolute w-[110px] min-w-fit mt-1 p-1 bg-white rounded-lg shadow-lg text-sm font-medium z-10 ${isSort ? 'right-4 md:right-0' : ''}`}
@@ -158,4 +157,3 @@ function Filter({
 }
 
 export default Filter;
-
