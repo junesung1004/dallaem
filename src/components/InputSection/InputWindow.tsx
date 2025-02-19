@@ -10,6 +10,7 @@ interface InputWindowProps {
 	id?: string;
 	onBlur?: () => void;
 	onFocus?: () => void;
+	className?: string;
 }
 /*  
 placeholderText: placeholder로 설정할 텍스트
@@ -20,6 +21,7 @@ type: input Type 받아옴. 기본값: text (옵션)
 onBlur: blur 됐을 때 불러오는 함수 (옵션)
 onFocus: focus 됐을 때 불러오는 함수 (옵션)
 id: id (옵션)
+className: className (옵션)
 */
 
 const InputWindow = ({
@@ -31,6 +33,7 @@ const InputWindow = ({
 	onBlur,
 	onFocus,
 	id,
+	className,
 }: InputWindowProps) => {
 	// 변수: 입력 상태 관리, focus 관리,
 	const [typeStatus, setTypeStatus] = useState<'empty' | 'typing' | 'error'>(
@@ -73,7 +76,7 @@ const InputWindow = ({
 
 	//return
 	return (
-		<div className={`w-full aspect-[460/50] h-[44px] mx-auto m-3 `}>
+		<div className={`w-full h-[40px] md:h-[44px] mx-auto ${className} `}>
 			<input
 				placeholder={placeholderText}
 				onChange={handleChange}
