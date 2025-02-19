@@ -21,9 +21,8 @@ const getUserData = async (): Promise<IUser> => {
 	if (token === null) {
 		throw new Error('No token found');
 	}
-	// 토큰이 만료되었으면 에러 처리, 토큰을 삭제하고 로그인 상태를 종료
+	// 토큰이 만료되었으면 에러 처리
 	if (isTokenExpired(token)) {
-		localStorage.removeItem('authToken');
 		throw new Error('No token found or token has expired');
 	}
 	console.log('현재 로그인 된 유저의 토큰: ', token);
@@ -47,7 +46,6 @@ const getUserData = async (): Promise<IUser> => {
 
 	const data = await response.json();
 	console.log(data);
-	// return true;
 	return data;
 };
 

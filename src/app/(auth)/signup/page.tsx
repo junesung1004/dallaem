@@ -13,7 +13,6 @@ export default function SignupPage() {
 				<img
 					src='/images/imgLogin.png'
 					alt='main image'
-					/* className='max-w-[290px] max-h-[240px] md:max-w-[407px] md:max-h-[337px] lg:max-w-[588px] lg:max-h-[486px] pt-2' */
 					className='px-[1.625rem] md:px-[6.5rem]  pt-2'
 				/>
 			</div>
