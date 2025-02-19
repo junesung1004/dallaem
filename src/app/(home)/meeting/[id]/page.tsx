@@ -94,7 +94,7 @@ export default function DetailPage() {
 			</div>
 			<div className='border-t-2 border-gray-300 mt-10 p-5 h-screen bg-white'>
 				<div className='mb-4 font-bold text-lg'>
-					이용자들은 이 프로그램을 이렇게 느꼈어요!
+					이용자들은 이 프로그램을 이렇게 느꼈어요!!
 				</div>
 				{isReviewLoading ? (
 					<div className='text-center text-gray-500 mt-60'>
