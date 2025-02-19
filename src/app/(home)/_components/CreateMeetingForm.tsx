@@ -10,7 +10,6 @@ export default function CreateMeetingForm() {
 	const {
 		meetingName,
 		meetingPlace,
-		// meetingImageFile,
 		meetingImageFileName,
 		meetingSelectedService,
 		meetingStartDate,
@@ -29,8 +28,6 @@ export default function CreateMeetingForm() {
 		handleStartDateChange,
 		handleEndDateChange,
 	} = useMeetingForm();
-
-	// console.log('meetingImageFile : ', meetingImageFile);
 
 	const router = useRouter();
 

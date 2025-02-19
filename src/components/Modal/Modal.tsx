@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 
-export function Modal({
+export default function Modal({
 	children,
 	isOpen,
 	noBackDrop,

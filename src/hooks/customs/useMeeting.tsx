@@ -44,10 +44,10 @@ export function useMeetingForm() {
 	};
 
 	//모임 이름 유효성 검사
-	const nameValidErrorMessage = () => {
+	const nameValidErrorMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const nameRegex = /^[가-힣a-zA-Z]{2,8}$/;
 
-		if (nameRegex.test(meetingName)) {
+		if (nameRegex.test(e.target.value)) {
 			setNameValid(false);
 		} else {
 			setNameValid(true);
@@ -57,7 +57,7 @@ export function useMeetingForm() {
 	//모임 이름 유효성 검사
 	const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		meetingNameTextChangeHandler(e);
-		nameValidErrorMessage();
+		nameValidErrorMessage(e);
 	};
 
 	//모임 시작 날짜 유효성 검사
@@ -118,16 +118,6 @@ export function useMeetingForm() {
 		setMeetingPlace(e.target.value);
 	};
 
-	// 	return new Promise((resolve, reject) => {
-	// 		const reader = new FileReader();
-	// 		reader.readAsDataURL(file);
-	// 		reader.onload = () => resolve(reader.result as string);
-	// 		reader.onerror = (error) => reject(error);
-	// 	});
-	// };
-
-	//모임 이미지
-
 	const meetingImageTextChangeHandler = async (
 		e: React.ChangeEvent<HTMLInputElement>,
 	) => {
@@ -135,9 +125,7 @@ export function useMeetingForm() {
 
 		try {
 			if (file) {
-				// const base64Image = await convertFileToBase64(file);
 				setMeetingImageFileName(file.name);
-				// setMeetingImageFile(file);
 			}
 		} catch (error) {
 			console.error('파일 업로드 에러 : ', error);
