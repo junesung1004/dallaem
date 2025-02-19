@@ -1,3 +1,6 @@
+/** profile Header prop 확인을 위해 임시 작성 */
+'use client';
+
 import ProgressBar from '@/components/ProgressBar/ProgressBar';
 import Badge from '@/components/Badge/Badge';
 import HeartRatings from '@/components/HeartRatings/HeartRatings';
@@ -5,7 +8,12 @@ import Members from '@/components/Members/Members';
 import Link from 'next/link';
 import GlobalModal from './components/GlobalModal';
 import Button from '@/components/Button/Button';
+import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 import CardBase from './components/CardList/CardBase';
+import { getUserData } from '@/api/getUserData';
+import type { IUser } from '@/types/userType';
+import type { ProfileHeaderProps } from './components/ProfileHeader/ProfileHeader';
+import { useEffect, useState } from 'react';
 export interface IMeeting {
 	teamId: number;
 	id: number;
@@ -96,6 +104,27 @@ const mockMeetings: IMeeting[] = [
 ];
 
 function MyPage() {
+	const [userData, setUserData] = useState<IUser>({} as IUser);
+	const getData = async () => {
+		const data = await getUserData();
+		setUserData(data);
+	};
+	// const userData: Promise<IUser> = getData();
+
+	/** profile Header prop 확인을 위해 임시 작성 */
+	useEffect(() => {
+		getData();
+	}, []);
+
+	/** user Data 가공 */
+	const profileData = Object.keys(userData)?.reduce((prev, curKey) => {
+		if (['name', 'email', 'companyName', 'image'].includes(curKey.toString())) {
+			prev[curKey as keyof ProfileHeaderProps] =
+				userData[curKey as keyof ProfileHeaderProps];
+		}
+		return prev;
+	}, {} as ProfileHeaderProps);
+
 	return (
 		<div>
 			<div className='flex flex-col gap-1 p-4'>
@@ -150,6 +179,7 @@ function MyPage() {
 				</Button>
 				<GlobalModal />
 			</div>
+			<Link href={'/mypage/my-profile'}>마이페이지 열기</Link>
 			MyCards
 			<div className='px-4'>
 				{mockMeetings?.map((data) => (
@@ -175,6 +205,11 @@ function MyPage() {
 					</Link>
 				))}
 			</div>
+			Profile
+			<div className='mx-[3rem]'>
+				<ProfileHeader {...profileData} />
+			</div>
+			<Link href={'/mypage/my-profile'}></Link>
 		</div>
 	);
 }
