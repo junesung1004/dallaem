@@ -7,9 +7,6 @@ import GlobalModal from './components/GlobalModal';
 import Button from '@/components/Button/Button';
 import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 import CardBase from './components/CardList/CardBase';
-import { getUserData } from '@/api/getUserData';
-import type { IUser } from '@/types/userType';
-import { useState } from 'react';
 export interface IMeeting {
 	teamId: number;
 	id: number;
@@ -100,13 +97,6 @@ const mockMeetings: IMeeting[] = [
 ];
 
 function MyPage() {
-	const [userData, setUserData] = useState<IUser>({} as IUser);
-	const getData = async () => {
-		const data = await getUserData();
-		setUserData(data);
-	};
-	// const userData: Promise<IUser> = getData();
-
 	return (
 		<div>
 			<div className='flex flex-col gap-1 p-4'>

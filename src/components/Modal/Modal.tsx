@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 
-export default function Modal({
+export function Modal({
 	children,
 	isOpen,
 	noBackDrop,
@@ -16,6 +16,8 @@ export default function Modal({
 	noBackDrop?: boolean;
 	onClose?: () => void;
 }) {
+	// window
+	if (typeof window === 'undefined') return;
 	const router = useRouter();
 	const dialogRef = useRef<ComponentRef<'dialog'>>(null);
 
