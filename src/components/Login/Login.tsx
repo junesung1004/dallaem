@@ -5,10 +5,12 @@ import { InputWindow } from '../InputSection/InputWindow';
 import { signinUser } from '@/api/userAuth';
 import { useRouter } from 'next/navigation';
 import { HideToggle } from '../Toggle/HideToggle';
+import { useStore } from '@/store/useAuthStore';
 
 const Login = () => {
 	const router = useRouter();
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
+	const { setIsLoggedIn, setToken, setUserId } = useStore(); //zustand 상탸
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
@@ -33,12 +35,18 @@ const Login = () => {
 
 	//로그인 함수. 실패 시에 에러 메시지 설정
 	const handleSubmit = async (e: React.FormEvent) => {
+		const token = localStorage.getItem('authToken');
 		e.preventDefault();
 		try {
 			//로그인 성공. 에러 메시지 초기화. 이전 페이지로 돌아감
 			await signinUser({ email: id, password: password });
 			setErrorId('');
 			setErrorPassword('');
+			console.log('로그인 성공');
+			// 상태관리 변수에 저장
+			setIsLoggedIn(true);
+			setToken(token);
+			setUserId(id);
 			//이전 페이지로 돌아감 (외부 사이트에서 접속했을 경우 홈으로 돌아감)
 			if (!referrer || !referrer.includes(window.location.hostname)) {
 				router.push('/');
@@ -46,6 +54,7 @@ const Login = () => {
 				router.back();
 			}
 		} catch (err: any) {
+			console.log('로그인 실패');
 			//로그인 실패. 에러 메시지 저장
 			if (err.message === '존재하지 않는 아이디입니다') {
 				setErrorId(err.message);
