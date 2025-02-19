@@ -57,7 +57,7 @@ export default function Header() {
 		const intervalId = setInterval(() => {
 			const currentToken = useStore.getState().token; // 최신 상태 가져오기
 			validateToken();
-		}, 6000);
+		}, 600000);
 		return () => clearInterval(intervalId);
 	}, []);
 
