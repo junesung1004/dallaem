@@ -6,7 +6,7 @@ export const getDetailReviewData = async (
 	try {
 		const offset = (page - 1) * limit;
 		const res = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/7/reviews?gatheringId=${id}&limit=${limit}&offset=${offset}`,
+			`${process.env.NEXT_PUBLIC_BASE_URL}/reviews?gatheringId=${id}&limit=${limit}&offset=${offset}`,
 		);
 
 		if (!res.ok) {

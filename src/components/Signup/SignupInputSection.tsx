@@ -46,8 +46,8 @@ const SignupInputSection = ({
 	}, [isHidden, type]);
 
 	return (
-		<div className='relative h-[10%] grid grid-rows-[3fr_6fr_1fr]'>
-			<span className='text-sm md:text-lg'>{title}</span>
+		<div className='text-[14px] flex flex-col gap-[8px] '>
+			<span>{title}</span>
 			<div className='relative'>
 				<InputWindow
 					placeholderText={placeholderText}
@@ -57,6 +57,7 @@ const SignupInputSection = ({
 					value={value}
 					type={curType || 'text'}
 					isError={isError || undefined}
+					className={'text-[14px] md:text-[16px]'}
 				/>
 				{type === 'password' && (
 					<HideToggle
@@ -67,9 +68,7 @@ const SignupInputSection = ({
 				)}
 			</div>
 			{/* 에러 메시지 */}
-			{errorMsg && (
-				<span className='text-xs lg:text-sm text-red-600'>{errorMsg}</span>
-			)}
+			{errorMsg && <span>{errorMsg}</span>}
 		</div>
 	);
 };

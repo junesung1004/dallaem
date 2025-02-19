@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { DateBadge } from '../../../../components/Badge/DateBadge';
 import { MeetingCardProps } from '../../../../types/meetingDetail';
 import { LikeButton } from '../../../../components/Button/LikeButton';
+import { AttendeeProfiles } from './AttendeeProfiles';
 
 export const MeetingCard = ({ location, type, date, id }: MeetingCardProps) => {
 	const [userId, setUserId] = useState<number | undefined>(undefined);
@@ -32,7 +33,11 @@ export const MeetingCard = ({ location, type, date, id }: MeetingCardProps) => {
 				</div>
 			</div>
 
-			<div className='border-[1.2px] border-gray-200 border-dashed mb-2'></div>
+			<div className='border-[1.2px] border-gray-200 border-dashed mb-2'>
+				<div id='AttendeeProfiles' className='w-1/3 border border-2'>
+					<AttendeeProfiles meetingId={id} />
+				</div>
+			</div>
 
 			{/* 여기 아래는 더미데이터 */}
 			<div className='mb-28'></div>
