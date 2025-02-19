@@ -2,11 +2,10 @@ export const getMeetingData = async () => {
 	// 숫자 변환 후 기본값 설정
 	const limit = Number(process.env.LIMIT) || 5; // 숫자가 아니라면 5로 설정
 	const offset = Number(process.env.OFFSET) || 12; // 숫자가 아니라면 0으로 설정
-	const team = Number(process.env.TEAM) || 7;
 
 	try {
 		const res = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/${team}/gatherings?limit=${limit}&offset=${offset}`,
+			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=${limit}&offset=${offset}`,
 		);
 
 		if (!res.ok) {
