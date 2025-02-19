@@ -48,16 +48,16 @@ export default function Header() {
 
 	//useEffect: 페이지 이동할 때마다 토큰 유효성 검증
 	useEffect(() => {
-		const currentToken = useStore.getState().token; // 최신 상태 가져오기
+		const currentToken = useStore.getState().token; // 최신 상태 가져오기 (로그아웃, 새로고침 등 즉각 값 반영하여 렌더링)
 		validateToken();
 	}, [pathname]);
 
 	//useEffect: 10분마다 토큰 유효성 검증
 	useEffect(() => {
 		const intervalId = setInterval(() => {
-			const currentToken = useStore.getState().token; // 최신 상태 가져오기
+			//const currentToken = useStore.getState().token; // 최신 상태 가져오기
 			validateToken();
-		}, 600000);
+		}, 6000);
 		return () => clearInterval(intervalId);
 	}, []);
 

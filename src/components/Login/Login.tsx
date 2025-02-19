@@ -6,6 +6,7 @@ import { signinUser } from '@/api/userAuth';
 import { useRouter } from 'next/navigation';
 import { HideToggle } from '../Toggle/HideToggle';
 import { useStore } from '@/store/useAuthStore';
+import { getUserData } from '@/api/getUserData';
 
 const Login = () => {
 	const router = useRouter();
@@ -46,7 +47,8 @@ const Login = () => {
 			// 상태관리 변수에 저장
 			setIsLoggedIn(true);
 			setToken(token);
-			setUserId(id);
+			const getId = (await getUserData()).id;
+			setUserId(getId);
 			//이전 페이지로 돌아감 (외부 사이트에서 접속했을 경우 홈으로 돌아감)
 			if (!referrer || !referrer.includes(window.location.hostname)) {
 				router.push('/');
