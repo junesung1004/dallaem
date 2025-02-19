@@ -39,7 +39,7 @@ export default function ServiceSelector({
 						className={`flex flex-col justify-center w-1/3 h-[76px] rounded-xl cursor-pointer transition
 							${selected === item.id ? 'bg-slate-700 text-white' : 'bg-white text-black border'}`}
 					>
-						<div className='flex gap-2 items-center sm:ml-7 xs:ml-2'>
+						<div className='flex gap-2 items-center md:ml-7 sm:ml-2'>
 							{/* 기본 라디오 숨기기 */}
 							<input
 								type='radio'
@@ -59,7 +59,7 @@ export default function ServiceSelector({
 							</div>
 							<h2 className='font-semibold'>{item.name}</h2>
 						</div>
-						<p className='sm:ml-12 xs:ml-5 text-xs font-medium'>
+						<p className='md:ml-12 sm:ml-5 text-xs font-medium'>
 							{item.description}
 						</p>
 					</label>
