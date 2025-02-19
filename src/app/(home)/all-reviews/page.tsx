@@ -1,3 +1,4 @@
+import FilterList from '@/components/Filtering/FIlterList';
 
 export default function AllReviews() {
 	return (
