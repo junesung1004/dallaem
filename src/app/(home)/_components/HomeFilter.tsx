@@ -7,7 +7,6 @@ import React, { useEffect } from 'react';
 export default function HomeFilter() {
 	const { selectedFilters, setSelectedFilters } = useFilterStore();
 
-	//useEffect로 selectedFilters 지긤 선택되고 있는 필터의 값을 확인할 수 있습니다!
 	useEffect(() => {
 		console.log('현재 필터 값:', selectedFilters);
 	}, [selectedFilters]);
