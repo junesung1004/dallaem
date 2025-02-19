@@ -11,8 +11,8 @@ interface FilterDropdownProps {
 	onSelect: (value: string, order: 'asc' | 'desc') => void;
 	variant?: 'default' | 'sort';
 	calendarComponent?: React.ReactNode;
-	isOpen?: boolean; // 🔹 부모에서 내려주는 `isOpen`
-	onToggle?: () => void; // 🔹 부모에서 내려주는 `onToggle`
+	isOpen: boolean; // 🔹 부모에서 내려주는 `isOpen`
+	onToggle: () => void; // 🔹 부모에서 내려주는 `onToggle`
 }
 
 function Filter({
