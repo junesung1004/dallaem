@@ -1,9 +1,121 @@
-export default async function DetailPage({
-	params,
-}: {
-	params: Promise<{ id: string }>;
-}) {
-	const { id } = await params;
-	// console.log("id : ", id);
-	return <div>{id}테스트</div>;
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import { MeetingCard } from '@/app/(home)/meeting/_components/MeetingCard';
+import { DeadlineBadge } from '@/components/Badge/DeadlineBadge';
+import { Footer } from '../_components/footer';
+import { Pagination } from '../_components/Pagination';
+import Image from 'next/image';
+import { ReviewType } from '@/types/paginationType';
+import { getDetailMeetingData } from '@/api/detail-meeting/getDetailMeetingDate';
+import { getDetailReviewData } from '@/api/detail-meeting/getDetailReviewData';
+import { DetailMeetingDataType } from '@/types/meetingDetail';
+
+export default function DetailPage() {
+	const params = useParams();
+	const id = params.id as string;
+	const [meetingData, setMeetingData] = useState<DetailMeetingDataType | null>(
+		null,
+	);
+
+	const limit = 4;
+	const [currentPage, setCurrentPage] = useState(1);
+	const [reviewsData, setReviewsData] = useState<ReviewType[]>([]);
+	const [totalPages, setTotalPages] = useState(1);
+	const [isReviewLoading, setIsReviewLoading] = useState(true);
+
+	// 디테일 페이지 모임 데이터
+	useEffect(() => {
+		const fetchMeetingData = async () => {
+			try {
+				const data = await getDetailMeetingData(id);
+				if (data) {
+					setMeetingData(data);
+				}
+			} catch (err) {
+				console.log(`에러`, err);
+			}
+		};
+		if (id) fetchMeetingData();
+	}, [id]);
+
+	// 디테일 페이지 리뷰 데이터
+	useEffect(() => {
+		const fetchReviews = async () => {
+			setIsReviewLoading(true);
+			try {
+				const { data, totalItemCount } = await getDetailReviewData(
+					id,
+					limit,
+					currentPage,
+				);
+				setReviewsData(data);
+				setTotalPages(Math.ceil(totalItemCount / limit));
+			} catch (err) {
+				console.log(`리뷰 데이터 가져오기 실패:`, err);
+			}
+			setIsReviewLoading(false);
+		};
+		if (id) fetchReviews();
+	}, [id, currentPage]);
+
+	const handlePageChange = (page: number) => {
+		if (page >= 1 && page <= totalPages) {
+			setCurrentPage(page);
+		}
+	};
+
+	if (!meetingData) {
+		return <div>데이터가 없습니다.</div>;
+	}
+
+	return (
+		<div className='px-28 py-12 min-h-screen'>
+			<div className='flex flex-wrap gap-7 justify-center w-full'>
+				<div className='flex-1 w-full min-w-[300px] h-72'>
+					<div className='overflow-hidden border-[2px] border-gray-200 shadow-md rounded-3xl '>
+						<div className='relative'>
+							<DeadlineBadge registrationEnd='2025-02-13T04:48:55.087Z' />
+							<Image
+								src={meetingData.image}
+								alt='더미 이미지'
+								width={400}
+								height={300}
+								className='w-full min-w-[300px] h-72'
+							/>
+						</div>
+					</div>
+				</div>
+				<div className='flex-1 min-w-[300px]'>
+					<MeetingCard
+						type={meetingData.type}
+						location={meetingData.location}
+						date={meetingData.dateTime}
+						id={meetingData.id}
+					/>
+				</div>
+			</div>
+			{isReviewLoading ? (
+				<div className='text-center text-gray-500 mt-10'>
+					리뷰를 불러오는 중...
+				</div>
+			) : !reviewsData || reviewsData.length === 0 ? (
+				<div className='text-center text-gray-500 mt-10'>
+					아직 작성된 리뷰가 없습니다.
+				</div>
+			) : (
+				<Pagination
+					currentData={reviewsData}
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+				/>
+			)}
+
+			<div className='fixed bottom-0 left-0 w-full '>
+				<Footer createdBy={meetingData.createdBy} />
+			</div>
+		</div>
+	);
 }

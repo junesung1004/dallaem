@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
 type Props = {
-  children: React.ReactNode;
-  createmodal: React.ReactNode;
+	children: React.ReactNode;
+	createmodal: React.ReactNode;
 };
 
 export default function Layout({ children, createmodal }: Props) {
-  return (
-    <main className=" md:w-[744px] lg:w-[996px] min-h-screen mx-auto bg-white">
-      {createmodal}
-      {children}
-    </main>
-  );
+	return (
+		<main className='px-4 md:px-6 lg:px-[106px] bg-gray-50 mx-auto max-w-[1200px] py-10'>
+			{createmodal}
+			{children}
+		</main>
+	);
 }

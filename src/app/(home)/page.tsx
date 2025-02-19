@@ -1,16 +1,31 @@
-import Button from '@/app/_tests/Button';
-import Count from '@/app/_tests/Count';
-import Todo from '@/app/hooks/query/Todo';
-import Dummy from '../_tests/Dummy';
+import Button from '@/app/(home)/_components/Button';
+
+import CardList from '@/components/MainCard/CardList';
+
+import PageInfo from '@/components/PageInfo/PageInfo';
+import PageNavbar from '@/components/PageNav/PageNavbar';
 
 export default async function Home() {
 	return (
-		<main className="relative w-full">
-			<p className="font-bold text-4xl pb-10">모임찾기 home page!!</p>
-			<Button />
-			<Dummy />
-			<Count />
-			<Todo />
-		</main>
+		<div className='flex flex-col gap-5'>
+			{/* 함께 할 사람이 없나요? */}
+			<PageInfo pageKey='meetings' />
+
+			{/* 필터 드롭다운 메뉴  */}
+
+			{/* 달램핏 nav 및 filter 및 모임 만들기 */}
+			<div className='flex relative mt-10 mb-5'>
+				<PageNavbar pageKey='meetings' />
+				<div className='absolute right-0'>
+					<Button text='모임 만들기' />
+				</div>
+			</div>
+
+			{/* 보더 콘테이너 */}
+			<div className='border-b-2'></div>
+
+			{/* 모임 목록 */}
+			<CardList />
+		</div>
 	);
 }
