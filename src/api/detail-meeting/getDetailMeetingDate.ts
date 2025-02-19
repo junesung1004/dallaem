@@ -1,7 +1,7 @@
 export const getDetailMeetingData = async (id: string) => {
 	try {
 		const res = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/7/gatherings/${id}`,
+			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${id}`,
 		);
 
 		if (!res.ok) {

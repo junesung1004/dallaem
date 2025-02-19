@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { PaginationReviewProps } from '@/types/paginationType';
+import ReviewCard from '@/components/ReviewCard/ReviewCard';
 
 export function Pagination({
 	currentData,
@@ -14,13 +15,18 @@ export function Pagination({
 		<div>
 			<ul>
 				{currentData.map((review) => (
-					<li key={review.id} className='mb-4'>
-						<div className='font-bold'>{review.comment}</div>
-						<div className='text-sm text-gray-500'>
-							{review.Gathering.location}
-						</div>
-						<hr className='mt-2' />
-					</li>
+					<ReviewCard key={review.id} isDetailPage={true}>
+						<ReviewCard.ImageSection />
+						<ReviewCard.ReviewLayout isDetailPage={true}>
+							<ReviewCard.HeartScore score={review.score} />
+							<ReviewCard.Content comment={review.comment} />
+							<ReviewCard.EtcInfo
+								userIcon={review.Gathering.image}
+								nickname={review.User.name}
+								date={review.Gathering.dateTime}
+							/>
+						</ReviewCard.ReviewLayout>
+					</ReviewCard>
 				))}
 			</ul>
 
