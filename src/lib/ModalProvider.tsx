@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { Modal } from '../components/Modal/Modal';
+import Modal from '../components/Modal/Modal';
 import useModalStore from './modalStore';
 
 export function ModalProvider({ children }: { children: ReactNode }) {

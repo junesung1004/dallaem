@@ -3,8 +3,8 @@ function ProfileIcon({ children }: { children: React.ReactNode }) {
 }
 
 interface AvatarProps {
-	size: 'small' | 'large';
-	className: string;
+	size?: 'small' | 'large';
+	className?: string;
 }
 
 function Avatar({ size, className }: AvatarProps) {
