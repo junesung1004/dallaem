@@ -11,7 +11,8 @@ import { getUserData } from '@/api/getUserData';
 const Login = () => {
 	const router = useRouter();
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
-	const { setIsLoggedIn, setToken, setUserId } = useStore(); //zustand 상탸
+	const { isLoggedIn, token, userId, setIsLoggedIn, setToken, setUserId } =
+		useStore(); //zustand 상태
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
@@ -36,7 +37,6 @@ const Login = () => {
 
 	//로그인 함수. 실패 시에 에러 메시지 설정
 	const handleSubmit = async (e: React.FormEvent) => {
-		const token = localStorage.getItem('authToken');
 		e.preventDefault();
 		try {
 			//로그인 성공. 에러 메시지 초기화. 이전 페이지로 돌아감
@@ -44,11 +44,14 @@ const Login = () => {
 			setErrorId('');
 			setErrorPassword('');
 			console.log('로그인 성공');
+
 			// 상태관리 변수에 저장
+			const currentToken = localStorage.getItem('authToken');
 			setIsLoggedIn(true);
-			setToken(token);
+			setToken(currentToken);
 			const getId = (await getUserData()).id;
 			setUserId(getId);
+
 			//이전 페이지로 돌아감 (외부 사이트에서 접속했을 경우 홈으로 돌아감)
 			if (!referrer || !referrer.includes(window.location.hostname)) {
 				router.push('/');

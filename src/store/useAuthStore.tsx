@@ -1,18 +1,5 @@
+import { Store } from '@/types/userType';
 import { create } from 'zustand';
-
-interface Store {
-	isLoggedIn: boolean;
-	token: string | null;
-	userId: number | null;
-	email: string | null;
-	name: string | null;
-	companyName: string | null;
-	image: string | null;
-	setIsLoggedIn: (status: boolean) => void;
-	setToken: (newToken: string | null) => void;
-	setUserId: (id: number | null) => void;
-	setUserNull: () => void;
-}
 
 const useStore = create<Store>((set) => ({
 	isLoggedIn: false,
