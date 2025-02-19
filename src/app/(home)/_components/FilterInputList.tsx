@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import FilterInput from './FilterInput';
-import { CalenderImage } from '@/app/components/Calendar/CalenderImage';
+import CalendarFilter from '@/components/Calendar/CalendarFilter';
 
 export default function FilterInputList() {
 	const [selectedLocation, setSelectedLocation] = useState('지역 전체');

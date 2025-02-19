@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { FITERING_DATA } from '@/constants';
 import FilterDropdown from '@/components/Filtering/Filter';
-import { CalenderImage } from '@/app/components/Calendar/CalenderImage';
+import CalenderFilter from '../Calendar/CalendarFilter';
 
 interface FilterListProps {
 	enabledFilters?: ('location' | 'date' | 'sortByMeeting' | 'sortByReview')[];
@@ -98,9 +98,9 @@ export default function FilterList({
 					isOpen={isOpenDropdown === 'date'}
 					onToggle={() => toggleDropdown('date')}
 					calendarComponent={
-						<CalenderImage
-							startDate={selectedDate}
-							setStartDate={setSelectedDate}
+						<CalenderFilter
+							meetingDate={selectedDate}
+							setMeetingDate={setSelectedDate}
 							onApply={() => toggleDropdown('date')}
 						/>
 					}
@@ -141,4 +141,3 @@ export default function FilterList({
 		</div>
 	);
 }
-
