@@ -99,16 +99,16 @@ const Login = () => {
 
 	// return
 	return (
-		<div className='w-full h-full bg-white rounded-3xl px-5'>
-			<div className='w-[90%] h-full mx-auto flex flex-col justify-center gap-4'>
+		<div className='w-full h-full bg-white rounded-3xl py-8 px-4 md:py-8 md:px-[3.375rem]'>
+			<div className='mx-auto flex flex-col justify-between gap-2'>
 				{/* Section: 제목 */}
-				<div className='w-full h-1/4 flex justify-center items-center'>
-					<span className='text-xl md:text-2xl'>로그인</span>
+				<div className='flex justify-center '>
+					<span className='text-[20px] md:text-[24px]'>로그인</span>
 				</div>
 
 				{/* Section: ID */}
-				<div className='h-1/4 grid grid-rows-[3fr_6fr_2fr]'>
-					<span className='text-sm md:text-lg'>아이디</span>
+				<div>
+					<span className='text-[14px]'>아이디</span>
 					<InputWindow
 						placeholderText='이메일을 입력해주세요.'
 						onChange={onIdChange}
@@ -119,12 +119,14 @@ const Login = () => {
 						onFocus={handleFocus}
 					/>
 					{/* 에러 메시지: 아이디가 존재하지 않습니다 */}
-					{errorId && <span className='text-sm text-red-600'>{errorId}</span>}
+					{errorId && (
+						<span className='text-[14px] text-red-600'>{errorId}</span>
+					)}
 				</div>
 
 				{/* Section: Password */}
-				<div className='h-1/4 grid grid-rows-[3fr_6fr_2fr]'>
-					<span className='text-sm md:text-lg'>비밀번호</span>
+				<div>
+					<span className='text-[14px]'>비밀번호</span>
 					<div className='relative'>
 						<InputWindow
 							placeholderText='비밀번호를 입력해주세요.'
@@ -141,7 +143,7 @@ const Login = () => {
 					</div>
 					{/* 에러 메시지: 비밀번호가 틀립니다 */}
 					{errorPassword && (
-						<span className='text-sm text-red-600'>{errorPassword}</span>
+						<span className='text-[14px] text-red-600'>{errorPassword}</span>
 					)}
 				</div>
 
@@ -153,7 +155,7 @@ const Login = () => {
 					>
 						확인
 					</button>
-					<div className='text-sm text-gray-800 my-3 flex gap-2'>
+					<div className='text-[15px] text-gray-800 my-3 flex gap-2'>
 						<span>같이달램이 처음이신가요?</span>
 						<span
 							className='text-orange-600'
