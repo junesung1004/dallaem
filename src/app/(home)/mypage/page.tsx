@@ -12,7 +12,6 @@ import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 import CardBase from './components/CardList/CardBase';
 import { getUserData } from '@/api/getUserData';
 import type { IUser } from '@/types/userType';
-import type { ProfileHeaderProps } from './components/ProfileHeader/ProfileHeader';
 import { useEffect, useState } from 'react';
 export interface IMeeting {
 	teamId: number;
