@@ -33,7 +33,7 @@ export default function Header() {
 	//zustand에 로그인/로그아웃 시 id 변수 추가
 
 	return (
-		<header className='flex flex-col justify-center w-full h-[56px] md:h-[60px] mx-auto bg-orange-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px] py-10'>
+		<header className='flex flex-col justify-center w-full h-[56px] md:h-[60px] mx-auto bg-orange-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px]'>
 			<div className='max-w-[1200px] w-full mx-auto'>
 				<nav className='md:mx-auto w-full gap-4 lg:w-[996px] xl:w-[1198px] flex justify-between text-xs md:text-base lg:text-lg text-white'>
 					<ul className='flex gap-2 sm:gap-4 lg:gap-5'>
