@@ -1,10 +1,8 @@
 import Button from '@/app/(home)/_components/Button';
-
 import CardList from '@/components/MainCard/CardList';
-
 import PageInfo from '@/components/PageInfo/PageInfo';
 import PageNavbar from '@/components/PageNav/PageNavbar';
-import FilterInputList from './_components/FilterInputList';
+import HomeFilter from './_components/HomeFilter';
 
 export default async function Home() {
 	return (
@@ -13,7 +11,7 @@ export default async function Home() {
 			<PageInfo pageKey='meetings' />
 
 			{/* 필터 드롭다운 메뉴  */}
-			<FilterInputList />
+			<HomeFilter />
 
 			{/* 달램핏 nav 및 filter 및 모임 만들기 */}
 			<div className='flex relative mt-10 mb-5'>
