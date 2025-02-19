@@ -1,7 +1,5 @@
 import Button from '@/app/(home)/_components/Button';
-
 import CardList from '@/components/MainCard/CardList';
-
 import PageInfo from '@/components/PageInfo/PageInfo';
 import PageNavbar from '@/components/PageNav/PageNavbar';
 import HomeFilter from './_components/HomeFilter';
