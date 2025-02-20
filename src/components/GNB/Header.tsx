@@ -9,8 +9,12 @@ import { useRouter } from 'next/navigation';
 
 export default function Header() {
 	const pathname = usePathname();
-	const { isLoggedIn, token, userId, setUserNull } = useStore.getState();
 	const router = useRouter();
+	//상태관리 변수 구독
+	const isLoggedIn = useStore((state) => state.isLoggedIn);
+	const token = useStore((state) => state.token);
+	const userId = useStore((state) => state.userId);
+	const setUserNull = useStore((state) => state.setUserNull);
 
 	//함수: 로그아웃
 	const logoutUser = () => {
@@ -48,18 +52,22 @@ export default function Header() {
 
 	//useEffect: 페이지 이동할 때마다 토큰 유효성 검증
 	useEffect(() => {
-		const currentToken = useStore.getState().token; // 최신 상태 가져오기
+		const { isLoggedIn, token, userId } = useStore.getState(); // 최신 상태 가져오기 (로그아웃, 새로고침 등 즉각 값 반영하여 렌더링)
 		validateToken();
 	}, [pathname]);
 
 	//useEffect: 10분마다 토큰 유효성 검증
 	useEffect(() => {
 		const intervalId = setInterval(() => {
-			const currentToken = useStore.getState().token; // 최신 상태 가져오기
+			const { isLoggedIn, token, userId } = useStore.getState(); // 최신 상태 가져오기
 			validateToken();
 		}, 600000);
 		return () => clearInterval(intervalId);
 	}, []);
+
+	useEffect(() => {
+		console.log('isLoggedIn 변경 감지:', isLoggedIn);
+	}, [isLoggedIn]);
 
 	return (
 		<header className='flex flex-col justify-center w-full h-[56px] md:h-[60px] mx-auto bg-orange-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px]'>
