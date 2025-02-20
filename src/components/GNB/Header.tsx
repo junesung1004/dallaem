@@ -23,7 +23,6 @@ export default function Header() {
 		if (hasHydrated) {
 			setIsReady(true);
 		}
-		console.log(setIsReady);
 	}, [hasHydrated]);
 
 	//함수: 로그아웃
