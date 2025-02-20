@@ -31,8 +31,6 @@ export default function CreateMeetingForm() {
 		handleEndDateChange,
 	} = useMeetingForm();
 
-	console.log('meetingPlace : ', meetingPlace);
-
 	const router = useRouter();
 
 	// form data submit 이벤트 핸들러러
@@ -40,9 +38,6 @@ export default function CreateMeetingForm() {
 		e: React.FormEvent<HTMLFormElement>,
 	) => {
 		e.preventDefault();
-
-		// 디버깅: meetingPlace 값 확인
-		console.log('선택된 장소:', meetingPlace);
 
 		const formData = new FormData(e.currentTarget);
 		formData.append('location', meetingPlace);

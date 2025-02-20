@@ -10,7 +10,7 @@ export function useMeetingForm() {
 	>(null);
 	const [meetingSelectedService, setMeetingSelectedService] = useState<
 		string | null
-	>(null);
+	>('OFFICE_STRETCHING');
 	const [meetingStartDate, setMeetingStartDate] = useState<Date | null>(null);
 	const [meetingEndDate, setMeetingEndDate] = useState<Date | null>(null);
 	const [meetingPeople, setMeetingPeople] = useState<number | null>(5);
