@@ -4,22 +4,59 @@ import { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useStore } from '@/store/useAuthStore';
+import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
+import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { joinGroup } from '@/api/detail-meeting/joinGroup';
 
 export function Footer({ createdBy }: { createdBy: number }) {
 	const [isJoinDisabled, setIsJoinDisabled] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
 	const userId = useStore((state) => state.userId);
+	const params = useParams();
+	const [id, setId] = useState<number | null>(null);
+	const { openModal } = useGlobalModal();
+	const router = useRouter();
 
 	useEffect(() => {
 		setIsOwner(userId !== null && userId === createdBy);
 	}, [userId, createdBy]);
 
-	const handleJoinClick = () => {
+	useEffect(() => {
+		if (params.id) {
+			setId(Number(params.id));
+		}
+	}, [params.id]);
+
+	const handleJoinClick = async () => {
 		if (userId === null) {
-			toast.error('로그인하세요~');
+			openModal({
+				content: '로그인이 필요해요',
+				confirmType: 'Alert',
+				buttonPosition: 'right',
+
+				onConfirm: () => router.push('/login'),
+			});
 		} else {
-			toast.success('참여했습니다~');
-			setIsJoinDisabled(true);
+			try {
+				await joinGroup(Number(id));
+				setIsJoinDisabled(true);
+				openModal({
+					content: '참여 완료했습니다',
+					confirmType: 'Alert',
+					buttonPosition: 'right',
+					onConfirm: () => console.log('참여완료'),
+				});
+			} catch (error) {
+				const errorMessage = (error as Error).message.replace(/^Error:\s*/, '');
+				openModal({
+					content: `${errorMessage}`,
+					confirmType: 'Alert',
+					buttonPosition: 'right',
+
+					onConfirm: () => console.log('참여 중 오류 발생', error),
+				});
+			}
 		}
 	};
 
