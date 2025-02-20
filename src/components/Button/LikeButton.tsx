@@ -2,8 +2,8 @@ import { useLike } from '../../hooks/customs/useLike';
 import { LikeButtonProps } from '../../types/likeButtonType';
 import Image from 'next/image';
 
-export const LikeButton = ({ itemId, userId }: LikeButtonProps) => {
-	const { isLiked, toggleLike } = useLike(itemId, userId);
+export const LikeButton = ({ itemId }: LikeButtonProps) => {
+	const { isLiked, toggleLike } = useLike(itemId);
 
 	return (
 		<button onClick={toggleLike} className='flex items-center justify-center'>

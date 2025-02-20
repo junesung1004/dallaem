@@ -5,10 +5,14 @@ import { InputWindow } from '../InputSection/InputWindow';
 import { signinUser } from '@/api/userAuth';
 import { useRouter } from 'next/navigation';
 import { HideToggle } from '../Toggle/HideToggle';
+import { useStore } from '@/store/useAuthStore';
+import { getUserData } from '@/api/getUserData';
 
 const Login = () => {
 	const router = useRouter();
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
+	const { isLoggedIn, token, userId, setIsLoggedIn, setToken, setUserId } =
+		useStore(); //zustand 상태
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
@@ -39,6 +43,15 @@ const Login = () => {
 			await signinUser({ email: id, password: password });
 			setErrorId('');
 			setErrorPassword('');
+			console.log('로그인 성공');
+
+			// 상태관리 변수에 저장
+			const currentToken = localStorage.getItem('authToken');
+			setIsLoggedIn(true);
+			setToken(currentToken);
+			const getId = (await getUserData()).id;
+			setUserId(getId);
+
 			//이전 페이지로 돌아감 (외부 사이트에서 접속했을 경우 홈으로 돌아감)
 			if (!referrer || !referrer.includes(window.location.hostname)) {
 				router.push('/');
@@ -46,6 +59,7 @@ const Login = () => {
 				router.back();
 			}
 		} catch (err: any) {
+			console.log('로그인 실패');
 			//로그인 실패. 에러 메시지 저장
 			if (err.message === '존재하지 않는 아이디입니다') {
 				setErrorId(err.message);
@@ -99,16 +113,16 @@ const Login = () => {
 
 	// return
 	return (
-		<div className='w-full h-full bg-white rounded-3xl px-5'>
-			<div className='w-[90%] h-full mx-auto flex flex-col justify-center gap-4'>
+		<div className='bg-white rounded-3xl py-8 px-4 md:px-[3.375rem]'>
+			<div className='mx-auto flex flex-col justify-between gap-[24px]'>
 				{/* Section: 제목 */}
-				<div className='w-full h-1/4 flex justify-center items-center'>
-					<span className='text-xl md:text-2xl'>로그인</span>
+				<div className='flex justify-center text-[20px] md:text-[24px] '>
+					<span>로그인</span>
 				</div>
 
 				{/* Section: ID */}
-				<div className='h-1/4 grid grid-rows-[3fr_6fr_2fr]'>
-					<span className='text-sm md:text-lg'>아이디</span>
+				<div className='text-[14px] flex flex-col gap-[8px]'>
+					<span>아이디</span>
 					<InputWindow
 						placeholderText='이메일을 입력해주세요.'
 						onChange={onIdChange}
@@ -119,12 +133,12 @@ const Login = () => {
 						onFocus={handleFocus}
 					/>
 					{/* 에러 메시지: 아이디가 존재하지 않습니다 */}
-					{errorId && <span className='text-sm text-red-600'>{errorId}</span>}
+					{errorId && <span className='text-red-600'>{errorId}</span>}
 				</div>
 
 				{/* Section: Password */}
-				<div className='h-1/4 grid grid-rows-[3fr_6fr_2fr]'>
-					<span className='text-sm md:text-lg'>비밀번호</span>
+				<div className='text-[14px] flex flex-col gap-[8px]'>
+					<span>비밀번호</span>
 					<div className='relative'>
 						<InputWindow
 							placeholderText='비밀번호를 입력해주세요.'
@@ -141,19 +155,19 @@ const Login = () => {
 					</div>
 					{/* 에러 메시지: 비밀번호가 틀립니다 */}
 					{errorPassword && (
-						<span className='text-sm text-red-600'>{errorPassword}</span>
+						<span className='text-red-600'>{errorPassword}</span>
 					)}
 				</div>
 
 				{/* Section: 로그인 버튼 */}
-				<div className='h-1/4 flex flex-col justify-center items-center'>
+				<div className='flex flex-col justify-center items-center gap-[24px]'>
 					<button
-						className='w-full aspect-[311/40] bg-gray-400 rounded-xl'
+						className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
 						onClick={handleSubmit}
 					>
 						확인
 					</button>
-					<div className='text-sm text-gray-800 my-3 flex gap-2'>
+					<div className='text-[15px] text-gray-800 flex gap-[4px]'>
 						<span>같이달램이 처음이신가요?</span>
 						<span
 							className='text-orange-600'

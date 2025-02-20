@@ -64,7 +64,7 @@ function ImageContainer({ children }: { children: React.ReactNode }) {
 //이미지 섹션
 function ImageSection({ src, alt }: { src: string; alt: string }) {
 	return (
-		<div className='sm:w-full w-[300px] md:w-[256px] h-[156px] bg-white sm:border-r-2'>
+		<div className='sm:w-full w-[300px] md:w-[256px] h-[156px] bg-white sm:border-r-2 relative'>
 			<Image
 				alt={alt}
 				src={src}

@@ -71,21 +71,17 @@ export default function DetailPage() {
 	}
 
 	return (
-		<div className='px-28 py-12 min-h-screen'>
+		<div className='mb-5 min-h-screen'>
 			<div className='flex flex-wrap gap-7 justify-center w-full'>
-				<div className='flex-1 w-full min-w-[300px] h-72'>
-					<div className='overflow-hidden border-[2px] border-gray-200 shadow-md rounded-3xl '>
-						<div className='relative'>
-							<DeadlineBadge registrationEnd='2025-02-13T04:48:55.087Z' />
-							<Image
-								src={meetingData.image}
-								alt='더미 이미지'
-								width={400}
-								height={300}
-								className='w-full min-w-[300px] h-72'
-							/>
-						</div>
-					</div>
+				<div className='flex-1 w-full min-w-[300px] h-72 overflow-hidden border-[2px] relative border-gray-200 shadow-md rounded-3xl'>
+					<DeadlineBadge registrationEnd={meetingData.registrationEnd} />
+					<Image
+						src={meetingData.image}
+						alt='더미 이미지'
+						width={400}
+						height={300}
+						className='w-full min-w-[300px] h-72'
+					/>
 				</div>
 				<div className='flex-1 min-w-[300px]'>
 					<MeetingCard
@@ -96,23 +92,27 @@ export default function DetailPage() {
 					/>
 				</div>
 			</div>
-			{isReviewLoading ? (
-				<div className='text-center text-gray-500 mt-10'>
-					리뷰를 불러오는 중...
+			<div className='border-t-2 border-gray-300 mt-10 p-5 h-screen bg-white'>
+				<div className='mb-4 font-bold text-lg'>
+					이용자들은 이 프로그램을 이렇게 느꼈어요!!
 				</div>
-			) : !reviewsData || reviewsData.length === 0 ? (
-				<div className='text-center text-gray-500 mt-10'>
-					아직 작성된 리뷰가 없습니다.
-				</div>
-			) : (
-				<Pagination
-					currentData={reviewsData}
-					currentPage={currentPage}
-					totalPages={totalPages}
-					onPageChange={handlePageChange}
-				/>
-			)}
-
+				{isReviewLoading ? (
+					<div className='text-center text-gray-500 mt-60'>
+						리뷰를 불러오는 중...
+					</div>
+				) : !reviewsData || reviewsData.length === 0 ? (
+					<div className=' text-gray-500 mt-60 text-center '>
+						아직 작성된 리뷰가 없어요
+					</div>
+				) : (
+					<Pagination
+						currentData={reviewsData}
+						currentPage={currentPage}
+						totalPages={totalPages}
+						onPageChange={handlePageChange}
+					/>
+				)}
+			</div>
 			<div className='fixed bottom-0 left-0 w-full '>
 				<Footer createdBy={meetingData.createdBy} />
 			</div>
