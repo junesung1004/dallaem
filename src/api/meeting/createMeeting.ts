@@ -1,11 +1,17 @@
 export const createMeeting = async (form: FormData) => {
+	const token = localStorage.getItem('authToken');
+
+	if (!token) {
+		throw new Error('인증 토큰이 없습니다.');
+	}
+
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings`,
 		{
 			method: 'POST',
 			headers: {
 				// 'Content-Type': 'application/json',
-				Authorization: `Beare ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+				Authorization: `Beare ${token}`,
 			},
 			body: form,
 		},

@@ -6,11 +6,12 @@ interface HideToggleInterface {
 
 const HideToggle = ({ onClick, isHidden, className }: HideToggleInterface) => {
 	return (
-		<img
-			src={isHidden ? 'icons/visibilityOff.png' : 'icons/visibilityOn.png'}
-			onClick={onClick}
-			className={className}
-		/>
+		<button onClick={onClick}>
+			<img
+				src={isHidden ? 'icons/visibilityOff.png' : 'icons/visibilityOn.png'}
+				className={className}
+			/>
+		</button>
 	);
 };
 

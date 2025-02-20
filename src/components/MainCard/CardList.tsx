@@ -1,39 +1,49 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useFilterStore } from '@/store/useInputSelectFilterStore';
+
+import Card from './Card';
 import { DateBadge } from '../Badge/DateBadge';
 import { LikeButton } from '../Button/LikeButton';
-import Card from './Card';
-import { useEffect, useState } from 'react';
-import { getMeetingData } from '@/api/meeting/getMeetingDate';
-import { CreateMeeting } from '@/types/createMeetingType';
 import Members from '../Members/Members';
 import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 
-export default function CardList() {
-	const [meetings, setMeetings] = useState<CreateMeeting[]>();
+import { CreateMeeting } from '@/types/createMeetingType';
+import { useMainCard } from '@/hooks/customs/useMainCard';
+
+export default function CardList({
+	initialData,
+}: {
+	initialData?: CreateMeeting[];
+}) {
 	const router = useRouter();
+	const { meetings } = useMainCard(initialData || []);
 
-	// console.log('meetings : ', meetings);
+	// 🟢 Zustand에서 전역 필터 상태 가져오기
+	const { selectedFilters } = useFilterStore();
 
-	const getMeetingListDate = async () => {
-		try {
-			const res = await getMeetingData();
-			setMeetings(res);
-		} catch (error) {
-			console.error('모임 목록 가져오기 기능 실패 : ', error);
-		}
-	};
+	// ✅ 필터 적용된 모임 목록
+	const filteredMeetings = meetings?.filter((meeting) => {
+		const locationMatch =
+			!selectedFilters.location ||
+			meeting.location.includes(selectedFilters.location);
 
-	useEffect(() => {
-		getMeetingListDate();
-	}, []);
+		const dateMatch =
+			!selectedFilters.date ||
+			(meeting.dateTime &&
+				new Date(meeting.dateTime)
+					.toISOString()
+					.startsWith(selectedFilters.date));
+
+		return locationMatch && dateMatch;
+	});
 
 	return (
 		<div className='flex flex-col items-center gap-6'>
-			{meetings?.map((el) => (
+			{filteredMeetings?.map((el) => (
 				<Card key={el.id ?? 0}>
 					<Card.ImageContainer>
 						<Card.ImageSection
@@ -51,7 +61,6 @@ export default function CardList() {
 
 					<Card.Content>
 						<Card.Header>
-							{/* 왼쪽 섹션 */}
 							<Card.Header.Left
 								title={
 									el.type === 'OFFICE_STRETCHING'
@@ -76,18 +85,18 @@ export default function CardList() {
 								<DateBadge
 									text={
 										el.registrationEnd
-											? new Date(el.registrationEnd).toISOString() // Date 객체를 string으로 변환
+											? new Date(el.registrationEnd).toISOString()
 											: '유효하지 않은 시간'
 									}
 									type='time'
 								/>
 							</Card.Header.Left>
 
-							{/* 오른쪽 섹션 (찜 버튼) */}
 							<Card.Header.Right>
 								<LikeButton itemId={el.id ?? 0} />
 							</Card.Header.Right>
 						</Card.Header>
+
 						<Card.Footer
 							max={40}
 							value={30}

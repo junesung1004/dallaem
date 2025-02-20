@@ -7,6 +7,7 @@ import { useMeetingForm } from '@/hooks/customs/useMeeting';
 import { useRouter } from 'next/navigation';
 
 export default function CreateMeetingForm() {
+	// 커스텀 훅훅
 	const {
 		meetingName,
 		meetingPlace,
@@ -31,6 +32,7 @@ export default function CreateMeetingForm() {
 
 	const router = useRouter();
 
+	// form data submit 이벤트 핸들러러
 	const clickUpdateMeetingHandler = async (
 		e: React.FormEvent<HTMLFormElement>,
 	) => {
@@ -103,7 +105,7 @@ export default function CreateMeetingForm() {
 				</label>
 				<div className='flex items-center'>
 					<div
-						className='xs:w-[250px] sm:w-[350px]'
+						className='sm:w-[230px] md:w-[350px]'
 						onClick={() => document.getElementById('meeting-image')?.click()}
 					>
 						<InputWindow

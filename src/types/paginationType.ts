@@ -21,13 +21,6 @@ export interface ReviewType {
 	};
 }
 
-export interface DummyReviewDataType {
-	data: ReviewType[];
-	totalItemCount: number;
-	currentPage: number;
-	totalPages: number;
-}
-
 export interface PaginationReviewProps {
 	currentData: ReviewType[];
 	currentPage: number;
