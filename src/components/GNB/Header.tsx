@@ -12,9 +12,19 @@ export default function Header() {
 	const router = useRouter();
 	//상태관리 변수 구독
 	const isLoggedIn = useStore((state) => state.isLoggedIn);
-	const token = useStore((state) => state.token);
-	const userId = useStore((state) => state.userId);
 	const setUserNull = useStore((state) => state.setUserNull);
+
+	//hydration 관리
+	const { hasHydrated } = useStore();
+	// 초기 hydration 상태를 local state로 관리
+	const [isReady, setIsReady] = useState(false);
+	// hydration 완료 시 상태 업데이트
+	useEffect(() => {
+		if (hasHydrated) {
+			setIsReady(true);
+		}
+		console.log(setIsReady);
+	}, [hasHydrated]);
 
 	//함수: 로그아웃
 	const logoutUser = () => {
@@ -26,7 +36,7 @@ export default function Header() {
 		console.log('로그아웃 되었습니다. 홈으로 이동합니다');
 		router.push('/'); // 홈으로 이동
 	};
-
+	//함수: 토큰 유효성 검증
 	const validateToken = () => {
 		const currentToken = useStore.getState().token; //최신 값 가져옴
 		const currentIsLoggedIn = useStore.getState().isLoggedIn;
@@ -65,10 +75,37 @@ export default function Header() {
 		return () => clearInterval(intervalId);
 	}, []);
 
-	useEffect(() => {
-		console.log('isLoggedIn 변경 감지:', isLoggedIn);
-	}, [isLoggedIn]);
+	//조건부 렌더링: hydration이 안 되었을 경우 로딩중 화면
+	if (!isReady) {
+		return (
+			<header className='flex flex-col justify-center w-full h-[56px] md:h-[60px] mx-auto bg-orange-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px]'>
+				<div className='max-w-[1200px] w-full mx-auto'>
+					<nav className='md:mx-auto w-full gap-4 lg:w-[996px] xl:w-[1198px] flex justify-between text-xs md:text-base lg:text-lg text-white'>
+						<ul className='flex gap-2 sm:gap-4 lg:gap-5'>
+							<li className='font-bold'>
+								<Link href={'/'}>같이 달램</Link>
+							</li>
+							<li>
+								<Link href={'/'}>모임 찾기</Link>
+							</li>
+							<li>
+								<Link href={'/favorite-meetings'}>찜한 모임</Link>
+							</li>
+							<li>
+								<Link href={'/all-reviews'}>모든 리뷰</Link>
+							</li>
+						</ul>
 
+						<ul className='flex gap-2 sm:gap-4 lg:gap-5'>
+							<li>
+								<span>로딩중..</span>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</header>
+		);
+	}
 	return (
 		<header className='flex flex-col justify-center w-full h-[56px] md:h-[60px] mx-auto bg-orange-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px]'>
 			<div className='max-w-[1200px] w-full mx-auto'>
