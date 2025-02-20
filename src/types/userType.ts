@@ -9,7 +9,6 @@ export interface IUser {
 	updatedAt: string;
 }
 
-//확장하면 null 값 처리가 어려워져서 확장하지 않았습니다!
 export interface Store {
 	isLoggedIn: boolean;
 	token: string | null;

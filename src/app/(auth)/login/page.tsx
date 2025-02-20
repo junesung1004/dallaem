@@ -1,3 +1,4 @@
+import { AttendeeProfiles } from '@/app/(home)/meeting/_components/AttendeeProfiles';
 import { Selectbox } from '@/components/InputSection/Selectbox';
 import { Login } from '@/components/Login/Login';
 
