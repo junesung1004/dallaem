@@ -5,6 +5,7 @@ import ServiceSelector from '@/components/Service/Service';
 import { InputWindow } from '@/components/InputSection/InputWindow';
 import { useMeetingForm } from '@/hooks/customs/useMeeting';
 import { useRouter } from 'next/navigation';
+import { Selectbox } from '@/components/InputSection/Selectbox';
 
 export default function CreateMeetingForm() {
 	// 커스텀 훅훅
@@ -30,6 +31,8 @@ export default function CreateMeetingForm() {
 		handleEndDateChange,
 	} = useMeetingForm();
 
+	console.log('meetingPlace : ', meetingPlace);
+
 	const router = useRouter();
 
 	// form data submit 이벤트 핸들러러
@@ -37,6 +40,9 @@ export default function CreateMeetingForm() {
 		e: React.FormEvent<HTMLFormElement>,
 	) => {
 		e.preventDefault();
+
+		// 디버깅: meetingPlace 값 확인
+		console.log('선택된 장소:', meetingPlace);
 
 		const formData = new FormData(e.currentTarget);
 		formData.append('location', meetingPlace);
@@ -90,10 +96,10 @@ export default function CreateMeetingForm() {
 				<label className='font-semibold' htmlFor='meeting-place'>
 					장소
 				</label>
-				<InputWindow
+				<Selectbox
+					value={meetingPlace}
 					placeholderText='장소를 선택해주세요'
 					onChange={(e) => meetingPlaceTextChangeHandler(e)}
-					value={meetingPlace}
 					id='meeting-place'
 				/>
 			</div>

@@ -113,7 +113,7 @@ export function useMeetingForm() {
 
 	//모임 장소
 	const meetingPlaceTextChangeHandler = (
-		e: React.ChangeEvent<HTMLInputElement>,
+		e: React.ChangeEvent<HTMLSelectElement>,
 	) => {
 		setMeetingPlace(e.target.value);
 	};
