@@ -9,8 +9,8 @@ import { Pagination } from '../_components/Pagination';
 import Image from 'next/image';
 import { ReviewType } from '@/types/paginationType';
 import { getDetailMeetingData } from '@/api/detail-meeting/getDetailMeetingDate';
-import { getDetailReviewData } from '@/api/detail-meeting/getDetailReviewData';
 import { DetailMeetingDataType } from '@/types/meetingDetail';
+import { reviewService } from '@/service/reviewService';
 
 export default function DetailPage() {
 	const params = useParams();
@@ -45,11 +45,12 @@ export default function DetailPage() {
 		const fetchReviews = async () => {
 			setIsReviewLoading(true);
 			try {
-				const { data, totalItemCount } = await getDetailReviewData(
-					id,
-					limit,
-					currentPage,
-				);
+				const { data, totalItemCount } =
+					await reviewService.getDetailReviewData({
+						gatheringId: id,
+						limit: limit,
+						currentPage: currentPage,
+					});
 				setReviewsData(data);
 				setTotalPages(Math.ceil(totalItemCount / limit));
 			} catch (err) {
