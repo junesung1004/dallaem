@@ -1,11 +1,26 @@
-export const getMeetingData = async () => {
-	// 숫자 변환 후 기본값 설정
-	const limit = 10;
-	const offset = 12;
+import { getMeetingParamsType } from '@/types/meetingsType';
 
+export const getMeetingData = async ({
+	type,
+	location,
+	sortBy,
+	sortOrder,
+	limit = 10,
+	offset = 12,
+}: getMeetingParamsType) => {
 	try {
+		const queryParams = new URLSearchParams();
+
+		if (type) queryParams.append('type', type);
+		if (location) queryParams.append('location', location);
+		if (sortBy) queryParams.append('sortBy', sortBy);
+		if (sortOrder) queryParams.append('sortOrder', sortOrder);
+
+		queryParams.append('limit', limit.toString());
+		queryParams.append('offset', offset.toString());
+
 		const res = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=${limit}&offset=${offset}`,
+			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?${queryParams.toString()}`,
 		);
 
 		if (!res.ok) {

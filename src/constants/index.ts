@@ -1,21 +1,11 @@
-interface PageInfoData {
-	title: string;
-	description: string;
-	src: string;
-}
+import {
+	FilteringData,
+	PageInfoData,
+	PageNavData,
+} from '@/types/pageComponentType';
 
-interface PageNavData {
-	id: string;
-	label: string;
-	icon?: string;
-	active: boolean;
-	subItems?: PageNavData[];
-}
-
-interface FilteringData {
-	label: string;
-	value: string;
-}
+/** API URL */
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const PAGE_INFO: Record<string, PageInfoData> = {
 	meetings: {
@@ -154,6 +144,3 @@ export const FITERING_DATA: Record<string, FilteringData[]> = {
 		},
 	],
 };
-
-/** API URL */
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
