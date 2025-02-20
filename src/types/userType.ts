@@ -8,3 +8,18 @@ export interface IUser {
 	createdAt: string;
 	updatedAt: string;
 }
+
+//확장하면 null 값 처리가 어려워져서 확장하지 않았습니다!
+export interface Store {
+	isLoggedIn: boolean;
+	token: string | null;
+	userId: number | null;
+	email: string | null;
+	name: string | null;
+	companyName: string | null;
+	image: string | null;
+	setIsLoggedIn: (status: boolean) => void;
+	setToken: (newToken: string | null) => void;
+	setUserId: (id: number | null) => void;
+	setUserNull: () => void;
+}
