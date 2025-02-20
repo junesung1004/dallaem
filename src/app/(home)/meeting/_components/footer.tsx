@@ -3,23 +3,19 @@
 import { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useStore } from '@/store/useAuthStore';
 
 export function Footer({ createdBy }: { createdBy: number }) {
-	const [userId, setUserId] = useState<string | null>(null);
-	const [isOwner, setIsOwner] = useState(false);
 	const [isJoinDisabled, setIsJoinDisabled] = useState(false);
+	const [isOwner, setIsOwner] = useState(false);
+	const userId = useStore((state) => state.userId);
 
 	useEffect(() => {
-		const storedUserId = localStorage.getItem('userId');
-		setUserId(storedUserId);
-
-		if (storedUserId && Number(storedUserId) === createdBy) {
-			setIsOwner(true);
-		}
-	}, [createdBy]);
+		setIsOwner(userId !== null && userId === createdBy);
+	}, [userId, createdBy]);
 
 	const handleJoinClick = () => {
-		if (!userId) {
+		if (userId === null) {
 			toast.error('로그인하세요~');
 		} else {
 			toast.success('참여했습니다~');
