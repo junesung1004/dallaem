@@ -1,10 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { useFilterStore } from '@/store/useInputSelectFilterStore';
-import { getMeetingData } from '@/api/meeting/getMeetingDate';
-import { CreateMeeting } from '@/types/createMeetingType';
+
 import Card from './Card';
 import { DateBadge } from '../Badge/DateBadge';
 import { LikeButton } from '../Button/LikeButton';
@@ -13,26 +11,19 @@ import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 
-export default function CardList() {
-	const [meetings, setMeetings] = useState<CreateMeeting[]>([]);
+import { CreateMeeting } from '@/types/createMeetingType';
+import { useMainCard } from '@/hooks/customs/useMainCard';
+
+export default function CardList({
+	initialData,
+}: {
+	initialData?: CreateMeeting[];
+}) {
 	const router = useRouter();
+	const { meetings } = useMainCard(initialData || []);
 
 	// 🟢 Zustand에서 전역 필터 상태 가져오기
 	const { selectedFilters } = useFilterStore();
-
-	// ✅ 모임 데이터 가져오기
-	const getMeetingListDate = async () => {
-		try {
-			const res = await getMeetingData();
-			setMeetings(res);
-		} catch (error) {
-			console.error('모임 목록 가져오기 실패:', error);
-		}
-	};
-
-	useEffect(() => {
-		getMeetingListDate();
-	}, []);
 
 	// ✅ 필터 적용된 모임 목록
 	const filteredMeetings = meetings?.filter((meeting) => {

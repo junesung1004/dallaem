@@ -1,5 +1,5 @@
 export interface CreateMeeting {
-	id?:number;
+	id?: number;
 	location: string;
 	type: string | null;
 	name: string;
