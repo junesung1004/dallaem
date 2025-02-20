@@ -2,10 +2,23 @@ import { ReviewQueryType } from '@/types/reviewType';
 
 export const reviewService = {
 	async getDetailReviewData(option: ReviewQueryType) {
+		const params = new URLSearchParams();
+		Object.entries(option).forEach(([key, value]) => {
+			if (['limit', 'offset', 'currentPage'].includes(key)) {
+				return true;
+			}
+			params.append(key, String(value));
+		});
+
+		const paramsValue = params.toString();
+
 		try {
-			const offset = (option.currentPage ?? 1 - 1) * (option.limit ?? 10);
+			const currentPage = option.currentPage || 1;
+			const limit = option.limit || 4;
+			const offset = (currentPage - 1) * limit;
+
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/reviews?gatheringId=${option.gatheringId}&limit=${option.limit}&offset=${offset}`,
+				`${process.env.NEXT_PUBLIC_BASE_URL}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
 			);
 
 			if (!res.ok) {
@@ -13,7 +26,6 @@ export const reviewService = {
 			}
 
 			const data = await res.json();
-			console.log('ddd', data);
 			return {
 				data: data.data,
 				totalItemCount: data.totalItemCount,

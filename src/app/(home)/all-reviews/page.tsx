@@ -8,10 +8,13 @@ import PageNavbar from '@/components/PageNav/PageNavbar';
 import PageInfo from '@/components/PageInfo/PageInfo';
 import ReviewCard from '@/components/ReviewCard/ReviewCard';
 import { getReviewScore } from '@/api/getReveiwScore';
+import { useFetchReviews } from '@/hooks/customs/useFetchReviews';
 
 export default function AllReviews() {
 	const [selectedFilters, setSelectedFilters] = useState({});
 	const [reviewScore, setReviewScore] = useState<ReviewScore[] | null>(null);
+
+	useFetchReviews();
 
 	useEffect(() => {
 		getReviewScore({ gatheringId: '', type: '' })
