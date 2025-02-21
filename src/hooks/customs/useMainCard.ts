@@ -4,7 +4,7 @@ import { useFilterStore } from '@/store/useInputSelectFilterStore';
 import { useEffect, useState } from 'react';
 import type { MeetingCardListProps } from '@/types/meetingsType';
 import type { IMeeting } from '@/types/meetingsType';
-// import { meetingService } from '@/app/(home)/favorite-meetings/meetingService';
+import { meetingService } from '@/app/(home)/favorite-meetings/meetingService';
 export function useMainCard(
 	initialData: IMeeting[],
 	meetingType?: Pick<MeetingCardListProps, 'meetingType'>['meetingType'],
