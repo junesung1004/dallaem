@@ -90,6 +90,8 @@ export default function DetailPage() {
 						location={meetingData.location}
 						date={meetingData.dateTime}
 						id={meetingData.id}
+						participantCount={meetingData.participantCount}
+						capacity={meetingData.capacity}
 					/>
 				</div>
 			</div>

@@ -3,6 +3,8 @@ export interface MeetingCardProps {
 	location: string;
 	date: string;
 	id: number;
+	capacity: number;
+	participantCount: number;
 }
 
 export interface DetailMeetingDataType {
