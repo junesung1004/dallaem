@@ -5,10 +5,10 @@ import { useFilterStore } from '@/store/useInputSelectFilterStore';
 import React, { useEffect } from 'react';
 
 export default function HomeFilter() {
-	const { selectedFilters, setSelectedFilters } = useFilterStore();
+	const { selectedFilters } = useFilterStore();
 
 	useEffect(() => {
-		console.log('현재 필터 값:', selectedFilters);
+		//console.log('현재 필터 값:', selectedFilters);
 	}, [selectedFilters]);
 
 	return (
@@ -16,8 +16,6 @@ export default function HomeFilter() {
 			<FilterList
 				// 사용 가능한 필터 선택
 				enabledFilters={['location', 'date', 'sortByReview']}
-				selectedFilters={selectedFilters}
-				onFilterChange={(filters) => setSelectedFilters(filters)}
 			/>
 		</div>
 	);
