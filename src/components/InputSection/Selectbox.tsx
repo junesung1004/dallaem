@@ -1,34 +1,35 @@
+import { ChangeEvent } from 'react';
+
 interface SelectboxInterface {
 	placeholderText: string;
-	values: string[];
 	id?: string;
 	className?: string;
-	onChange?: () => void;
+	value: string; // Value prop to handle the selected option
+	onChange: (e: ChangeEvent<HTMLSelectElement>) => void; // onChange handler
 }
 
 const Selectbox = ({
 	placeholderText,
-	values,
 	id,
 	className,
+	value, // Accept the value prop to manage selected option
 	onChange,
 }: SelectboxInterface) => {
 	return (
-		<div className={`w-full aspect-[460/50] mx-auto m-3 `}>
+		<div className={`w-full aspect-[460/50] mx-auto m-3`}>
 			<select
-				name={placeholderText}
 				id={id || undefined}
 				className={`w-full h-full outline-none text-base bg-gray-50 px-3 rounded-xl ${className || ''}`}
-				onChange={onChange}
+				value={value} // Bind the selected value to the value prop
+				onChange={onChange} // Pass the change handler
 			>
-				<option disabled hidden selected>
+				<option value='' disabled hidden>
 					{placeholderText}
 				</option>
-				{values.map((value, index) => (
-					<option key={index} value={value}>
-						{value}
-					</option>
-				))}
+				<option value='건대입구'>건대입구</option>
+				<option value='을지로3가'>을지로 3가</option>
+				<option value='신림'>신림</option>
+				<option value='홍대입구'>홍대입구</option>
 			</select>
 		</div>
 	);

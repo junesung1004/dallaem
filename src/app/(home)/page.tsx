@@ -1,8 +1,9 @@
-import Button from '@/app/(home)/_components/Button';
+// import Button from '@/app/(home)/_components/Button';
 import CardList from '@/components/MainCard/CardList';
 import PageInfo from '@/components/PageInfo/PageInfo';
 import PageNavbar from '@/components/PageNav/PageNavbar';
 import HomeFilter from './_components/HomeFilter';
+import HomeButton from './_components/HomeButton';
 
 export default async function Home() {
 	return (
@@ -17,7 +18,7 @@ export default async function Home() {
 			<div className='flex relative mt-10 mb-5'>
 				<PageNavbar pageKey='meetings' />
 				<div className='absolute right-0'>
-					<Button text='모임 만들기' />
+					<HomeButton />
 				</div>
 			</div>
 
