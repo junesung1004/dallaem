@@ -39,7 +39,6 @@ export function Footer({
 
 	useEffect(() => {
 		if (params.id) {
-			console.log('참가자 id', userId);
 			setId(Number(params.id));
 		}
 	}, [params.id]);
