@@ -1,6 +1,6 @@
-const getAttendee = async (id: number) => {
+const getMeetingAttendee = async (meetingId: number) => {
 	const response = await fetch(
-		`https://fe-adv-project-together-dallaem.vercel.app/7/gatherings/${id}/participants`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${meetingId}/participants`,
 		{
 			method: 'GET',
 			headers: {
@@ -20,4 +20,4 @@ const getAttendee = async (id: number) => {
 	return data;
 };
 
-export { getAttendee };
+export { getMeetingAttendee };

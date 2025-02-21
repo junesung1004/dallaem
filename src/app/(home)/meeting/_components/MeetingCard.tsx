@@ -33,9 +33,9 @@ export const MeetingCard = ({ location, type, date, id }: MeetingCardProps) => {
 				</div>
 			</div>
 
-			<div className='border-[1.2px] border-gray-200 border-dashed mb-2'>
-				<div id='AttendeeProfiles' className='w-1/3 border border-2'>
-					<AttendeeProfiles meetingId={id} />
+			<div className='border-[1.2px] border-gray-200 border-dashed mb-2 px-[24px]'>
+				<div id='AttendeeProfiles'>
+					<AttendeeProfiles gatheringId={id} />
 				</div>
 			</div>
 
