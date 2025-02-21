@@ -2,12 +2,11 @@ import { create } from 'zustand';
 
 interface FilterState {
 	selectedFilters: {
+		type: string;
 		location: string;
 		date: string;
-		sortReview: {
-			sortBy: string;
-			sortOrder: 'asc' | 'desc';
-		};
+		sortBy: string;
+		sortOrder: string;
 	};
 	setSelectedFilters: (
 		filters: Partial<FilterState['selectedFilters']>,
@@ -16,12 +15,11 @@ interface FilterState {
 
 export const useFilterStore = create<FilterState>((set) => ({
 	selectedFilters: {
+		type: '',
 		location: '',
 		date: '',
-		sortReview: {
-			sortBy: 'createdAt',
-			sortOrder: 'asc',
-		},
+		sortBy: '',
+		sortOrder: 'asc',
 	},
 	setSelectedFilters: (filters) =>
 		set((state) => ({

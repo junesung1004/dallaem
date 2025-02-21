@@ -1,33 +1,71 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useStore } from '@/store/useAuthStore';
 import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import { joinGroup } from '@/api/detail-meeting/joinGroup';
+import {
+	participantsGroup,
+	leaveGroup,
+} from '@/api/detail-meeting/participantsGroup';
+import { cancleGroup } from '@/api/detail-meeting/cancelGroup';
 
-export function Footer({ createdBy }: { createdBy: number }) {
+export function Footer({
+	createdBy,
+	capacity,
+	participantCount,
+}: {
+	createdBy: number;
+	capacity: number;
+	participantCount: number;
+}) {
 	const [isJoinDisabled, setIsJoinDisabled] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
+	const [isDeadline, setIsDeadline] = useState(false);
 	const userId = useStore((state) => state.userId);
 	const params = useParams();
 	const [id, setId] = useState<number | null>(null);
-	const { openModal } = useGlobalModal();
+	const { openModal, closeModal } = useGlobalModal();
 	const router = useRouter();
 
 	useEffect(() => {
 		setIsOwner(userId !== null && userId === createdBy);
-	}, [userId, createdBy]);
+		if (participantCount >= capacity) {
+			setIsDeadline(true);
+		}
+	}, [userId, createdBy, capacity, participantCount]);
 
 	useEffect(() => {
 		if (params.id) {
+			console.log('참가자 id', userId);
 			setId(Number(params.id));
 		}
 	}, [params.id]);
 
+	// 모임에 참여한 userId들
+	useEffect(() => {
+		const checkParticipation = async () => {
+			if (userId && id) {
+				try {
+					const participants = await participantsGroup(id);
+					const hasParticipated = participants.some(
+						(participant: { userId: number }) => participant.userId === userId,
+					);
+
+					if (hasParticipated) {
+						setIsJoinDisabled(true);
+					}
+				} catch (error) {
+					console.error('참여자 목록 조회 실패:', error);
+				}
+			}
+		};
+		checkParticipation();
+	}, [userId, id]);
+
+	// 참가자 모임 참여, 참여취소
 	const handleJoinClick = async () => {
 		if (userId === null) {
 			openModal({
@@ -35,9 +73,42 @@ export function Footer({ createdBy }: { createdBy: number }) {
 				confirmType: 'Alert',
 				buttonPosition: 'right',
 
-				onConfirm: () => router.push('/login'),
+				onConfirm: () => {
+					closeModal();
+					router.push('/login');
+				},
 			});
-		} else {
+			return;
+		}
+		if (userId && isJoinDisabled) {
+			try {
+				await leaveGroup(Number(id));
+				setIsJoinDisabled(false);
+				openModal({
+					content: '참여가 취소되었습니다',
+					confirmType: 'Alert',
+					buttonPosition: 'right',
+					onConfirm: () => {
+						closeModal();
+						console.log('참여 취소 완료');
+					},
+				});
+			} catch (error) {
+				const errorMessage = (error as Error).message.replace(/^Error:\s*/, '');
+				openModal({
+					content: `${errorMessage}`,
+					confirmType: 'Alert',
+					buttonPosition: 'right',
+					onConfirm: () => {
+						closeModal();
+						console.log('참여 취소 중 오류 발생', error);
+					},
+				});
+			}
+			return;
+		}
+
+		if (userId) {
 			try {
 				await joinGroup(Number(id));
 				setIsJoinDisabled(true);
@@ -45,7 +116,11 @@ export function Footer({ createdBy }: { createdBy: number }) {
 					content: '참여 완료했습니다',
 					confirmType: 'Alert',
 					buttonPosition: 'right',
-					onConfirm: () => console.log('참여완료'),
+
+					onConfirm: () => {
+						closeModal();
+						console.log('참여완료');
+					},
 				});
 			} catch (error) {
 				const errorMessage = (error as Error).message.replace(/^Error:\s*/, '');
@@ -54,18 +129,53 @@ export function Footer({ createdBy }: { createdBy: number }) {
 					confirmType: 'Alert',
 					buttonPosition: 'right',
 
-					onConfirm: () => console.log('참여 중 오류 발생', error),
+					onConfirm: () => {
+						closeModal();
+						console.log('참여 중 오류 발생', error);
+					},
 				});
 			}
 		}
 	};
 
-	const handleCancelClick = () => {
-		toast.info('취소요~');
+	// 주최자 관련 로직
+	const handleCancelClick = async () => {
+		try {
+			await cancleGroup(Number(id));
+			openModal({
+				content: '모집 공고가 취소되었습니다',
+				confirmType: 'Alert',
+				buttonPosition: 'right',
+				onConfirm: () => {
+					closeModal();
+					router.push('/');
+					console.log('모집 취소 완료');
+				},
+			});
+		} catch (error) {
+			const errorMessage = (error as Error).message.replace(/^Error:\s*/, '');
+			openModal({
+				content: `${errorMessage}`,
+				confirmType: 'Alert',
+				buttonPosition: 'right',
+				onConfirm: () => {
+					closeModal();
+					console.log('모집 취소 중 오류 발생', error);
+				},
+			});
+		}
 	};
 
 	const handleShareClick = () => {
-		toast.success('공유완료~');
+		openModal({
+			content: '공유 되었습니다',
+			confirmType: 'Alert',
+			buttonPosition: 'right',
+			onConfirm: () => {
+				router.push('/');
+				closeModal();
+			},
+		});
 	};
 
 	return (
@@ -97,22 +207,24 @@ export function Footer({ createdBy }: { createdBy: number }) {
 							공유하기
 						</button>
 					</div>
+				) : isDeadline ? (
+					<div className='bg-gray-400 text-white px-5 py-2 rounded-xl text-sm transition-colors whitespace-nowrap max-h-[40px]'>
+						참여하기
+					</div>
 				) : (
 					<button
 						onClick={handleJoinClick}
-						disabled={isJoinDisabled}
+						disabled={!isJoinDisabled ? false : false}
 						className={`px-5 py-2 rounded-xl text-sm transition-colors whitespace-nowrap max-h-[40px] ${
 							isJoinDisabled
-								? 'bg-gray-400 text-white cursor-not-allowed'
+								? 'border-orange-600 border text-orange-600 font-bold'
 								: 'bg-orange-600 text-white'
 						}`}
 					>
-						참여하기
+						{isJoinDisabled ? '참여 취소하기' : '참여하기'}
 					</button>
 				)}
 			</div>
-
-			<ToastContainer />
 		</div>
 	);
 }

@@ -9,10 +9,15 @@ import PageInfo from '@/components/PageInfo/PageInfo';
 import ReviewCard from '@/components/ReviewCard/ReviewCard';
 import { getReviewScore } from '@/api/getReveiwScore';
 import { useFetchReviews } from '@/hooks/customs/useFetchReviews';
+import { useFilterStore } from '@/store/useInputSelectFilterStore';
 
 export default function AllReviews() {
-	const [selectedFilters, setSelectedFilters] = useState({});
+	const { selectedFilters } = useFilterStore();
 	const [reviewScore, setReviewScore] = useState<ReviewScore[] | null>(null);
+
+	useEffect(() => {
+		console.log('현재 필터 값:', selectedFilters);
+	}, [selectedFilters]);
 
 	useFetchReviews();
 
@@ -37,17 +42,6 @@ export default function AllReviews() {
 				<FilterList
 					// 사용 가능한 필터 선택
 					enabledFilters={['location', 'date', 'sortByReview']}
-					selectedFilters={selectedFilters}
-					onFilterChange={(filters) =>
-						setSelectedFilters({
-							location: filters.location || '',
-							date: filters.date || '',
-							sortReview: filters.sortReview || {
-								sortBy: 'createdAt',
-								sortOrder: 'asc',
-							},
-						})
-					}
 				/>
 				<div>
 					<ReviewCard>
