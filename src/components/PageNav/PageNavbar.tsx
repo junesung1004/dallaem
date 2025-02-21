@@ -5,11 +5,12 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_DATA } from '../../constants/index';
 import PageNavButton from './PageNavButton';
+import { useFilterStore } from '@/store/useInputSelectFilterStore';
 
 interface NavBarProps {
 	pageKey: string;
 	onMainClick?: (id: string) => void;
-	onSubClick?: (id: string) => void;
+	onSubClick?: (id: string | undefined) => void;
 }
 
 function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
@@ -17,42 +18,48 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 	const isMyPage = pageKey === 'mypage';
 	const pageNavData = NAV_DATA[pageKey];
 
+	const { selectedFilters, setSelectedFilters } = useFilterStore();
+
+	const [activeMainItem, setActiveMainItem] = useState<string>(
+		pageNavData[0]?.id || '',
+	);
+
 	// 현재 경로에서 mainId와 subId 추출 (mypage일 경우)
 	const pathSegments = pathname.split('/');
 	const initialMainId = isMyPage
 		? pathSegments[2] || pageNavData[0]?.id
 		: pageNavData[0]?.id;
-	const initialSubId = isMyPage ? pathSegments[3] : undefined;
+	const initialSubId = isMyPage ? pathSegments[3] : 'DALLAEMFIT';
 
-	// 내부 상태로 관리
-	const [activeMainId, setActiveMainId] = useState(initialMainId);
-	const [activeSubId, setActiveSubId] = useState(initialSubId);
-
-	const activeMainItem =
-		pageNavData.find((item) => item.id === activeMainId) || pageNavData[0];
+	useEffect(() => {
+		setActiveMainItem(initialMainId);
+		if (!selectedFilters.type) {
+			setSelectedFilters({ type: initialSubId ?? initialMainId });
+		}
+	}, [initialMainId, initialSubId, setSelectedFilters, selectedFilters.type]);
 
 	const handleMainClick = (id: string) => {
-		setActiveMainId(id);
 		const selectedMainItem = pageNavData.find((item) => item.id === id);
 		const firstSubItem = selectedMainItem?.subItems?.[0]?.id || undefined;
-		setActiveSubId(firstSubItem);
 
-		// 외부에서 라우팅 처리를 원하면 실행
+		setActiveMainItem(id);
+		// subItem이 있으면 subItem, 없으면 mainItem
+		setSelectedFilters({ type: firstSubItem ?? id });
 		onMainClick?.(id);
 	};
 
 	const handleSubClick = (id: string) => {
-		setActiveSubId(id);
+		setSelectedFilters({ type: id });
 		onSubClick?.(id);
 	};
 
 	// 애니메이션을 위한 활성화 버튼 추적
 	const mainNavRef = useRef<(HTMLButtonElement | null)[]>([]);
-	const [CurrentButton, setCurrentButton] = useState({ left: 0, width: 0 });
+	const [currentButton, setCurrentButton] = useState({ left: 0, width: 0 });
 
 	useEffect(() => {
 		const activeIndex = pageNavData.findIndex(
-			(item) => item.id === activeMainId,
+			(item) => item.id === activeMainItem,
 		);
 		const activeButton = mainNavRef.current[activeIndex];
 		if (activeButton) {
@@ -61,7 +68,7 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 				left: activeButton.offsetLeft,
 			});
 		}
-	}, [activeMainId, pageKey]);
+	}, [activeMainItem, pageKey]);
 
 	return (
 		<div className='flex flex-col relative'>
@@ -73,7 +80,7 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 						id={item.id}
 						label={item.label}
 						icon={item.icon}
-						isActive={item.id === activeMainId}
+						isActive={item.id === activeMainItem}
 						onClick={() => handleMainClick(item.id)}
 						variant='main'
 						ref={(el) => {
@@ -85,28 +92,34 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 				<motion.div
 					className='absolute bottom-1 h-[2px] bg-black rounded-full'
 					animate={{
-						width: CurrentButton.width,
-						left: CurrentButton.left,
+						width: currentButton.width,
+						left: currentButton.left,
 					}}
 				/>
 			</div>
 
 			{/* 서브 네비게이션 */}
-			{Array.isArray(activeMainItem?.subItems) &&
-				activeMainItem.subItems.length > 0 && (
+			{Array.isArray(
+				pageNavData.find((item) => item.id === activeMainItem)?.subItems,
+			) &&
+				(pageNavData?.find((item) => item.id === activeMainItem)?.subItems
+					?.length ?? 0) > 0 && (
 					<div className='relative overflow-hidden mt-2 whitespace-nowrap'>
 						<AnimatePresence mode='wait'>
 							<motion.div
-								key={activeMainId}
+								key={activeMainItem}
 								exit={{ opacity: 0 }}
 								transition={{ duration: 0.4, ease: 'easeInOut' }}
 							>
-								{(activeMainItem?.subItems ?? []).map((subItem) => (
+								{(
+									pageNavData.find((item) => item.id === activeMainItem)
+										?.subItems ?? []
+								).map((subItem) => (
 									<PageNavButton
 										key={subItem.id}
 										id={subItem.id}
 										label={subItem.label}
-										isActive={subItem.id === activeSubId}
+										isActive={subItem.id === selectedFilters.type}
 										onClick={() => handleSubClick(subItem.id)}
 										variant='sub'
 									/>
