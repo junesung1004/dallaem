@@ -4,9 +4,9 @@ import { InputWindow } from '../InputSection/InputWindow';
 
 import { signinUser } from '@/api/userAuth';
 import { useRouter } from 'next/navigation';
-import { HideToggle } from '../Toggle/HideToggle';
 import { useAuthStore } from '@/store/useAuthStore';
 import { getUserData } from '@/api/getUserData';
+import { HideToggleButton } from '../InputSection/HideToggleButton';
 
 const Login = () => {
 	const router = useRouter();
@@ -147,7 +147,7 @@ const Login = () => {
 							type={isHidden ? 'password' : 'text'}
 							isError={errorPassword ? true : false}
 						/>
-						<HideToggle
+						<HideToggleButton
 							onClick={onHideToggleChange}
 							isHidden={isHidden}
 							className='absolute inset-y-4 right-2 lg:inset-y-5'

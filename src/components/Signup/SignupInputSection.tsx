@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { InputWindow } from '../InputSection/InputWindow';
-import { HideToggle } from '../Toggle/HideToggle';
+import { HideToggleButton } from '../InputSection/HideToggleButton';
 
 interface SignupInputSectionInterface {
 	id: string;
@@ -60,10 +60,10 @@ const SignupInputSection = ({
 					className={'text-[14px] md:text-[16px]'}
 				/>
 				{type === 'password' && (
-					<HideToggle
+					<HideToggleButton
 						onClick={handleHideToggle}
 						isHidden={isHidden}
-						className='absolute inset-y-4 lg:inset-y-15 right-2 lg:inset-y-5'
+						className='absolute inset-y-3 right-2'
 					/>
 				)}
 			</div>

@@ -1,11 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useAuthStore } from '@/store/useAuthStore';
-
 import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
@@ -27,9 +23,8 @@ export function Footer({
 }) {
 	const [isJoinDisabled, setIsJoinDisabled] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
-
+	const [isDeadline, setIsDeadline] = useState(false);
 	const userId = useAuthStore((state) => state.userId);
-
 	const params = useParams();
 	const [id, setId] = useState<number | null>(null);
 	const { openModal, closeModal } = useGlobalModal();

@@ -4,7 +4,11 @@ interface HideToggleInterface {
 	className: string;
 }
 
-const HideToggle = ({ onClick, isHidden, className }: HideToggleInterface) => {
+const HideToggleButton = ({
+	onClick,
+	isHidden,
+	className,
+}: HideToggleInterface) => {
 	return (
 		<button onClick={onClick}>
 			<img
@@ -15,4 +19,4 @@ const HideToggle = ({ onClick, isHidden, className }: HideToggleInterface) => {
 	);
 };
 
-export { HideToggle };
+export { HideToggleButton };
