@@ -1,7 +1,5 @@
 'use client';
 import { signinUserInterface, signupUserInterface } from '@/api/userInterface';
-import { useStore } from '@/store/useAuthStore';
-import { useRouter } from 'next/router';
 
 // 로그인 기능 : 토큰 반환
 const signinUser = async ({ email, password }: signinUserInterface) => {

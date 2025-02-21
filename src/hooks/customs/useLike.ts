@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getLikedStatus, saveLike, removeLike } from '../../lib/likeStorage';
-import { useStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export const useLike = (itemId: number) => {
-	const userId = useStore((state) => state.userId);
+	const userId = useAuthStore((state) => state.userId);
 	const [isLiked, setIsLiked] = useState<boolean>(false);
 
 	useEffect(() => {

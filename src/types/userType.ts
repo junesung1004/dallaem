@@ -20,5 +20,9 @@ export interface Store {
 	setIsLoggedIn: (status: boolean) => void;
 	setToken: (newToken: string | null) => void;
 	setUserId: (id: number | null) => void;
+	setEmail: (email: string | null) => void;
+	setName: (name: string | null) => void;
+	setCompanyName: (companyName: string | null) => void;
+	setImage: (image: string | null) => void;
 	setUserNull: () => void;
 }
