@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
@@ -12,7 +12,7 @@ import { joinGroup } from '@/api/detail-meeting/joinGroup';
 export function Footer({ createdBy }: { createdBy: number }) {
 	const [isJoinDisabled, setIsJoinDisabled] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
-	const userId = useStore((state) => state.userId);
+	const userId = useAuthStore((state) => state.userId);
 	const params = useParams();
 	const [id, setId] = useState<number | null>(null);
 	const { openModal } = useGlobalModal();

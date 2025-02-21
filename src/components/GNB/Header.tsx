@@ -1,7 +1,6 @@
 'use client';
 
 import { useAuthStore } from '@/store/useAuthStore';
-import { useAuth } from '@/hooks/customs/useAuth';
 import Link from 'next/link';
 import React from 'react';
 import { ProfileTooltip } from '@/components/GNB/profileTooltip';
