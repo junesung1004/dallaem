@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 
 export default function Card({
 	children,
-	isClear = false,
+	registrationEnd,
 }: {
 	children: React.ReactNode;
-	isClear?: boolean;
+	registrationEnd: string;
 }) {
 	return (
 		<section
@@ -16,7 +16,7 @@ export default function Card({
 				`}
 		>
 			{children}
-			{isClear && (
+			{registrationEnd && new Date(registrationEnd) < new Date() && (
 				<div className='absolute bg-black bg-opacity-80 inset-0 flex items-center justify-center text-white'>
 					<div className='text-center'>
 						<p>마감된 챌린지예요,</p>

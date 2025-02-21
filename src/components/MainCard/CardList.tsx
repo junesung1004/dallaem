@@ -20,11 +20,13 @@ export default function CardList({
 	const router = useRouter();
 	const { meetings } = useMainCard(initialData || [], meetingType);
 
+	console.log('meetings : ', meetings);
+
 	return (
 		<div className='flex flex-col items-center gap-6'>
 			{/* {filteredMeetings?.map((el) => ( */}
 			{meetings?.map((el) => (
-				<Card key={el.id ?? 0}>
+				<Card key={el.id ?? 0} registrationEnd={el.registrationEnd}>
 					<Card.ImageContainer>
 						<Card.ImageSection
 							src={el.image ? el.image : '/images/default.png'}
@@ -85,12 +87,12 @@ export default function CardList({
 							}}
 						>
 							<div className='flex gap-2'>
-								<Members max={el.capacity ?? 0} value={2} />
+								<Members max={el.capacity ?? 0} value={el.participantCount} />
 								<StatusBadge />
 							</div>
 							<ProgressBar
-								max={10}
-								value={el.capacity ?? 0}
+								max={el.capacity}
+								value={el.participantCount}
 								isNeutral={false}
 								isAnimate={false}
 							/>
