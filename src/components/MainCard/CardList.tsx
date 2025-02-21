@@ -29,7 +29,6 @@ export default function CardList({
 				meetings.map((el) => (
 					<Card
 						id={el.id}
-						url={pathname}
 						key={el.id ?? 0}
 						registrationEnd={new Date(el.registrationEnd) < new Date()}
 					>
@@ -114,7 +113,6 @@ export default function CardList({
 					.map((el) => (
 						<Card
 							id={el.id}
-							url={pathname}
 							key={el.id ?? 0}
 							registrationEnd={new Date(el.registrationEnd) < new Date()}
 						>
