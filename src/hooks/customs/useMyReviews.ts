@@ -8,9 +8,13 @@ export const useMyReviews = () => {
 	const userId = useAuthStore((state) => state.userId);
 
 	const fetchMyReviews = async () => {
+		/** user정보 없으면 서버요청 하지말고 return */
+		if (!userId) {
+			return setReviews([]);
+		}
 		const reviewData: { data: IReview['data'] } =
 			await reviewService.getDetailReviewData({
-				userId: userId ?? undefined,
+				userId,
 			});
 		setReviews(reviewData?.data ?? []);
 	};
