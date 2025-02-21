@@ -17,16 +17,7 @@ export default function HomeFilter() {
 				// 사용 가능한 필터 선택
 				enabledFilters={['location', 'date', 'sortByReview']}
 				selectedFilters={selectedFilters}
-				onFilterChange={(filters) =>
-					setSelectedFilters({
-						location: filters.location || '',
-						date: filters.date || '',
-						sortReview: filters.sortReview || {
-							sortBy: 'createdAt',
-							sortOrder: 'asc',
-						},
-					})
-				}
+				onFilterChange={(filters) => setSelectedFilters(filters)}
 			/>
 		</div>
 	);

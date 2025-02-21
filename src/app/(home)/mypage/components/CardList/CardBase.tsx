@@ -2,8 +2,8 @@ import Image from 'next/image';
 import CardInfo from './CardInfo';
 import Tag from '../Tag/TagBase';
 import Button from '@/components/Button/Button';
-import type { IMeeting } from '@/app/(home)/mypage/page';
 import type { MeetingCardInfoProps } from './CardInfo';
+import type { IMeeting } from '@/types/meetingsType';
 import { cloneElement } from 'react';
 import dynamic from 'next/dynamic';
 
