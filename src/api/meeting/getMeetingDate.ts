@@ -5,7 +5,7 @@ export const getMeetingData = async ({
 	location,
 	sortBy,
 	sortOrder,
-	limit = 30,
+	limit = 40,
 	offset = 12,
 }: getMeetingParamsType) => {
 	try {
