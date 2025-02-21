@@ -20,40 +20,53 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 
 	const { selectedFilters, setSelectedFilters } = useFilterStore();
 
+	// ✅ 현재 활성화된 메인 메뉴 상태
 	const [activeMainItem, setActiveMainItem] = useState<string>(
 		pageNavData[0]?.id || '',
 	);
 
-	// 현재 경로에서 mainId와 subId 추출 (mypage일 경우)
+	// ✅ 현재 경로에서 mainId와 subId 추출
 	const pathSegments = pathname.split('/');
 	const initialMainId = isMyPage
 		? pathSegments[2] || pageNavData[0]?.id
 		: pageNavData[0]?.id;
-	const initialSubId = isMyPage ? pathSegments[3] : 'DALLAEMFIT';
+	const initialSubId = isMyPage
+		? pathSegments[3]
+		: pageNavData.find((item) => item.id === initialMainId)?.subItems?.[0]?.id;
 
+	// ✅ 초기 상태 설정
 	useEffect(() => {
 		setActiveMainItem(initialMainId);
-		if (!selectedFilters.type) {
-			setSelectedFilters({ type: initialSubId ?? initialMainId });
-		}
-	}, [initialMainId, initialSubId, setSelectedFilters, selectedFilters.type]);
 
+		// ✅ 서브 아이템이 없는 경우 mainId를 type으로 강제 설정
+		if (!initialSubId) {
+			setSelectedFilters({ type: initialMainId });
+		} else {
+			setSelectedFilters({ type: initialSubId });
+		}
+	}, [initialMainId, initialSubId, setSelectedFilters]);
+
+	// ✅ 메인 버튼 클릭 핸들러
 	const handleMainClick = (id: string) => {
 		const selectedMainItem = pageNavData.find((item) => item.id === id);
-		const firstSubItem = selectedMainItem?.subItems?.[0]?.id || undefined;
+		const firstSubItem = selectedMainItem?.subItems?.[0]?.id;
 
-		setActiveMainItem(id);
-		// subItem이 있으면 subItem, 없으면 mainItem
+		// ✅ 서브 아이템이 없으면 무조건 mainItem을 적용
 		setSelectedFilters({ type: firstSubItem ?? id });
+
+		// ✅ 상태 업데이트 순서 최적화
+		setActiveMainItem(id);
+
 		onMainClick?.(id);
 	};
 
+	// ✅ 서브 버튼 클릭 핸들러
 	const handleSubClick = (id: string) => {
 		setSelectedFilters({ type: id });
 		onSubClick?.(id);
 	};
 
-	// 애니메이션을 위한 활성화 버튼 추적
+	// ✅ 애니메이션을 위한 활성화 버튼 추적
 	const mainNavRef = useRef<(HTMLButtonElement | null)[]>([]);
 	const [currentButton, setCurrentButton] = useState({ left: 0, width: 0 });
 
