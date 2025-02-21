@@ -1,10 +1,10 @@
 import { getMeetingData } from '@/api/meeting/getMeetingDate';
 import { useFilterStore } from '@/store/useInputSelectFilterStore';
-import { useAuthStore } from '@/store/useAuthStore';
+// import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect, useState } from 'react';
 import type { MeetingCardListProps } from '@/types/meetingsType';
 import type { IMeeting } from '@/types/meetingsType';
-import { meetingService } from '@/app/(home)/favorite-meetings/meetingService';
+// import { meetingService } from '@/app/(home)/favorite-meetings/meetingService';
 export function useMainCard(
 	initialData: IMeeting[],
 	meetingType?: Pick<MeetingCardListProps, 'meetingType'>['meetingType'],
@@ -16,9 +16,10 @@ export function useMainCard(
 
 	// `meetingType`이 'favorite'일 때만 useAuthStore 호출
 	const { userId, isLoggedIn } =
-		meetingType === 'favorite'
-			? useAuthStore()
-			: { userId: null, isLoggedIn: null };
+		// meetingType === 'favorite'
+		// 	? useAuthStore()
+		// 	:
+		{ userId: null, isLoggedIn: null };
 
 	// API 호출 함수
 	const getMeetingListDate = async () => {
