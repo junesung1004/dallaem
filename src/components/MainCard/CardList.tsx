@@ -19,7 +19,7 @@ export default function CardList({
 }: MeetingCardListProps) {
 	const router = useRouter();
 	const pathname = usePathname();
-	console.log('pathname :', pathname);
+
 	const { meetings } = useMainCard(initialData || [], meetingType);
 
 	return (

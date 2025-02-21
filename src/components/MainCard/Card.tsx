@@ -7,12 +7,10 @@ import { LikeButton } from '../Button/LikeButton';
 export default function Card({
 	children,
 	registrationEnd,
-	url,
 	id,
 }: {
 	children: React.ReactNode;
 	registrationEnd: boolean;
-	url: string;
 	id: number;
 }) {
 	return (
