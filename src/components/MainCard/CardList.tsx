@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useFilterStore } from '@/store/useInputSelectFilterStore';
 
 import Card from './Card';
 import { DateBadge } from '../Badge/DateBadge';
@@ -11,39 +10,20 @@ import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 
-import { CreateMeeting } from '@/types/createMeetingType';
 import { useMainCard } from '@/hooks/customs/useMainCard';
+import type { MeetingCardListProps } from '@/types/meetingsType';
 
 export default function CardList({
 	initialData,
-}: {
-	initialData?: CreateMeeting[];
-}) {
+	meetingType,
+}: MeetingCardListProps) {
 	const router = useRouter();
-	const { meetings } = useMainCard(initialData || []);
-
-	// 🟢 Zustand에서 전역 필터 상태 가져오기
-	const { selectedFilters } = useFilterStore();
-
-	// ✅ 필터 적용된 모임 목록
-	const filteredMeetings = meetings?.filter((meeting) => {
-		const locationMatch =
-			!selectedFilters.location ||
-			meeting.location.includes(selectedFilters.location);
-
-		const dateMatch =
-			!selectedFilters.date ||
-			(meeting.dateTime &&
-				new Date(meeting.dateTime)
-					.toISOString()
-					.startsWith(selectedFilters.date));
-
-		return locationMatch && dateMatch;
-	});
+	const { meetings } = useMainCard(initialData || [], meetingType);
 
 	return (
 		<div className='flex flex-col items-center gap-6'>
-			{filteredMeetings?.map((el) => (
+			{/* {filteredMeetings?.map((el) => ( */}
+			{meetings?.map((el) => (
 				<Card key={el.id ?? 0}>
 					<Card.ImageContainer>
 						<Card.ImageSection

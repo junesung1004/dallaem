@@ -14,20 +14,7 @@ import { getUserData } from '@/api/getUserData';
 import type { IUser } from '@/types/userType';
 import type { ProfileHeaderProps } from './components/ProfileHeader/ProfileHeader';
 import { useEffect, useState } from 'react';
-export interface IMeeting {
-	teamId: number;
-	id: number;
-	type: string;
-	name: string;
-	dateTime: string;
-	registrationEnd: string;
-	location: string;
-	participantCount: number;
-	capacity: number;
-	image: string;
-	createdBy: number;
-	canceledAt: string;
-}
+import type { IMeeting } from '@/types/meetingsType';
 
 const mockMeetings: IMeeting[] = [
 	{
