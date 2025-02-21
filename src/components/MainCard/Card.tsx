@@ -2,13 +2,18 @@ import Image from 'next/image';
 import React from 'react';
 
 import { motion } from 'framer-motion';
+import { LikeButton } from '../Button/LikeButton';
 
 export default function Card({
 	children,
 	registrationEnd,
+	url,
+	id,
 }: {
 	children: React.ReactNode;
-	registrationEnd: string;
+	registrationEnd: boolean;
+	url: string;
+	id: number;
 }) {
 	return (
 		<section
@@ -16,39 +21,14 @@ export default function Card({
 				`}
 		>
 			{children}
-			{registrationEnd && new Date(registrationEnd) < new Date() && (
+			{registrationEnd && (
 				<div className='absolute bg-black bg-opacity-80 inset-0 flex items-center justify-center text-white'>
 					<div className='text-center'>
 						<p>마감된 챌린지예요,</p>
 						<p>다음 기회에 만나요 🙏</p>
 						{/* 작은 화면에서는 작은 아이콘, 큰 화면에서는 큰 아이콘. */}
-						<div
-							onClick={() => {
-								// console.log('클릭');
-							}}
-							className='cursor-pointer'
-						>
-							<Image
-								src='/icons/discard/discardText.png'
-								alt='모임 마감 아이콘 (작은 화면)'
-								width={116}
-								height={36}
-								className='absolute bottom-16 right-28 sm:hidden'
-							/>
-						</div>
-						<div
-							onClick={() => {
-								// console.log('클릭');
-							}}
-							className='cursor-pointer'
-						>
-							<Image
-								src='/icons/discard/discardImg.png'
-								alt='모임 마감 아이콘 (큰 화면)'
-								width={36}
-								height={36}
-								className='absolute top-4 right-7 hidden sm:block'
-							/>
+						<div className='cursor-pointer'>
+							<LikeButton itemId={id} registrationEnd={registrationEnd} />
 						</div>
 					</div>
 				</div>
