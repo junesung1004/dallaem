@@ -2,13 +2,13 @@
 
 import Button from '@/components/Button/Button';
 import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
-import { useStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 export default function HomeButton() {
 	const router = useRouter();
-	const userId = useStore((state) => state.userId);
+	const userId = useAuthStore((state) => state.userId);
 	const { openModal, closeModal } = useGlobalModal();
 
 	useEffect(() => {}, [userId]);
