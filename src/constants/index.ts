@@ -34,7 +34,7 @@ export const NAV_DATA: Record<string, PageNavData[]> = {
 			active: true,
 			subItems: [
 				// 해당 메인 아이템에 종속된 subItems
-				{ id: 'all', label: '전체', active: true },
+				{ id: 'DALLAEMFIT', label: '전체', active: true },
 				{
 					id: 'OFFICE_STRETCHING',
 					label: '오피스 스트레칭',

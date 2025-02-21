@@ -115,7 +115,11 @@ export default function DetailPage() {
 				)}
 			</div>
 			<div className='fixed bottom-0 left-0 w-full '>
-				<Footer createdBy={meetingData.createdBy} />
+				<Footer
+					createdBy={meetingData.createdBy}
+					capacity={meetingData.capacity}
+					participantCount={meetingData.participantCount}
+				/>
 			</div>
 		</div>
 	);

@@ -4,28 +4,17 @@ import { useState, useEffect } from 'react';
 import { FITERING_DATA } from '@/constants';
 import FilterDropdown from '@/components/Filtering/Filter';
 import CalenderFilter from '../Calendar/CalendarFilter';
+import { useFilterStore } from '@/store/useInputSelectFilterStore';
 
 interface FilterListProps {
 	enabledFilters?: ('location' | 'date' | 'sortByMeeting' | 'sortByReview')[];
-	selectedFilters: {
-		location?: string;
-		date?: string;
-		sortMeeting?: { sortBy: string; sortOrder: 'asc' | 'desc' };
-		sortReview?: { sortBy: string; sortOrder: 'asc' | 'desc' };
-	};
-	onFilterChange: (filters: {
-		location?: string;
-		date?: string;
-		sortMeeting?: { sortBy: string; sortOrder: 'asc' | 'desc' };
-		sortReview?: { sortBy: string; sortOrder: 'asc' | 'desc' };
-	}) => void;
 }
 
 export default function FilterList({
 	enabledFilters = ['location', 'date', 'sortByMeeting', 'sortByReview'],
-	selectedFilters,
-	onFilterChange,
 }: FilterListProps) {
+	const { selectedFilters, setSelectedFilters } = useFilterStore();
+
 	const [selectedLocation, setSelectedLocation] = useState(
 		selectedFilters.location || FITERING_DATA.location[0].value,
 	);
@@ -34,51 +23,48 @@ export default function FilterList({
 	);
 	const formattedDate = selectedDate?.toISOString().split('T')[0] ?? '';
 
-	const [selectedSortMeeting, setSelectedSortMeeting] = useState(
-		selectedFilters.sortMeeting || {
-			sortBy: FITERING_DATA.sortByMeeting[0].value,
-			sortOrder: 'asc' as 'asc' | 'desc',
-		},
-	);
-	const [selectedSortReview, setSelectedSortReview] = useState(
-		selectedFilters.sortReview || {
-			sortBy: FITERING_DATA.sortByReview[0].value,
-			sortOrder: 'asc' as 'asc' | 'desc',
-		},
+	const initialSortBy = enabledFilters.includes('sortByReview')
+		? FITERING_DATA.sortByReview[0].value
+		: FITERING_DATA.sortByMeeting[0].value;
+
+	const [selectedSortBy, setSelectedSortBy] = useState(
+		selectedFilters.sortBy || initialSortBy,
 	);
 
-	// ✅ 현재 열린 드롭다운 ID 관리 (하나만 열리도록)
+	const [selectedSortOrder, setSelectedSortOrder] = useState(
+		selectedFilters.sortOrder || 'asc',
+	);
+
+	// 현재 열린 드롭다운 ID 관리 (하나만 열리도록)
 	const [isOpenDropdown, setIsOpenDropdown] = useState<string | null>(null);
 
-	// ✅ 드롭다운 토글 함수
 	const toggleDropdown = (dropdownId: string) => {
 		setIsOpenDropdown((prev) => (prev === dropdownId ? null : dropdownId));
 	};
 
-	// ✅ 필터 값이 변경될 때 부모에 전달
+	// 필터 값이 변경될 때 Zustand Store에 저장
 	useEffect(() => {
-		onFilterChange({
-			location: enabledFilters.includes('location')
-				? selectedLocation
-				: undefined,
-			date: enabledFilters.includes('date') ? formattedDate : undefined,
-			sortMeeting: enabledFilters.includes('sortByMeeting')
-				? selectedSortMeeting
-				: undefined,
-			sortReview: enabledFilters.includes('sortByReview')
-				? selectedSortReview
-				: undefined,
-		});
-	}, [
-		selectedLocation,
-		formattedDate,
-		selectedSortMeeting,
-		selectedSortReview,
-	]);
+		const updatedFilters = {
+			location: enabledFilters.includes('location') ? selectedLocation : '',
+			date: enabledFilters.includes('date') ? formattedDate : '',
+			sortBy:
+				enabledFilters.includes('sortByMeeting') ||
+				enabledFilters.includes('sortByReview')
+					? selectedSortBy
+					: '',
+			sortOrder:
+				enabledFilters.includes('sortByMeeting') ||
+				enabledFilters.includes('sortByReview')
+					? selectedSortOrder
+					: 'asc',
+		};
+
+		setSelectedFilters(updatedFilters);
+	}, [selectedLocation, formattedDate, selectedSortBy, selectedSortOrder]);
 
 	return (
 		<div className='flex relative gap-2'>
-			{/* ✅ 지역 필터 */}
+			{/* 지역 필터 */}
 			{enabledFilters.includes('location') && (
 				<FilterDropdown
 					category='location'
@@ -89,7 +75,7 @@ export default function FilterList({
 				/>
 			)}
 
-			{/* ✅ 날짜 필터 */}
+			{/* 날짜 필터 */}
 			{enabledFilters.includes('date') && (
 				<FilterDropdown
 					category='date'
@@ -108,30 +94,32 @@ export default function FilterList({
 			)}
 
 			<div className='absolute right-0'>
-				{/* ✅ 모임 정렬 필터 */}
+				{/* 정렬 필터 (Meeting) */}
 				{enabledFilters.includes('sortByMeeting') && (
 					<FilterDropdown
 						category='sortByMeeting'
-						selected={selectedSortMeeting.sortBy}
-						sortOrder={selectedSortMeeting.sortOrder}
-						onSelect={(sortBy, sortOrder) =>
-							setSelectedSortMeeting({ sortBy, sortOrder })
-						}
+						selected={selectedSortBy}
+						sortOrder={selectedSortOrder as 'asc' | 'desc'}
+						onSelect={(sortBy, sortOrder) => {
+							setSelectedSortBy(sortBy);
+							setSelectedSortOrder(sortOrder);
+						}}
 						variant='sort'
 						isOpen={isOpenDropdown === 'sortByMeeting'}
 						onToggle={() => toggleDropdown('sortByMeeting')}
 					/>
 				)}
 
-				{/* ✅ 리뷰 정렬 필터 */}
+				{/* 정렬 필터 (Review) */}
 				{enabledFilters.includes('sortByReview') && (
 					<FilterDropdown
 						category='sortByReview'
-						selected={selectedSortReview.sortBy}
-						sortOrder={selectedSortReview.sortOrder}
-						onSelect={(sortBy, sortOrder) =>
-							setSelectedSortReview({ sortBy, sortOrder })
-						}
+						selected={selectedSortBy}
+						sortOrder={selectedSortOrder as 'asc' | 'desc'}
+						onSelect={(sortBy, sortOrder) => {
+							setSelectedSortBy(sortBy);
+							setSelectedSortOrder(sortOrder);
+						}}
 						variant='sort'
 						isOpen={isOpenDropdown === 'sortByReview'}
 						onToggle={() => toggleDropdown('sortByReview')}
