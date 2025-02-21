@@ -15,7 +15,7 @@ export default function HomeFilter() {
 		<div>
 			<FilterList
 				// 사용 가능한 필터 선택
-				enabledFilters={['location', 'date', 'sortByReview']}
+				enabledFilters={['location', 'date', 'sortByMeeting']}
 			/>
 		</div>
 	);
