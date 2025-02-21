@@ -16,7 +16,7 @@ function getTrueQueryParameters(options: { [key: string]: boolean }): string {
 	return trueParameters ? `?${trueParameters}` : '';
 }
 
-export const meetingService = {
+export const myMeetingService = {
 	/** 나의 모임, 내가 작성한 리뷰 가져오는 api */
 	async fetchMyMeetings<T>(options: {
 		completed: boolean;

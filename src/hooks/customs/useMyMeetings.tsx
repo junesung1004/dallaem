@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { IMeeting } from '@/types/createMeetingType';
-import { meetingService } from '@/app/(home)/mypage/components/CardList/Services/meetingService';
+import { myMeetingService } from '@/app/(home)/mypage/components/CardList/Services/myMeetingService';
 
 export const useMyMeetings = (
 	pageKey: 'joined' | 'review' | 'hosted',
@@ -14,12 +14,16 @@ export const useMyMeetings = (
 
 	const fetchMeetings = async (
 		pageKey: string,
-		options: { completed?: boolean; reviewed?: boolean; userId?: string },
+		options: {
+			completed?: boolean;
+			reviewed?: boolean;
+			userId?: number | string;
+		},
 	) => {
 		switch (pageKey) {
 			case 'joined':
 			case 'review': {
-				const data = await meetingService.fetchMyMeetings<IMeeting[]>({
+				const data = await myMeetingService.fetchMyMeetings<IMeeting[]>({
 					completed: options?.completed || false,
 					reviewed: options?.reviewed || false,
 				});
@@ -27,9 +31,9 @@ export const useMyMeetings = (
 				break;
 			}
 			case 'hosted': {
-				const hostedData = await meetingService.fetchMyHostedMeetings<
+				const hostedData = await myMeetingService.fetchMyHostedMeetings<
 					IMeeting[]
-				>(options?.userId);
+				>(options?.userId as string);
 				setMeetings(hostedData);
 				break;
 			}
