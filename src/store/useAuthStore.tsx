@@ -2,7 +2,7 @@ import { Store } from '@/types/userType';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-const useStore = create<Store & { hasHydrated: boolean }>()(
+const useAuthStore = create<Store & { hasHydrated: boolean }>()(
 	persist(
 		(set) => ({
 			isLoggedIn: false,
@@ -43,4 +43,4 @@ const useStore = create<Store & { hasHydrated: boolean }>()(
 	),
 );
 
-export { useStore };
+export { useAuthStore };
