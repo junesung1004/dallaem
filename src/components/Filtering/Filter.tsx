@@ -15,7 +15,7 @@ interface FilterDropdownProps {
 	onToggle: () => void; // 부모에서 내려주는 `onToggle`
 }
 
-function Filter({
+function FilterDropdown({
 	category,
 	selected,
 	sortOrder = 'asc',
@@ -156,4 +156,4 @@ function Filter({
 	);
 }
 
-export default Filter;
+export default FilterDropdown;

@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useFilterStore } from '@/store/useInputSelectFilterStore';
 
 import Card from './Card';
 import { DateBadge } from '../Badge/DateBadge';
@@ -11,40 +10,23 @@ import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 
-import { CreateMeeting } from '@/types/createMeetingType';
 import { useMainCard } from '@/hooks/customs/useMainCard';
+import type { MeetingCardListProps } from '@/types/meetingsType';
 
 export default function CardList({
 	initialData,
-}: {
-	initialData?: CreateMeeting[];
-}) {
+	meetingType,
+}: MeetingCardListProps) {
 	const router = useRouter();
-	const { meetings } = useMainCard(initialData || []);
+	const { meetings } = useMainCard(initialData || [], meetingType);
 
-	// 🟢 Zustand에서 전역 필터 상태 가져오기
-	const { selectedFilters } = useFilterStore();
-
-	// ✅ 필터 적용된 모임 목록
-	const filteredMeetings = meetings?.filter((meeting) => {
-		const locationMatch =
-			!selectedFilters.location ||
-			meeting.location.includes(selectedFilters.location);
-
-		const dateMatch =
-			!selectedFilters.date ||
-			(meeting.dateTime &&
-				new Date(meeting.dateTime)
-					.toISOString()
-					.startsWith(selectedFilters.date));
-
-		return locationMatch && dateMatch;
-	});
+	console.log('meetings : ', meetings);
 
 	return (
 		<div className='flex flex-col items-center gap-6'>
-			{filteredMeetings?.map((el) => (
-				<Card key={el.id ?? 0}>
+			{/* {filteredMeetings?.map((el) => ( */}
+			{meetings?.map((el) => (
+				<Card key={el.id ?? 0} registrationEnd={el.registrationEnd}>
 					<Card.ImageContainer>
 						<Card.ImageSection
 							src={el.image ? el.image : '/images/default.png'}
@@ -105,12 +87,12 @@ export default function CardList({
 							}}
 						>
 							<div className='flex gap-2'>
-								<Members max={el.capacity ?? 0} value={2} />
+								<Members max={el.capacity ?? 0} value={el.participantCount} />
 								<StatusBadge />
 							</div>
 							<ProgressBar
-								max={10}
-								value={el.capacity ?? 0}
+								max={el.capacity}
+								value={el.participantCount}
 								isNeutral={false}
 								isAnimate={false}
 							/>
