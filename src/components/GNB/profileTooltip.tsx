@@ -9,20 +9,14 @@ const ProfileTooltip = () => {
 	const { image, setImage } = useAuthStore();
 
 	const [visible, setVisible] = useState(false);
-	const showTooltip = () => setVisible(true);
+	const toggleTooltip = () => setVisible((prev) => !prev);
 	const hideTooltip = () => setVisible(false);
 	const src = image ?? '/icons/profileDefault.svg';
-
-	/* 	useEffect(() => {
-		if (image !== '/icons/heart/heartActive.png') {
-			setImage('/icons/heart/heartActive.png');
-		}
-	}, []); */
 
 	return (
 		<div
 			className='relative'
-			onMouseEnter={showTooltip}
+			onClick={toggleTooltip}
 			onMouseLeave={hideTooltip}
 			style={{
 				width: 40,
