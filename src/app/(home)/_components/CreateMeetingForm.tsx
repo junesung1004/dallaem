@@ -5,6 +5,7 @@ import ServiceSelector from '@/components/Service/Service';
 import { InputWindow } from '@/components/InputSection/InputWindow';
 import { useMeetingForm } from '@/hooks/customs/useMeeting';
 import { useRouter } from 'next/navigation';
+import { Selectbox } from '@/components/InputSection/Selectbox';
 
 export default function CreateMeetingForm() {
 	// 커스텀 훅훅
@@ -90,10 +91,10 @@ export default function CreateMeetingForm() {
 				<label className='font-semibold' htmlFor='meeting-place'>
 					장소
 				</label>
-				<InputWindow
+				<Selectbox
+					value={meetingPlace}
 					placeholderText='장소를 선택해주세요'
 					onChange={(e) => meetingPlaceTextChangeHandler(e)}
-					value={meetingPlace}
 					id='meeting-place'
 				/>
 			</div>
