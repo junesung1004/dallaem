@@ -8,7 +8,7 @@ export default function HomeFilter() {
 	const { selectedFilters, setSelectedFilters } = useFilterStore();
 
 	useEffect(() => {
-		console.log('현재 필터 값:', selectedFilters);
+		//console.log('현재 필터 값:', selectedFilters);
 	}, [selectedFilters]);
 
 	return (
