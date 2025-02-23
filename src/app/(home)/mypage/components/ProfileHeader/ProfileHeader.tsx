@@ -1,24 +1,33 @@
+'use client';
+
 import Link from 'next/link';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import Image from 'next/image';
 import type { IUser } from '@/types/userType';
+import { getUserData } from '@/api/getUserData';
+import { useEffect, useState } from 'react';
 
-export type ProfileHeaderProps = Pick<
-	IUser,
-	'name' | 'companyName' | 'image' | 'email'
->;
+function ProfileHeader() {
+	const [data, setData] = useState<IUser>();
+	const getData = async () => {
+		const userData = await getUserData();
+		setData(userData);
+	};
 
-function ProfileHeader({
-	name,
-	companyName,
-	image,
-	email,
-}: ProfileHeaderProps) {
+	useEffect(() => {
+		getData();
+	}, []);
+
+	if (!data) return;
+
+	const { name, email, companyName, image } = data;
+
+	/** zustand/reactQuery 로 변경할 예정 */
 	return (
 		<section className='border border-2 border-gray-200 rounded-3xl overflow-hidden'>
 			<div className='bg-orange-400 flex items-center justify-between pl-6 pr-4 py-4'>
 				<h3 className='pb-2 text-lg font-semibold'>내 프로필</h3>
-				<Link href={'/mypage/my-profile'}>
+				<Link href={'/mypage/my-profile'} scroll={false}>
 					<ProfileIcon.Pencil size='large' />
 				</Link>
 			</div>
