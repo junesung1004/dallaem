@@ -15,11 +15,11 @@ interface FilterState {
 
 export const useFilterStore = create<FilterState>((set) => ({
 	selectedFilters: {
-		type: '',
+		type: 'DALLAEMFIT',
 		location: '',
 		date: '',
 		sortBy: '',
-		sortOrder: 'asc',
+		sortOrder: 'desc',
 	},
 	setSelectedFilters: (filters) =>
 		set((state) => ({
