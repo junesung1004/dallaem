@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import type { IReview } from '@/types/reviewType';
 
 export const useMyReviews = () => {
-	const [reviews, setReviews] = useState<IReview['data']>();
+	const [reviews, setReviews] = useState<IReview['data']>([]);
 	const userId = useAuthStore((state) => state.userId);
 
 	const fetchMyReviews = async () => {
