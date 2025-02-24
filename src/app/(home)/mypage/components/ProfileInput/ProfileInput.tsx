@@ -1,8 +1,14 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import Image from 'next/image';
 
-function ProfileInput({ image }: { image: string }) {
+function ProfileInput({
+	image,
+	onImageChange,
+}: {
+	image: string;
+	onImageChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+}) {
 	const [preview, setPreview] = useState<string | null | FileReader['result']>(
 		image,
 	);
@@ -40,6 +46,11 @@ function ProfileInput({ image }: { image: string }) {
 			setPreview(previewSrc);
 		} else {
 			setPreview(null);
+		}
+
+		// form valid 검사를 위한 연결
+		if (typeof onImageChange === 'function') {
+			onImageChange(e);
 		}
 	};
 	return (

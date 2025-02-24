@@ -12,16 +12,37 @@ import { useRouter } from 'next/navigation';
 
 function ProfileForm() {
 	const [userData, setUserData] = useState<IUser | null>();
-	const [companyName, setComapanyName] = useState<
-		IUser['companyName'] | string
-	>('');
+	const [formState, setFormState] = useState<Record<string, string>>({
+		image: '',
+		companyName: '',
+	});
+
+	// 폼 유효성 상태
+	const [isValid, setIsValid] = useState(false);
+
+	const handleFormChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+		// 이전 상태 값과 통합하여 유효성 검사(빈 값인지 비교)
+		const { name, value } = e.target;
+
+		// 상태 업데이트
+		setFormState((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+	};
+
+	useEffect(() => {
+		// formState가 변경될 때마다 유효성 검사
+		const isValid = Object.values(formState).every((val) => val.trim() !== '');
+		setIsValid(isValid);
+	}, [formState]); // formState가 변경될 때마다 실행됨
 
 	const router = useRouter();
 
 	const getData = async () => {
 		const data = await getUserData();
 		setUserData(data);
-		setComapanyName(data?.companyName);
+		setFormState({ image: data?.image, companyName: data?.companyName });
 	};
 	// const userData: Promise<IUser> = getData();
 
@@ -33,7 +54,7 @@ function ProfileForm() {
 		return <div>로딩 중...</div>;
 	}
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
 		const data = await editProfile(formData);
@@ -48,15 +69,16 @@ function ProfileForm() {
 			<Dialog>
 				<Dialog.Content title='프로필 수정하기'>
 					<div className='flex flex-col gap-4 mb-[24px]'>
-						<ProfileInput image={userData?.image} />
+						<ProfileInput
+							image={userData?.image}
+							onImageChange={handleFormChange}
+						/>
 						<FormControl.InputControl
 							id='company'
 							title='회사'
 							name='companyName'
-							value={companyName}
-							onChange={(e) => {
-								setComapanyName(e.target.value);
-							}}
+							value={formState.companyName}
+							onChange={handleFormChange}
 						/>
 						<FormControl.InputControl
 							id='email'
@@ -71,14 +93,16 @@ function ProfileForm() {
 				<Dialog.ButtonContainer>
 					<Button
 						state='default'
-						isOutlined={true}
+						variation='outline'
 						isFull={true}
-						onClick={() => {}}
+						onClick={() => {
+							router.back();
+						}}
 						type='button'
 					>
 						취소
 					</Button>
-					<Button isFull={true} disabled={false} type='submit'>
+					<Button isFull={true} disabled={!isValid} type='submit'>
 						수정 하기
 					</Button>
 				</Dialog.ButtonContainer>
