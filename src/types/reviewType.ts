@@ -1,13 +1,13 @@
 export interface ReviewScore {
-	teamId: number;
-	gatheringId: number;
-	type: string;
-	averageScore: number;
-	oneStar: number;
-	twoStars: number;
-	threeStars: number;
-	fourStars: number;
-	fiveStars: number;
+	gatheringId?: number;
+	teamId?: string;
+	type?: string;
+	averageScore?: number;
+	oneStar?: number;
+	twoStars?: number;
+	threeStars?: number;
+	fourStars?: number;
+	fiveStars?: number;
 }
 
 export interface GetReviewsParams {
@@ -25,7 +25,7 @@ export interface ReviewQueryType {
 	registrationEnd?: string;
 	date?: string;
 	sortOrder?: string;
-	sortBy?: string;
+	sortBy?: 'asc' | 'desc';
 }
 
 export interface IReview {
