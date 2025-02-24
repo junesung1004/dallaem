@@ -2,14 +2,28 @@
 import { FilterContextType } from '@/types/filterType';
 import { createContext, useState, ReactNode } from 'react';
 
-export const FilterContext = createContext<FilterContextType | null>(null);
+const initialFilterContext: FilterContextType = {
+	type: 'DALLAEMFIT',
+	location: '',
+	date: '',
+	sortBy: '',
+	sortOrder: 'desc',
+	setType: () => {},
+	setLocation: () => {},
+	setDate: () => {},
+	setSortBy: () => {},
+	setSortOrder: () => {},
+};
+
+export const FilterContext =
+	createContext<FilterContextType>(initialFilterContext);
 
 const FilterProvider = ({ children }: { children: ReactNode }) => {
-	const [type, setType] = useState('DALLAEMFIT');
-	const [location, setLocation] = useState('');
-	const [date, setDate] = useState('');
-	const [sortBy, setSortBy] = useState('createdAt');
-	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+	const [type, setType] = useState(initialFilterContext.type);
+	const [location, setLocation] = useState(initialFilterContext.location);
+	const [date, setDate] = useState(initialFilterContext.date);
+	const [sortBy, setSortBy] = useState(initialFilterContext.sortBy);
+	const [sortOrder, setSortOrder] = useState(initialFilterContext.sortOrder);
 
 	return (
 		<FilterContext.Provider
