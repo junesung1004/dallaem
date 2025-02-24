@@ -87,11 +87,7 @@ function JoinedMeetingCard({
 	...props
 }: Partial<MeetingCardInfoProps & TagProps>) {
 	const CreateReviewButton = dynamic(() => import('./CreateReviewButton'), {
-		loading: () => (
-			<Button state='default' isOutlined={false}>
-				리뷰 작성하기
-			</Button>
-		),
+		loading: () => <Button>리뷰 작성하기</Button>,
 		ssr: !!false,
 	});
 
@@ -107,11 +103,7 @@ function JoinedMeetingCard({
 				<CardInfo {...(props as MeetingCardInfoProps)} />
 			</div>
 			{!!isDone && <CreateReviewButton />}
-			{!isDone && (
-				<Button state='default' isOutlined={true}>
-					예약 취소하기
-				</Button>
-			)}
+			{!isDone && <Button>예약 취소하기</Button>}
 		</div>
 	);
 }

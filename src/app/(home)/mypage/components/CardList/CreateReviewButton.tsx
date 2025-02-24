@@ -16,8 +16,6 @@ function CreateReviewButton() {
 
 				router.push(`/mypage/create-review/${1826}`, { scroll: false });
 			}}
-			state='default'
-			isOutlined={false}
 		>
 			리뷰 작성하기
 		</Button>
