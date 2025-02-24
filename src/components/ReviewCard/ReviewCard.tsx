@@ -62,7 +62,7 @@ function ReviewLayout({
 
 function HeartScore({ score }: { score: number }) {
 	return (
-		<div className='mb-3 mt-5 sm:mt-0'>
+		<div className='mb-3 mt-5 sm:mt-1'>
 			<HeartRatings rating={score} maxHearts={5} />
 		</div>
 	);
@@ -85,11 +85,25 @@ function EtcInfo({
 	nickname?: string;
 	date: string;
 }) {
+	const formatDate = (date: Date | string): string => {
+		return new Date(date).toISOString().split('T')[0].replace(/-/g, '.');
+	};
+
+	const formatType = (type: string) => {
+		if (type === 'MINDFULNESS') {
+			return '달램핏 마인드풀니스';
+		} else if (type === 'OFFICE_STRETCHING') {
+			return '달램핏 오피스 스트레칭';
+		} else if (type === 'WORKATION') {
+			return '워케이션';
+		}
+	};
+
 	return (
 		<div className='flex flex-col text-xs'>
 			{type && location && (
 				<div className='mb-2'>
-					<span>{type} 이용</span>
+					<span>{formatType(type)} 이용</span>
 					<span className='mx-1'>·</span>
 					<span>{location}</span>
 				</div>
@@ -102,13 +116,13 @@ function EtcInfo({
 							alt='유저 이미지'
 							width={24}
 							height={24}
-							className='mr-2'
+							className='mr-2 rounded-full w-[24px] h-[24px]'
 						/>
 						<span>{nickname}</span>
 						<span className='mx-2'>|</span>
 					</>
 				)}
-				<span className='text-gray-500'>{date}</span>
+				<span className='text-gray-500'>{formatDate(date)}</span>
 			</div>
 		</div>
 	);
