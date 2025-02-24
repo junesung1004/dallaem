@@ -1,5 +1,5 @@
-import CardList from '@/components/MainCard/CardList';
+import CardList from './components/CardList/CardList';
 
 export default function FavoriteMeetingPage() {
-	return <CardList meetingType='favorite' />;
+	return <CardList />;
 }
