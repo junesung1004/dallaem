@@ -6,7 +6,7 @@ import type { MeetingCardListProps } from '@/types/meetingsType';
 import type { IMeeting } from '@/types/meetingsType';
 import { meetingService } from '@/app/(home)/favorite-meetings/meetingService';
 export function useMainCard(
-	initialData: IMeeting[],
+	initialData?: IMeeting[],
 	meetingType?: Pick<MeetingCardListProps, 'meetingType'>['meetingType'],
 ) {
 	const [meetings, setMeetings] = useState<IMeeting[]>(initialData || []);
