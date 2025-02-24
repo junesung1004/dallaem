@@ -36,7 +36,8 @@ const Login = () => {
 	};
 
 	//로그인 함수. 실패 시에 에러 메시지 설정
-	const handleSubmit = async () => {
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
 		try {
 			//로그인 성공. 에러 메시지 초기화. 이전 페이지로 돌아감
 			await signinUser({ email: id, password: password });

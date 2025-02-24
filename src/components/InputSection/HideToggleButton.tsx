@@ -10,7 +10,7 @@ const HideToggleButton = ({
 	className,
 }: HideToggleInterface) => {
 	return (
-		<button onClick={onClick} className={className}>
+		<button onClick={onClick} className={className} type='button' tabIndex={-1}>
 			<img
 				src={isHidden ? 'icons/visibilityOff.png' : 'icons/visibilityOn.png'}
 			/>
