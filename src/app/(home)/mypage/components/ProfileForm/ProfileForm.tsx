@@ -8,7 +8,6 @@ import { FormEvent, useEffect, useState } from 'react';
 import { editProfile } from '@/api/users';
 import { getUserData } from '@/api/getUserData';
 import type { IUser } from '@/types/userType';
-import type { ProfileHeaderProps } from '../ProfileHeader/ProfileHeader';
 
 function ProfileForm() {
 	const [userData, setUserData] = useState<IUser | null>();
@@ -18,7 +17,6 @@ function ProfileForm() {
 	};
 	// const userData: Promise<IUser> = getData();
 
-	/** profile Header prop 확인을 위해 임시 작성 */
 	useEffect(() => {
 		getData();
 	}, []);
@@ -26,15 +24,6 @@ function ProfileForm() {
 	if (!userData) {
 		return <div>로딩 중...</div>;
 	}
-
-	/** user Data 가공 */
-	const profileData = Object.keys(userData)?.reduce((prev, curKey) => {
-		if (['name', 'email', 'companyName', 'image'].includes(curKey.toString())) {
-			prev[curKey as keyof ProfileHeaderProps] =
-				userData[curKey as keyof ProfileHeaderProps];
-		}
-		return prev;
-	}, {} as ProfileHeaderProps);
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -46,19 +35,19 @@ function ProfileForm() {
 			<Dialog>
 				<Dialog.Content title='프로필 수정하기'>
 					<div className='flex flex-col gap-4 mb-[24px]'>
-						<ProfileInput image={profileData.image} />
+						<ProfileInput image={userData?.image} />
 						<FormControl.InputControl
 							id='company'
 							title='회사'
 							name='companyName'
-							value={profileData.companyName}
+							value={userData?.companyName}
 						/>
 						<FormControl.InputControl
 							id='email'
 							title='이메일'
 							name='email'
 							disabled={true}
-							value={profileData.email}
+							value={userData?.email}
 						/>
 					</div>
 				</Dialog.Content>

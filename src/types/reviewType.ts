@@ -27,3 +27,37 @@ export interface ReviewQueryType {
 	sortOrder?: string;
 	sortBy?: string;
 }
+
+export interface IReview {
+	data: Datum[];
+	totalItemCount: number;
+	currentPage: number;
+	totalPages: number;
+}
+
+interface Datum {
+	teamId: number;
+	id: number;
+	score: number;
+	comment: string;
+	createdAt: string;
+	Gathering: Gathering;
+	User: User;
+}
+
+interface User {
+	teamId: number;
+	id: number;
+	name: string;
+	image: string;
+}
+
+interface Gathering {
+	teamId: number;
+	id: number;
+	type: string;
+	name: string;
+	dateTime: string;
+	location: string;
+	image: string;
+}
