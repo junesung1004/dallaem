@@ -8,20 +8,42 @@ export const meetingService = {
 		isLoggedIn,
 		...filters
 	}: getFavoriteMeetingsType) {
-		// 로컬 스토리지에서 반환
-		const likeList: {
+		// 로컬 스토리지에서 값을 가져오는 함수
+		function getLocalStorageItem<T>(key: string, defaultValue: T): T {
+			try {
+				const storedValue = localStorage.getItem(key);
+				if (storedValue) {
+					return JSON.parse(storedValue) as T;
+				} else {
+					return defaultValue;
+				}
+			} catch (error) {
+				console.error(
+					`Error parsing JSON from localStorage for key "${key}":`,
+					error,
+				);
+				return defaultValue;
+			}
+		}
+
+		const likeList = getLocalStorageItem<{
 			[key: string]: number[] | string[];
-		} = JSON.parse(localStorage.getItem('likes') ?? '');
+		}>('likes', {});
 
 		const likerKey = Object.keys(likeList)?.find((key) => {
 			// 만약 userId 가 없다면, 로그인 안한 상태
 			if (!(userId && isLoggedIn)) {
 				// 로컬스토리지에서 guestId 꺼내와서 비교
-				const guestId = JSON.parse(localStorage.getItem('guestId') ?? '');
+				const guestId = getLocalStorageItem<string>('guestId', '');
 				return Number(key) === Number(guestId);
 			}
 			return Number(key) === Number(userId);
 		});
+
+		// console.log('찜한 모임 id: ', likerKey);
+
+		/** 찜한 목록이 없다면 null 반환 */
+		if (!likerKey) return null;
 
 		// key가 존재하면 해당 값을 가져옴
 		const userLikeList: number[] | string[] = likerKey
@@ -30,7 +52,7 @@ export const meetingService = {
 
 		// filter params 가공
 		const params = {
-			type: filters?.type ?? 'DALLAEMFIT',
+			type: filters?.type?.trim() ? filters?.type : 'DALLAEMFIT',
 			// type: filters?.type ?? 'DALLAEMFIT, OFFICE_STRETCHING, MINDFULNESS, WORKATION',
 			id: userLikeList?.join(','),
 		};
