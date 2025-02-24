@@ -4,9 +4,9 @@ import FilterList from '@/components/Filtering/FIlterList';
 import PageNavbar from '@/components/PageNav/PageNavbar';
 import PageInfo from '@/components/PageInfo/PageInfo';
 import { useFetchReviews } from '@/hooks/customs/useFetchReviews';
-import ReviewScores from './_components/ReviewScores';
 import ReviewCardList from './_components/ReviewCardList';
 import useFetchReviewScores from '@/hooks/query/useFetchReviewsScore';
+import ReviewSummary from './_components/ReviewSummary';
 
 export default function AllReviews() {
 	const reviews = useFetchReviews();
@@ -18,7 +18,7 @@ export default function AllReviews() {
 				<PageInfo pageKey='reviews' />
 				<PageNavbar pageKey='meetings' />
 			</div>
-			{reviewsScore && <ReviewScores reviewScore={reviewsScore} />}
+			{reviewsScore && <ReviewSummary reviewScore={reviewsScore} />}
 			<div className='flex flex-col gap-4 p-4 bg-white border-t-2 border-gray-900'>
 				<FilterList enabledFilters={['location', 'date', 'sortByReview']} />
 				<ReviewCardList reviews={reviews} />

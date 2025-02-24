@@ -5,7 +5,7 @@ import ProgressBar from '@/components/ProgressBar/ProgressBar';
 import { ReviewScore } from '@/types/reviewType';
 import { useMemo } from 'react';
 
-const ReviewScores = ({ reviewScore }: { reviewScore: ReviewScore }) => {
+const ReviewSummary = ({ reviewScore }: { reviewScore: ReviewScore }) => {
 	const rating = ['5점', '4점', '3점', '2점', '1점'];
 	const starKeys = [
 		'fiveStars',
@@ -65,4 +65,4 @@ const ReviewScores = ({ reviewScore }: { reviewScore: ReviewScore }) => {
 	);
 };
 
-export default ReviewScores;
+export default ReviewSummary;
