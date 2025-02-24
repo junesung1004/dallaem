@@ -22,7 +22,7 @@ function ProgressBar({
 		if (isAnimate) {
 			controls.start('full');
 		}
-	}, []);
+	}, [value]);
 
 	/** 색상 적용 or 흑백 적용 */
 	const thumb = isNeutral ? `bg-gray-900` : 'bg-orange-600';

@@ -1,4 +1,4 @@
-export const cancleGroup = async (id: number) => {
+export const cancelGroup = async (id: number) => {
 	const token = localStorage.getItem('authToken');
 
 	if (!token) {

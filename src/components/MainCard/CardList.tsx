@@ -27,7 +27,7 @@ export default function CardList({
 		<div className='flex flex-col items-center gap-6'>
 			{/* 찜한 모임 목록 페이지일 경우 */}
 			{pathname === '/favorite-meetings' &&
-				meetings.map((el) => (
+				meetings?.map((el) => (
 					<Card
 						id={el.id}
 						key={el.id ?? 0}

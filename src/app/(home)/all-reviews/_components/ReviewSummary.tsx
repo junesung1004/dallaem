@@ -3,17 +3,25 @@
 import HeartRatings from '@/components/HeartRatings/HeartRatings';
 import ProgressBar from '@/components/ProgressBar/ProgressBar';
 import { ReviewScore } from '@/types/reviewType';
+import { useMemo } from 'react';
 
-const ReviewScores = ({ reviewScore }: { reviewScore: ReviewScore }) => {
+const ReviewSummary = ({ reviewScore }: { reviewScore: ReviewScore }) => {
 	const rating = ['5점', '4점', '3점', '2점', '1점'];
-
 	const starKeys = [
 		'fiveStars',
 		'fourStars',
 		'threeStars',
 		'twoStars',
 		'oneStar',
-	];
+	] as const;
+
+	const totalCount = useMemo(() => {
+		if (!reviewScore) return 0;
+		const { averageScore, ...otherScores } = reviewScore;
+		return Object.values(otherScores)
+			.filter((value): value is number => typeof value === 'number')
+			.reduce((sum, value) => sum + value, 0);
+	}, [reviewScore]);
 
 	return (
 		<div className='bg-white flex w-full h-[180px] border-y-2 px-6 sm:px-12 md:px-36 py-8'>
@@ -24,7 +32,10 @@ const ReviewScores = ({ reviewScore }: { reviewScore: ReviewScore }) => {
 						<p className='text-gray-400'>/5</p>
 					</div>
 					<div>
-						<HeartRatings rating={reviewScore?.averageScore} maxHearts={5} />
+						<HeartRatings
+							rating={reviewScore?.averageScore as number}
+							maxHearts={5}
+						/>
 					</div>
 				</div>
 				<div className='w-80 sm:min-w-20 flex flex-col text-sm items-center justify-center gap-1'>
@@ -35,17 +46,17 @@ const ReviewScores = ({ reviewScore }: { reviewScore: ReviewScore }) => {
 						>
 							<div>{label}</div>
 							<div className='w-full'>
-								{/* 나중에 review.lenght나 totalReview 함수 만들어서 max에 값 넣기 */}
 								<ProgressBar
-									max={10}
-									value={Number(
-										reviewScore?.[starKeys[index] as keyof ReviewScore] ?? 0,
-									)}
+									max={totalCount}
+									value={reviewScore[starKeys[index]] as number}
 									isNeutral={true}
 									isAnimate={false}
 								/>
+								{/* <p>
+									{reviewScore[starKeys[index]] as number}/{totalCount}
+								</p> */}
 							</div>
-							<div>{reviewScore?.[starKeys[index] as keyof ReviewScore]}</div>
+							<div>{reviewScore[starKeys[index]]}</div>
 						</div>
 					))}
 				</div>
@@ -54,4 +65,4 @@ const ReviewScores = ({ reviewScore }: { reviewScore: ReviewScore }) => {
 	);
 };
 
-export default ReviewScores;
+export default ReviewSummary;
