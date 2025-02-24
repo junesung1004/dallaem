@@ -10,16 +10,18 @@ import {
 	participantsGroup,
 	leaveGroup,
 } from '@/api/detail-meeting/participantsGroup';
-import { cancleGroup } from '@/api/detail-meeting/cancelGroup';
+import { cancelGroup } from '@/api/detail-meeting/cancelGroup';
 
 export function Footer({
 	createdBy,
 	capacity,
 	participantCount,
+	updateParticipantCount,
 }: {
 	createdBy: number;
 	capacity: number;
 	participantCount: number;
+	updateParticipantCount: (delta: number) => void;
 }) {
 	const [isJoinDisabled, setIsJoinDisabled] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
@@ -82,6 +84,8 @@ export function Footer({
 		if (userId && isJoinDisabled) {
 			try {
 				await leaveGroup(Number(id));
+				updateParticipantCount(-1);
+
 				setIsJoinDisabled(false);
 				openModal({
 					content: '참여가 취소되었습니다',
@@ -110,6 +114,7 @@ export function Footer({
 		if (userId) {
 			try {
 				await joinGroup(Number(id));
+				updateParticipantCount(1);
 				setIsJoinDisabled(true);
 				openModal({
 					content: '참여 완료했습니다',
@@ -140,7 +145,7 @@ export function Footer({
 	// 주최자 관련 로직
 	const handleCancelClick = async () => {
 		try {
-			await cancleGroup(Number(id));
+			await cancelGroup(Number(id));
 			openModal({
 				content: '모집 공고가 취소되었습니다',
 				confirmType: 'Alert',
