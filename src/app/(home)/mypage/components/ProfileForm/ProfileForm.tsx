@@ -8,12 +8,20 @@ import { FormEvent, useEffect, useState } from 'react';
 import { editProfile } from '@/api/users';
 import { getUserData } from '@/api/getUserData';
 import type { IUser } from '@/types/userType';
+import { useRouter } from 'next/navigation';
 
 function ProfileForm() {
 	const [userData, setUserData] = useState<IUser | null>();
+	const [companyName, setComapanyName] = useState<
+		IUser['companyName'] | string
+	>('');
+
+	const router = useRouter();
+
 	const getData = async () => {
 		const data = await getUserData();
 		setUserData(data);
+		setComapanyName(data?.companyName);
 	};
 	// const userData: Promise<IUser> = getData();
 
@@ -29,6 +37,11 @@ function ProfileForm() {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
 		const data = await editProfile(formData);
+
+		if (data) {
+			// useMutation 으로 변경 예정
+			return router.back();
+		}
 	};
 	return (
 		<form onSubmit={handleSubmit}>
@@ -40,7 +53,10 @@ function ProfileForm() {
 							id='company'
 							title='회사'
 							name='companyName'
-							value={userData?.companyName}
+							value={companyName}
+							onChange={(e) => {
+								setComapanyName(e.target.value);
+							}}
 						/>
 						<FormControl.InputControl
 							id='email'
@@ -48,6 +64,7 @@ function ProfileForm() {
 							name='email'
 							disabled={true}
 							value={userData?.email}
+							readOnly={true}
 						/>
 					</div>
 				</Dialog.Content>
