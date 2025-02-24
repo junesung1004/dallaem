@@ -47,7 +47,10 @@ export const MeetingCard = ({
 					<div className='flex space-x-5'>
 						<div className='font-bold'>모집 정원 {capacity}명</div>
 						<div id='AttendeeProfiles'>
-							<AttendeeProfiles gatheringId={id} />
+							<AttendeeProfiles
+								gatheringId={id}
+								participantCount={participantCount}
+							/>
 						</div>
 					</div>
 					<div>
