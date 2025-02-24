@@ -12,7 +12,6 @@ import { DeadlineBadge } from '../Badge/DeadlineBadge';
 
 import { useMainCard } from '@/hooks/customs/useMainCard';
 import type { MeetingCardListProps } from '@/types/meetingsType';
-import { useEffect } from 'react';
 
 export default function CardList({
 	initialData,
@@ -23,7 +22,6 @@ export default function CardList({
 
 	const { meetings } = useMainCard(initialData || [], meetingType);
 
-	useEffect(() => {}, [meetings]);
 
 	return (
 		<div className='flex flex-col items-center gap-6'>
