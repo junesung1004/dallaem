@@ -36,8 +36,7 @@ const Login = () => {
 	};
 
 	//로그인 함수. 실패 시에 에러 메시지 설정
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
+	const handleSubmit = async () => {
 		try {
 			//로그인 성공. 에러 메시지 초기화. 이전 페이지로 돌아감
 			await signinUser({ email: id, password: password });
@@ -114,7 +113,10 @@ const Login = () => {
 	// return
 	return (
 		<div className='bg-white rounded-3xl py-8 px-4 md:px-[3.375rem]'>
-			<div className='mx-auto flex flex-col justify-between gap-[24px]'>
+			<form
+				onSubmit={handleSubmit}
+				className='mx-auto flex flex-col justify-between gap-[24px]'
+			>
 				{/* Section: 제목 */}
 				<div className='flex justify-center text-[20px] md:text-[24px] '>
 					<span>로그인</span>
@@ -150,7 +152,7 @@ const Login = () => {
 						<HideToggleButton
 							onClick={onHideToggleChange}
 							isHidden={isHidden}
-							className='absolute inset-y-4 right-2 lg:inset-y-5'
+							className='absolute inset-y-3 right-2'
 						/>
 					</div>
 					{/* 에러 메시지: 비밀번호가 틀립니다 */}
@@ -164,6 +166,7 @@ const Login = () => {
 					<button
 						className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
 						onClick={handleSubmit}
+						type='submit'
 					>
 						확인
 					</button>
@@ -177,7 +180,7 @@ const Login = () => {
 						</span>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 };
