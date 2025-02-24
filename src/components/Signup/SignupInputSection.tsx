@@ -68,7 +68,7 @@ const SignupInputSection = ({
 				)}
 			</div>
 			{/* 에러 메시지 */}
-			{errorMsg && <span>{errorMsg}</span>}
+			{errorMsg && <span className='text-red-600'>{errorMsg}</span>}
 		</div>
 	);
 };

@@ -263,7 +263,10 @@ const Signup = () => {
 
 	return (
 		<div className='bg-white rounded-3xl py-8 px-4 md:px-[3.375rem]'>
-			<div className='mx-auto flex flex-col justify-between gap-[24px]'>
+			<form
+				onSubmit={handleSubmit}
+				className='mx-auto flex flex-col justify-between gap-[24px]'
+			>
 				{/* Section: 제목 */}
 				<div className='flex justify-center text-[20px] md:text-[24px] '>
 					<span>회원가입</span>
@@ -342,11 +345,12 @@ const Signup = () => {
 					<button
 						className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
 						onClick={handleSubmit}
+						type='submit'
 					>
 						확인
 					</button>
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 };
