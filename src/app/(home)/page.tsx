@@ -1,9 +1,8 @@
-// import Button from '@/app/(home)/_components/Button';
-import CardList from '@/components/MainCard/CardList';
 import PageInfo from '@/components/PageInfo/PageInfo';
 import PageNavbar from '@/components/PageNav/PageNavbar';
 import HomeFilter from './_components/HomeFilter';
 import HomeButton from './_components/HomeButton';
+import CardListInfinite from '@/components/MainCard/CardListInfinite';
 
 export default async function Home() {
 	return (
@@ -26,7 +25,7 @@ export default async function Home() {
 			<div className='border-b-2'></div>
 
 			{/* 모임 목록 */}
-			<CardList />
+			<CardListInfinite />
 		</div>
 	);
 }
