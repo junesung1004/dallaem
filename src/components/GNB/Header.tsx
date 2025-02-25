@@ -5,10 +5,12 @@ import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation'; // 현재 경로 가져오기
 import { ProfileTooltip } from '@/components/GNB/profileTooltip';
+import { useLikeNotify } from '@/hooks/customs/useLikeNotify';
 
 export default function Header() {
 	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 	const pathname = usePathname(); // 현재 페이지 경로
+	const { likeNotification } = useLikeNotify();
 
 	return (
 		<header className='flex items-center justify-center w-full h-[56px] md:h-[60px] bg-orange-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px]'>
@@ -23,7 +25,7 @@ export default function Header() {
 								모임 찾기
 							</Link>
 						</li>
-						<li>
+						<li className='flex items-center gap-[5px]'>
 							<Link
 								href={'/favorite-meetings'}
 								className={
@@ -32,6 +34,11 @@ export default function Header() {
 							>
 								찜한 모임
 							</Link>
+							{likeNotification.hasNotification && (
+								<div className='flex items-center justify-center w-[27px] h-[16px] text-center text-white text-[12px] bg-black rounded-[8.5px]'>
+									<span>{likeNotification.count}</span>
+								</div>
+							)}
 						</li>
 						<li>
 							<Link
