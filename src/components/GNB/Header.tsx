@@ -6,6 +6,7 @@ import React from 'react';
 import { usePathname } from 'next/navigation'; // 현재 경로 가져오기
 import { ProfileTooltip } from '@/components/GNB/profileTooltip';
 import { useLikeNotify } from '@/hooks/customs/useLikeNotify';
+import Badge from '../Badge/Badge';
 
 export default function Header() {
 	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
@@ -38,9 +39,7 @@ export default function Header() {
 								찜한 모임
 							</Link>
 							{likeNotification.hasNotification && (
-								<div className='flex items-center justify-center w-[27px] h-[16px] text-center text-white text-[12px] bg-black rounded-[8.5px]'>
-									<span>{likeNotification.count}</span>
-								</div>
+								<Badge content={likeNotification.count} />
 							)}
 						</li>
 						<li>
