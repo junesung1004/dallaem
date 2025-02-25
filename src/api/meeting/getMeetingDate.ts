@@ -1,30 +1,12 @@
-import { getMeetingParamsType } from '@/types/meetingsType';
-
-export const getMeetingData = async ({
-	type,
-	location,
-	sortBy,
-	sortOrder,
-	limit = 40,
-	offset = 12,
-}: getMeetingParamsType) => {
+export const getMeetingInfiniteData = async ({ pageParam = 3 }) => {
+	const limit = 3;
+	const offset = pageParam;
 	try {
-		const queryParams = new URLSearchParams();
-
-		if (type) queryParams.append('type', type);
-		if (location) queryParams.append('location', location);
-		if (sortBy) queryParams.append('sortBy', sortBy);
-		if (sortOrder) queryParams.append('sortOrder', sortOrder);
-
-		queryParams.append('limit', limit.toString());
-		queryParams.append('offset', offset.toString());
-
 		const res = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?${queryParams.toString()}`,
+			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=${limit}&offset=${offset}`,
 		);
-
 		if (!res.ok) {
-			throw new Error(`서버 오류: ${res.status} ${res.statusText}`);
+			throw new Error(`서버 오류 : ${res.status} ${res.statusText}`);
 		}
 
 		const data = await res.json();
@@ -32,10 +14,12 @@ export const getMeetingData = async ({
 		const filteredData = data.filter(
 			(item: { image: string | null }) => item.image !== null,
 		);
-		return filteredData;
+
+		const nextOffset = filteredData.length > 0 ? pageParam + limit : undefined;
+
+		return { data: filteredData, nextOffset };
 	} catch (error) {
-		console.error('미팅 목록 가져오기 실패:', error);
-		return null;
+		console.error('모임 목록 api 호출 에러 : ', error);
 	}
 };
 

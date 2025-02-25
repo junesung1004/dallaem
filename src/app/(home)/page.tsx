@@ -1,9 +1,8 @@
-// import Button from '@/app/(home)/_components/Button';
-import CardList from '@/components/MainCard/CardList';
 import PageInfo from '@/components/PageInfo/PageInfo';
 import PageNavbar from '@/components/PageNav/PageNavbar';
 import HomeFilter from './_components/HomeFilter';
 import HomeButton from './_components/HomeButton';
+import CardListInfinite from '@/components/MainCard/CardListInfinite';
 import FilterProvider from '@/context/FilterContent';
 
 export default async function Home() {
@@ -27,8 +26,8 @@ export default async function Home() {
 				{/* 보더 콘테이너 */}
 				<div className='border-b-2'></div>
 
-				{/* 모임 목록 */}
-				<CardList />
+        {/* 모임 목록 */}
+        <CardListInfinite />
 			</FilterProvider>
 		</div>
 	);

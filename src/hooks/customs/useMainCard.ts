@@ -1,4 +1,3 @@
-import { getMeetingData } from '@/api/meeting/getMeetingDate';
 import { useFilterStore } from '@/store/useInputSelectFilterStore';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect, useState } from 'react';
@@ -40,9 +39,6 @@ export function useMainCard(
 					userId,
 					isLoggedIn,
 				});
-			} else {
-				// 기본 API 호출
-				res = await getMeetingData(filters);
 			}
 
 			// console.log('응답: ', res);
