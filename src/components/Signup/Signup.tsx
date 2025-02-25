@@ -23,7 +23,7 @@ const Signup = () => {
 	const [errorPassword, setErrorPassword] = useState('');
 	const [errorPasswordConfirm, setErrorPasswordConfirm] = useState('');
 
-	/* 함수: onChange: 인풋 값 변경 */
+	/* 함수: onChange: 값 변경 및 작성중이면 에러 메시지 제거*/
 	const onChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		type: 'name' | 'id' | 'companyName' | 'password' | 'passwordConfirm',
@@ -31,18 +31,23 @@ const Signup = () => {
 		const validationFunctions = {
 			name: () => {
 				setName(e.target.value);
+				if (errorName) setErrorName(''); // 값이 입력되면 에러 제거
 			},
 			id: () => {
-				setId(e.target.value.trim());
+				setId(e.target.value);
+				if (errorId) setErrorId('');
 			},
 			companyName: () => {
 				setCompanyName(e.target.value);
+				if (errorCompanyName) setErrorCompanyName('');
 			},
 			password: () => {
 				setPassword(e.target.value.trim());
+				if (errorPassword) setErrorPassword('');
 			},
 			passwordConfirm: () => {
 				setPasswordConfirm(e.target.value.trim());
+				if (errorPasswordConfirm) setErrorPasswordConfirm('');
 			},
 		};
 
@@ -199,6 +204,7 @@ const Signup = () => {
 				}
 			},
 			id: () => {
+				console.log('id blurred');
 				if (id === '') {
 					setErrorId('');
 				} else {
@@ -206,7 +212,7 @@ const Signup = () => {
 				}
 			},
 			companyName: () => {
-				if (name === '') {
+				if (companyName === '') {
 					setErrorCompanyName('');
 				} else {
 					validateCompanyNameForm();
@@ -232,35 +238,6 @@ const Signup = () => {
 			validationFunctions[type]();
 		}
 	};
-
-	//useRef, useEffect: 작성중이면 에러 메시지를 제거한다.
-	const prevValues = useRef({
-		id,
-		name,
-		companyName,
-		password,
-		passwordConfirm,
-	});
-
-	useEffect(() => {
-		if (id !== prevValues.current.id) {
-			setErrorId('');
-		}
-		if (name !== prevValues.current.name) {
-			setErrorName('');
-		}
-		if (companyName !== prevValues.current.companyName) {
-			setErrorCompanyName('');
-		}
-		if (password !== prevValues.current.password) {
-			setErrorPassword('');
-		}
-		if (passwordConfirm !== prevValues.current.passwordConfirm) {
-			setErrorPasswordConfirm('');
-		}
-
-		prevValues.current = { id, name, companyName, password, passwordConfirm };
-	}, [name, id, companyName, password, passwordConfirm]);
 
 	//useEffect: 작성 완료하면 회원가입 버튼을 활성화 상태로 바꾼다.
 	useEffect(() => {
