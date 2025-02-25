@@ -11,8 +11,7 @@ import { HideToggleButton } from '../InputSection/HideToggleButton';
 const Login = () => {
 	const router = useRouter();
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
-	const { isLoggedIn, token, userId, setIsLoggedIn, setToken, setUserId } =
-		useAuthStore(); //zustand 상태
+	const { setIsLoggedIn, setToken, setUserId } = useAuthStore(); //zustand 상태
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
@@ -26,11 +25,13 @@ const Login = () => {
 	}, []);
 	// 입력 handle 함수
 	const onIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setId(e.target.value);
+		setId(e.target.value.trim());
 	};
+
 	const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value);
+		setPassword(e.target.value.trim());
 	};
+
 	const onHideToggleChange = () => {
 		setIsHidden((prev) => !prev);
 	};
@@ -156,7 +157,6 @@ const Login = () => {
 							className='absolute inset-y-3 right-2'
 						/>
 					</div>
-					{/* 에러 메시지: 비밀번호가 틀립니다 */}
 					{errorPassword && (
 						<span className='text-red-600'>{errorPassword}</span>
 					)}

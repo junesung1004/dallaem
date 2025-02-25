@@ -29,19 +29,19 @@ const Signup = () => {
 	) => {
 		const validationFunctions = {
 			name: () => {
-				setName(e.target.value);
+				setName(e.target.value.trim());
 			},
 			id: () => {
-				setId(e.target.value);
+				setId(e.target.value.trim());
 			},
 			companyName: () => {
-				setCompanyName(e.target.value);
+				setCompanyName(e.target.value.trim());
 			},
 			password: () => {
-				setPassword(e.target.value);
+				setPassword(e.target.value.trim());
 			},
 			passwordConfirm: () => {
-				setPasswordConfirm(e.target.value);
+				setPasswordConfirm(e.target.value.trim());
 			},
 		};
 
