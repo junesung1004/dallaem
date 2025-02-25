@@ -21,6 +21,13 @@ function ProgressBar({
 	useEffect(() => {
 		if (isAnimate) {
 			controls.start('full');
+		} else {
+			controls.start({
+				width: calculatePercentage(value, max),
+				transition: {
+					duration: 0,
+				},
+			});
 		}
 	}, [value]);
 
