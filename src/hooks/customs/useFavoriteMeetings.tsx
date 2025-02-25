@@ -3,6 +3,8 @@ import { meetingService } from '@/app/(home)/favorite-meetings/meetingService';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { IMeeting } from '@/types/meetingsType';
+import { useFilter } from './useFilter';
+// import { useLikeNotify } from './useLikeNotify';
 // import { useLikeNotify } from './useLikeNotify';
 
 // 로컬 스토리지에서 값을 가져오는 함수
@@ -50,6 +52,7 @@ interface ILikeListJSON {
 }
 
 export const useFavoriteMeetings = () => {
+	const { type } = useFilter();
 	// 데이터 가져오는 함수
 	const getData = async () => {
 		// console.log(
@@ -68,7 +71,7 @@ export const useFavoriteMeetings = () => {
 		const res = await meetingService.getFavoriteMeetings({
 			userId,
 			isLoggedIn,
-			// 나중에 필터 추가
+			type,
 		});
 		return res; // 반드시 데이터를 반환
 	};
@@ -87,7 +90,7 @@ export const useFavoriteMeetings = () => {
 		: null;
 
 	const { data, isLoading, error } = useQuery({
-		queryKey: likerKey ? ['favorite', likerKey, localKeys] : [],
+		queryKey: likerKey ? ['favorite', likerKey, localKeys, type] : [],
 		queryFn: getData,
 	});
 
