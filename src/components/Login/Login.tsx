@@ -116,12 +116,7 @@ const Login = () => {
 
 	//useEffect: 작성 완료하면 로그인 버튼을 활성화 상태로 바꾼다.
 	useEffect(() => {
-		if (
-			id !== '' &&
-			password !== '' &&
-			errorId === '' &&
-			errorPassword === ''
-		) {
+		if (id && password && !errorId && !errorPassword) {
 			setIsActive(true);
 		} else {
 			setIsActive(false);
