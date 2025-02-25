@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { InputWindow } from '../InputSection/InputWindow';
 import { HideToggleButton } from '../InputSection/HideToggleButton';
 
-interface SignupInputSectionInterface {
+interface SignupInputSectionProps {
 	id: string;
 	title: string;
 	placeholderText: string;
@@ -26,7 +26,7 @@ const SignupInputSection = ({
 	onFocus,
 	errorMsg,
 	isError,
-}: SignupInputSectionInterface) => {
+}: SignupInputSectionProps) => {
 	const [curType, setCurType] = useState(type);
 	const [isHidden, setIsHidden] = useState(type === 'password');
 
@@ -68,7 +68,7 @@ const SignupInputSection = ({
 				)}
 			</div>
 			{/* 에러 메시지 */}
-			{errorMsg && <span>{errorMsg}</span>}
+			{errorMsg && <span className='text-red-600'>{errorMsg}</span>}
 		</div>
 	);
 };

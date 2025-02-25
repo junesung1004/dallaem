@@ -14,6 +14,7 @@ const Signup = () => {
 	const [companyName, setCompanyName] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordConfirm, setPasswordConfirm] = useState('');
+	const [isActive, setIsActive] = useState(false); //로그인 버튼 활성화 관리
 
 	/* 변수: 회원가입 인풋 에러 상태관리 */
 	const [errorName, setErrorName] = useState('');
@@ -32,16 +33,16 @@ const Signup = () => {
 				setName(e.target.value);
 			},
 			id: () => {
-				setId(e.target.value);
+				setId(e.target.value.trim());
 			},
 			companyName: () => {
 				setCompanyName(e.target.value);
 			},
 			password: () => {
-				setPassword(e.target.value);
+				setPassword(e.target.value.trim());
 			},
 			passwordConfirm: () => {
-				setPasswordConfirm(e.target.value);
+				setPasswordConfirm(e.target.value.trim());
 			},
 		};
 
@@ -261,9 +262,32 @@ const Signup = () => {
 		prevValues.current = { id, name, companyName, password, passwordConfirm };
 	}, [name, id, companyName, password, passwordConfirm]);
 
+	//useEffect: 작성 완료하면 회원가입 버튼을 활성화 상태로 바꾼다.
+	useEffect(() => {
+		if (
+			name &&
+			id &&
+			companyName &&
+			password &&
+			passwordConfirm &&
+			!errorName &&
+			!errorId &&
+			!errorCompanyName &&
+			!errorPassword &&
+			!errorPasswordConfirm
+		) {
+			setIsActive(true);
+		} else {
+			setIsActive(false);
+		}
+	}, [name, id, companyName, password, passwordConfirm]);
+
 	return (
 		<div className='bg-white rounded-3xl py-8 px-4 md:px-[3.375rem]'>
-			<div className='mx-auto flex flex-col justify-between gap-[24px]'>
+			<form
+				onSubmit={handleSubmit}
+				className='mx-auto flex flex-col justify-between gap-[24px]'
+			>
 				{/* Section: 제목 */}
 				<div className='flex justify-center text-[20px] md:text-[24px] '>
 					<span>회원가입</span>
@@ -339,14 +363,25 @@ const Signup = () => {
 
 				{/* Section: 회원가입 버튼 */}
 				<div className='flex justify-center items-center'>
-					<button
-						className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
-						onClick={handleSubmit}
-					>
-						확인
-					</button>
+					{isActive ? (
+						<button
+							className='w-full h-[40px] md:h-[44px] bg-orange-600 text-white rounded-xl'
+							onClick={handleSubmit}
+							type='submit'
+						>
+							확인
+						</button>
+					) : (
+						<button
+							className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
+							onClick={handleSubmit}
+							type='submit'
+						>
+							확인
+						</button>
+					)}
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 };

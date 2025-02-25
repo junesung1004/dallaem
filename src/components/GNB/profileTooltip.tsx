@@ -1,23 +1,22 @@
 import { useAuthStore } from '@/store/useAuthStore';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/customs/useAuth';
 
 const ProfileTooltip = () => {
 	const { logoutUser } = useAuth();
-	const { image, setImage } = useAuthStore();
+	const { image } = useAuthStore();
 
 	const [visible, setVisible] = useState(false);
 	const toggleTooltip = () => setVisible((prev) => !prev);
-	const hideTooltip = () => setVisible(false);
+
 	const src = image ?? '/icons/profileDefault.svg';
 
 	return (
 		<div
 			className='relative'
 			onClick={toggleTooltip}
-			onMouseLeave={hideTooltip}
 			style={{
 				width: 40,
 				height: 40,

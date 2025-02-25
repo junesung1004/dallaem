@@ -11,14 +11,15 @@ import { HideToggleButton } from '../InputSection/HideToggleButton';
 const Login = () => {
 	const router = useRouter();
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
-	const { isLoggedIn, token, userId, setIsLoggedIn, setToken, setUserId } =
-		useAuthStore(); //zustand 상태
+	const { setIsLoggedIn, setToken, setUserId } = useAuthStore(); //zustand 상태
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
+	//상태관리 변수
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
 	const [isHidden, setIsHidden] = useState(true); //비밀번호 숨김 토글 관리
 	const [errorId, setErrorId] = useState(''); //로그인 에러 관리
 	const [errorPassword, setErrorPassword] = useState('');
+	const [isActive, setIsActive] = useState(false); //로그인 버튼 활성화 관리
 
 	// 클라이언트 사이드에서 referrer를 설정하는 useEffect
 	useEffect(() => {
@@ -26,11 +27,13 @@ const Login = () => {
 	}, []);
 	// 입력 handle 함수
 	const onIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setId(e.target.value);
+		setId(e.target.value.trim());
 	};
+
 	const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value);
+		setPassword(e.target.value.trim());
 	};
+
 	const onHideToggleChange = () => {
 		setIsHidden((prev) => !prev);
 	};
@@ -111,10 +114,22 @@ const Login = () => {
 		setErrorId('');
 	}, [id]);
 
+	//useEffect: 작성 완료하면 로그인 버튼을 활성화 상태로 바꾼다.
+	useEffect(() => {
+		if (id && password && !errorId && !errorPassword) {
+			setIsActive(true);
+		} else {
+			setIsActive(false);
+		}
+	}, [id, password]);
+
 	// return
 	return (
 		<div className='bg-white rounded-3xl py-8 px-4 md:px-[3.375rem]'>
-			<div className='mx-auto flex flex-col justify-between gap-[24px]'>
+			<form
+				onSubmit={handleSubmit}
+				className='mx-auto flex flex-col justify-between gap-[24px]'
+			>
 				{/* Section: 제목 */}
 				<div className='flex justify-center text-[20px] md:text-[24px] '>
 					<span>로그인</span>
@@ -150,23 +165,34 @@ const Login = () => {
 						<HideToggleButton
 							onClick={onHideToggleChange}
 							isHidden={isHidden}
-							className='absolute inset-y-4 right-2 lg:inset-y-5'
+							className='absolute inset-y-3 right-2'
 						/>
 					</div>
-					{/* 에러 메시지: 비밀번호가 틀립니다 */}
 					{errorPassword && (
 						<span className='text-red-600'>{errorPassword}</span>
 					)}
 				</div>
 
-				{/* Section: 로그인 버튼 */}
+				{/* Section: 로그인 버튼. 활성화 / 비활성화 */}
 				<div className='flex flex-col justify-center items-center gap-[24px]'>
-					<button
-						className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
-						onClick={handleSubmit}
-					>
-						확인
-					</button>
+					{isActive ? (
+						<button
+							className='w-full h-[40px] md:h-[44px] bg-orange-600 rounded-xl text-white'
+							onClick={handleSubmit}
+							type='submit'
+						>
+							확인
+						</button>
+					) : (
+						<button
+							className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
+							onClick={handleSubmit}
+							type='submit'
+						>
+							확인
+						</button>
+					)}
+
 					<div className='text-[15px] text-gray-800 flex gap-[4px]'>
 						<span>같이달램이 처음이신가요?</span>
 						<span
@@ -177,7 +203,7 @@ const Login = () => {
 						</span>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 };

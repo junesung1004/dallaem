@@ -26,3 +26,11 @@ export interface Store {
 	setImage: (image: string | null) => void;
 	setUserNull: () => void;
 }
+
+export interface MeetingAttendee {
+	teamId: string;
+	userId: number;
+	gatheringId: number;
+	joinedAt: string;
+	User: IUser;
+}
