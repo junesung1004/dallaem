@@ -54,7 +54,9 @@ export const useLikeNotify = () => {
 	const updateNotification = useNotificationStore(
 		(state) => state.updateNotification,
 	);
+	const { notifications } = useNotificationStore();
 	const pageKey = 'favorite-meetings';
+	const likeNotification = notifications[pageKey];
 
 	// likeList는 최신 상태 유지
 	const likeList = getLocalStorageItem<ILikeListJSON>('likes', {});
@@ -74,8 +76,9 @@ export const useLikeNotify = () => {
 		}
 
 		const count = latestLikeList[likerKey]?.length ?? 0;
+
 		updateNotification(pageKey, count > 0, count);
 	}, [likerKey, updateNotification, pageKey]);
 
-	return { onChangeLike };
+	return { onChangeLike, likeNotification };
 };
