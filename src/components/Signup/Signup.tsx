@@ -14,6 +14,7 @@ const Signup = () => {
 	const [companyName, setCompanyName] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordConfirm, setPasswordConfirm] = useState('');
+	const [isActive, setIsActive] = useState(false); //로그인 버튼 활성화 관리
 
 	/* 변수: 회원가입 인풋 에러 상태관리 */
 	const [errorName, setErrorName] = useState('');
@@ -29,13 +30,13 @@ const Signup = () => {
 	) => {
 		const validationFunctions = {
 			name: () => {
-				setName(e.target.value.trim());
+				setName(e.target.value);
 			},
 			id: () => {
 				setId(e.target.value.trim());
 			},
 			companyName: () => {
-				setCompanyName(e.target.value.trim());
+				setCompanyName(e.target.value);
 			},
 			password: () => {
 				setPassword(e.target.value.trim());
