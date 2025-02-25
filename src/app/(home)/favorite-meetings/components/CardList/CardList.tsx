@@ -42,11 +42,11 @@ function CardList() {
 							<Card.Header.Left
 								title={
 									el.type === 'OFFICE_STRETCHING'
-										? '달램핏 마인드풀니스 |'
+										? el.name
 										: el.type === 'MINDFULNESS'
-											? '달램핏 마인드풀니스 |'
+											? el.name
 											: el.type === 'WORKATION'
-												? '워크에이션 리프레쉬 |'
+												? el.name
 												: ''
 								}
 								place={el.location}
