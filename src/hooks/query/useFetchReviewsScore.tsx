@@ -1,15 +1,11 @@
 import { getReviewScore } from '@/api/getReveiwScore';
-import { useFilterStore } from '@/store/useInputSelectFilterStore';
-import { GetReviewsParams, ReviewScore } from '@/types/reviewType';
+import { ReviewScore } from '@/types/reviewType';
 import { useQuery } from '@tanstack/react-query';
+import { useFilter } from '../customs/useFilter';
+import { FilterContextType } from '@/types/filterType';
 
-function useFetchReviewScores({ gatheringId }: GetReviewsParams) {
-	const type = useFilterStore((state) => state.selectedFilters.type) as
-		| 'DALLAEMFIT'
-		| 'OFFICE_STRETCHING'
-		| 'MINDFULNESS'
-		| 'WORKATION';
-
+function useFetchReviewScores({ gatheringId }: { gatheringId: string }) {
+	const { type } = useFilter() as FilterContextType;
 	const { data, isLoading, error } = useQuery<ReviewScore, Error>({
 		queryKey: ['reviewScores', type],
 		queryFn: () => getReviewScore({ gatheringId, type }),

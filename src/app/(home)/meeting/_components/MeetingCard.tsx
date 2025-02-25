@@ -5,10 +5,18 @@ import { DateBadge } from '../../../../components/Badge/DateBadge';
 import { MeetingCardProps } from '../../../../types/meetingDetail';
 import { LikeButton } from '../../../../components/Button/LikeButton';
 import { AttendeeProfiles } from './AttendeeProfiles';
+import { StatusBadge } from '@/components/Badge/StatusBadge';
+import ProgressBar from '@/components/ProgressBar/ProgressBar';
 
-export const MeetingCard = ({ location, type, date, id }: MeetingCardProps) => {
+export const MeetingCard = ({
+	location,
+	type,
+	date,
+	id,
+	capacity,
+	participantCount,
+}: MeetingCardProps) => {
 	const [userId, setUserId] = useState<number | undefined>(undefined);
-
 	useEffect(() => {
 		const storedUserId = localStorage.getItem('userId');
 		if (storedUserId) {
@@ -26,12 +34,13 @@ export const MeetingCard = ({ location, type, date, id }: MeetingCardProps) => {
 					<div className='text-lg font-bold'>{type}</div>
 					<div className='text-sm text-gray-600'>{location}</div>
 
-					<div className='flex items-center gap-2 my-2 mb-7'>
+					<div className='flex items-center gap-2 my-2 mb-5'>
 						<DateBadge text={date} type='date' />
 						<DateBadge text={date} type='time' />
 					</div>
 				</div>
 			</div>
+			<div className='w-full border-b-2  border-dashed border-gray-200'></div>
 
 			<div className='px-7 py-3 space-y-3  mb-2'>
 				<div className='flex justify-between mt-3'>
@@ -54,9 +63,6 @@ export const MeetingCard = ({ location, type, date, id }: MeetingCardProps) => {
 					<div className='text-orange-500'>최대인원 20명</div>
 				</div>
 			</div>
-
-			{/* 여기 아래는 더미데이터 */}
-			<div className='mb-28'></div>
 		</div>
 	);
 };

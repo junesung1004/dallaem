@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_DATA } from '../../constants/index';
 import PageNavButton from './PageNavButton';
-import { useFilterStore } from '@/store/useInputSelectFilterStore';
+import { useFilter } from '@/hooks/customs/useFilter';
 
 interface NavBarProps {
 	pageKey: string;
@@ -18,14 +18,17 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 	const isMyPage = pageKey === 'mypage';
 	const pageNavData = NAV_DATA[pageKey];
 
-	const { selectedFilters, setSelectedFilters } = useFilterStore();
+	// 실제 데이터 state
+	const { type, setType } = useFilter();
+	const [selectedType, setSelectedType] = useState(
+		type || NAV_DATA[pageKey][0].id,
+	);
 
-	// ✅ 현재 활성화된 메인 메뉴 상태
+	// UI 관련 state(애니메이션)
 	const [activeMainItem, setActiveMainItem] = useState<string>(
 		pageNavData[0]?.id || '',
 	);
 
-	// ✅ 현재 경로에서 mainId와 subId 추출
 	const pathSegments = pathname.split('/');
 	const initialMainId = isMyPage
 		? pathSegments[2] || pageNavData[0]?.id
@@ -34,39 +37,33 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 		? pathSegments[3]
 		: pageNavData.find((item) => item.id === initialMainId)?.subItems?.[0]?.id;
 
-	// ✅ 초기 상태 설정
+	// 초기 상태 설정
 	useEffect(() => {
 		setActiveMainItem(initialMainId);
+		const newType = initialSubId ? initialSubId : initialMainId;
+		setSelectedType(newType);
+		setType(newType);
+	}, [initialMainId, initialSubId]);
 
-		// ✅ 서브 아이템이 없는 경우 mainId를 type으로 강제 설정
-		if (!initialSubId) {
-			setSelectedFilters({ type: initialMainId });
-		} else {
-			setSelectedFilters({ type: initialSubId });
-		}
-	}, [initialMainId, initialSubId, setSelectedFilters]);
-
-	// ✅ 메인 버튼 클릭 핸들러
 	const handleMainClick = (id: string) => {
 		const selectedMainItem = pageNavData.find((item) => item.id === id);
 		const firstSubItem = selectedMainItem?.subItems?.[0]?.id;
 
-		// ✅ 서브 아이템이 없으면 무조건 mainItem을 적용
-		setSelectedFilters({ type: firstSubItem ?? id });
+		// 서브 아이템이 없으면 mainItem을 적용
+		setSelectedType(firstSubItem ?? id);
+		setType(firstSubItem ?? id);
 
-		// ✅ 상태 업데이트 순서 최적화
 		setActiveMainItem(id);
-
 		onMainClick?.(id);
 	};
 
-	// ✅ 서브 버튼 클릭 핸들러
 	const handleSubClick = (id: string) => {
-		setSelectedFilters({ type: id });
+		setSelectedType(id);
+		setType(id);
 		onSubClick?.(id);
 	};
 
-	// ✅ 애니메이션을 위한 활성화 버튼 추적
+	// 애니메이션을 위한 활성화 버튼 추적
 	const mainNavRef = useRef<(HTMLButtonElement | null)[]>([]);
 	const [currentButton, setCurrentButton] = useState({ left: 0, width: 0 });
 
@@ -132,7 +129,7 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 										key={subItem.id}
 										id={subItem.id}
 										label={subItem.label}
-										isActive={subItem.id === selectedFilters.type}
+										isActive={subItem.id === selectedType}
 										onClick={() => handleSubClick(subItem.id)}
 										variant='sub'
 									/>

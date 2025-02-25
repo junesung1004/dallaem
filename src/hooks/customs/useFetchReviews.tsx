@@ -1,28 +1,29 @@
 import { reviewService } from '@/service/reviewService';
 import { useFilterStore } from '@/store/useInputSelectFilterStore';
 import { useEffect, useState } from 'react';
+import { useFilter } from './useFilter';
 
 export const useFetchReviews = () => {
 	const [reviews, setReviews] = useState([]);
-	const { selectedFilters } = useFilterStore();
+	const { type, location, date, sortBy, sortOrder } = useFilter();
 
 	const fetchReviews = async () => {
 		const params = new URLSearchParams();
 		try {
-			if (selectedFilters.type) {
-				params.append('type', selectedFilters.type);
+			if (type) {
+				params.append('type', type);
 			}
-			if (selectedFilters.location) {
-				params.append('location', selectedFilters.location);
+			if (location) {
+				params.append('location', location);
 			}
-			if (selectedFilters.date) {
-				params.append('date', selectedFilters.date);
+			if (date) {
+				params.append('date', date);
 			}
-			if (selectedFilters.sortBy) {
-				params.append('sortBy', selectedFilters.sortBy);
+			if (sortBy) {
+				params.append('sortBy', sortBy);
 			}
-			if (selectedFilters.sortOrder) {
-				params.append('sortOrder', selectedFilters.sortOrder);
+			if (sortOrder) {
+				params.append('sortOrder', sortOrder);
 			}
 
 			const data = await reviewService.getDetailReviewData({
@@ -37,10 +38,8 @@ export const useFetchReviews = () => {
 	};
 
 	useEffect(() => {
-		if (selectedFilters) {
-			fetchReviews();
-		}
-	}, [selectedFilters]);
+		fetchReviews();
+	}, [type, location, date, sortBy, sortOrder]);
 
 	return reviews;
 };
