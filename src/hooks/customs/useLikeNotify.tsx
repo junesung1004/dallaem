@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/store/useAuthStore';
 import useNotificationStore from '@/store/useNotificationStore';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 // 로컬 스토리지에서 값을 가져오는 함수
 /** utils로 변경 예정 */
@@ -64,6 +64,13 @@ export const useLikeNotify = () => {
 	const likerKey = hasHydrated
 		? getLikerKey({ likeList, user: userId, isLoggedIn })
 		: null;
+
+	useEffect(() => {
+		if (!likerKey) return;
+
+		const count = likeList[likerKey]?.length ?? 0;
+		updateNotification(pageKey, count > 0, count);
+	}, []);
 
 	// 최신 localStorage 값을 가져오는 onChangeLike
 	const onChangeLike = useCallback(() => {
