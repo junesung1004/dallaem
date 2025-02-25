@@ -21,7 +21,10 @@ export default function Header() {
 							<Link href={'/'}>같이 달램</Link>
 						</li>
 						<li>
-							<Link href={'/'} className={pathname === '/' ? 'text-black' : ''}>
+							<Link
+								href={'/'}
+								className={pathname === '/' ? 'text-gray-900' : ''}
+							>
 								모임 찾기
 							</Link>
 						</li>
@@ -29,7 +32,7 @@ export default function Header() {
 							<Link
 								href={'/favorite-meetings'}
 								className={
-									pathname === '/favorite-meetings' ? 'text-black' : ''
+									pathname === '/favorite-meetings' ? 'text-gray-900' : ''
 								}
 							>
 								찜한 모임
@@ -43,7 +46,7 @@ export default function Header() {
 						<li>
 							<Link
 								href={'/all-reviews'}
-								className={pathname === '/all-reviews' ? 'text-black' : ''}
+								className={pathname === '/all-reviews' ? 'text-gray-900' : ''}
 							>
 								모든 리뷰
 							</Link>
@@ -55,7 +58,12 @@ export default function Header() {
 							{isLoggedIn ? (
 								<ProfileTooltip />
 							) : (
-								<Link href='/login'>로그인</Link>
+								<Link
+									href='/login'
+									className={pathname === '/login' ? 'text-gray-900' : ''}
+								>
+									로그인
+								</Link>
 							)}
 						</li>
 					</ul>
