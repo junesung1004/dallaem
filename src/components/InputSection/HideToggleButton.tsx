@@ -1,4 +1,4 @@
-interface HideToggleInterface {
+interface HideToggleProps {
 	onClick: () => void;
 	isHidden: boolean;
 	className: string;
@@ -8,7 +8,7 @@ const HideToggleButton = ({
 	onClick,
 	isHidden,
 	className,
-}: HideToggleInterface) => {
+}: HideToggleProps) => {
 	return (
 		<button onClick={onClick} className={className} type='button' tabIndex={-1}>
 			<img

@@ -4,7 +4,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export const editProfile = async (data: FormData) => {
 	const token = localStorage.getItem('authToken');
 
-	const res = await fetch(`${BASE_URL}auths/user`, {
+	const res = await fetch(`${BASE_URL}/auths/user`, {
 		method: 'PUT',
 		headers: {
 			Authorization: `Bearer ${token}`,

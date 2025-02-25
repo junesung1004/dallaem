@@ -12,7 +12,6 @@ import { DeadlineBadge } from '../Badge/DeadlineBadge';
 
 import { useMainCard } from '@/hooks/customs/useMainCard';
 import type { MeetingCardListProps } from '@/types/meetingsType';
-import { useEffect } from 'react';
 
 export default function CardList({
 	initialData,
@@ -23,13 +22,12 @@ export default function CardList({
 
 	const { meetings } = useMainCard(initialData || [], meetingType);
 
-	useEffect(() => {}, [meetings]);
 
 	return (
 		<div className='flex flex-col items-center gap-6'>
 			{/* 찜한 모임 목록 페이지일 경우 */}
 			{pathname === '/favorite-meetings' &&
-				meetings.map((el) => (
+				meetings?.map((el) => (
 					<Card
 						id={el.id}
 						key={el.id ?? 0}

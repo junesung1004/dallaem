@@ -2,25 +2,19 @@
 import { getMeetingAttendee } from '@/api/meeting/getMeetingAttendee';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { IUser } from '@/types/userType';
+import { MeetingAttendee } from '@/types/userType';
 
-interface MeetingAttendee {
-	teamId: string;
-	userId: number;
-	gatheringId: number;
-	joinedAt: string;
-	User: IUser;
-}
-
-interface AttendeeProfilesInterface {
+interface AttendeeProfilesProps {
 	gatheringId: number;
 	imgSize?: number;
+	participantCount: number;
 }
 
 const AttendeeProfiles = ({
+	participantCount,
 	gatheringId,
 	imgSize = 29,
-}: AttendeeProfilesInterface) => {
+}: AttendeeProfilesProps) => {
 	const maxProfiles = 4;
 	const [profiles, setProfiles] = useState<string[]>([]);
 
@@ -30,15 +24,13 @@ const AttendeeProfiles = ({
 				const res: MeetingAttendee[] = await getMeetingAttendee(gatheringId);
 				const images = res.map((item) => item.User.image);
 				setProfiles(images);
-
-				console.log(profiles);
 			} catch (error) {
 				console.error('Error fetching meeting attendees:', error);
 			}
 		};
 
 		fetchAttendees();
-	}, []);
+	}, [participantCount]);
 
 	return (
 		<div className='h-full w-full flex justify-center items-center space-x-[-10px]'>
