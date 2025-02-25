@@ -13,11 +13,13 @@ const Login = () => {
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
 	const { setIsLoggedIn, setToken, setUserId } = useAuthStore(); //zustand 상태
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
+	//상태관리 변수
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
 	const [isHidden, setIsHidden] = useState(true); //비밀번호 숨김 토글 관리
 	const [errorId, setErrorId] = useState(''); //로그인 에러 관리
 	const [errorPassword, setErrorPassword] = useState('');
+	const [isActive, setIsActive] = useState(false); //로그인 버튼 활성화 관리
 
 	// 클라이언트 사이드에서 referrer를 설정하는 useEffect
 	useEffect(() => {
@@ -112,6 +114,20 @@ const Login = () => {
 		setErrorId('');
 	}, [id]);
 
+	//useEffect: 작성 완료하면 로그인 버튼을 활성화 상태로 바꾼다.
+	useEffect(() => {
+		if (
+			id !== '' &&
+			password !== '' &&
+			errorId === '' &&
+			errorPassword === ''
+		) {
+			setIsActive(true);
+		} else {
+			setIsActive(false);
+		}
+	}, [id, password]);
+
 	// return
 	return (
 		<div className='bg-white rounded-3xl py-8 px-4 md:px-[3.375rem]'>
@@ -162,15 +178,26 @@ const Login = () => {
 					)}
 				</div>
 
-				{/* Section: 로그인 버튼 */}
+				{/* Section: 로그인 버튼. 활성화 / 비활성화 */}
 				<div className='flex flex-col justify-center items-center gap-[24px]'>
-					<button
-						className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
-						onClick={handleSubmit}
-						type='submit'
-					>
-						확인
-					</button>
+					{isActive ? (
+						<button
+							className='w-full h-[40px] md:h-[44px] bg-orange-600 rounded-xl text-white'
+							onClick={handleSubmit}
+							type='submit'
+						>
+							확인
+						</button>
+					) : (
+						<button
+							className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
+							onClick={handleSubmit}
+							type='submit'
+						>
+							확인
+						</button>
+					)}
+
 					<div className='text-[15px] text-gray-800 flex gap-[4px]'>
 						<span>같이달램이 처음이신가요?</span>
 						<span
