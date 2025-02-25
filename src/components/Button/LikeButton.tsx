@@ -2,8 +2,12 @@ import { useLike } from '../../hooks/customs/useLike';
 import { LikeButtonProps } from '../../types/likeButtonType';
 import Image from 'next/image';
 
-export const LikeButton = ({ itemId, registrationEnd }: LikeButtonProps) => {
-	const { isLiked, toggleLike } = useLike(itemId);
+export const LikeButton = ({
+	itemId,
+	registrationEnd,
+	onLikeChangeHandler,
+}: LikeButtonProps) => {
+	const { isLiked, toggleLike } = useLike(itemId, onLikeChangeHandler);
 
 	return (
 		<button
