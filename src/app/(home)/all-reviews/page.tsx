@@ -7,13 +7,24 @@ import { useFetchReviews } from '@/hooks/customs/useFetchReviews';
 import ReviewCardList from './_components/ReviewCardList';
 import useFetchReviewScores from '@/hooks/query/useFetchReviewsScore';
 import ReviewSummary from './_components/ReviewSummary';
+import FilterProvider from '@/context/FilterContent';
 
 export default function AllReviews() {
+	return (
+		<div className='flex flex-col gap-6'>
+			<FilterProvider>
+				<ReviewsSection />
+			</FilterProvider>
+		</div>
+	);
+}
+
+function ReviewsSection() {
 	const reviews = useFetchReviews();
 	const reviewsScore = useFetchReviewScores({ gatheringId: '' });
 
 	return (
-		<div className='flex flex-col gap-6'>
+		<>
 			<div className='flex flex-col gap-3 pb-4 border-b-2 border-gray-200 '>
 				<PageInfo pageKey='reviews' />
 				<PageNavbar pageKey='meetings' />
@@ -23,6 +34,6 @@ export default function AllReviews() {
 				<FilterList enabledFilters={['location', 'date', 'sortByReview']} />
 				<ReviewCardList reviews={reviews} />
 			</div>
-		</div>
+		</>
 	);
 }

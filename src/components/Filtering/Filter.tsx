@@ -67,11 +67,11 @@ function FilterDropdown({
 	return (
 		<div className='relative items-center'>
 			<button
-				className={`content-between md:w-[110px]max-w-[110px] h-[36px] md:h-[40px] px-2 border-2 border-gray-100 rounded-[12px] flex items-center whitespace-nowrap text-sm font-medium focus:outline-none ${buttonBgColor}`}
-				onClick={onToggle} //부모에서 `isOpen` 관리
+				className={`content-between h-[36px] md:h-[40px] px-2 border-2 border-gray-100 rounded-[12px] flex items-center whitespace-nowrap text-sm font-medium focus:outline-none ${buttonBgColor} ${isSort ? 'max-w-[110px]' : 'w-[110px]'}`}
+				onClick={onToggle}
 			>
 				{!isSort && (
-					<div className='flex justify-between'>
+					<div className='w-full flex justify-between'>
 						{formattedDate ? <>{formattedDate}</> : <>{internalSelected}</>}
 						<Image
 							src='icons/arrow/arrowDownDefault.svg'
@@ -85,7 +85,7 @@ function FilterDropdown({
 				{isSort && (
 					<>
 						<div
-							className={`text-gray-500 cursor-pointer transform ${
+							className={`w-fit justify-between text-gray-500 cursor-pointer transform ${
 								sortOrder === 'desc' ? 'scale-x-[-1]' : ''
 							}`}
 							onClick={(e) => {
@@ -121,10 +121,10 @@ function FilterDropdown({
 			{/* 캘린더, 드롭다운 메뉴 */}
 			{isOpen && (
 				<div
-					className={`fixed md:absolute w-[110px] min-w-fit mt-1 p-1 bg-white rounded-lg shadow-lg text-sm font-medium z-10 ${isSort ? 'right-4 md:right-0' : ''}`}
+					className={`w-[110px] absolute min-w-fit mt-1 p-1 bg-white rounded-lg shadow-lg text-sm font-medium z-10 ${isSort ? 'right-0' : 'left-1/2 translate-x-[-50%] md:translate-x-0 md:left-auto'}`}
 				>
 					{calendarComponent ? (
-						<div className='w-fit fixed md:absolute right-1 md:left-0'>
+						<div className='w-fit'>
 							{React.cloneElement(
 								calendarComponent as React.ReactElement<{
 									onApply: () => void;
