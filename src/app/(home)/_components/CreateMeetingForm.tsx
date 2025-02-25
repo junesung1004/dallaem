@@ -1,4 +1,4 @@
-import { createMeeting } from '@/api/meeting/createMeeting';
+import { createMeeting, joinMeeting } from '@/api/meeting/createMeeting';
 import Button from '@/app/(home)/_components/Button';
 import { CalenderTime } from '@/components/Calendar/CalenderTime';
 import ServiceSelector from '@/components/Service/Service';
@@ -33,7 +33,7 @@ export default function CreateMeetingForm() {
 
 	const router = useRouter();
 
-	// form data submit 이벤트 핸들러러
+	// form data submit 이벤트 핸들러 == 모임 만들기 이벤트
 	const clickUpdateMeetingHandler = async (
 		e: React.FormEvent<HTMLFormElement>,
 	) => {
@@ -54,6 +54,12 @@ export default function CreateMeetingForm() {
 		try {
 			const res = await createMeeting(formData);
 			console.log('모임 생성 성공 :', res);
+
+			//모임 만듬과 동시에 모임 주최자는 자동으로 모임 참여하는 로직 추가
+			const meetingId = res.id;
+			console.log("meetingId : ", meetingId)
+			await joinMeeting(meetingId);
+
 			router.back();
 		} catch (error) {
 			console.error('모임 생성 실패 : ', error);
