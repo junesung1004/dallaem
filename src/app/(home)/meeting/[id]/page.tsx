@@ -67,6 +67,16 @@ export default function DetailPage() {
 		}
 	};
 
+	const updateParticipantCount = (delta: number) => {
+		setMeetingData((prev) => {
+			if (prev) {
+				const newCount = prev.participantCount + delta;
+				return { ...prev, participantCount: newCount };
+			}
+			return prev;
+		});
+	};
+
 	if (!meetingData) {
 		return <div>데이터가 없습니다.</div>;
 	}
@@ -121,6 +131,7 @@ export default function DetailPage() {
 					createdBy={meetingData.createdBy}
 					capacity={meetingData.capacity}
 					participantCount={meetingData.participantCount}
+					updateParticipantCount={updateParticipantCount}
 				/>
 			</div>
 		</div>

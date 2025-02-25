@@ -162,6 +162,7 @@ export function useMeetingForm() {
 		meetingStartDate &&
 		meetingEndDate &&
 		meetingPeople &&
+		meetingImageFileName &&
 		!nameValid &&
 		!peopleCountValid &&
 		!startDateValid &&

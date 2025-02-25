@@ -33,9 +33,26 @@ export const MeetingCard = ({ location, type, date, id }: MeetingCardProps) => {
 				</div>
 			</div>
 
-			<div className='border-[1.2px] border-gray-200 border-dashed mb-2 px-[24px]'>
-				<div id='AttendeeProfiles'>
-					<AttendeeProfiles gatheringId={id} />
+
+			<div className='px-7 py-3 space-y-3  mb-2'>
+				<div className='flex justify-between mt-3'>
+					<div className='flex space-x-5'>
+						<div className='font-bold'>모집 정원 {participantCount}명</div>
+						<div id='AttendeeProfiles'>
+							<AttendeeProfiles
+								gatheringId={id}
+								participantCount={participantCount}
+							/>
+						</div>
+					</div>
+					<div>
+						<StatusBadge />
+					</div>
+				</div>
+				<ProgressBar value={participantCount} max={capacity} isAnimate={true} />
+				<div className='flex justify-between '>
+					<div>최소인원 5명</div>
+					<div className='text-orange-500'>최대인원 20명</div>
 				</div>
 			</div>
 

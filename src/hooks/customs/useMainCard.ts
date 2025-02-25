@@ -6,7 +6,7 @@ import type { MeetingCardListProps } from '@/types/meetingsType';
 import type { IMeeting } from '@/types/meetingsType';
 import { meetingService } from '@/app/(home)/favorite-meetings/meetingService';
 export function useMainCard(
-	initialData: IMeeting[],
+	initialData?: IMeeting[],
 	meetingType?: Pick<MeetingCardListProps, 'meetingType'>['meetingType'],
 ) {
 	const [meetings, setMeetings] = useState<IMeeting[]>(initialData || []);
@@ -15,7 +15,7 @@ export function useMainCard(
 	const { selectedFilters } = useFilterStore();
 
 	// `meetingType`이 'favorite'일 때만 useAuthStore 호출
-	const { userId, isLoggedIn } =
+	const { userId, isLoggedIn, hasHydrated } =
 		meetingType === 'favorite'
 			? useAuthStore()
 			: { userId: null, isLoggedIn: null };
@@ -27,6 +27,13 @@ export function useMainCard(
 
 			let res;
 			if (meetingType === 'favorite') {
+				// console.log('favorite 호출');
+
+				// 로그인한 유저 가져오기 전에는 api 호출하지 않음
+				if (!hasHydrated) {
+					return setMeetings([]);
+				}
+
 				// 찜한 목록 카드 API 호출을 기다림
 				res = await meetingService.getFavoriteMeetings({
 					...filters,
@@ -38,8 +45,10 @@ export function useMainCard(
 				res = await getMeetingData(filters);
 			}
 
+			// console.log('응답: ', res);
+
 			// API 호출이 성공하면 결과를 설정
-			setMeetings(res);
+			setMeetings(res ?? []);
 		} catch (error) {
 			console.error('모임 목록 가져오기 실패:', error);
 		}
@@ -66,6 +75,11 @@ export function useMainCard(
 			getMeetingListDate();
 		}
 	}, []);
+
+	useEffect(() => {
+		// console.log('useEffect 실행: ', hasHydrated);
+		getMeetingListDate();
+	}, [meetingType, hasHydrated, selectedFilters]);
 
 	return { meetings };
 }

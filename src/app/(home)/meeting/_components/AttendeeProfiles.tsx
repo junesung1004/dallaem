@@ -15,9 +15,11 @@ interface MeetingAttendee {
 interface AttendeeProfilesInterface {
 	gatheringId: number;
 	imgSize?: number;
+	participantCount: number;
 }
 
 const AttendeeProfiles = ({
+	participantCount,
 	gatheringId,
 	imgSize = 29,
 }: AttendeeProfilesInterface) => {
@@ -30,15 +32,13 @@ const AttendeeProfiles = ({
 				const res: MeetingAttendee[] = await getMeetingAttendee(gatheringId);
 				const images = res.map((item) => item.User.image);
 				setProfiles(images);
-
-				console.log(profiles);
 			} catch (error) {
 				console.error('Error fetching meeting attendees:', error);
 			}
 		};
 
 		fetchAttendees();
-	}, []);
+	}, [participantCount]);
 
 	return (
 		<div className='h-full w-full flex justify-center items-center space-x-[-10px]'>
