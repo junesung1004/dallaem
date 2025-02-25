@@ -71,7 +71,10 @@ function CardList() {
 							</Card.Header.Left>
 
 							<Card.Header.Right>
-								<LikeButton itemId={el.id ?? 0} />
+								<LikeButton
+									itemId={el.id ?? 0}
+									onLikeChangeHandler={deleteLikeMeetings}
+								/>
 							</Card.Header.Right>
 						</Card.Header>
 
