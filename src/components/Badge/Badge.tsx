@@ -14,11 +14,9 @@ function Badge({ content }: BadgeProps) {
 		notiContent = '999+';
 	}
 	return (
-		<span
-			className={'inline-block bg-gray-900 text-white px-[7px] rounded-[8.5px]'}
-		>
-			{notiContent}
-		</span>
+		<div className='flex items-center justify-center w-[27px] h-[16px] text-center text-white text-[12px] bg-black rounded-[8.5px]'>
+			<span>{content}</span>
+		</div>
 	);
 }
 
