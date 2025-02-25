@@ -1,6 +1,7 @@
 import Members from '@/components/Members/Members';
 
 export interface MeetingCardInfoProps {
+	id?: number;
 	title: string;
 	location: string;
 	meetingDate: string;

@@ -55,6 +55,7 @@ function CardBase({
 }) {
 	// 데이터를 가공한다(가공되는 데이터는 title, ...등등 클라이언트의 key 값으로 필요한 것들이다)
 	const propData: MeetingCardInfoProps & TagProps = {
+		id: data?.id,
 		title: data?.name,
 		location: data?.location,
 		meetingDate: formatDateOrTime(data?.dateTime, 'date'),
@@ -84,14 +85,13 @@ function CardBase({
 function JoinedMeetingCard({
 	isDone,
 	isCreated,
+	onCancelClick,
 	...props
-}: Partial<MeetingCardInfoProps & TagProps>) {
+}: Partial<MeetingCardInfoProps & TagProps> & {
+	onCancelClick: (e: React.MouseEvent, id: number) => void;
+}) {
 	const CreateReviewButton = dynamic(() => import('./CreateReviewButton'), {
-		loading: () => (
-			<Button state='default' isOutlined={false}>
-				리뷰 작성하기
-			</Button>
-		),
+		loading: () => <Button>리뷰 작성하기</Button>,
 		ssr: !!false,
 	});
 
@@ -108,7 +108,11 @@ function JoinedMeetingCard({
 			</div>
 			{!!isDone && <CreateReviewButton />}
 			{!isDone && (
-				<Button state='default' isOutlined={true}>
+				<Button
+					onClick={(e) => {
+						onCancelClick(e, Number(props.id));
+					}}
+				>
 					예약 취소하기
 				</Button>
 			)}

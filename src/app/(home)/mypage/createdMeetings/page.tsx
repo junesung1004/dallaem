@@ -5,13 +5,13 @@ import CardList from '../components/CardList/CardList';
 import { useAuthStore } from '@/store/useAuthStore';
 
 function Page() {
-	const userId = useAuthStore((state) => state.userId);
-
-	if (!userId) return null;
-
+	const userId = useAuthStore((state) => state.userId) ?? '';
 	const { meetings } = useMyMeetings('hosted', {
 		userId,
 	});
+
+	if (!userId) return null;
+
 	return <CardList data={meetings || []} cardType='hosted' />;
 }
 
