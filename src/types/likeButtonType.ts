@@ -1,4 +1,6 @@
 export interface LikeButtonProps {
+	onLikeChangeHandler?: ((likeState: boolean) => void) | undefined;
+
 	itemId: number;
 	userId?: number;
 	registrationEnd?: boolean;
