@@ -88,11 +88,11 @@ export default function CardListInfinite() {
 								<Card.Header.Left
 									title={
 										el.type === 'OFFICE_STRETCHING'
-											? '달램핏 마인드풀니스 |'
+											? el.name
 											: el.type === 'MINDFULNESS'
-												? '달램핏 마인드풀니스 |'
+												? el.name
 												: el.type === 'WORKATION'
-													? '워크에이션 리프레쉬 |'
+													? el.name
 													: ''
 									}
 									place={el.location}
@@ -136,7 +136,7 @@ export default function CardListInfinite() {
 									max={el.capacity}
 									value={el.participantCount}
 									isNeutral={false}
-									isAnimate={false}
+									isAnimate={true}
 								/>
 							</Card.Footer>
 						</Card.Content>
@@ -172,11 +172,11 @@ export default function CardListInfinite() {
 									<Card.Header.Left
 										title={
 											el.type === 'OFFICE_STRETCHING'
-												? '달램핏 마인드풀니스 |'
+												? el.name
 												: el.type === 'MINDFULNESS'
-													? '달램핏 마인드풀니스 |'
+													? el.name
 													: el.type === 'WORKATION'
-														? '워크에이션 리프레쉬 |'
+														? el.name
 														: ''
 										}
 										place={el.location}
@@ -223,7 +223,7 @@ export default function CardListInfinite() {
 										max={el.capacity}
 										value={el.participantCount}
 										isNeutral={false}
-										isAnimate={false}
+										isAnimate={true}
 									/>
 								</Card.Footer>
 							</Card.Content>
