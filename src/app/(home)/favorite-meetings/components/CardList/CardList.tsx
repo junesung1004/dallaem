@@ -42,11 +42,11 @@ function CardList() {
 							<Card.Header.Left
 								title={
 									el.type === 'OFFICE_STRETCHING'
-										? '달램핏 마인드풀니스 |'
+										? el.name
 										: el.type === 'MINDFULNESS'
-											? '달램핏 마인드풀니스 |'
+											? el.name
 											: el.type === 'WORKATION'
-												? '워크에이션 리프레쉬 |'
+												? el.name
 												: ''
 								}
 								place={el.location}
@@ -71,7 +71,10 @@ function CardList() {
 							</Card.Header.Left>
 
 							<Card.Header.Right>
-								<LikeButton itemId={el.id ?? 0} />
+								<LikeButton
+									itemId={el.id ?? 0}
+									onLikeChangeHandler={deleteLikeMeetings}
+								/>
 							</Card.Header.Right>
 						</Card.Header>
 
