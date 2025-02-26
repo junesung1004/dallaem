@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { InputWindow } from '../InputSection/InputWindow';
 
 import { signinUser } from '@/api/userAuth';
@@ -9,30 +9,48 @@ import { getUserData } from '@/api/getUserData';
 import { HideToggleButton } from '../InputSection/HideToggleButton';
 import Link from 'next/link';
 
+const fieldNames = ['id', 'password'] as const;
+type FieldType = (typeof fieldNames)[number];
+
+const fieldTitles: Record<FieldType, string> = {
+	id: '아이디',
+	password: '비밀번호',
+};
+
+const fieldErrorDefault: Record<FieldType, string> = {
+	id: '아이디를 입력해주세요',
+	password: '비밀번호를 입력해주세요',
+};
+
 const Login = () => {
 	const router = useRouter();
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
-	const { setIsLoggedIn, setToken, setUserId } = useAuthStore(); //zustand 상태
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
 	//상태관리 변수
-	const [id, setId] = useState('');
-	const [password, setPassword] = useState('');
+	const [formData, setFormData] = useState<Record<FieldType, string>>({
+		id: '',
+		password: '',
+	});
+
+	const [errors, setErrors] = useState<Record<FieldType, string>>({
+		id: '',
+		password: '',
+	});
+
 	const [isHidden, setIsHidden] = useState(true); //비밀번호 숨김 토글 관리
-	const [errorId, setErrorId] = useState(''); //로그인 에러 관리
-	const [errorPassword, setErrorPassword] = useState('');
-	const [isActive, setIsActive] = useState(false); //로그인 버튼 활성화 관리
 
 	// 클라이언트 사이드에서 referrer를 설정하는 useEffect
 	useEffect(() => {
 		setReferrer(document.referrer); // referrer 값 클라이언트 사이드에서만 설정
 	}, []);
-	// 입력 handle 함수
-	const onIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setId(e.target.value.trim());
-	};
 
-	const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value.trim());
+	// 입력 handle 함수
+	const onChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		type: FieldType,
+	) => {
+		setFormData((prev) => ({ ...prev, [type]: e.target.value }));
+		if (errors[type]) setErrors((prev) => ({ ...prev, [type]: '' }));
 	};
 
 	const onHideToggleChange = () => {
@@ -42,87 +60,79 @@ const Login = () => {
 	//로그인 함수. 실패 시에 에러 메시지 설정
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+
 		try {
-			//로그인 성공. 에러 메시지 초기화. 이전 페이지로 돌아감
-			await signinUser({ email: id, password: password });
-			setErrorId('');
-			setErrorPassword('');
-			console.log('로그인 성공');
-
-			// 상태관리 변수에 저장
-			const currentToken = localStorage.getItem('authToken');
-			setIsLoggedIn(true);
-			setToken(currentToken);
-			const getId = (await getUserData()).id;
-			setUserId(getId);
-
-			//이전 페이지로 돌아감 (외부 사이트에서 접속했을 경우 홈으로 돌아감)
-			if (!referrer || !referrer.includes(window.location.hostname)) {
-				router.push('/');
-			} else {
-				router.back();
-			}
+			await signinUser({
+				email: formData.id.trim(),
+				password: formData.password.trim(),
+			});
+			// 에러 초기화 후 이전 페이지로 이동
+			setErrors({
+				id: '',
+				password: '',
+			});
+			router.back();
 		} catch (err: any) {
-			console.log('로그인 실패');
-			//로그인 실패. 에러 메시지 저장
-			if (err.message === '존재하지 않는 아이디입니다') {
-				setErrorId(err.message);
-			} else if (err.message === '비밀번호가 아이디와 일치하지 않습니다') {
-				setErrorPassword(err.message);
+			const errorMessages: Record<string, string> = {
+				'존재하지 않는 아이디입니다': 'id',
+				'비밀번호가 아이디와 일치하지 않습니다': 'password',
+			};
+			if (errorMessages[err.message]) {
+				setErrors((prev) => ({
+					...prev,
+					[errorMessages[err.message]]: err.message,
+				}));
+			} else {
+				console.error(err.message);
 			}
 		}
 	};
 
-	//함수: 아이디 빈칸, 형식 유효성 검사 함수
-	const validateIdEmpty = () => {
-		if (id === '') {
-			setErrorId('아이디를 입력해주세요');
+	//함수: 빈칸 유효성 검사 함수
+	const validateEmpty = (type: FieldType) => {
+		if (!formData[type]) {
+			setErrors((prev) => ({
+				...prev,
+				[type]: fieldErrorDefault[type],
+			}));
+		}
+	};
+
+	const validators: Record<FieldType, () => void> = {
+		//아이디: 유효한 이메일 형식이 아닐 경우
+		id: () => {
+			const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+			setErrors((prev) => ({
+				...prev,
+				id: !emailRegex.test(formData.id)
+					? '유효하지 않은 이메일 형식입니다'
+					: '',
+			}));
+		},
+		password: () => {},
+	};
+
+	/* 함수: onFocus) Input 창을 포커스 할 경우 1초 후에 빈값 유효성 검사 시작한다. 모든 필드에서 빈값 에러 처리 */
+	const handleFocus = (type: FieldType) => {
+		if (debouncingTimer.current) clearTimeout(debouncingTimer.current);
+		debouncingTimer.current = setTimeout(() => validateEmpty(type), 500);
+	};
+
+	/* 함수: onBlur) Input 창을 벗어나면 형식 유효성 검사 진행한다. Input 창이 빈칸일 경우 에러 메시지를 제거한다. */
+	const handleBlur = (type: FieldType) => {
+		if (!formData[type]) {
+			setErrors((prev) => ({ ...prev, [type]: '' }));
 		} else {
-			setErrorId('');
-			return;
+			setErrors((prev) => ({ ...prev, [type]: '' })); //에러  초기화 후 다시 유효성 검증
+			validators[type]();
 		}
 	};
 
-	const validateIdForm = () => {
-		const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-		if (id === '') {
-			setErrorId('');
-		} else if (!email_regex.test(id)) {
-			setErrorId('유효하지 않은 이메일 형식입니다');
-		} else {
-			setErrorId('');
-			return;
-		}
-	};
-
-	//함수: onFocus) Input 창을 포커스 할 경우 1초 후에 빈칸 유효성 검사 시작한다.
-	const handleFocus = () => {
-		if (debouncingTimer.current) {
-			clearTimeout(debouncingTimer.current);
-		}
-		debouncingTimer.current = setTimeout(() => {
-			validateIdEmpty();
-		}, 1000);
-	};
-
-	//함수: onBlur) Input 창을 벗어나면 형식 유효성 검사 진행한다. id가 빈칸일 경우 에러 메시지를 제거한다.
-	const handleFocusOut = () => {
-		validateIdForm();
-	};
-
-	//useEffect: 작성중이면 에러 메시지를 제거한다.
-	useEffect(() => {
-		setErrorId('');
-	}, [id]);
-
-	//useEffect: 작성 완료하면 로그인 버튼을 활성화 상태로 바꾼다.
-	useEffect(() => {
-		if (id && password && !errorId && !errorPassword) {
-			setIsActive(true);
-		} else {
-			setIsActive(false);
-		}
-	}, [id, password]);
+	//useMemo: 작성 완료하면 회원가입 버튼을 활성화 상태로 바꾼다.
+	const isActive = useMemo(
+		() => fieldNames.every((field) => formData[field] && !errors[field]),
+		[formData, errors],
+	);
 
 	// return
 	return (
@@ -141,15 +151,15 @@ const Login = () => {
 					<span>아이디</span>
 					<InputWindow
 						placeholderText='이메일을 입력해주세요.'
-						onChange={onIdChange}
-						value={id}
+						onChange={(e) => onChange(e, 'id')}
+						value={formData['id']}
 						type='text'
-						isError={errorId ? true : false}
-						onBlur={handleFocusOut}
-						onFocus={handleFocus}
+						isError={errors['id'] ? true : false}
+						onBlur={() => handleBlur('id')}
+						onFocus={() => handleFocus('id')}
 					/>
 					{/* 에러 메시지: 아이디가 존재하지 않습니다 */}
-					{errorId && <span className='text-red-600'>{errorId}</span>}
+					{errors['id'] && <span className='text-red-600'>{errors['id']}</span>}
 				</div>
 
 				{/* Section: Password */}
@@ -158,10 +168,12 @@ const Login = () => {
 					<div className='relative'>
 						<InputWindow
 							placeholderText='비밀번호를 입력해주세요.'
-							onChange={onPasswordChange}
-							value={password}
+							onChange={(e) => onChange(e, 'password')}
+							onFocus={() => handleFocus('password')}
+							onBlur={() => handleBlur('password')}
+							value={formData['password']}
 							type={isHidden ? 'password' : 'text'}
-							isError={errorPassword ? true : false}
+							isError={errors['password'] ? true : false}
 						/>
 						<HideToggleButton
 							onClick={onHideToggleChange}
@@ -169,8 +181,8 @@ const Login = () => {
 							className='absolute inset-y-3 right-2'
 						/>
 					</div>
-					{errorPassword && (
-						<span className='text-red-600'>{errorPassword}</span>
+					{errors['password'] && (
+						<span className='text-red-600'>{errors['password']}</span>
 					)}
 				</div>
 
