@@ -1,31 +1,10 @@
 import { getFavoriteMeetingData } from '@/api/meeting/getMeetingDate';
 import type { getFavoriteMeetingsType } from '@/types/meetingsType';
+import { getLocalStorageItem } from '@/utils/localStorage';
 
 export const meetingService = {
 	/** 로컬 스토리지에서 찜한 모임 id 를 가져와서 모임 정보를 가져오는 api */
-	async getFavoriteMeetings({
-		userId,
-		isLoggedIn,
-		...filters
-	}: getFavoriteMeetingsType) {
-		// 로컬 스토리지에서 값을 가져오는 함수
-		function getLocalStorageItem<T>(key: string, defaultValue: T): T {
-			try {
-				const storedValue = localStorage.getItem(key);
-				if (storedValue) {
-					return JSON.parse(storedValue) as T;
-				} else {
-					return defaultValue;
-				}
-			} catch (error) {
-				console.error(
-					`Error parsing JSON from localStorage for key "${key}":`,
-					error,
-				);
-				return defaultValue;
-			}
-		}
-
+	async getFavoriteMeetings({ userId, isLoggedIn }: getFavoriteMeetingsType) {
 		const likeList = getLocalStorageItem<{
 			[key: string]: number[] | string[];
 		}>('likes', {});
@@ -52,8 +31,6 @@ export const meetingService = {
 
 		// filter params 가공
 		const params = {
-			type: filters?.type?.trim() ? filters?.type : 'DALLAEMFIT',
-			// type: filters?.type ?? 'DALLAEMFIT, OFFICE_STRETCHING, MINDFULNESS, WORKATION',
 			id: userLikeList?.join(','),
 		};
 
