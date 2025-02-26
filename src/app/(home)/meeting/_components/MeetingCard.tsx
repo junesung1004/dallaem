@@ -54,7 +54,7 @@ export const MeetingCard = ({
 						</div>
 					</div>
 					<div>
-						<StatusBadge />
+						<StatusBadge participantCount={participantCount} />
 					</div>
 				</div>
 				<ProgressBar value={participantCount} max={capacity} isAnimate={true} />
