@@ -31,9 +31,9 @@ function Button({
 	type: 'yes' | 'no';
 	children: React.ReactNode;
 }) {
-	const buttonProp: Pick<ButtonProps, 'state' | 'isOutlined'> = {
-		state: 'default',
-		isOutlined: type === 'no' ? true : false,
+	const buttonProp: Pick<ButtonProps, 'variation' | 'isFull'> = {
+		variation: type === 'no' ? 'outline' : 'default',
+		isFull: true,
 	};
 	return (
 		<GlobalButton {...buttonProp} onClick={onClick}>
