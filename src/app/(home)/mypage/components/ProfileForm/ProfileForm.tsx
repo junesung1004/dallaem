@@ -4,7 +4,7 @@ import Button from '@/components/Button/Button';
 import Dialog from '@/components/Dialog/Dialog';
 import ProfileInput from '../ProfileInput/ProfileInput';
 import FormControl from './FormControl';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { editProfile } from '@/api/users';
 import { getUserData } from '@/api/getUserData';
 import type { IUser } from '@/types/userType';
@@ -33,7 +33,11 @@ function ProfileForm() {
 
 	useEffect(() => {
 		// formState가 변경될 때마다 유효성 검사
-		const isValid = Object.values(formState).every((val) => val.trim() !== '');
+		/**
+		 * @history 2025-02-26 swagger 기준 프로필 이미지 등록이 필수값으로 이해했는데 null 값이 허용임을 확인 -> 회사명 빈 값으로만 유효성 검사 수정
+		 */
+		// const isValid = Object.values(formState).every((val) => val.trim() !== '');
+		const isValid = formState.companyName?.trim()?.length !== 0;
 		setIsValid(isValid);
 	}, [formState]); // formState가 변경될 때마다 실행됨
 
@@ -42,7 +46,7 @@ function ProfileForm() {
 	const getData = async () => {
 		const data = await getUserData();
 		setUserData(data);
-		setFormState({ image: data?.image, companyName: data?.companyName });
+		setFormState({ image: data?.image ?? '', companyName: data?.companyName });
 	};
 	// const userData: Promise<IUser> = getData();
 
