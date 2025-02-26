@@ -40,6 +40,10 @@ export default function CardListInfinite() {
 		}
 	}, [inView, isDelayed]);
 
+	useEffect(() => {
+		console.log(data);
+	}, [data]);
+
 	// 📌 로딩 중일 때 처리
 	if (isLoading) {
 		return (
