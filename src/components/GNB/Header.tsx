@@ -5,10 +5,13 @@ import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation'; // 현재 경로 가져오기
 import { ProfileTooltip } from '@/components/GNB/profileTooltip';
+import { useLikeNotify } from '@/hooks/customs/useLikeNotify';
+import Badge from '../Badge/Badge';
 
 export default function Header() {
 	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 	const pathname = usePathname(); // 현재 페이지 경로
+	const { likeNotification } = useLikeNotify();
 
 	return (
 		<header className='flex items-center justify-center w-full h-[56px] md:h-[60px] bg-orange-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px]'>
@@ -19,24 +22,30 @@ export default function Header() {
 							<Link href={'/'}>같이 달램</Link>
 						</li>
 						<li>
-							<Link href={'/'} className={pathname === '/' ? 'text-black' : ''}>
+							<Link
+								href={'/'}
+								className={pathname === '/' ? 'text-gray-900' : ''}
+							>
 								모임 찾기
 							</Link>
 						</li>
-						<li>
+						<li className='flex items-center gap-[5px]'>
 							<Link
 								href={'/favorite-meetings'}
 								className={
-									pathname === '/favorite-meetings' ? 'text-black' : ''
+									pathname === '/favorite-meetings' ? 'text-gray-900' : ''
 								}
 							>
 								찜한 모임
 							</Link>
+							{likeNotification.hasNotification && (
+								<Badge content={likeNotification.count} />
+							)}
 						</li>
 						<li>
 							<Link
 								href={'/all-reviews'}
-								className={pathname === '/all-reviews' ? 'text-black' : ''}
+								className={pathname === '/all-reviews' ? 'text-gray-900' : ''}
 							>
 								모든 리뷰
 							</Link>
@@ -48,7 +57,12 @@ export default function Header() {
 							{isLoggedIn ? (
 								<ProfileTooltip />
 							) : (
-								<Link href='/login'>로그인</Link>
+								<Link
+									href='/login'
+									className={pathname === '/login' ? 'text-gray-900' : ''}
+								>
+									로그인
+								</Link>
 							)}
 						</li>
 					</ul>
