@@ -134,7 +134,7 @@ export default function CardListInfinite() {
 							>
 								<div className='flex gap-2'>
 									<Members max={el.capacity ?? 0} value={el.participantCount} />
-									<StatusBadge />
+									<StatusBadge participantCount={el.participantCount} />
 								</div>
 								<ProgressBar
 									max={el.capacity}
@@ -221,7 +221,7 @@ export default function CardListInfinite() {
 											max={el.capacity ?? 0}
 											value={el.participantCount}
 										/>
-										<StatusBadge />
+										<StatusBadge participantCount={el.participantCount} />
 									</div>
 									<ProgressBar
 										max={el.capacity}
