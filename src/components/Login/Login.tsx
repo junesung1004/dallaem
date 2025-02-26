@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
 import { getUserData } from '@/api/getUserData';
 import { HideToggleButton } from '../InputSection/HideToggleButton';
+import Link from 'next/link';
 
 const Login = () => {
 	const router = useRouter();
@@ -195,12 +196,9 @@ const Login = () => {
 
 					<div className='text-[15px] text-gray-800 flex gap-[4px]'>
 						<span>같이달램이 처음이신가요?</span>
-						<span
-							className='text-orange-600'
-							onClick={() => router.push('/signup')}
-						>
+						<Link className='text-orange-600' href={'/signup'}>
 							회원가입
-						</span>
+						</Link>
 					</div>
 				</div>
 			</form>
