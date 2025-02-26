@@ -26,6 +26,7 @@ const Login = () => {
 	const router = useRouter();
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
+	const { setUserId, setToken, setIsLoggedIn } = useAuthStore();
 	//상태관리 변수
 	const [formData, setFormData] = useState<Record<FieldType, string>>({
 		id: '',
@@ -66,6 +67,12 @@ const Login = () => {
 				email: formData.id.trim(),
 				password: formData.password.trim(),
 			});
+			// 전역 상태변수 저장
+			setIsLoggedIn(true);
+			setToken(localStorage.getItem('authToken'));
+			const user = await getUserData();
+			setUserId(user.id);
+
 			// 에러 초기화 후 이전 페이지로 이동
 			setErrors({
 				id: '',
