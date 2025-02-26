@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { IMeeting } from '@/types/meetingsType';
 import { useFilter } from './useFilter';
-// import { useLikeNotify } from './useLikeNotify';
-// import { useLikeNotify } from './useLikeNotify';
+import { useLikeNotify } from './useLikeNotify';
 
 // 로컬 스토리지에서 값을 가져오는 함수
 /** utils로 변경 예정 */
@@ -75,7 +74,7 @@ export const useFavoriteMeetings = () => {
 		});
 		return res; // 반드시 데이터를 반환
 	};
-	// const { likeNotification } = useLikeNotify();
+	const { likeNotification } = useLikeNotify();
 	const { userId, isLoggedIn, hasHydrated } = useAuthStore();
 	const [localKeys, setLocalKeys] = useState('');
 
@@ -102,17 +101,17 @@ export const useFavoriteMeetings = () => {
 	}, [data]);
 
 	/** 찜 상태 변경될 때마다 */
-	// useEffect(() => {
-	// 	const latestLikeList = getLocalStorageItem<
-	// 		Record<string, number[] | string[]>
-	// 	>('likes', {});
-	// 	if (!likerKey) {
-	// 		return;
-	// 	}
+	useEffect(() => {
+		const latestLikeList = getLocalStorageItem<
+			Record<string, number[] | string[]>
+		>('likes', {});
+		if (!likerKey) {
+			return;
+		}
 
-	// 	// 로컬 key 업데이트(리액트 쿼리 키 변동)
-	// 	setLocalKeys(latestLikeList[likerKey]?.join(''));
-	// }, [likeNotification]);
+		// 로컬 key 업데이트(리액트 쿼리 키 변동)
+		setLocalKeys(latestLikeList[likerKey]?.join(''));
+	}, [likeNotification]);
 
 	/** 찜 상태가 변경될 때 찜한 모임에서 실행되는 함수 */
 	const deleteLikeMeetings = (isLike: boolean) => {
