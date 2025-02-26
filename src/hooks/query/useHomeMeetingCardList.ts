@@ -7,6 +7,6 @@ export const useHomeMeetingCardList = () => {
 		queryFn: ({ pageParam }) => getMeetingInfiniteData({ pageParam }),
 		getNextPageParam: (lastPage) =>
 			lastPage ? lastPage.nextOffset : undefined,
-		initialPageParam: 21,
+		initialPageParam: 23,
 	});
 };
