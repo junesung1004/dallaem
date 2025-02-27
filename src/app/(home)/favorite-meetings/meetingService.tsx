@@ -4,11 +4,7 @@ import { getLocalStorageItem } from '@/utils/localStorage';
 
 export const meetingService = {
 	/** 로컬 스토리지에서 찜한 모임 id 를 가져와서 모임 정보를 가져오는 api */
-	async getFavoriteMeetings({
-		userId,
-		isLoggedIn,
-		...filters
-	}: getFavoriteMeetingsType) {
+	async getFavoriteMeetings({ userId, isLoggedIn }: getFavoriteMeetingsType) {
 		const likeList = getLocalStorageItem<{
 			[key: string]: number[] | string[];
 		}>('likes', {});
@@ -35,8 +31,6 @@ export const meetingService = {
 
 		// filter params 가공
 		const params = {
-			type: filters?.type?.trim() ? filters?.type : 'DALLAEMFIT',
-			// type: filters?.type ?? 'DALLAEMFIT, OFFICE_STRETCHING, MINDFULNESS, WORKATION',
 			id: userLikeList?.join(','),
 		};
 

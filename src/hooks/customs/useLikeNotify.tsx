@@ -5,7 +5,6 @@ import { getLikerKey, getLocalStorageItem } from '@/utils/localStorage';
 import type { ILikeListJSON } from '@/types/likeButtonType';
 
 export const useLikeNotify = () => {
-	const hasHydrated = useAuthStore((state) => state.hasHydrated);
 	const userId = useAuthStore((state) => state.userId);
 	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
@@ -19,16 +18,22 @@ export const useLikeNotify = () => {
 	// likeList는 최신 상태 유지
 	const likeList = getLocalStorageItem<ILikeListJSON>('likes', {});
 
-	const likerKey = hasHydrated
-		? getLikerKey({ likeList, user: userId, isLoggedIn })
-		: null;
+	const likerKey =
+		userId || !isLoggedIn
+			? getLikerKey({ likeList, user: userId, isLoggedIn })
+			: null;
+
+	/** 찜한 모임 likerId 받아와야 하는 경우
+	 * 1. 로그인한 유저 -> hasHydrated  true, userId true, isLoggedIn true
+	 * 2. 비로그인 유저 -> hasHydrated false, userId false, guestId true,
+	 */
 
 	useEffect(() => {
-		if (!likerKey) return;
+		if (likerKey === null) return;
 
-		const count = likeList[likerKey]?.length ?? 0;
+		const count = likeList[likerKey ?? '']?.length ?? 0;
 		updateNotification(pageKey, count > 0, count);
-	}, []);
+	}, [userId]);
 
 	// 최신 localStorage 값을 가져오는 onChangeLike
 	const onChangeLike = useCallback(() => {
@@ -36,14 +41,19 @@ export const useLikeNotify = () => {
 			Record<string, number[] | string[]>
 		>('likes', {});
 
-		if (!likerKey) {
+		const latestLikerKey = getLikerKey({
+			likeList: latestLikeList,
+			user: userId,
+			isLoggedIn,
+		});
+
+		if (latestLikerKey === null) {
 			return;
 		}
-
-		const count = latestLikeList[likerKey]?.length ?? 0;
+		const count = latestLikeList[latestLikerKey ?? '']?.length ?? 0;
 
 		updateNotification(pageKey, count > 0, count);
-	}, [likerKey, updateNotification, pageKey]);
+	}, [pageKey]);
 
 	return { onChangeLike, likeNotification };
 };

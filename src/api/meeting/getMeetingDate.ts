@@ -40,10 +40,7 @@ export const getMeetingInfiniteData = async ({
 };
 
 /** 찜한 페이지 data 가져오기 */
-export const getFavoriteMeetingData = async (filters: {
-	type: string;
-	id: string;
-}) => {
+export const getFavoriteMeetingData = async (filters: { id: string }) => {
 	const queryParams = new URLSearchParams(filters);
 	try {
 		const res = await fetch(
