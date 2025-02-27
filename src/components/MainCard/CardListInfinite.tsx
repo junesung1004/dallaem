@@ -30,17 +30,18 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 
 	// 요청 지연 로직 추가
 	useEffect(() => {
-		if (inView && hasNextPage && !isFetchingNextPage && !isDelayed) {
-			setIsDelayed(true);
-			setTimeout(() => {
-				fetchNextPage();
-				setIsDelayed(false);
-			}, 700);
+		if (inView && hasNextPage && !isFetchingNextPage) {
+			fetchNextPage();
 		}
-	}, [inView, isDelayed, fetchNextPage, hasNextPage, isFetchingNextPage]);
+	}, [inView, hasNextPage, isFetchingNextPage]);
 
 	useEffect(() => {
-		console.log(data);
+		const filteredData = meetings
+			? meetings.filter((el) => new Date(el.registrationEnd) >= new Date())
+			: [];
+
+		console.log('meetings-filtered : ', filteredData);
+		console.log('meetings :', meetings);
 	}, [data]);
 
 	// 📌 로딩 중일 때 처리
