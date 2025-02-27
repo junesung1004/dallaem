@@ -9,3 +9,7 @@ export interface LikeButtonProps {
 export interface LikesStorage {
 	[userId: number]: number[];
 }
+
+export interface ILikeListJSON {
+	[key: string]: number[] | string[];
+}
