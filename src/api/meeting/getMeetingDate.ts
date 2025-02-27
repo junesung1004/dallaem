@@ -1,5 +1,5 @@
 export const getMeetingInfiniteData = async ({ pageParam = 3 }) => {
-	const limit = 10;
+	const limit = 12;
 	const offset = pageParam;
 	try {
 		const res = await fetch(

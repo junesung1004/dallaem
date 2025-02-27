@@ -5,16 +5,15 @@ import Card from './Card';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 import { DateBadge } from '../Badge/DateBadge';
 import { LikeButton } from '../Button/LikeButton';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Members from '../Members/Members';
 import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { useHomeMeetingCardList } from '@/hooks/query/useHomeMeetingCardList';
 import { useInView } from 'react-intersection-observer';
 
-export default function CardListInfinite() {
+const CardListInfinite = React.memo(function CardListInfinite() {
 	const router = useRouter();
-	const pathname = usePathname();
 	const { ref, inView } = useInView();
 	const [isDelayed, setIsDelayed] = useState(false);
 
@@ -29,7 +28,7 @@ export default function CardListInfinite() {
 
 	const meetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
 
-	//요청 지연 로직 추가
+	// 요청 지연 로직 추가
 	useEffect(() => {
 		if (inView && hasNextPage && !isFetchingNextPage && !isDelayed) {
 			setIsDelayed(true);
@@ -38,7 +37,7 @@ export default function CardListInfinite() {
 				setIsDelayed(false);
 			}, 700);
 		}
-	}, [inView, isDelayed]);
+	}, [inView, isDelayed, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
 	useEffect(() => {
 		console.log(data);
@@ -66,12 +65,14 @@ export default function CardListInfinite() {
 
 	return (
 		<div className='flex flex-col items-center gap-6'>
-			{pathname === '/favorite-meetings' &&
-				meetings.map((el) => (
+			{/* 메인 모임 목록 페이지일 경우 */}
+			{meetings
+				?.filter((el) => new Date(el.registrationEnd) >= new Date())
+				.map((el) => (
 					<Card
 						id={el.id}
 						key={el.id ?? 0}
-						registrationEnd={new Date(el.registrationEnd) > new Date()}
+						registrationEnd={new Date(el.registrationEnd) < new Date()}
 					>
 						<Card.ImageContainer>
 							<Card.ImageSection
@@ -89,18 +90,7 @@ export default function CardListInfinite() {
 
 						<Card.Content>
 							<Card.Header>
-								<Card.Header.Left
-									title={
-										el.type === 'OFFICE_STRETCHING'
-											? el.name
-											: el.type === 'MINDFULNESS'
-												? el.name
-												: el.type === 'WORKATION'
-													? el.name
-													: ''
-									}
-									place={el.location}
-								>
+								<Card.Header.Left title={el.name} place={el.location}>
 									<DateBadge
 										text={
 											el.dateTime && !isNaN(new Date(el.dateTime).getTime())
@@ -147,93 +137,6 @@ export default function CardListInfinite() {
 					</Card>
 				))}
 
-			{/* 메인 홈 모임 목록 페이지일 경우 */}
-			{pathname === '/' &&
-				meetings
-					?.filter((el) => new Date(el.registrationEnd) >= new Date())
-					.map((el) => (
-						<Card
-							id={el.id}
-							key={el.id ?? 0}
-							registrationEnd={new Date(el.registrationEnd) < new Date()}
-						>
-							<Card.ImageContainer>
-								<Card.ImageSection
-									src={el.image ? el.image : '/images/default.png'}
-									alt='이미지 예시'
-								/>
-								<DeadlineBadge
-									registrationEnd={
-										el.registrationEnd
-											? new Date(el.registrationEnd).toISOString()
-											: '유효하지 않은 시간'
-									}
-								/>
-							</Card.ImageContainer>
-
-							<Card.Content>
-								<Card.Header>
-									<Card.Header.Left
-										title={
-											el.type === 'OFFICE_STRETCHING'
-												? el.name
-												: el.type === 'MINDFULNESS'
-													? el.name
-													: el.type === 'WORKATION'
-														? el.name
-														: ''
-										}
-										place={el.location}
-									>
-										<DateBadge
-											text={
-												el.dateTime && !isNaN(new Date(el.dateTime).getTime())
-													? new Date(el.dateTime).toLocaleDateString('ko-KR')
-													: ''
-											}
-											type='date'
-										/>
-
-										<DateBadge
-											text={
-												el.registrationEnd
-													? new Date(el.registrationEnd).toISOString()
-													: '유효하지 않은 시간'
-											}
-											type='time'
-										/>
-									</Card.Header.Left>
-
-									<Card.Header.Right>
-										<LikeButton itemId={el.id ?? 0} />
-									</Card.Header.Right>
-								</Card.Header>
-
-								<Card.Footer
-									max={40}
-									value={30}
-									onClick={() => {
-										router.push(`meeting/${el.id}`);
-									}}
-								>
-									<div className='flex gap-2'>
-										<Members
-											max={el.capacity ?? 0}
-											value={el.participantCount}
-										/>
-										<StatusBadge />
-									</div>
-									<ProgressBar
-										max={el.capacity}
-										value={el.participantCount}
-										isNeutral={false}
-										isAnimate={true}
-									/>
-								</Card.Footer>
-							</Card.Content>
-						</Card>
-					))}
-
 			{/* 무한스크롤 로딩 스피너 */}
 			{hasNextPage && (
 				<div ref={ref} className='flex justify-center items-center py-4'>
@@ -242,4 +145,6 @@ export default function CardListInfinite() {
 			)}
 		</div>
 	);
-}
+});
+
+export default CardListInfinite;
