@@ -143,81 +143,88 @@ const Login = () => {
 
 	// return
 	return (
-		<div className='bg-white rounded-3xl py-8 px-4 md:px-[3.375rem]'>
+		<div className='bg-white rounded-3xl py-8 px-[16px] md:px-[54px]'>
 			<form
 				onSubmit={handleSubmit}
-				className='mx-auto flex flex-col justify-between gap-[24px]'
+				className='mx-auto flex flex-col justify-between'
 			>
 				{/* Section: 제목 */}
-				<div className='flex justify-center text-[20px] md:text-[24px] '>
+				<div className='h-[60px] flex justify-center text-[20px] md:text-[24px] '>
 					<span>로그인</span>
 				</div>
+				<div className='innerContents flex flex-col gap-[40px]'>
+					<div className='ID-PW flex flex-col gap-[24px]'>
+						{/* Section: ID */}
 
-				{/* Section: ID */}
-				<div className='text-[14px] flex flex-col gap-[8px]'>
-					<span>아이디</span>
-					<InputWindow
-						placeholderText='이메일을 입력해주세요.'
-						onChange={(e) => onChange(e, 'id')}
-						value={formData['id']}
-						type='text'
-						isError={errors['id'] ? true : false}
-						onBlur={() => handleBlur('id')}
-						onFocus={() => handleFocus('id')}
-					/>
-					{/* 에러 메시지: 아이디가 존재하지 않습니다 */}
-					{errors['id'] && <span className='text-red-600'>{errors['id']}</span>}
-				</div>
+						<div className='text-[14px] flex flex-col gap-[8px]'>
+							<span>아이디</span>
+							<InputWindow
+								placeholderText='이메일을 입력해주세요.'
+								onChange={(e) => onChange(e, 'id')}
+								value={formData['id']}
+								type='text'
+								isError={errors['id'] ? true : false}
+								onBlur={() => handleBlur('id')}
+								onFocus={() => handleFocus('id')}
+							/>
+							{/* 에러 메시지: 아이디가 존재하지 않습니다 */}
+							{errors['id'] && (
+								<span className='text-red-600'>{errors['id']}</span>
+							)}
+						</div>
 
-				{/* Section: Password */}
-				<div className='text-[14px] flex flex-col gap-[8px]'>
-					<span>비밀번호</span>
-					<div className='relative'>
-						<InputWindow
-							placeholderText='비밀번호를 입력해주세요.'
-							onChange={(e) => onChange(e, 'password')}
-							onFocus={() => handleFocus('password')}
-							onBlur={() => handleBlur('password')}
-							value={formData['password']}
-							type={isHidden ? 'password' : 'text'}
-							isError={errors['password'] ? true : false}
-						/>
-						<HideToggleButton
-							onClick={onHideToggleChange}
-							isHidden={isHidden}
-							className='absolute inset-y-3 right-2'
-						/>
+						{/* Section: Password */}
+
+						<div className='text-[14px] flex flex-col gap-[8px]'>
+							<span>비밀번호</span>
+							<div className='relative'>
+								<InputWindow
+									placeholderText='비밀번호를 입력해주세요.'
+									onChange={(e) => onChange(e, 'password')}
+									onFocus={() => handleFocus('password')}
+									onBlur={() => handleBlur('password')}
+									value={formData['password']}
+									type={isHidden ? 'password' : 'text'}
+									isError={errors['password'] ? true : false}
+								/>
+								<HideToggleButton
+									onClick={onHideToggleChange}
+									isHidden={isHidden}
+									className='absolute inset-y-3 right-2'
+								/>
+							</div>
+							{errors['password'] && (
+								<span className='text-red-600'>{errors['password']}</span>
+							)}
+						</div>
 					</div>
-					{errors['password'] && (
-						<span className='text-red-600'>{errors['password']}</span>
-					)}
-				</div>
 
-				{/* Section: 로그인 버튼. 활성화 / 비활성화 */}
-				<div className='flex flex-col justify-center items-center gap-[24px]'>
-					{isActive ? (
-						<button
-							className='w-full h-[40px] md:h-[44px] bg-orange-600 rounded-xl text-white'
-							onClick={handleSubmit}
-							type='submit'
-						>
-							확인
-						</button>
-					) : (
-						<button
-							className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
-							onClick={handleSubmit}
-							type='submit'
-						>
-							확인
-						</button>
-					)}
+					{/* Section: 로그인 버튼. 활성화 / 비활성화 */}
+					<div className='Button flex flex-col justify-center items-center gap-[24px]'>
+						{isActive ? (
+							<button
+								className='w-full h-[40px] md:h-[44px] bg-orange-600 rounded-xl text-white'
+								onClick={handleSubmit}
+								type='submit'
+							>
+								확인
+							</button>
+						) : (
+							<button
+								className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
+								onClick={handleSubmit}
+								type='submit'
+							>
+								확인
+							</button>
+						)}
 
-					<div className='text-[15px] text-gray-800 flex gap-[4px]'>
-						<span>같이달램이 처음이신가요?</span>
-						<Link className='text-orange-600' href={'/signup'}>
-							회원가입
-						</Link>
+						<div className='text-[15px] text-gray-800 flex gap-[4px]'>
+							<span>같이달램이 처음이신가요?</span>
+							<Link className='text-orange-600' href={'/signup'}>
+								회원가입
+							</Link>
+						</div>
 					</div>
 				</div>
 			</form>

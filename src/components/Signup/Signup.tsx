@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from 'react';
 
 import { signupUser } from '@/api/userAuth';
 import { SignupInputSection } from './SignupInputSection';
+import Link from 'next/link';
 
 const fieldNames = [
 	'name',
@@ -185,54 +186,63 @@ const Signup = () => {
 	);
 
 	return (
-		<div className='bg-white rounded-3xl py-8 px-4 md:px-[3.375rem]'>
+		<div className='bg-white rounded-3xl py-[32px] px-[16px] md:px-[64px] lg:px-[54px]'>
 			<form
 				onSubmit={handleSubmit}
-				className='mx-auto flex flex-col justify-between gap-[24px]'
+				className='mx-auto flex flex-col justify-between'
 			>
 				{/* Section: 제목 */}
-				<div className='flex justify-center text-[20px] md:text-[24px] '>
+				<div className='h-[60px] flex justify-center text-[20px] md:text-[24px] '>
 					<span>회원가입</span>
 				</div>
-				{fieldNames.map((field) => (
-					<SignupInputSection
-						key={field}
-						id={field}
-						type={
-							field === 'password' || field === 'passwordConfirm'
-								? 'password'
-								: 'text'
-						}
-						title={fieldTitles[field]}
-						placeholderText={fieldErrorDefault[field]}
-						value={formData[field]}
-						onChange={(e) => onChange(e, field)}
-						onFocus={() => handleFocus(field)}
-						onBlur={() => handleBlur(field)}
-						errorMsg={errors[field]}
-						isError={!!errors[field]}
-					/>
-				))}
-
-				{/* Section: 회원가입 버튼 */}
-				<div className='flex justify-center items-center'>
-					{isActive ? (
-						<button
-							className='w-full h-[40px] md:h-[44px] bg-orange-600 text-white rounded-xl'
-							onClick={handleSubmit}
-							type='submit'
-						>
-							확인
-						</button>
-					) : (
-						<button
-							className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
-							onClick={handleSubmit}
-							type='submit'
-						>
-							확인
-						</button>
-					)}
+				<div className='innerContents flex flex-col gap-[40px]'>
+					<div className='inputSections flex flex-col gap-[24px]'>
+						{fieldNames.map((field) => (
+							<SignupInputSection
+								key={field}
+								id={field}
+								type={
+									field === 'password' || field === 'passwordConfirm'
+										? 'password'
+										: 'text'
+								}
+								title={fieldTitles[field]}
+								placeholderText={fieldErrorDefault[field]}
+								value={formData[field]}
+								onChange={(e) => onChange(e, field)}
+								onFocus={() => handleFocus(field)}
+								onBlur={() => handleBlur(field)}
+								errorMsg={errors[field]}
+								isError={!!errors[field]}
+							/>
+						))}
+					</div>
+					{/* Section: 회원가입 버튼 */}
+					<div className='flex flex-col justify-center items-center gap-[24px]'>
+						{isActive ? (
+							<button
+								className='w-full h-[40px] md:h-[44px] bg-orange-600 text-white rounded-xl'
+								onClick={handleSubmit}
+								type='submit'
+							>
+								확인
+							</button>
+						) : (
+							<button
+								className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
+								onClick={handleSubmit}
+								type='submit'
+							>
+								확인
+							</button>
+						)}
+						<div className='text-[15px] text-gray-800 flex gap-[4px]'>
+							<span>이미 회원이신가요?</span>
+							<Link className='text-orange-600' href={'/login'}>
+								로그인
+							</Link>
+						</div>
+					</div>
 				</div>
 			</form>
 		</div>
