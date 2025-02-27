@@ -144,3 +144,12 @@ export const FITERING_DATA: Record<string, FilteringData[]> = {
 		},
 	],
 };
+
+export const REVIEW_SCORES = {
+	averageScore: 0,
+	fiveStars: 0,
+	fourStars: 0,
+	threeStars: 0,
+	twoStars: 0,
+	oneStar: 0,
+};

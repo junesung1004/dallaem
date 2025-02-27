@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { FITERING_DATA } from '@/constants';
-import FilterDropdown from '@/components/Filtering/Filter';
 import CalenderFilter from '../Calendar/CalendarFilter';
 import { useFilter } from '@/hooks/customs/useFilter';
+import FilterDropdown from './FilterDropdown';
 
 interface FilterListProps {
 	enabledFilters?: ('location' | 'date' | 'sortByMeeting' | 'sortByReview')[];
 }
 
-export default function FilterList({
+function FilterList({
 	enabledFilters = ['location', 'date', 'sortByMeeting', 'sortByReview'],
 }: FilterListProps) {
 	const {
@@ -30,7 +30,10 @@ export default function FilterList({
 	const [selectedDate, setSelectedDate] = useState<Date | null>(
 		date ? new Date(date) : null,
 	);
-	const formattedDate = selectedDate?.toISOString().split('T')[0] ?? '';
+	const formattedDate = selectedDate
+		? //('sv-SE')는 스웨덴 표준 날짜 형식,자체가 YYYY-MM-DD
+			selectedDate.toLocaleDateString('sv-SE')
+		: '';
 
 	const initialSortBy = enabledFilters.includes('sortByReview')
 		? FITERING_DATA.sortByReview[0].value
@@ -64,7 +67,7 @@ export default function FilterList({
 				? selectedSortOrder
 				: 'desc',
 		);
-	}, [selectedLocation, formattedDate, selectedSortBy, selectedSortOrder]);
+	}, [selectedLocation, selectedDate, selectedSortBy, selectedSortOrder]);
 
 	return (
 		<div className='flex relative gap-2'>
@@ -133,3 +136,5 @@ export default function FilterList({
 		</div>
 	);
 }
+
+export default FilterList;

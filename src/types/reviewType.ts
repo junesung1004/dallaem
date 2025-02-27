@@ -3,11 +3,11 @@ export interface ReviewScore {
 	teamId?: string;
 	type?: string;
 	averageScore?: number;
-	oneStar?: number;
-	twoStars?: number;
-	threeStars?: number;
-	fourStars?: number;
-	fiveStars?: number;
+	oneStar: number;
+	twoStars: number;
+	threeStars: number;
+	fourStars: number;
+	fiveStars: number;
 }
 
 export interface GetReviewsParams {
@@ -35,7 +35,7 @@ export interface IReview {
 	totalPages: number;
 }
 
-interface Datum {
+export interface Datum {
 	teamId: number;
 	id: number;
 	score: number;
