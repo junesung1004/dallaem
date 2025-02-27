@@ -7,7 +7,7 @@ import { FilterContextType } from '@/types/filterType';
 function useFetchReviewScores({ gatheringId }: { gatheringId: string }) {
 	const { type } = useFilter() as FilterContextType;
 	const { data, isLoading, error } = useQuery<ReviewScore, Error>({
-		queryKey: ['reviewScores', type],
+		queryKey: ['reviewScores', type, gatheringId],
 		queryFn: () => getReviewScore({ gatheringId, type }),
 		enabled: !!type,
 	});
