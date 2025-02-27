@@ -98,7 +98,7 @@ export const FITERING_DATA: Record<string, FilteringData[]> = {
 		},
 		{
 			label: '을지로 3가',
-			value: '을지로 3가',
+			value: '을지로3가',
 		},
 		{
 			label: '신림',
