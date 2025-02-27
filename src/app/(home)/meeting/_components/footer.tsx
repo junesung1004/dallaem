@@ -5,7 +5,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
 import { useRouter, useParams } from 'next/navigation';
 import { participantsGroup } from '@/api/detail-meeting/participantsGroup';
-import { useGroupActions } from '@/hooks/customs/useGroupActions';
+import { useGroupMutations } from '@/hooks/mutation/useGroupMutations';
 
 export function Footer({
 	createdBy,
@@ -21,11 +21,12 @@ export function Footer({
 	const [isJoinDisabled, setIsJoinDisabled] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
 	const [isDeadline, setIsDeadline] = useState(false);
-	const userId = useAuthStore((state) => state.userId);
-	const params = useParams();
 	const [id, setId] = useState<number | null>(null);
+
+	const userId = useAuthStore((state) => state.userId);
 	const { openModal, closeModal } = useGlobalModal();
 	const router = useRouter();
+	const params = useParams();
 
 	// 소유자 여부와 모집 마감 상태 설정
 	useEffect(() => {
@@ -59,13 +60,50 @@ export function Footer({
 		checkParticipation();
 	}, [userId, id]);
 
-	// 그룹 액션 훅 사용 (id가 존재할 때)
-	const { join, leave, cancel } = useGroupActions(
-		id as number,
-		updateParticipantCount,
-	);
+	const { joinMutation, leaveMutation, cancelMutation } = useGroupMutations({
+		groupId: id ?? 0,
+		onSuccessJoin: () => {
+			updateParticipantCount(1);
+			openModal({
+				content: '참여 완료했습니다',
+				confirmType: 'Alert',
+				buttonPosition: 'right',
+				onConfirm: closeModal,
+			});
+		},
+		onSuccessLeave: () => {
+			updateParticipantCount(-1);
+			openModal({
+				content: '참여가 취소되었습니다',
+				confirmType: 'Alert',
+				buttonPosition: 'right',
+				onConfirm: closeModal,
+			});
+		},
+		onSuccessCancel: () => {
+			openModal({
+				content: '모집 공고가 취소되었습니다',
+				confirmType: 'Alert',
+				buttonPosition: 'right',
+				onConfirm: () => {
+					closeModal();
+					router.push('/');
+				},
+			});
+		},
+		onError: (error) => {
+			openModal({
+				content:
+					error instanceof Error ? error.message : '에러가 발생했습니다.',
+				confirmType: 'Alert',
+				buttonPosition: 'right',
+				onConfirm: closeModal,
+			});
+		},
+	});
 
-	const handleJoinClick = async () => {
+	//  참여하기/취소하기 버튼 클릭 핸들러
+	const handleJoinClick = () => {
 		if (userId === null) {
 			openModal({
 				content: '로그인이 필요해요',
@@ -80,16 +118,16 @@ export function Footer({
 		}
 
 		if (isJoinDisabled) {
-			await leave();
+			leaveMutation.mutate();
 			setIsJoinDisabled(false);
 		} else {
-			await join();
+			joinMutation.mutate();
 			setIsJoinDisabled(true);
 		}
 	};
 
-	const handleCancelClick = async () => {
-		await cancel();
+	const handleCancelClick = () => {
+		cancelMutation.mutate();
 	};
 
 	const handleShareClick = () => {
