@@ -8,6 +8,25 @@ export default {
 	],
 	theme: {
 		extend: {
+			colors: {
+				primary: {
+					50: '#FFE8EB',
+					100: '#FFC3C9',
+					200: '#FF9BA3',
+					300: '#FF7983',
+					400: '#FF5F6D',
+					500: '#FF4A5A',
+					600: '#FF5160 ',
+					700: '#E44856',
+					800: '#C93E4A',
+					900: '#A5323D',
+					950: '#7F252E',
+				},
+				secondary: {
+					600: '#9747FF',
+					700: '#6D15C5',
+				},
+			},
 			screens: {
 				sm: '375px',
 				md: '744px',
