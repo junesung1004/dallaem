@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation'; // 현재 경로 가져오기
-import { ProfileTooltip } from '@/components/GNB/profileTooltip';
+import { ProfileTooltip } from '@/components/GNB/ProfileTooltip';
 import { useLikeNotify } from '@/hooks/customs/useLikeNotify';
 import Badge from '../Badge/Badge';
 
