@@ -4,7 +4,7 @@ import { signinUserInterface, signupUserInterface } from '@/api/userInterface';
 // 로그인 기능 : 토큰 반환
 const signinUser = async ({ email, password }: signinUserInterface) => {
 	const response = await fetch(
-		`https://fe-adv-project-together-dallaem.vercel.app/7/auths/signin`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/auths/signin`,
 		{
 			method: 'POST',
 			headers: {
@@ -36,7 +36,7 @@ const signupUser = async ({
 	companyName,
 }: signupUserInterface) => {
 	const response = await fetch(
-		`https://fe-adv-project-together-dallaem.vercel.app/7/auths/signup`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/auths/signup`,
 		{
 			method: 'POST',
 			headers: {

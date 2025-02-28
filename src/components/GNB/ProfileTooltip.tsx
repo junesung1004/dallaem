@@ -9,7 +9,7 @@ import { getUserData } from '@/api/getUserData';
 const ProfileTooltip = () => {
 	const { logoutUser } = useAuth();
 	const [data, setData] = useState<IUser | null>(null);
-	const [visible, setVisible] = useState(false); // useState를 최상단으로 이동
+	const [visible, setVisible] = useState(false);
 
 	const getData = async () => {
 		const userData = await getUserData();
