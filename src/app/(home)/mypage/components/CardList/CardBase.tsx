@@ -67,8 +67,8 @@ function CardBase({
 	};
 
 	return (
-		<div className='flex gap-4 pt-4 pb-2 flex-wrap'>
-			<div className='relative overflow-hidden w-[17rem] h-[10rem] rounded-3xl'>
+		<div className='flex items-center gap-4 pt-4 pb-2 flex-wrap sm:flex-nowrap'>
+			<div className='relative overflow-hidden rounded-3xl sm:grow-[1] w-[17rem] max-w-[17rem] h-[10rem] sm:basis-0'>
 				<Image
 					src={data?.image || '/images/profile/profileDefaultLarge.png'}
 					fill={true}
@@ -98,7 +98,7 @@ function JoinedMeetingCard({
 	if (!props) return null;
 
 	return (
-		<div className='flex flex-col gap-4 grow'>
+		<div className='flex flex-col gap-4 sm:grow-[1] sm:basis-0 overflow-hidden'>
 			<div className='flex flex-col gap-2'>
 				<div className='flex gap-2 mb-1'>
 					<Tag.MeetingState isDone={isDone ?? false} />
@@ -124,7 +124,7 @@ function JoinedMeetingCard({
 function HostedMeetingCard(props: Partial<MeetingCardInfoProps>) {
 	if (!props) return null;
 	return (
-		<div>
+		<div className='flex flex-col gap-4 sm:grow-[1] sm:basis-0 overflow-hidden'>
 			<CardInfo {...(props as MeetingCardInfoProps)} />
 		</div>
 	);
