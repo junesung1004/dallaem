@@ -6,21 +6,21 @@
 
 /* globals.css 혹은 전용 CSS 파일 */
 .react-datepicker__day--selected {
-	background-color: orange !important;
+	background-color: primary !important;
 	color: white !important;
 }
 
 .react-datepicker__day--selected:hover {
-	background-color: darkorange !important;
+	background-color: darkprimary !important;
 }
 
 .react-datepicker__time-list-item--selected {
-	background-color: orange !important;
+	background-color: primary !important;
 	color: white !important;
 }
 
 .react-datepicker__time-list-item--selected:hover {
-	background-color: darkorange !important;
+	background-color: darkprimary !important;
 }
 
 @layer components {

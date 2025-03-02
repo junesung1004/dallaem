@@ -144,7 +144,7 @@ function FilterDropdown({
 						data?.map(({ label, value }) => (
 							<div
 								key={value}
-								className={`px-1 py-2 text-gray-800 hover:bg-orange-100 hover:rounded-[12px] cursor-pointer transition-all whitespace-nowrap ${
+								className={`px-1 py-2 text-gray-800 hover:bg-primary-100 hover:rounded-[12px] cursor-pointer transition-all whitespace-nowrap ${
 									selected === value ? 'font-bold' : ''
 								}`}
 								onClick={() => {

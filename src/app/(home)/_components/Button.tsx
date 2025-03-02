@@ -31,8 +31,8 @@ export default function Button({
 			<button
 				type={type}
 				className={`w-full px-4 py-2  text-white rounded
-				${type === 'button' && 'bg-orange-600 h-[44px]'}
-				${type === 'submit' && disabled === true ? ' bg-slate-300 h-[40px] cursor-not-allowed' : 'bg-orange-600 h-[40px]'}
+				${type === 'button' && 'bg-primary-600 h-[44px]'}
+				${type === 'submit' && disabled === true ? ' bg-slate-300 h-[40px] cursor-not-allowed' : 'bg-primary-600 h-[40px]'}
 				`}
 				onClick={handleClick}
 				disabled={disabled}

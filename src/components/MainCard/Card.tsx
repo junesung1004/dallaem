@@ -115,7 +115,7 @@ function Footer({
 			{/* 오른쪽 버튼 */}
 			<div
 				onClick={onClick}
-				className={`flex gap-2 cursor-pointer text-orange-600 font-semibold`}
+				className={`flex gap-2 cursor-pointer text-primary-600 font-semibold`}
 			>
 				<p>join now</p>
 				<motion.p

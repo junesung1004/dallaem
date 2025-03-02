@@ -203,7 +203,7 @@ const Login = () => {
 					<div className='Button flex flex-col justify-center items-center gap-[24px]'>
 						{isActive ? (
 							<button
-								className='w-full h-[40px] md:h-[44px] bg-orange-600 rounded-xl text-white'
+								className='w-full h-[40px] md:h-[44px] bg-primary-600 rounded-xl text-white'
 								onClick={handleSubmit}
 								type='submit'
 							>
@@ -221,7 +221,7 @@ const Login = () => {
 
 						<div className='text-[15px] text-gray-800 flex gap-[4px]'>
 							<span>같이달램이 처음이신가요?</span>
-							<Link className='text-orange-600' href={'/signup'}>
+							<Link className='text-primary-600' href={'/signup'}>
 								회원가입
 							</Link>
 						</div>

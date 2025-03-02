@@ -60,7 +60,7 @@ export const MeetingCard = ({
 				<ProgressBar value={participantCount} max={capacity} isAnimate={true} />
 				<div className='flex justify-between '>
 					<div>최소인원 5명</div>
-					<div className='text-orange-500'>최대인원 {capacity}명</div>
+					<div className='text-primary-500'>최대인원 {capacity}명</div>
 				</div>
 			</div>
 		</div>

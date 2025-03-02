@@ -24,7 +24,7 @@ function ImageSection({ src }: { src?: string }) {
 	return (
 		<>
 			{src && (
-				<div className='relative bg-orange-300 w-[311px] sm:w-[280px] h-[156px] sm:mb-3 sm:mr-5 rounded-[24px] overflow-hidden'>
+				<div className='relative bg-primary-300 w-[311px] sm:w-[280px] h-[156px] sm:mb-3 sm:mr-5 rounded-[24px] overflow-hidden'>
 					<Image
 						src={src}
 						alt='리뷰 이미지'

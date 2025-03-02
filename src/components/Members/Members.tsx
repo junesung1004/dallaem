@@ -28,9 +28,9 @@ function Members({ max, value, highLight }: MembersProps) {
 		curCount = Math.min(...[max, value].map((num) => Math.floor(num)));
 		// heighLight 값이 지정되지 않으면 기본 유지
 		styleProp.fillColor =
-			highLight === 'off' ? styleProp.fillColor : 'fill-orange-400';
+			highLight === 'off' ? styleProp.fillColor : 'fill-primary-400';
 		styleProp.textColor =
-			highLight === 'off' ? styleProp.textColor : 'text-orange-400';
+			highLight === 'off' ? styleProp.textColor : 'text-primary-400';
 	}
 
 	return (
