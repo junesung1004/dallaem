@@ -9,56 +9,78 @@ import { useRouter } from 'next/navigation';
 export const useMyMeetings = (pageKey: 'joined' | 'review' | 'hosted') => {
 	const router = useRouter();
 	const { openModal, closeModal } = useGlobalModal();
-	const { hasHydrated, userId } = useAuthStore();
+	const { userId } = useAuthStore();
 
-	const fetchMeetings = async (pageKey: string) => {
-		if (!hasHydrated || !userId) return [];
-
+	const fetchMeetings = async (pageKey: string = 'joined') => {
 		/** 이용 완료 여부/리뷰 작성 여부 options */
 		const options: { completed?: boolean; reviewed?: boolean } = {};
 		options.completed = pageKey === 'review' ? true : false;
 
-		switch (pageKey) {
-			case 'joined':
-			case 'review': {
-				try {
-					const data = await myMeetingService.fetchMyMeetings<IMeeting[]>({
+		try {
+			let data;
+
+			switch (pageKey) {
+				case 'joined':
+				case 'review': {
+					data = await myMeetingService.fetchMyMeetings<IMeeting[]>({
 						completed: options?.completed || false,
 						reviewed: options?.reviewed || false,
 					});
-					return data;
-				} catch (err) {
-					console.error(err);
 
-					if (err === 'token invalid') {
-						openModal({
-							content: '로그인이 만료되었습니다. 로그인 페이지로 이동합니다',
-							confirmType: 'Alert',
-							onConfirm: () => {
-								router.push('/login');
-							},
-						});
-					}
-
-					return [];
+					break;
 				}
-				break;
+				case 'hosted': {
+					data = await myMeetingService.fetchMyHostedMeetings<IMeeting[]>(
+						String(userId),
+					);
+					break;
+				}
+				default:
+					console.error('Invalid pageKey');
+					return null;
 			}
-			case 'hosted': {
-				const hostedData = await myMeetingService.fetchMyHostedMeetings<
-					IMeeting[]
-				>(String(userId));
-				return hostedData;
-				break;
+
+			return data;
+		} catch (err) {
+			if (!(err instanceof Error)) {
+				console.error('Unknown error');
+				return null;
 			}
-			default:
-				console.error('Invalid pageKey');
+
+			// 에러 메시지에 따라 처리
+			if (err.message === 'token invalid') {
+				openModal({
+					content: (
+						<span>
+							로그인이 만료되었습니다.
+							<br />
+							로그인 페이지로 이동합니다
+						</span>
+					),
+					confirmType: 'Alert',
+					onConfirm: () => {
+						closeModal();
+						router.push('/login');
+					},
+				});
+			} else {
+				console.error(err);
+				openModal({
+					content: '문제가 발생하였습니다. 다시 시도해주세요',
+					confirmType: 'Alert',
+					onConfirm: () => {
+						closeModal();
+					},
+				});
+			}
+
+			return null;
 		}
 	};
 
 	const { data, refetch } = useSuspenseQuery({
-		queryKey: userId ? [userId, pageKey] : [],
-		queryFn: () => fetchMeetings(pageKey),
+		queryKey: [userId, pageKey],
+		queryFn: () => (userId ? fetchMeetings(pageKey) : null),
 	});
 
 	/** 예약 취소 submit */

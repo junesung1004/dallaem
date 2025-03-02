@@ -1,3 +1,5 @@
+import { BASE_URL } from '@/constants';
+
 /** authorize 구조 변경되면 개선할 부분 */
 const token =
 	typeof window !== 'undefined' ? localStorage.getItem('authToken') : '';
@@ -17,26 +19,28 @@ function getTrueQueryParameters(options: { [key: string]: boolean }): string {
 }
 
 export const myMeetingService = {
-	/** 나의 모임, 내가 작성한 리뷰 가져오는 api */
+	/** 나의 모임, 작성 가능한 리뷰 가져오는 api */
 	async fetchMyMeetings<T>(options: {
 		completed: boolean;
 		reviewed: boolean;
 	}): Promise<T> {
 		const params = getTrueQueryParameters(options);
-		const responseData = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/joined${params}`,
-			{
+		const responseData = await fetch(`${BASE_URL}/gatherings/joined${params}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
-			},
-		);
+		});
 
-		// 에러인 경우
+		// 에러 처리
 		if (!responseData?.ok) {
-			throw new Error('request error');
+			const status = responseData?.status ?? '400';
+
+			switch (Number(status)) {
+				case 401:
+					throw new Error('token invalid');
+			}
 		}
 
 		return responseData?.json() as T;
