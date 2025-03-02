@@ -32,8 +32,8 @@ function ProgressBar({
 	}, [value]);
 
 	/** 색상 적용 or 흑백 적용 */
-	const thumb = isNeutral ? `bg-gray-900` : 'bg-orange-600';
-	const bgBar = isNeutral ? `bg-gray-200` : 'bg-orange-50';
+	const thumb = isNeutral ? `bg-gray-900` : 'bg-primary-600';
+	const bgBar = isNeutral ? `bg-gray-200` : 'bg-primary-50';
 
 	/**
 	 * 주어진 값(value)와 최대값(max)을 받아 백분율로 반환하는 함수

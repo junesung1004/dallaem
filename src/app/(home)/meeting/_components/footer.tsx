@@ -164,13 +164,13 @@ export function Footer({
 					<div>
 						<button
 							onClick={handleCancelClick}
-							className='px-5 py-2 border-[1px] border-orange-500 text-orange-500 rounded-xl font-bold text-sm mr-2'
+							className='px-5 py-2 border-[1px] border-primary-500 text-primary-500 rounded-xl font-bold text-sm mr-2'
 						>
 							취소하기
 						</button>
 						<button
 							onClick={handleShareClick}
-							className='px-5 py-2 bg-orange-600 text-white rounded-xl text-sm'
+							className='px-5 py-2 bg-primary-600 text-white rounded-xl text-sm'
 						>
 							공유하기
 						</button>
@@ -184,8 +184,8 @@ export function Footer({
 						onClick={handleJoinClick}
 						className={`px-5 py-2 rounded-xl text-sm transition-colors whitespace-nowrap max-h-[40px] ${
 							isJoinDisabled
-								? 'border-orange-600 border text-orange-600 font-bold'
-								: 'bg-orange-600 text-white'
+								? 'border-primary-600 border text-primary-600 font-bold'
+								: 'bg-primary-600 text-white'
 						}`}
 					>
 						{isJoinDisabled ? '참여 취소하기' : '참여하기'}

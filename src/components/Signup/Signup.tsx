@@ -221,7 +221,7 @@ const Signup = () => {
 					<div className='flex flex-col justify-center items-center gap-[24px]'>
 						{isActive ? (
 							<button
-								className='w-full h-[40px] md:h-[44px] bg-orange-600 text-white rounded-xl'
+								className='w-full h-[40px] md:h-[44px] bg-primary-600 text-white rounded-xl'
 								onClick={handleSubmit}
 								type='submit'
 							>
@@ -238,7 +238,7 @@ const Signup = () => {
 						)}
 						<div className='text-[15px] text-gray-800 flex gap-[4px]'>
 							<span>이미 회원이신가요?</span>
-							<Link className='text-orange-600' href={'/login'}>
+							<Link className='text-primary-600' href={'/login'}>
 								로그인
 							</Link>
 						</div>

@@ -106,7 +106,7 @@ export default function CreateMeetingForm() {
 
 					<div
 						onClick={() => document.getElementById('image')?.click()}
-						className='flex items-center font-medium justify-center  ml-4 w-[100px] h-[40px] border rounded-xl text-orange-500 border-orange-500 cursor-pointer'
+						className='flex items-center font-medium justify-center  ml-4 w-[100px] h-[40px] border rounded-xl text-primary-500 border-primary-500 cursor-pointer'
 					>
 						파일 찾기
 						<input

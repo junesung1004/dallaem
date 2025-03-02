@@ -21,35 +21,35 @@ function Button({
 }: ButtonProps) {
 	const buttonsStateMap = {
 		default: {
-			initial: 'bg-orange-600 text-white',
-			hover: 'hover:bg-orange-700 hover:text-white',
-			active: 'active:bg-orange-800 active:text-white',
+			initial: 'bg-secondary-600 text-white',
+			hover: 'hover:bg-secondary-700 hover:text-white',
+			active: 'active:bg-primary-800 active:text-white',
 			disabled: 'bg-gray-400 text-white',
 		},
 		outline: {
-			initial: 'bg-white text-orange-600 border border-orange-600',
+			initial: 'bg-white text-secondary-600 border border-secondary-600',
 			hover:
-				'hover:bg-white hover:text-orange-500 hover:border hover:border-orange-500',
+				'hover:bg-white hover:text-primary-500 hover:border hover:border-primary-500',
 			active:
-				'active:bg-white active:text-orange-700 active:border active:border-orange-700',
+				'active:bg-white active:text-secondary-700 active:border active:border-secondary-700',
 			disabled: 'bg-white text-gray-400 border border-gray-400',
 		},
 	};
 
 	const buttonStateMap1 = {
 		default: {
-			initial: 'bg-orange-600 text-white',
-			outlined: 'bg-white text-orange-600 border border-orange-600',
+			initial: 'bg-primary-600 text-white',
+			outlined: 'bg-white text-primary-600 border border-primary-600',
 		},
 		hover: {
-			initial: 'bg-orange-700 text-white',
+			initial: 'bg-primary-700 text-white',
 			outlined:
-				'hover:bg-white hover:text-orange-500 hover:border hover:border-orange-500',
+				'hover:bg-white hover:text-primary-500 hover:border hover:border-primary-500',
 		},
 		click: {
-			initial: 'bg-orange-800 text-white',
+			initial: 'bg-primary-800 text-white',
 			outlined:
-				'active:bg-white active:text-orange-700 active:border active:border-orange-700',
+				'active:bg-white active:text-primary-700 active:border active:border-primary-700',
 		},
 		disabled: {
 			initial: 'bg-gray-400 text-white',

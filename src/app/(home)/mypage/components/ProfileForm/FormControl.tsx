@@ -34,7 +34,7 @@ function InputControl({
 }: InputControlProps) {
 	return (
 		<FormControl id={id} title={title}>
-			<div className='md:min-w-[471px] md:max-w-[471px] min-w-[308px] bg-gray-50 px-4 py-2 focus-within:outline focus-within:outline-2 focus-within:outline-orange-600 rounded-lg'>
+			<div className='md:min-w-[471px] md:max-w-[471px] min-w-[308px] bg-gray-50 px-4 py-2 focus-within:outline focus-within:outline-2 focus-within:outline-primary-600 rounded-lg'>
 				<Input
 					id={id}
 					name={name}
