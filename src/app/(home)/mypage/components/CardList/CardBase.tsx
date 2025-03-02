@@ -109,6 +109,7 @@ function JoinedMeetingCard({
 			{!!isDone && <CreateReviewButton />}
 			{!isDone && (
 				<Button
+					variation='outline'
 					onClick={(e) => {
 						onCancelClick(e, Number(props.id));
 					}}
