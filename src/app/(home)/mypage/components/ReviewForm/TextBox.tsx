@@ -12,7 +12,7 @@ interface TextBoxProps
 function TextBox(props: TextBoxProps) {
 	return (
 		<textarea
-			className={`bg-transparent resize-none w-full h-full outline-none ${props?.typhograpy}`}
+			className={`bg-transparent resize-none w-full h-full outline-none ${props?.typhograpy} h-[100px] hide-scroll`}
 			{...(props as TextBoxProps)}
 			value={props.content}
 			onChange={props.onChange}
