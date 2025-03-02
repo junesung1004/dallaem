@@ -83,6 +83,7 @@ function CardBase({
 
 /** 나의 모임 */
 function JoinedMeetingCard({
+	id,
 	isDone,
 	isCreated,
 	onCancelClick,
@@ -95,7 +96,7 @@ function JoinedMeetingCard({
 		ssr: !!false,
 	});
 
-	if (!props) return null;
+	if (!props || !id) return null;
 
 	return (
 		<div className='flex flex-col gap-4 sm:grow-[1] sm:basis-0 overflow-hidden'>
@@ -106,11 +107,11 @@ function JoinedMeetingCard({
 				</div>
 				<CardInfo {...(props as MeetingCardInfoProps)} />
 			</div>
-			{!!isDone && <CreateReviewButton />}
+			{!!isDone && <CreateReviewButton meetingId={id} />}
 			{!isDone && (
 				<Button
 					onClick={(e) => {
-						onCancelClick(e, Number(props.id));
+						onCancelClick(e, Number(id));
 					}}
 				>
 					예약 취소하기
