@@ -1,20 +1,20 @@
 'use client';
 
+import { useMyMeetings } from '@/hooks/customs/useMyMeetings';
 import CardBase from './CardBase';
-import type { IMeeting } from '@/types/createMeetingType';
 import Link from 'next/link';
 
 interface CardListProps {
-	data: IMeeting[];
 	cardType: 'joined' | 'hosted';
-	/** 임시 */
-	onCancelClick?: (e: React.MouseEvent, id: number) => void;
+	pageKey: 'joined' | 'review' | 'hosted';
 }
 
-function CardList({ data, cardType, onCancelClick }: CardListProps) {
+function CardList({ cardType, pageKey }: CardListProps) {
+	const { meetings, onCancelClick } = useMyMeetings(pageKey);
+
 	return (
 		<div>
-			{data?.map((meeting) => (
+			{meetings?.map((meeting) => (
 				<Link
 					href={`/meeting/${meeting.id}`}
 					key={meeting.id}

@@ -1,11 +1,7 @@
-'use client';
-
-import { useMyMeetings } from '@/hooks/customs/useMyMeetings';
 import CardList from '../components/CardList/CardList';
 
 function Page() {
-	const { meetings } = useMyMeetings('joined');
-	return <CardList data={meetings || []} cardType='joined' />;
+	return <CardList cardType='joined' pageKey='joined' />;
 }
 
 export default Page;
