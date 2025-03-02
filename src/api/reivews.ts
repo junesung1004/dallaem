@@ -17,7 +17,7 @@ export const createReview = async (
 			throw new Error('invalid token');
 		}
 
-		const res = await fetch(`${BASE_URL}reviews`, {
+		const res = await fetch(`${BASE_URL}/reviews`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
