@@ -45,6 +45,10 @@ interface TagProps {
 	isCreated: boolean;
 }
 
+interface MeetingCardBaseProps extends MeetingCardInfoProps, TagProps {
+	canceledAt: IMeeting['canceledAt'];
+}
+
 /** Base 가 되는 카드 */
 function CardBase({
 	children,
@@ -88,7 +92,7 @@ function JoinedMeetingCard({
 	isCreated,
 	onCancelClick,
 	...props
-}: Partial<MeetingCardInfoProps & TagProps> & {
+}: Partial<MeetingCardBaseProps> & {
 	onCancelClick: (e: React.MouseEvent, id: number) => void;
 }) {
 	const CreateReviewButton = dynamic(() => import('./CreateReviewButton'), {
