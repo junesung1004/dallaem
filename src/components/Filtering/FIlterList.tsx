@@ -70,37 +70,39 @@ function FilterList({
 	}, [selectedLocation, selectedDate, selectedSortBy, selectedSortOrder]);
 
 	return (
-		<div className='flex relative gap-2'>
-			{/* 지역 필터 */}
-			{enabledFilters.includes('location') && (
-				<FilterDropdown
-					category='location'
-					selected={selectedLocation}
-					onSelect={setSelectedLocation}
-					isOpen={isOpenDropdown === 'location'}
-					onToggle={() => toggleDropdown('location')}
-				/>
-			)}
+		<div className='flex gap-1 justify-between'>
+			<div className='flex gap-1 md:gap-2'>
+				{/* 지역 필터 */}
+				{enabledFilters.includes('location') && (
+					<FilterDropdown
+						category='location'
+						selected={selectedLocation}
+						onSelect={setSelectedLocation}
+						isOpen={isOpenDropdown === 'location'}
+						onToggle={() => toggleDropdown('location')}
+					/>
+				)}
 
-			{/* 날짜 필터 */}
-			{enabledFilters.includes('date') && (
-				<FilterDropdown
-					category='date'
-					selected={formattedDate}
-					onSelect={() => setSelectedDate(null)}
-					isOpen={isOpenDropdown === 'date'}
-					onToggle={() => toggleDropdown('date')}
-					calendarComponent={
-						<CalenderFilter
-							meetingDate={selectedDate}
-							setMeetingDate={setSelectedDate}
-							onApply={() => toggleDropdown('date')}
-						/>
-					}
-				/>
-			)}
+				{/* 날짜 필터 */}
+				{enabledFilters.includes('date') && (
+					<FilterDropdown
+						category='date'
+						selected={formattedDate}
+						onSelect={() => setSelectedDate(null)}
+						isOpen={isOpenDropdown === 'date'}
+						onToggle={() => toggleDropdown('date')}
+						calendarComponent={
+							<CalenderFilter
+								meetingDate={selectedDate}
+								setMeetingDate={setSelectedDate}
+								onApply={() => toggleDropdown('date')}
+							/>
+						}
+					/>
+				)}
+			</div>
 
-			<div className='absolute right-0'>
+			<div>
 				{/* 정렬 필터 (Meeting) */}
 				{enabledFilters.includes('sortByMeeting') && (
 					<FilterDropdown
@@ -109,7 +111,19 @@ function FilterList({
 						sortOrder={selectedSortOrder as 'asc' | 'desc'}
 						onSelect={(sortBy, sortOrder) => {
 							setSelectedSortBy(sortBy);
-							setSelectedSortOrder(sortOrder);
+							if (
+								sortBy === 'registrationEnd' &&
+								selectedSortBy !== 'registrationEnd'
+							) {
+								setSelectedSortOrder('asc');
+							} else if (
+								sortBy !== 'registrationEnd' &&
+								selectedSortBy === 'registrationEnd'
+							) {
+								setSelectedSortOrder('desc');
+							} else {
+								setSelectedSortOrder(sortOrder);
+							}
 						}}
 						variant='sort'
 						isOpen={isOpenDropdown === 'sortByMeeting'}
@@ -125,7 +139,11 @@ function FilterList({
 						sortOrder={selectedSortOrder as 'asc' | 'desc'}
 						onSelect={(sortBy, sortOrder) => {
 							setSelectedSortBy(sortBy);
-							setSelectedSortOrder(sortOrder);
+							if (sortBy !== selectedSortBy) {
+								setSelectedSortOrder('desc');
+							} else {
+								setSelectedSortOrder(sortOrder);
+							}
 						}}
 						variant='sort'
 						isOpen={isOpenDropdown === 'sortByReview'}
