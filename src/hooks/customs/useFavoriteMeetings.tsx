@@ -39,10 +39,9 @@ export const useFavoriteMeetings = () => {
 			: null;
 
 	const { data, isLoading, error } = useQuery({
-		queryKey: likerKey
-			? ['favorite', likerKey, likeList[likerKey]?.join('')]
-			: [],
-		queryFn: getData,
+		queryKey: ['favorite', likerKey ? likeList[likerKey]?.join('') : ''],
+		queryFn: () => (likerKey ? getData() : null),
+		enabled: !!likerKey,
 	});
 
 	// data가 업데이트되면 상태를 변경
