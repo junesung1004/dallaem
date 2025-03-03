@@ -19,13 +19,13 @@ function Button({
 		default: {
 			initial: 'bg-secondary-600 text-white',
 			hover: 'hover:bg-secondary-700 hover:text-white',
-			active: 'active:bg-primary-800 active:text-white',
+			active: 'active:bg-secondary-800 active:text-white',
 			disabled: 'bg-gray-400 text-white',
 		},
 		outline: {
 			initial: 'bg-white text-secondary-600 border border-secondary-600',
 			hover:
-				'hover:bg-white hover:text-primary-500 hover:border hover:border-primary-500',
+				'hover:bg-white hover:text-secondary-500 hover:border hover:border-secondary-500',
 			active:
 				'active:bg-white active:text-secondary-700 active:border active:border-secondary-700',
 			disabled: 'bg-white text-gray-400 border border-gray-400',
