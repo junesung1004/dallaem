@@ -5,28 +5,52 @@
 @tailwind utilities;
 
 /* globals.css 혹은 전용 CSS 파일 */
+.react-datepicker {
+	font-family: 'Pretendard', sans-serif !important;
+}
+
 .react-datepicker__day--selected {
-	background-color: primary !important;
+	background-color: #ff4a5a !important;
 	color: white !important;
 }
 
 .react-datepicker__day--selected:hover {
-	background-color: darkprimary !important;
+	background-color: #e44856 !important;
 }
 
 .react-datepicker__time-list-item--selected {
-	background-color: primary !important;
+	background-color: #ff5160 !important;
 	color: white !important;
 }
 
 .react-datepicker__time-list-item--selected:hover {
-	background-color: darkprimary !important;
+	background-color: #ff7983 !important;
+}
+
+/* 오늘 날짜 스타일 (선택 여부와 관계없이 적용) */
+.react-datepicker__day--today {
+	background-color: transparent !important;
+	font-weight: bold !important;
+}
+
+/* 선택된 오늘 날짜 스타일 */
+.react-datepicker__day--today.react-datepicker__day--selected {
+	background-color: #ff5160 !important;
+	color: white !important;
+}
+
+.react-datepicker__day--today.react-datepicker__day--selected:hover {
+	background-color: #e44856 !important;
 }
 
 @layer components {
 	/* 카드 사이 구분선 */
 	.meeting-card + .meeting-card {
 		@apply border-t-2 border-gray-200 border-dashed mt-2;
+	}
+
+	.meeting-card:last-child {
+		@apply border-y-2 border-gray-200 border-dashed pb-2;
 	}
 }
 
@@ -43,6 +67,16 @@ body {
 	/* overflow-x: hidden; */
 	margin: 0;
 	padding: 0;
+}
+
+@layer utilities {
+	.hide-scroll::-webkit-scrollbar {
+		display: none;
+	}
+	.hide-scroll {
+		-ms-overflow-style: none; /* IE, Edge */
+		scrollbar-width: none; /* Firefox */
+	}
 }
 
 .btn-default {

@@ -68,7 +68,7 @@ export default function CreateMeetingForm() {
 				/>
 				<div className='text-red-600 text-sm mb-1 ml-2 py-'>
 					{nameValid && meetingName.length > 0 && (
-						<div>모임 이름은 2~8자 사이로 한글 또는 영문만 가능합니다.</div>
+						<div>모임 이름은 2~25자 사이로 한글, 영문, 숫자만 가능합니다.</div>
 					)}
 				</div>
 			</div>
@@ -140,7 +140,7 @@ export default function CreateMeetingForm() {
 
 					<div className='text-red-600 text-sm mb-1 ml-2'>
 						{startDateValid && (
-							<div>모임 날짜는 2틀 이후 부터 선택 가능 ✅</div>
+							<div>모임 날짜는 이틀 이후 부터 선택 가능 ✅</div>
 						)}
 					</div>
 				</div>

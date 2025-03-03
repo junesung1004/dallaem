@@ -13,15 +13,14 @@ function ReviewCardList({ reviews: reviews }: { reviews: ReviewType[] }) {
 				<>
 					{reviews.map((review: ReviewType) => (
 						<ReviewCard key={review.id}>
-							<ReviewCard.ImageSection src={review.Gathering.image} />
+							<ReviewCard.ImageSection
+								src={review.Gathering.image || undefined}
+							/>
 							<ReviewCard.ReviewLayout>
 								<ReviewCard.HeartScore score={review.score} />
 								<ReviewCard.Content comment={review.comment} />
 								<ReviewCard.EtcInfo
-									userIcon={
-										review.User.image ??
-										'/images/profile/profiledefaultSmall.png'
-									}
+									userIcon={review.User.image || undefined}
 									nickname={review.User.name}
 									type={review.Gathering.type}
 									location={review.Gathering.location}

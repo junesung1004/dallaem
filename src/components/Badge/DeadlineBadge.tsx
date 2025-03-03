@@ -16,7 +16,7 @@ const formatDeadlineText = (endString: string): string | null => {
 	} else if (diffMinutes < 60) {
 		return `잠시 후 마감`;
 	} else if (diffHours < 24) {
-		return `${diffHours - 1}시간 후 마감`;
+		return `${diffHours}시간 후 마감`;
 	} else {
 		return `${Math.floor(diffHours / 24)}일 후 마감`;
 	}
