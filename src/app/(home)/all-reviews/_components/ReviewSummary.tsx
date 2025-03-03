@@ -3,17 +3,26 @@
 import HeartRatings from '@/components/HeartRatings/HeartRatings';
 import ProgressBar from '@/components/ProgressBar/ProgressBar';
 import { REVIEW_SCORES } from '@/constants';
-import { ReviewScore } from '@/types/reviewType';
 import { useMemo } from 'react';
+import useFetchReviewScores from '@/hooks/query/useFetchReviewsScore';
+import useFetchReviewsData from '@/hooks/query/useFetchReviewData';
+import { Datum } from '@/types/reviewType';
 
-const ReviewSummary = ({
-	reviewScore,
-}: {
-	reviewScore: ReviewScore | ReviewScore[] | null;
-}) => {
-	if (!reviewScore) {
-		reviewScore = REVIEW_SCORES;
-	}
+const ReviewSummary = () => {
+	const { data } = useFetchReviewsData();
+	const reviews = data?.pages.flatMap((page) => page.totalPages) ?? [];
+
+	const gatheringIdList = useMemo(() => {
+		return [
+			...new Set(
+				reviews
+					.map((review: Datum) => review.Gathering?.id)
+					.filter((id): id is number => typeof id === 'number'),
+			),
+		].join(',');
+	}, [reviews]);
+
+	const reviewScore = useFetchReviewScores({ gatheringId: gatheringIdList });
 
 	const rating = ['5점', '4점', '3점', '2점', '1점'];
 	const starKeys = [
@@ -24,6 +33,7 @@ const ReviewSummary = ({
 		'oneStar',
 	] as const;
 
+	// 리뷰 객체 배열 하나로 합치는 로직
 	const mergedReviewScore = useMemo(() => {
 		if (!reviewScore) return null;
 
@@ -43,7 +53,6 @@ const ReviewSummary = ({
 		return reviewScore;
 	}, [reviewScore]);
 
-	// max값 계산
 	const totalCount = useMemo(() => {
 		if (!mergedReviewScore) return 0;
 		return starKeys.reduce(
@@ -52,16 +61,16 @@ const ReviewSummary = ({
 		);
 	}, [mergedReviewScore]);
 
-	// 평점 평균값 계산
+	// 평균 값 다시 계산하는 로직
 	const averageScore = useMemo(() => {
 		if (!mergedReviewScore || totalCount === 0) return 0;
 
 		const totalScore =
-			mergedReviewScore?.oneStar * 1 +
-			mergedReviewScore?.twoStars * 2 +
-			mergedReviewScore?.threeStars * 3 +
-			mergedReviewScore?.fourStars * 4 +
-			mergedReviewScore?.fiveStars * 5;
+			mergedReviewScore.oneStar * 1 +
+			mergedReviewScore.twoStars * 2 +
+			mergedReviewScore.threeStars * 3 +
+			mergedReviewScore.fourStars * 4 +
+			mergedReviewScore.fiveStars * 5;
 
 		return Math.round((totalScore / totalCount) * 10) / 10;
 	}, [mergedReviewScore, totalCount]);
