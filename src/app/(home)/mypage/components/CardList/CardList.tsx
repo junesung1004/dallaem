@@ -1,8 +1,8 @@
 'use client';
 
 import CardBase from './CardBase';
-import type { IMeeting } from '@/types/createMeetingType';
 import Link from 'next/link';
+import { IMeeting } from '@/types/meetingsType';
 
 interface CardListProps {
 	data: IMeeting[];
@@ -14,7 +14,7 @@ interface CardListProps {
 function CardList({ data, cardType, onCancelClick }: CardListProps) {
 	return (
 		<div>
-			{data?.map((meeting) => (
+			{data?.map((meeting: IMeeting) => (
 				<Link
 					href={`/meeting/${meeting.id}`}
 					key={meeting.id}
@@ -31,7 +31,6 @@ function CardList({ data, cardType, onCancelClick }: CardListProps) {
 					</CardBase>
 				</Link>
 			))}
-			<div></div>
 		</div>
 	);
 }
