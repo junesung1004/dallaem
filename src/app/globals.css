@@ -5,22 +5,42 @@
 @tailwind utilities;
 
 /* globals.css 혹은 전용 CSS 파일 */
+.react-datepicker {
+	font-family: 'Pretendard', sans-serif !important;
+}
+
 .react-datepicker__day--selected {
-	background-color: primary !important;
+	background-color: #ff4a5a !important;
 	color: white !important;
 }
 
 .react-datepicker__day--selected:hover {
-	background-color: darkprimary !important;
+	background-color: #e44856 !important;
 }
 
 .react-datepicker__time-list-item--selected {
-	background-color: primary !important;
+	background-color: #ff5160 !important;
 	color: white !important;
 }
 
 .react-datepicker__time-list-item--selected:hover {
-	background-color: darkprimary !important;
+	background-color: #ff7983 !important;
+}
+
+/* 오늘 날짜 스타일 (선택 여부와 관계없이 적용) */
+.react-datepicker__day--today {
+	background-color: transparent !important;
+	font-weight: bold !important;
+}
+
+/* 선택된 오늘 날짜 스타일 */
+.react-datepicker__day--today.react-datepicker__day--selected {
+	background-color: #ff5160 !important;
+	color: white !important;
+}
+
+.react-datepicker__day--today.react-datepicker__day--selected:hover {
+	background-color: #e44856 !important;
 }
 
 @layer components {
