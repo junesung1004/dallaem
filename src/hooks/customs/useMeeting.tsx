@@ -45,13 +45,12 @@ export function useMeetingForm() {
 
 	//모임 이름 유효성 검사
 	const nameValidErrorMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const nameRegex = /^[가-힣a-zA-Z]{2,8}$/;
+		const nameRegex = /^[가-힣a-zA-Z0-9 ]{2,25}$/;
+		const value = e.target.value;
 
-		if (nameRegex.test(e.target.value)) {
-			setNameValid(false);
-		} else {
-			setNameValid(true);
-		}
+		// 앞뒤 공백 제거 후 검사
+		const isValid = nameRegex.test(value) && !/^\s|\s$/.test(value);
+		setNameValid(!isValid);
 	};
 
 	//모임 이름 유효성 검사

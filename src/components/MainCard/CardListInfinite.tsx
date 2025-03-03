@@ -40,8 +40,8 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 			? meetings.filter((el) => new Date(el.registrationEnd) >= new Date())
 			: [];
 
-		console.log('meetings-filtered : ', filteredData);
-		console.log('meetings :', meetings);
+		// console.log('meetings-filtered : ', filteredData);
+		// console.log('meetings :', meetings);
 	}, [data]);
 
 	// 📌 로딩 중일 때 처리
@@ -103,8 +103,8 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 
 									<DateBadge
 										text={
-											el.registrationEnd
-												? new Date(el.registrationEnd).toISOString()
+											el.dateTime
+												? new Date(el.dateTime).toISOString()
 												: '유효하지 않은 시간'
 										}
 										type='time'

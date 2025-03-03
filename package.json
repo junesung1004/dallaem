@@ -19,6 +19,7 @@
     "@tanstack/react-query-devtools": "^5.66.0",
     "@types/react-datepicker": "^7.0.0",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.4.7",
     "jwt-decode": "^4.0.0",
     "motion": "^12.4.1",
     "next": "15.1.6",

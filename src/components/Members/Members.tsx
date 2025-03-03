@@ -1,3 +1,6 @@
+import { motion, animate, useMotionValue, useTransform } from 'framer-motion';
+import { useEffect } from 'react';
+
 interface MembersProps {
 	max: number;
 	value: number;
@@ -33,6 +36,13 @@ function Members({ max, value, highLight }: MembersProps) {
 			highLight === 'off' ? styleProp.textColor : 'text-primary-400';
 	}
 
+	const count = useMotionValue(0);
+	const animatedCount = useTransform(count, (latest) => Math.floor(latest));
+
+	useEffect(() => {
+		animate(count, curCount, { duration: 1, ease: 'easeOut' });
+	}, [curCount]);
+
 	return (
 		<div className='flex items-center'>
 			<svg
@@ -50,7 +60,7 @@ function Members({ max, value, highLight }: MembersProps) {
 				/>
 			</svg>
 			<span className={`${styleProp.textColor} font-medium`}>
-				{curCount}/{maxCount}
+				<motion.span>{animatedCount}</motion.span>/{maxCount}
 			</span>
 		</div>
 	);

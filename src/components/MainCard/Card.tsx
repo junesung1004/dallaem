@@ -48,7 +48,7 @@ function ImageSection({ src, alt }: { src: string; alt: string }) {
 				src={src}
 				fill
 				priority
-				className='h-full w-full object-cover'
+				className='h-full w-full object-fit'
 				sizes='(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw'
 			/>
 		</div>
