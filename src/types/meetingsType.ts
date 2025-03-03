@@ -30,3 +30,9 @@ export interface MeetingCardListProps {
 	initialData?: IMeeting[];
 	meetingType?: 'favorite' | undefined; // 찜한 목록
 }
+
+/** My Meetings */
+export interface MyMeeting extends IMeeting {
+	isCompleted: boolean;
+	isReviewed: boolean;
+}
