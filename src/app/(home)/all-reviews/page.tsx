@@ -1,53 +1,38 @@
-'use client';
+import {
+	dehydrate,
+	HydrationBoundary,
+	QueryClient,
+} from '@tanstack/react-query';
+import ReviewsPage from './ReviewsPage';
+import { reviewService } from '@/service/reviewService';
 
-import FilterList from '@/components/Filtering/FIlterList';
-import PageNavbar from '@/components/PageNav/PageNavbar';
-import PageInfo from '@/components/PageInfo/PageInfo';
-import ReviewCardList from './_components/ReviewCardList';
-import useFetchReviewScores from '@/hooks/query/useFetchReviewsScore';
-import ReviewSummary from './_components/ReviewSummary';
-import FilterProvider from '@/context/FilterContent';
-import { useFetchReviewsData } from '@/hooks/query/useFetchReviewData';
-import { Datum } from '@/types/reviewType';
+export default async function AllReviews() {
+	const queryClient = new QueryClient();
 
-export default function AllReviews() {
-	return (
-		<div className='flex flex-col gap-6'>
-			<FilterProvider>
-				<ReviewsSection />
-			</FilterProvider>
-		</div>
-	);
-}
+	// 서버에서 초기 리뷰 데이터를 가져오기
+	await queryClient.prefetchInfiniteQuery({
+		queryKey: ['reviews', { page: 1 }],
+		queryFn: async () => {
+			const data = await reviewService.getDetailReviewData({
+				currentPage: 1,
+				limit: 4,
+			});
+			return {
+				data: data.data,
+				totalItemCount: data.totalItemCount,
+				currentPage: 1,
+				totalPages: data.totalPages,
+			};
+		},
+		initialPageParam: 1,
+	});
 
-function ReviewsSection() {
-	const { data: reviews = [] } = useFetchReviewsData();
-
-	const gatheringIdList = [
-		...new Set(
-			reviews
-				.map((review: Datum) => review.Gathering.id)
-				.filter((id: number) => typeof id === 'number'),
-		),
-	].join(',');
-
-	const reviewsScore = useFetchReviewScores({ gatheringId: gatheringIdList });
+	// `dehydratedState`를 생성하여 클라이언트로 전달
+	const dehydratedState = dehydrate(queryClient);
 
 	return (
-		<>
-			<div className='flex flex-col gap-3 pb-4 border-b-2 border-gray-200 '>
-				<PageInfo pageKey='reviews' />
-				<PageNavbar pageKey='meetings' />
-			</div>
-			{reviewsScore && reviews.length > 0 ? (
-				<ReviewSummary reviewScore={reviewsScore} />
-			) : (
-				<ReviewSummary reviewScore={null} />
-			)}
-			<div className='flex flex-col gap-4 p-4 bg-white border-t-2 border-gray-900'>
-				<FilterList enabledFilters={['location', 'date', 'sortByReview']} />
-				{reviews && <ReviewCardList reviews={reviews} />}
-			</div>
-		</>
+		<HydrationBoundary state={dehydratedState}>
+			<ReviewsPage />
+		</HydrationBoundary>
 	);
 }
