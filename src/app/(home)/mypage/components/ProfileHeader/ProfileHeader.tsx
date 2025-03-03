@@ -18,9 +18,7 @@ function ProfileHeader() {
 		getData();
 	}, []);
 
-	if (!data) return;
-
-	const { name, email, companyName, image } = data;
+	const { name, email, companyName, image } = data ?? {};
 
 	/** zustand/reactQuery 로 변경할 예정 */
 	return (
