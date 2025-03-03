@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FITERING_DATA } from '@/constants';
 import Image from 'next/image';
 
@@ -11,8 +11,8 @@ interface FilterDropdownProps {
 	onSelect: (value: string, order: 'asc' | 'desc') => void;
 	variant?: 'default' | 'sort';
 	calendarComponent?: React.ReactNode;
-	isOpen: boolean; // 부모에서 내려주는 `isOpen`
-	onToggle: () => void; // 부모에서 내려주는 `onToggle`
+	isOpen: boolean;
+	onToggle: () => void;
 }
 
 function FilterDropdown({
@@ -26,6 +26,7 @@ function FilterDropdown({
 	onToggle,
 }: FilterDropdownProps) {
 	const data = FITERING_DATA[category] || [];
+	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const [internalSelected, setInternalSelected] = useState(
 		data?.find((item) => item.value === selected)?.label ||
@@ -38,7 +39,7 @@ function FilterDropdown({
 
 	const formattedDate =
 		selected && isValidDate(new Date(selected))
-			? new Date(selected).toISOString().split('T')[0]
+			? `${new Date(selected).getFullYear().toString().slice(-2)}/${String(new Date(selected).getMonth() + 1).padStart(2, '0')}/${String(new Date(selected).getDate()).padStart(2, '0')}`
 			: '';
 
 	useEffect(() => {
@@ -47,6 +48,26 @@ function FilterDropdown({
 			(data[0]?.label ?? '');
 		setInternalSelected(selectedLabel);
 	}, [selected, data]);
+
+	// 외부 클릭 시 드롭다운 닫기
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target as Node)
+			) {
+				onToggle();
+			}
+		}
+
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [isOpen, onToggle]);
 
 	const isSort = variant === 'sort';
 
@@ -65,15 +86,15 @@ function FilterDropdown({
 			: 'bg-white text-gray-800';
 
 	return (
-		<div className='relative items-center'>
+		<div className='relative items-center' ref={dropdownRef}>
 			<button
-				className={`content-between h-[36px] md:h-[40px] px-2 border-2 border-gray-100 rounded-[12px] flex items-center whitespace-nowrap text-sm font-medium focus:outline-none ${buttonBgColor} ${
-					isSort ? 'max-w-[120px]' : 'min-w-[110px]'
+				className={`content-between h-[36px] md:h-[40px] px-2 border-2 border-gray-100 rounded-[12px] flex items-center whitespace-nowrap text-xs sm:text-sm font-medium focus:outline-none ${buttonBgColor} ${
+					isSort ? 'max-w-[120px]' : 'max-w-[120px] md:w-[110px]'
 				}`}
 				onClick={onToggle}
 			>
 				{!isSort && (
-					<div className='w-full flex justify-between'>
+					<div className='w-full flex justify-between items-center'>
 						{formattedDate ? <>{formattedDate}</> : <>{internalSelected}</>}
 						<Image
 							src='icons/arrow/arrowDownDefault.svg'
@@ -95,7 +116,7 @@ function FilterDropdown({
 								if (window.innerWidth < 376) {
 									onToggle();
 								} else {
-									toggleSortOrder(e); //기존 정렬 순서 변경 유지
+									toggleSortOrder(e);
 								}
 							}}
 						>
