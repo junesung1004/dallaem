@@ -6,6 +6,7 @@ import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
 import { useRouter, useParams } from 'next/navigation';
 import { participantsGroup } from '@/api/detail-meeting/participantsGroup';
 import { useGroupMutations } from '@/hooks/mutation/useGroupMutations';
+import Button from '@/components/Button/Button';
 
 export function Footer({
 	createdBy,
@@ -137,7 +138,6 @@ export function Footer({
 			buttonPosition: 'right',
 			onConfirm: () => {
 				closeModal();
-				router.push('/');
 			},
 		});
 	};
@@ -162,34 +162,36 @@ export function Footer({
 				</div>
 				{isOwner ? (
 					<div>
-						<button
+						<Button
 							onClick={handleCancelClick}
-							className='px-5 py-2 border-[1px] border-primary-500 text-primary-500 rounded-xl font-bold text-sm mr-2'
+							className='px-5 py-2 border-[1px] border-secondary-700 text-secondary-500 rounded-xl font-bold text-sm mr-2 text-secondary-700'
 						>
 							취소하기
-						</button>
-						<button
+						</Button>
+						<Button
 							onClick={handleShareClick}
-							className='px-5 py-2 bg-primary-600 text-white rounded-xl text-sm'
+							className='px-5 py-2 bg-secondary-600 text-white rounded-xl text-sm'
 						>
 							공유하기
-						</button>
+						</Button>
 					</div>
 				) : isDeadline ? (
 					<div className='bg-gray-400 text-white px-5 py-2 rounded-xl text-sm transition-colors whitespace-nowrap max-h-[40px]'>
 						참여하기
 					</div>
 				) : (
-					<button
-						onClick={handleJoinClick}
-						className={`px-5 py-2 rounded-xl text-sm transition-colors whitespace-nowrap max-h-[40px] ${
-							isJoinDisabled
-								? 'border-primary-600 border text-primary-600 font-bold'
-								: 'bg-primary-600 text-white'
-						}`}
-					>
-						{isJoinDisabled ? '참여 취소하기' : '참여하기'}
-					</button>
+					<div>
+						<Button
+							onClick={handleJoinClick}
+							className={`px-5 py-2 rounded-xl text-sm transition-colors whitespace-nowrap max-h-[40px] ${
+								isJoinDisabled
+									? 'border-secondary-600 border text-secondary-600 font-bold'
+									: 'bg-secondary-600 text-white'
+							}`}
+						>
+							{isJoinDisabled ? '참여 취소하기' : '참여하기'}
+						</Button>
+					</div>
 				)}
 			</div>
 		</div>
