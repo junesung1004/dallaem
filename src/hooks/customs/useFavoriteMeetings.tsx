@@ -16,13 +16,6 @@ export const useFavoriteMeetings = () => {
 	const { type } = useFilter();
 	// 데이터 가져오는 함수
 	const getData = async () => {
-		// console.log(
-		// 	'로컬에서 가져온 userId값 있음?',
-		// 	'ID값: ',
-		// 	userId,
-		// 	hasHydrated,
-		// );
-
 		// 아이디 목록을 기준으로 API 호출
 		const res = await meetingService.getFavoriteMeetings({
 			userId,
