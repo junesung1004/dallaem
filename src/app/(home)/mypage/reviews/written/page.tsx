@@ -17,21 +17,23 @@ const typeMap: {
 function Page() {
 	const { reviews }: { reviews?: IReview['data'] } = useMyReviews();
 	return (
-		<div>
-			{reviews?.map((review) => (
-				<ReviewCard key={review.id}>
-					<ReviewCard.ImageSection src={review.Gathering.image} />
-					<ReviewCard.ReviewLayout>
-						<ReviewCard.HeartScore score={5} />
-						<ReviewCard.Content comment={review.comment} />
-						<ReviewCard.EtcInfo
-							type={typeMap[review.Gathering.type] ?? ''}
-							location={review.Gathering.location}
-							date={review.Gathering.dateTime}
-						/>
-					</ReviewCard.ReviewLayout>
-				</ReviewCard>
-			))}
+		<div className='flex min-h-[380px] md:min-h-[688px] lg:min-h-[617px]'>
+			<div>
+				{reviews?.map((review) => (
+					<ReviewCard key={review.id}>
+						<ReviewCard.ImageSection src={review.Gathering.image} />
+						<ReviewCard.ReviewLayout>
+							<ReviewCard.HeartScore score={review.score} />
+							<ReviewCard.Content comment={review.comment} />
+							<ReviewCard.EtcInfo
+								type={typeMap[review.Gathering.type] ?? ''}
+								location={review.Gathering.location}
+								date={review.Gathering.dateTime}
+							/>
+						</ReviewCard.ReviewLayout>
+					</ReviewCard>
+				))}
+			</div>
 		</div>
 	);
 }
