@@ -23,8 +23,10 @@ export default {
 					950: '#7F252E',
 				},
 				secondary: {
+					500: '#B678FF',
 					600: '#9747FF',
 					700: '#6D15C5',
+					800: '#4A0F8A ',
 				},
 			},
 			screens: {
