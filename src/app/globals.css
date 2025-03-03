@@ -45,15 +45,15 @@ body {
 	padding: 0;
 }
 
-/* 버튼 full 클래스 */
 .btn-default {
 	@apply inline-flex px-4 md:px-6 w-fit py-2 rounded-xl justify-center items-center max-h-[44px] whitespace-nowrap;
 }
 
-.btn-full {
-	@apply w-full;
-}
-
+/* 버튼 full 클래스 */
 .btn-default {
 	@apply max-w-64;
+
+	&.btn-full {
+		@apply w-full max-w-none;
+	}
 }
