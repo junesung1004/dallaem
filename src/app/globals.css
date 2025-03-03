@@ -28,6 +28,10 @@
 	.meeting-card + .meeting-card {
 		@apply border-t-2 border-gray-200 border-dashed mt-2;
 	}
+
+	.meeting-card:last-child {
+		@apply border-y-2 border-gray-200 border-dashed pb-2;
+	}
 }
 
 * {
