@@ -43,20 +43,14 @@ function ReviewForm() {
 					</Dialog.Content>
 					<Dialog.ButtonContainer>
 						<Button
-							state='default'
-							isOutlined={true}
+							variation='outline'
 							isFull={true}
 							onClick={handleClose}
 							type='button'
 						>
 							취소
 						</Button>
-						<Button
-							state={state.valid ? 'default' : 'disabled'}
-							isOutlined={false}
-							isFull={true}
-							disabled={!state.valid}
-						>
+						<Button isFull={true} disabled={!state.valid}>
 							리뷰 등록
 						</Button>
 					</Dialog.ButtonContainer>

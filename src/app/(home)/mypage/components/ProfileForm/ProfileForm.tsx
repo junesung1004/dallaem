@@ -96,7 +96,6 @@ function ProfileForm() {
 				</Dialog.Content>
 				<Dialog.ButtonContainer>
 					<Button
-						state='default'
 						variation='outline'
 						isFull={true}
 						onClick={() => {

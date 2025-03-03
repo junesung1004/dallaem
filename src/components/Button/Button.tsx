@@ -2,8 +2,6 @@ import Link from 'next/link';
 
 export interface ButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-	state?: 'default' | 'hover' | 'click' | 'disabled';
-	isOutlined?: boolean;
 	children: React.ReactNode;
 	isFull?: boolean;
 	variation?: 'default' | 'outline';
@@ -12,9 +10,7 @@ export interface ButtonProps
 
 function Button({
 	children,
-	state,
 	variation = 'default',
-	isOutlined,
 	isFull,
 	href,
 	...rest
