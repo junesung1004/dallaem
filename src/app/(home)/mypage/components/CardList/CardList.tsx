@@ -3,7 +3,6 @@
 import { useMyMeetings } from '@/hooks/customs/useMyMeetings';
 import CardBase from './CardBase';
 import Link from 'next/link';
-import { IMeeting } from '@/types/meetingsType';
 
 interface CardListProps {
 	cardType: 'joined' | 'hosted';
@@ -30,7 +29,7 @@ function CardList({ cardType, pageKey }: CardListProps) {
 	}
 
 	return (
-		<div>
+		<div className='grow overflow-hidden'>
 			{meetings?.map((meeting) => (
 				<Link
 					href={`/meeting/${meeting.id}`}
