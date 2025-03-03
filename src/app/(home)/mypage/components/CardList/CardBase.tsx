@@ -72,7 +72,7 @@ function CardBase({
 
 	return (
 		<div className='flex items-center gap-4 pt-4 pb-2 flex-wrap sm:flex-nowrap'>
-			<div className='relative overflow-hidden rounded-3xl sm:grow-[1] w-[17rem] max-w-[17rem] h-[10rem] sm:basis-0'>
+			<div className='relative overflow-hidden rounded-3xl sm:grow-[1] w-[19.5rem] max-w-[19.5rem] h-[10rem] sm:basis-0'>
 				<Image
 					src={data?.image || '/images/profile/profileDefaultLarge.png'}
 					fill={true}
@@ -105,7 +105,7 @@ function JoinedMeetingCard({
 	return (
 		<div className='flex flex-col gap-4 sm:grow-[1] sm:basis-0 overflow-hidden'>
 			<div className='flex flex-col gap-2'>
-				<div className='flex gap-2 mb-1'>
+				<div className='flex flex-wrap gap-2 mb-1'>
 					<Tag.MeetingState isDone={isDone ?? false} />
 					{!isDone && <Tag.MeetingCreateState isCreated={isCreated ?? false} />}
 				</div>
@@ -114,6 +114,7 @@ function JoinedMeetingCard({
 			{!!isDone && <CreateReviewButton meetingId={id} />}
 			{!isDone && (
 				<Button
+					variation='outline'
 					onClick={(e) => {
 						onCancelClick(e, Number(id));
 					}}

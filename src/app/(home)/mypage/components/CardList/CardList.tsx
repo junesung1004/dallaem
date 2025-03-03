@@ -3,6 +3,7 @@
 import { useMyMeetings } from '@/hooks/customs/useMyMeetings';
 import CardBase from './CardBase';
 import Link from 'next/link';
+import { IMeeting } from '@/types/meetingsType';
 
 interface CardListProps {
 	cardType: 'joined' | 'hosted';
@@ -47,7 +48,6 @@ function CardList({ cardType, pageKey }: CardListProps) {
 					</CardBase>
 				</Link>
 			))}
-			<div></div>
 		</div>
 	);
 }
