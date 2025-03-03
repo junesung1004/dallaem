@@ -34,7 +34,8 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 		? pathSegments[2] || pageNavData[0]?.id
 		: pageNavData[0]?.id;
 	const initialSubId = isMyPage
-		? pathSegments[3]
+		? pathSegments[3] ||
+			pageNavData.find((item) => item.id === initialMainId)?.subItems?.[0]?.id
 		: pageNavData.find((item) => item.id === initialMainId)?.subItems?.[0]?.id;
 
 	// 초기 상태 설정
