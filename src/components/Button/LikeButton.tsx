@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { useLike } from '../../hooks/customs/useLike';
 import { LikeButtonProps } from '../../types/likeButtonType';
 import Image from 'next/image';
@@ -7,11 +10,21 @@ export const LikeButton = ({
 	registrationEnd,
 	onLikeChangeHandler,
 }: LikeButtonProps) => {
-	const { isLiked, toggleLike } = useLike(itemId, onLikeChangeHandler);
+	const { isLiked, toggleLike: originToggleLike } = useLike(
+		itemId,
+		onLikeChangeHandler,
+	);
+	const [scaleUp, setScaleUp] = useState(false);
+	const handleToggle = async () => {
+		setScaleUp(true);
+
+		await originToggleLike();
+		setTimeout(() => setScaleUp(false), 500);
+	};
 
 	return (
 		<button
-			onClick={toggleLike}
+			onClick={handleToggle}
 			className={
 				registrationEnd
 					? `absolute bottom-[70px] left-1/2 transform -translate-x-1/2 md:top-4 md:right-4 md:left-auto md:bottom-auto`
@@ -44,7 +57,9 @@ export const LikeButton = ({
 
 			{/* registrationEnd가 false일 때 (기본 좋아요 버튼) */}
 			{!registrationEnd && (
-				<div className='p-1 rounded-full border-2 border-gray-200'>
+				<div
+					className={`p-2 rounded-full border-2 ${isLiked ? 'border-primary-50 bg-primary-50' : 'border-gray-150 bg-gray-100'}`}
+				>
 					<Image
 						src={
 							isLiked
@@ -54,7 +69,7 @@ export const LikeButton = ({
 						alt={isLiked ? 'Liked' : 'Not Liked'}
 						width={24}
 						height={24}
-						className='rounded-full'
+						className={`rounded-full ${scaleUp ? 'animate-scaleUp' : ''}`}
 					/>
 				</div>
 			)}

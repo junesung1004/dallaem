@@ -1,28 +1,48 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { reviewService } from '@/service/reviewService';
 import { useFilter } from '../customs/useFilter';
 
-export const useFetchReviewsData = () => {
-	const { type, location, date, sortBy, sortOrder } = useFilter();
+function useFetchReviewsData() {
+	const filters = useFilter();
 
-	return useQuery({
-		queryKey: ['reviews', type, location, date, sortBy, sortOrder],
-		queryFn: async () => {
+	return useInfiniteQuery({
+		queryKey: ['reviews', filters ?? { page: 1 }],
+		queryFn: async ({ pageParam = 1 }) => {
 			const params = new URLSearchParams();
+			if (filters.type) params.append('type', filters.type);
+			if (filters.location) params.append('location', filters.location);
+			if (filters.date) params.append('date', filters.date);
+			if (filters.sortBy) params.append('sortBy', filters.sortBy);
+			if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
 
-			if (type) params.append('type', type);
-			if (location) params.append('location', location);
-			if (date) params.append('date', date);
-			if (sortBy) params.append('sortBy', sortBy);
-			if (sortOrder) params.append('sortOrder', sortOrder);
-
-			const res = await reviewService.getDetailReviewData({
-				limit: 20, // 임시값
+			const response = await reviewService.getDetailReviewData({
+				currentPage: pageParam,
+				limit: 4,
 				...Object.fromEntries(params),
 			});
-			return res.data;
+
+			if (!response || !response.data) {
+				throw new Error('API에서 데이터를 가져오지 못했습니다.');
+			}
+
+			return {
+				data: response.data,
+				totalItemCount: response.totalItemCount,
+				currentPage: pageParam,
+				totalPages: response.totalPages,
+			};
 		},
-		enabled: true,
-		staleTime: 1000 * 60 * 1,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage, allPages) => {
+			const nextPage = lastPage.currentPage + 1;
+
+			return nextPage <= lastPage.totalPages &&
+				!allPages.some((p) => p.currentPage === nextPage)
+				? nextPage
+				: undefined;
+		},
+		enabled: !!filters,
 	});
-};
+}
+
+export default useFetchReviewsData;
