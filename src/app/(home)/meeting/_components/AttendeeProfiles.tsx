@@ -45,7 +45,7 @@ const AttendeeProfiles = ({
 						backgroundImage: `url(/icons/profileDefault.svg)`,
 						backgroundSize: 'cover', // 이미지가 div에 꽉 차도록
 						backgroundPosition: 'center', // 이미지가 중앙에 위치하도록
-						borderRadius: '50%', // 원형으로 만들기 (프로필 이미지 효과)
+						borderRadius: '50%', // 원형으로 만들기
 					}}
 				>
 					<Image
