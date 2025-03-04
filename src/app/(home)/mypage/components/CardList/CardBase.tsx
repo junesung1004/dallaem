@@ -71,8 +71,8 @@ function CardBase({
 	};
 
 	return (
-		<div className='flex items-center gap-4 pt-4 pb-2 flex-wrap sm:flex-nowrap'>
-			<div className='relative overflow-hidden rounded-3xl sm:grow-[1] w-[19.5rem] max-w-[19.5rem] h-[10rem] sm:basis-0'>
+		<div className='flex items-center gap-4 pt-4 pb-2 flex-wrap'>
+			<div className='relative overflow-hidden rounded-3xl min-w-[8rem] grow-[1] sm:w-[19.5rem] max-w-[19.5rem] h-[10rem] sm:basis-0'>
 				<Image
 					src={data?.image || '/images/profile/profileDefaultLarge.png'}
 					fill={true}
