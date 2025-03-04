@@ -18,9 +18,9 @@ function ReviewCardList() {
 	}, [inView, hasNextPage, fetchNextPage]);
 
 	return (
-		<div className='relative w-full h-full p-4 min-h-[400px]'>
+		<div className='w-full h-full p-4 min-h-[400px] justify-center'>
 			{isReviewEmpty ? (
-				<div className='flex justify-center content-center text-gray-500'>
+				<div className='justify-center content-center text-gray-500'>
 					아직 리뷰가 없어요
 				</div>
 			) : (
