@@ -38,7 +38,7 @@ export default function Header() {
 							>
 								찜한 모임
 							</Link>
-							{isLoggedIn && likeNotification.hasNotification && (
+							{likeNotification.hasNotification && (
 								<Badge content={likeNotification.count} />
 							)}
 						</li>
