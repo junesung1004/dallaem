@@ -48,7 +48,7 @@ const ProfileTooltip = () => {
 				className='object-cover rounded-full overflow-hidden'
 			/>
 			{visible && (
-				<div className='absolute flex flex-col bg-white text-gray-800 text-[14px] font-medium w-[110px] lg:w-[142px] right-[16px] mt-[44px] md:mt-[50px] shadow-xl rounded-lg'>
+				<div className='absolute flex flex-col bg-white text-gray-800 text-[14px] font-medium w-[110px] lg:w-[142px] right-[16px] mt-[44px] md:mt-[50px] shadow-xl rounded-lg z-10'>
 					<Link
 						href='/mypage'
 						className='mx-auto h-[40px] lg:h-[44px] flex items-center'
