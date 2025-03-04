@@ -65,6 +65,7 @@ export default function DetailPage() {
 
 	const reviews = reviewData?.data || [];
 	const totalPages = Math.ceil((reviewData?.totalItemCount || 0) / limit);
+	const isFuture = new Date(meetingData.dateTime) < new Date();
 
 	return (
 		<div className='mb-5 min-h-screen'>
@@ -119,15 +120,16 @@ export default function DetailPage() {
 					/>
 				)}
 			</div>
-
-			<div className='fixed bottom-0 left-0 w-full'>
-				<Footer
-					createdBy={meetingData.createdBy}
-					capacity={meetingData.capacity}
-					participantCount={meetingData.participantCount}
-					updateParticipantCount={updateParticipantCount}
-				/>
-			</div>
+			{!isFuture && (
+				<div className='fixed bottom-0 left-0 w-full'>
+					<Footer
+						createdBy={meetingData.createdBy}
+						capacity={meetingData.capacity}
+						participantCount={meetingData.participantCount}
+						updateParticipantCount={updateParticipantCount}
+					/>
+				</div>
+			)}
 		</div>
 	);
 }
