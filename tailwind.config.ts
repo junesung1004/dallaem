@@ -47,6 +47,15 @@ export default {
 				'2xl': ['24px', '32px'],
 				'3xl': ['30px', '36px'],
 			},
+			keyframes: {
+				scale: {
+					from: { transform: 'scale(0)' },
+					to: { transform: 'scale(1)' },
+				},
+			},
+			animation: {
+				scaleUp: 'scale 0.3s ease-in-out',
+			},
 		},
 	},
 } satisfies Config;
