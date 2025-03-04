@@ -1,24 +1,48 @@
-import { getMeetingParamsType } from '@/types/meetingsType';
+import { FilterContextType } from '@/types/filterType';
 
-export const getMeetingData = async ({
-	type,
-	location,
-	sortBy,
-	sortOrder,
-	limit = 10,
-	offset = 12,
-}: getMeetingParamsType) => {
+export const getMeetingInfiniteData = async ({
+	pageParam = 3,
+	filters,
+}: {
+	pageParam: number;
+	filters: FilterContextType;
+}) => {
+	const limit = 3;
+	const offset = pageParam;
+
+	const params = new URLSearchParams();
+	if (filters.type) params.append('type', filters.type);
+	if (filters.location) params.append('location', filters.location);
+	if (filters.date) params.append('date', filters.date);
+	if (filters.sortBy) params.append('sortBy', filters.sortBy);
+	if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
+
 	try {
-		const queryParams = new URLSearchParams();
+		const res = await fetch(
+			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`,
+		);
+		if (!res.ok) {
+			throw new Error(`서버 오류 : ${res.status} ${res.statusText}`);
+		}
 
-		if (type) queryParams.append('type', type);
-		if (location) queryParams.append('location', location);
-		if (sortBy) queryParams.append('sortBy', sortBy);
-		if (sortOrder) queryParams.append('sortOrder', sortOrder);
+		const data = await res.json();
 
-		queryParams.append('limit', limit.toString());
-		queryParams.append('offset', offset.toString());
+		const filteredData = data.filter(
+			(item: { image: string | null }) => item.image !== null,
+		);
 
+		const nextOffset = filteredData.length > 0 ? pageParam + limit : undefined;
+
+		return { data: filteredData, nextOffset };
+	} catch (error) {
+		console.error('모임 목록 api 호출 에러 : ', error);
+	}
+};
+
+/** 찜한 페이지 data 가져오기 */
+export const getFavoriteMeetingData = async (filters: { id: string }) => {
+	const queryParams = new URLSearchParams(filters);
+	try {
 		const res = await fetch(
 			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?${queryParams.toString()}`,
 		);

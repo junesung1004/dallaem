@@ -1,10 +1,10 @@
-import { createMeeting } from '@/api/meeting/createMeeting';
 import Button from '@/app/(home)/_components/Button';
 import { CalenderTime } from '@/components/Calendar/CalenderTime';
 import ServiceSelector from '@/components/Service/Service';
 import { InputWindow } from '@/components/InputSection/InputWindow';
 import { useMeetingForm } from '@/hooks/customs/useMeeting';
-import { useRouter } from 'next/navigation';
+import { Selectbox } from '@/components/InputSection/Selectbox';
+import { useCreateMeeting } from '@/hooks/mutation/useCreateMeeting';
 
 export default function CreateMeetingForm() {
 	// 커스텀 훅훅
@@ -30,12 +30,10 @@ export default function CreateMeetingForm() {
 		handleEndDateChange,
 	} = useMeetingForm();
 
-	const router = useRouter();
+	const { mutate, isPending, isError } = useCreateMeeting();
 
-	// form data submit 이벤트 핸들러러
-	const clickUpdateMeetingHandler = async (
-		e: React.FormEvent<HTMLFormElement>,
-	) => {
+	// form data submit 이벤트 핸들러 == 모임 만들기 이벤트
+	const clickUpdateMeetingHandler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
@@ -46,17 +44,7 @@ export default function CreateMeetingForm() {
 		formData.append('capacity', String(meetingPeople));
 		formData.append('registrationEnd', meetingEndDate?.toISOString() || '');
 
-		for (const [name, value] of formData) {
-			console.log(`${name} = ${value}`); // key1 = value1, then key2 = value2
-		}
-
-		try {
-			const res = await createMeeting(formData);
-			console.log('모임 생성 성공 :', res);
-			router.back();
-		} catch (error) {
-			console.error('모임 생성 실패 : ', error);
-		}
+		mutate(formData);
 	};
 
 	return (
@@ -80,7 +68,7 @@ export default function CreateMeetingForm() {
 				/>
 				<div className='text-red-600 text-sm mb-1 ml-2 py-'>
 					{nameValid && meetingName.length > 0 && (
-						<div>모임 이름은 2~8자 사이로 한글 또는 영문만 가능합니다.</div>
+						<div>모임 이름은 2~25자 사이로 한글, 영문, 숫자만 가능합니다.</div>
 					)}
 				</div>
 			</div>
@@ -90,10 +78,10 @@ export default function CreateMeetingForm() {
 				<label className='font-semibold' htmlFor='meeting-place'>
 					장소
 				</label>
-				<InputWindow
+				<Selectbox
+					value={meetingPlace}
 					placeholderText='장소를 선택해주세요'
 					onChange={(e) => meetingPlaceTextChangeHandler(e)}
-					value={meetingPlace}
 					id='meeting-place'
 				/>
 			</div>
@@ -118,7 +106,7 @@ export default function CreateMeetingForm() {
 
 					<div
 						onClick={() => document.getElementById('image')?.click()}
-						className='flex items-center font-medium justify-center  ml-4 w-[100px] h-[40px] border rounded-xl text-orange-500 border-orange-500 cursor-pointer'
+						className='flex items-center font-medium justify-center  ml-4 w-[100px] h-[40px] border rounded-xl text-primary-500 border-primary-500 cursor-pointer'
 					>
 						파일 찾기
 						<input
@@ -152,7 +140,7 @@ export default function CreateMeetingForm() {
 
 					<div className='text-red-600 text-sm mb-1 ml-2'>
 						{startDateValid && (
-							<div>모임 날짜는 2틀 이후 부터 선택 가능 ✅</div>
+							<div>모임 날짜는 이틀 이후 부터 선택 가능 ✅</div>
 						)}
 					</div>
 				</div>
@@ -199,8 +187,15 @@ export default function CreateMeetingForm() {
 
 			{/* 버튼 */}
 			<div className='mb-5'>
-				<Button text='확인' type='submit' disabled={!isFormValid} />
+				<Button
+					text={isPending ? '생성 중...' : '확인'}
+					type='submit'
+					disabled={!isFormValid}
+				/>
 			</div>
+			{isError && (
+				<p className='text-red-500'>모임 생성 중 오류가 발생했습니다.</p>
+			)}
 		</form>
 	);
 }

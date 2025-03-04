@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
 import { getLikedStatus, saveLike, removeLike } from '../../lib/likeStorage';
-import { useStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useLikeNotify } from './useLikeNotify';
 
-export const useLike = (itemId: number) => {
-	const userId = useStore((state) => state.userId);
+export const useLike = (
+	itemId: number,
+	onLikeChangeHandler: (likeState: boolean) => void = () => {},
+) => {
+	const userId = useAuthStore((state) => state.userId);
 	const [isLiked, setIsLiked] = useState<boolean>(false);
+	const { onChangeLike } = useLikeNotify();
 
 	useEffect(() => {
 		const fetchLikeStatus = async () => {
@@ -15,6 +20,10 @@ export const useLike = (itemId: number) => {
 		fetchLikeStatus();
 	}, [itemId, userId]);
 
+	useEffect(() => {
+		onLikeChangeHandler?.(isLiked);
+	}, [isLiked]);
+
 	const toggleLike = async () => {
 		if (isLiked) {
 			await removeLike(itemId, userId);
@@ -23,6 +32,8 @@ export const useLike = (itemId: number) => {
 			await saveLike(itemId, userId);
 			setIsLiked(true);
 		}
+
+		onChangeLike();
 	};
 
 	return { isLiked, toggleLike };

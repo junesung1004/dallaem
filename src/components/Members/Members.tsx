@@ -1,3 +1,6 @@
+import { motion, animate, useMotionValue, useTransform } from 'motion/react';
+import { useEffect } from 'react';
+
 interface MembersProps {
 	max: number;
 	value: number;
@@ -28,10 +31,17 @@ function Members({ max, value, highLight }: MembersProps) {
 		curCount = Math.min(...[max, value].map((num) => Math.floor(num)));
 		// heighLight 값이 지정되지 않으면 기본 유지
 		styleProp.fillColor =
-			highLight === 'off' ? styleProp.fillColor : 'fill-orange-400';
+			highLight === 'off' ? styleProp.fillColor : 'fill-primary-400';
 		styleProp.textColor =
-			highLight === 'off' ? styleProp.textColor : 'text-orange-400';
+			highLight === 'off' ? styleProp.textColor : 'text-primary-400';
 	}
+
+	const count = useMotionValue(0);
+	const animatedCount = useTransform(count, (latest) => Math.floor(latest));
+
+	useEffect(() => {
+		animate(count, curCount, { duration: 1, ease: 'easeOut' });
+	}, [curCount]);
 
 	return (
 		<div className='flex items-center'>
@@ -50,7 +60,7 @@ function Members({ max, value, highLight }: MembersProps) {
 				/>
 			</svg>
 			<span className={`${styleProp.textColor} font-medium`}>
-				{curCount}/{maxCount}
+				<motion.span>{animatedCount}</motion.span>/{maxCount}
 			</span>
 		</div>
 	);

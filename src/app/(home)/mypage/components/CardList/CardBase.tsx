@@ -2,8 +2,8 @@ import Image from 'next/image';
 import CardInfo from './CardInfo';
 import Tag from '../Tag/TagBase';
 import Button from '@/components/Button/Button';
-import type { IMeeting } from '@/app/(home)/mypage/page';
 import type { MeetingCardInfoProps } from './CardInfo';
+import type { IMeeting } from '@/types/meetingsType';
 import { cloneElement } from 'react';
 import dynamic from 'next/dynamic';
 
@@ -45,6 +45,10 @@ interface TagProps {
 	isCreated: boolean;
 }
 
+interface MeetingCardBaseProps extends MeetingCardInfoProps, TagProps {
+	canceledAt: IMeeting['canceledAt'];
+}
+
 /** Base 가 되는 카드 */
 function CardBase({
 	children,
@@ -55,6 +59,7 @@ function CardBase({
 }) {
 	// 데이터를 가공한다(가공되는 데이터는 title, ...등등 클라이언트의 key 값으로 필요한 것들이다)
 	const propData: MeetingCardInfoProps & TagProps = {
+		id: data?.id,
 		title: data?.name,
 		location: data?.location,
 		meetingDate: formatDateOrTime(data?.dateTime, 'date'),
@@ -66,12 +71,10 @@ function CardBase({
 	};
 
 	return (
-		<div className='flex gap-4 pt-4 pb-2 flex-wrap'>
-			<div className='relative overflow-hidden w-[17rem] h-[10rem] rounded-3xl'>
+		<div className='flex items-center gap-4 pt-4 pb-2 flex-wrap sm:flex-nowrap'>
+			<div className='relative overflow-hidden rounded-3xl sm:grow-[1] w-[19.5rem] max-w-[19.5rem] h-[10rem] sm:basis-0'>
 				<Image
-					src={
-						'https://plus.unsplash.com/premium_photo-1681324259575-f6ad9653e2fd?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-					}
+					src={data?.image || '/images/profile/profileDefaultLarge.png'}
 					fill={true}
 					className='inline-block object-cover'
 					alt=''
@@ -84,33 +87,38 @@ function CardBase({
 
 /** 나의 모임 */
 function JoinedMeetingCard({
+	id,
 	isDone,
 	isCreated,
+	onCancelClick,
 	...props
-}: Partial<MeetingCardInfoProps & TagProps>) {
+}: Partial<MeetingCardBaseProps> & {
+	onCancelClick: (e: React.MouseEvent, id: number) => void;
+}) {
 	const CreateReviewButton = dynamic(() => import('./CreateReviewButton'), {
-		loading: () => (
-			<Button state='default' isOutlined={false}>
-				리뷰 작성하기
-			</Button>
-		),
+		loading: () => <Button>리뷰 작성하기</Button>,
 		ssr: !!false,
 	});
 
-	if (!props) return null;
+	if (!props || !id) return null;
 
 	return (
-		<div className='flex flex-col gap-4 grow'>
+		<div className='flex flex-col gap-4 sm:grow-[1] sm:basis-0 overflow-hidden'>
 			<div className='flex flex-col gap-2'>
-				<div className='flex gap-2 mb-1'>
+				<div className='flex flex-wrap gap-2 mb-1'>
 					<Tag.MeetingState isDone={isDone ?? false} />
 					{!isDone && <Tag.MeetingCreateState isCreated={isCreated ?? false} />}
 				</div>
 				<CardInfo {...(props as MeetingCardInfoProps)} />
 			</div>
-			{!!isDone && <CreateReviewButton />}
+			{!!isDone && <CreateReviewButton meetingId={id} />}
 			{!isDone && (
-				<Button state='default' isOutlined={true}>
+				<Button
+					variation='outline'
+					onClick={(e) => {
+						onCancelClick(e, Number(id));
+					}}
+				>
 					예약 취소하기
 				</Button>
 			)}
@@ -122,7 +130,7 @@ function JoinedMeetingCard({
 function HostedMeetingCard(props: Partial<MeetingCardInfoProps>) {
 	if (!props) return null;
 	return (
-		<div>
+		<div className='flex flex-col gap-4 sm:grow-[1] sm:basis-0 overflow-hidden'>
 			<CardInfo {...(props as MeetingCardInfoProps)} />
 		</div>
 	);

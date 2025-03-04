@@ -9,7 +9,6 @@ export interface IUser {
 	updatedAt: string;
 }
 
-//확장하면 null 값 처리가 어려워져서 확장하지 않았습니다!
 export interface Store {
 	isLoggedIn: boolean;
 	token: string | null;
@@ -21,5 +20,17 @@ export interface Store {
 	setIsLoggedIn: (status: boolean) => void;
 	setToken: (newToken: string | null) => void;
 	setUserId: (id: number | null) => void;
+	setEmail: (email: string | null) => void;
+	setName: (name: string | null) => void;
+	setCompanyName: (companyName: string | null) => void;
+	setImage: (image: string | null) => void;
 	setUserNull: () => void;
+}
+
+export interface MeetingAttendee {
+	teamId: string;
+	userId: number;
+	gatheringId: number;
+	joinedAt: string;
+	User: IUser;
 }

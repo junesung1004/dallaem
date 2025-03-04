@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { InputWindow } from '../InputSection/InputWindow';
-import { HideToggle } from '../Toggle/HideToggle';
+import { HideToggleButton } from '../InputSection/HideToggleButton';
 
-interface SignupInputSectionInterface {
+interface SignupInputSectionProps {
 	id: string;
 	title: string;
 	placeholderText: string;
@@ -26,7 +26,7 @@ const SignupInputSection = ({
 	onFocus,
 	errorMsg,
 	isError,
-}: SignupInputSectionInterface) => {
+}: SignupInputSectionProps) => {
 	const [curType, setCurType] = useState(type);
 	const [isHidden, setIsHidden] = useState(type === 'password');
 
@@ -60,15 +60,15 @@ const SignupInputSection = ({
 					className={'text-[14px] md:text-[16px]'}
 				/>
 				{type === 'password' && (
-					<HideToggle
+					<HideToggleButton
 						onClick={handleHideToggle}
 						isHidden={isHidden}
-						className='absolute inset-y-4 lg:inset-y-15 right-2 lg:inset-y-5'
+						className='absolute inset-y-3 right-2'
 					/>
 				)}
 			</div>
 			{/* 에러 메시지 */}
-			{errorMsg && <span>{errorMsg}</span>}
+			{errorMsg && <span className='text-red-600'>{errorMsg}</span>}
 		</div>
 	);
 };

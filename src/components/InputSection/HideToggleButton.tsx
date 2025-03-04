@@ -1,18 +1,21 @@
-interface HideToggleInterface {
+interface HideToggleProps {
 	onClick: () => void;
 	isHidden: boolean;
 	className: string;
 }
 
-const HideToggle = ({ onClick, isHidden, className }: HideToggleInterface) => {
+const HideToggleButton = ({
+	onClick,
+	isHidden,
+	className,
+}: HideToggleProps) => {
 	return (
-		<button onClick={onClick}>
+		<button onClick={onClick} className={className} type='button' tabIndex={-1}>
 			<img
 				src={isHidden ? 'icons/visibilityOff.png' : 'icons/visibilityOn.png'}
-				className={className}
 			/>
 		</button>
 	);
 };
 
-export { HideToggle };
+export { HideToggleButton };

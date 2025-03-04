@@ -2,13 +2,16 @@ import Image from 'next/image';
 import React from 'react';
 
 import { motion } from 'framer-motion';
+import { LikeButton } from '../Button/LikeButton';
 
 export default function Card({
 	children,
-	isClear = false,
+	registrationEnd,
+	id,
 }: {
 	children: React.ReactNode;
-	isClear?: boolean;
+	registrationEnd: boolean;
+	id: number;
 }) {
 	return (
 		<section
@@ -16,39 +19,14 @@ export default function Card({
 				`}
 		>
 			{children}
-			{isClear && (
+			{registrationEnd && (
 				<div className='absolute bg-black bg-opacity-80 inset-0 flex items-center justify-center text-white'>
 					<div className='text-center'>
 						<p>마감된 챌린지예요,</p>
 						<p>다음 기회에 만나요 🙏</p>
 						{/* 작은 화면에서는 작은 아이콘, 큰 화면에서는 큰 아이콘. */}
-						<div
-							onClick={() => {
-								// console.log('클릭');
-							}}
-							className='cursor-pointer'
-						>
-							<Image
-								src='/icons/discard/discardText.png'
-								alt='모임 마감 아이콘 (작은 화면)'
-								width={116}
-								height={36}
-								className='absolute bottom-16 right-28 sm:hidden'
-							/>
-						</div>
-						<div
-							onClick={() => {
-								// console.log('클릭');
-							}}
-							className='cursor-pointer'
-						>
-							<Image
-								src='/icons/discard/discardImg.png'
-								alt='모임 마감 아이콘 (큰 화면)'
-								width={36}
-								height={36}
-								className='absolute top-4 right-7 hidden sm:block'
-							/>
+						<div className='cursor-pointer'>
+							<LikeButton itemId={id} registrationEnd={registrationEnd} />
 						</div>
 					</div>
 				</div>
@@ -70,7 +48,7 @@ function ImageSection({ src, alt }: { src: string; alt: string }) {
 				src={src}
 				fill
 				priority
-				className='h-full w-full object-cover'
+				className='h-full w-full object-fit'
 				sizes='(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw'
 			/>
 		</div>
@@ -137,7 +115,7 @@ function Footer({
 			{/* 오른쪽 버튼 */}
 			<div
 				onClick={onClick}
-				className={`flex gap-2 cursor-pointer text-orange-600 font-semibold`}
+				className={`flex gap-2 cursor-pointer text-primary-600 font-semibold`}
 			>
 				<p>join now</p>
 				<motion.p

@@ -11,17 +11,17 @@ export const PAGE_INFO: Record<string, PageInfoData> = {
 	meetings: {
 		title: '함께 할 사람이 없나요?',
 		description: '지금 모임에 참여해보세요',
-		src: '/images/head/headClass.png',
+		src: '/images/head/headClass.svg',
 	},
 	saved: {
 		title: '찜한 모임',
 		description: '지금 모임에 참여해보세요',
-		src: '/images/head/headSaved.png',
+		src: '/images/head/headSaved.svg',
 	},
 	reviews: {
 		title: '모든 리뷰',
 		description: '같이달램을 이용한 분들은 이렇게 느꼈어요🫶',
-		src: '/images/head/headReview.png',
+		src: '/images/head/headReview.svg',
 	},
 };
 
@@ -34,7 +34,7 @@ export const NAV_DATA: Record<string, PageNavData[]> = {
 			active: true,
 			subItems: [
 				// 해당 메인 아이템에 종속된 subItems
-				{ id: 'all', label: '전체', active: true },
+				{ id: 'DALLAEMFIT', label: '전체', active: true },
 				{
 					id: 'OFFICE_STRETCHING',
 					label: '오피스 스트레칭',
@@ -98,7 +98,7 @@ export const FITERING_DATA: Record<string, FilteringData[]> = {
 		},
 		{
 			label: '을지로 3가',
-			value: '을지로 3가',
+			value: '을지로3가',
 		},
 		{
 			label: '신림',
@@ -143,4 +143,13 @@ export const FITERING_DATA: Record<string, FilteringData[]> = {
 			value: 'participantCount',
 		},
 	],
+};
+
+export const REVIEW_SCORES = {
+	averageScore: 0,
+	fiveStars: 0,
+	fourStars: 0,
+	threeStars: 0,
+	twoStars: 0,
+	oneStar: 0,
 };

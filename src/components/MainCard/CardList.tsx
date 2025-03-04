@@ -1,7 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useFilterStore } from '@/store/useInputSelectFilterStore';
+import { usePathname, useRouter } from 'next/navigation';
 
 import Card from './Card';
 import { DateBadge } from '../Badge/DateBadge';
@@ -11,113 +10,188 @@ import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 
-import { CreateMeeting } from '@/types/createMeetingType';
 import { useMainCard } from '@/hooks/customs/useMainCard';
+import type { MeetingCardListProps } from '@/types/meetingsType';
 
 export default function CardList({
 	initialData,
-}: {
-	initialData?: CreateMeeting[];
-}) {
+	meetingType,
+}: MeetingCardListProps) {
 	const router = useRouter();
-	const { meetings } = useMainCard(initialData || []);
+	const pathname = usePathname();
 
-	// 🟢 Zustand에서 전역 필터 상태 가져오기
-	const { selectedFilters } = useFilterStore();
-
-	// ✅ 필터 적용된 모임 목록
-	const filteredMeetings = meetings?.filter((meeting) => {
-		const locationMatch =
-			!selectedFilters.location ||
-			meeting.location.includes(selectedFilters.location);
-
-		const dateMatch =
-			!selectedFilters.date ||
-			(meeting.dateTime &&
-				new Date(meeting.dateTime)
-					.toISOString()
-					.startsWith(selectedFilters.date));
-
-		return locationMatch && dateMatch;
-	});
+	const { meetings } = useMainCard(initialData || [], meetingType);
 
 	return (
 		<div className='flex flex-col items-center gap-6'>
-			{filteredMeetings?.map((el) => (
-				<Card key={el.id ?? 0}>
-					<Card.ImageContainer>
-						<Card.ImageSection
-							src={el.image ? el.image : '/images/default.png'}
-							alt='이미지 예시'
-						/>
-						<DeadlineBadge
-							registrationEnd={
-								el.registrationEnd
-									? new Date(el.registrationEnd).toISOString()
-									: '유효하지 않은 시간'
-							}
-						/>
-					</Card.ImageContainer>
-
-					<Card.Content>
-						<Card.Header>
-							<Card.Header.Left
-								title={
-									el.type === 'OFFICE_STRETCHING'
-										? '달램핏 마인드풀니스 |'
-										: el.type === 'MINDFULNESS'
-											? '달램핏 마인드풀니스 |'
-											: el.type === 'WORKATION'
-												? '워크에이션 리프레쉬 |'
-												: ''
+			{/* 찜한 모임 목록 페이지일 경우 */}
+			{pathname === '/favorite-meetings' &&
+				meetings?.map((el) => (
+					<Card
+						id={el.id}
+						key={el.id ?? 0}
+						registrationEnd={new Date(el.registrationEnd) < new Date()}
+					>
+						<Card.ImageContainer>
+							<Card.ImageSection
+								src={el.image ? el.image : '/images/default.png'}
+								alt='이미지 예시'
+							/>
+							<DeadlineBadge
+								registrationEnd={
+									el.registrationEnd
+										? new Date(el.registrationEnd).toISOString()
+										: '유효하지 않은 시간'
 								}
-								place={el.location}
-							>
-								<DateBadge
-									text={
-										el.dateTime && !isNaN(new Date(el.dateTime).getTime())
-											? new Date(el.dateTime).toLocaleDateString('ko-KR')
-											: ''
-									}
-									type='date'
-								/>
+							/>
+						</Card.ImageContainer>
 
-								<DateBadge
-									text={
+						<Card.Content>
+							<Card.Header>
+								<Card.Header.Left
+									title={
+										el.type === 'OFFICE_STRETCHING'
+											? '달램핏 마인드풀니스 |'
+											: el.type === 'MINDFULNESS'
+												? '달램핏 마인드풀니스 |'
+												: el.type === 'WORKATION'
+													? '워크에이션 리프레쉬 |'
+													: ''
+									}
+									place={el.location}
+								>
+									<DateBadge
+										text={
+											el.dateTime && !isNaN(new Date(el.dateTime).getTime())
+												? new Date(el.dateTime).toLocaleDateString('ko-KR')
+												: ''
+										}
+										type='date'
+									/>
+
+									<DateBadge
+										text={
+											el.registrationEnd
+												? new Date(el.registrationEnd).toISOString()
+												: '유효하지 않은 시간'
+										}
+										type='time'
+									/>
+								</Card.Header.Left>
+
+								<Card.Header.Right>
+									<LikeButton itemId={el.id ?? 0} />
+								</Card.Header.Right>
+							</Card.Header>
+
+							<Card.Footer
+								max={40}
+								value={30}
+								onClick={() => {
+									router.push(`meeting/${el.id}`);
+								}}
+							>
+								<div className='flex gap-2'>
+									<Members max={el.capacity ?? 0} value={el.participantCount} />
+									<StatusBadge participantCount={el.participantCount} />
+								</div>
+								<ProgressBar
+									max={el.capacity}
+									value={el.participantCount}
+									isNeutral={false}
+									isAnimate={false}
+								/>
+							</Card.Footer>
+						</Card.Content>
+					</Card>
+				))}
+
+			{/* 메인 홈 모임 목록 페이지일 경우 */}
+			{pathname === '/' &&
+				meetings
+					?.filter((el) => new Date(el.registrationEnd) >= new Date())
+					.map((el) => (
+						<Card
+							id={el.id}
+							key={el.id ?? 0}
+							registrationEnd={new Date(el.registrationEnd) < new Date()}
+						>
+							<Card.ImageContainer>
+								<Card.ImageSection
+									src={el.image ? el.image : '/images/default.png'}
+									alt='이미지 예시'
+								/>
+								<DeadlineBadge
+									registrationEnd={
 										el.registrationEnd
 											? new Date(el.registrationEnd).toISOString()
 											: '유효하지 않은 시간'
 									}
-									type='time'
 								/>
-							</Card.Header.Left>
+							</Card.ImageContainer>
 
-							<Card.Header.Right>
-								<LikeButton itemId={el.id ?? 0} />
-							</Card.Header.Right>
-						</Card.Header>
+							<Card.Content>
+								<Card.Header>
+									<Card.Header.Left
+										title={
+											el.type === 'OFFICE_STRETCHING'
+												? '달램핏 마인드풀니스 |'
+												: el.type === 'MINDFULNESS'
+													? '달램핏 마인드풀니스 |'
+													: el.type === 'WORKATION'
+														? '워크에이션 리프레쉬 |'
+														: ''
+										}
+										place={el.location}
+									>
+										<DateBadge
+											text={
+												el.dateTime && !isNaN(new Date(el.dateTime).getTime())
+													? new Date(el.dateTime).toLocaleDateString('ko-KR')
+													: ''
+											}
+											type='date'
+										/>
 
-						<Card.Footer
-							max={40}
-							value={30}
-							onClick={() => {
-								router.push(`meeting/${el.id}`);
-							}}
-						>
-							<div className='flex gap-2'>
-								<Members max={el.capacity ?? 0} value={2} />
-								<StatusBadge />
-							</div>
-							<ProgressBar
-								max={10}
-								value={el.capacity ?? 0}
-								isNeutral={false}
-								isAnimate={false}
-							/>
-						</Card.Footer>
-					</Card.Content>
-				</Card>
-			))}
+										<DateBadge
+											text={
+												el.registrationEnd
+													? new Date(el.registrationEnd).toISOString()
+													: '유효하지 않은 시간'
+											}
+											type='time'
+										/>
+									</Card.Header.Left>
+
+									<Card.Header.Right>
+										<LikeButton itemId={el.id ?? 0} />
+									</Card.Header.Right>
+								</Card.Header>
+
+								<Card.Footer
+									max={40}
+									value={30}
+									onClick={() => {
+										router.push(`meeting/${el.id}`);
+									}}
+								>
+									<div className='flex gap-2'>
+										<Members
+											max={el.capacity ?? 0}
+											value={el.participantCount}
+										/>
+										<StatusBadge participantCount={el.participantCount} />
+									</div>
+									<ProgressBar
+										max={el.capacity}
+										value={el.participantCount}
+										isNeutral={false}
+										isAnimate={false}
+									/>
+								</Card.Footer>
+							</Card.Content>
+						</Card>
+					))}
 		</div>
 	);
 }

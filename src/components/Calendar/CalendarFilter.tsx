@@ -1,13 +1,12 @@
-'use client';
-
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Button from '../Button/Button';
 
 interface CalendarFilterProps {
 	meetingDate: Date | null;
 	setMeetingDate: (date: Date | null) => void;
-	onApply: () => void; //적용 버튼 클릭 시 드롭다운 닫는 함수 추가
+	onApply: () => void;
 }
 
 const CalendarFilter = ({
@@ -16,37 +15,57 @@ const CalendarFilter = ({
 	onApply,
 }: CalendarFilterProps) => {
 	const [tempDate, setTempDate] = useState<Date | null>(meetingDate);
-
 	const handleReset = () => {
 		setTempDate(null);
+		setMeetingDate(null);
 	};
-
 	const handleApply = () => {
 		setMeetingDate(tempDate);
 		onApply();
 	};
 
 	return (
-		<div className='relative p-2 bg-white rounded-lg shadow-lg'>
-			<DatePicker
-				selected={tempDate}
-				onChange={(date) => setTempDate(date)}
-				inline
-			/>
-			<div className='flex justify-between mt-2'>
-				{/* 예지님 버튼으로 바꿀 예정 */}
-				<button
-					onClick={handleReset}
-					className='px-4 py-2 bg-orange-500 text-white rounded w-1/2 mr-1'
-				>
+		<div className='relative px-5 py-4 bg-white rounded-lg'>
+			{/* 특정 CalendarFilter 컴포넌트에서만 적용되는 스타일 */}
+			<style jsx>{`
+				:global(.custom-datepicker .react-datepicker) {
+					border: none !important;
+				}
+				:global(.custom-datepicker .react-datepicker__month-container) {
+					border: none !important;
+				}
+				:global(.custom-datepicker .react-datepicker__header) {
+					background-color: transparent !important;
+					border: none !important;
+				}
+				:global(.custom-datepicker .react-datepicker__day-names) {
+					margin-bottom: -15px !important;
+				}
+				:global(.custom-datepicker .react-datepicker__day-name) {
+					font-weight: bold !important;
+				}
+			`}</style>
+
+			<div className='custom-datepicker'>
+				<DatePicker
+					selected={tempDate}
+					onChange={(date) => setTempDate(date)}
+					inline
+				/>
+			</div>
+
+			<div className='flex gap-2 justify-center'>
+				<Button onClick={handleReset} variation='outline' isFull={true}>
 					초기화
-				</button>
-				<button
+				</Button>
+				<Button
 					onClick={handleApply}
-					className='px-4 py-2 bg-orange-500 text-white rounded w-1/2'
+					variation='default'
+					isFull={true}
+					disabled={!tempDate}
 				>
 					적용
-				</button>
+				</Button>
 			</div>
 		</div>
 	);

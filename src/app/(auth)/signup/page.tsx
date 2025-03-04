@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function SignupPage() {
 	return (
-		<div className='flex flex-col gap-2.5 lg:gap-[6.375rem] items-center lg:flex-row lg:h-screen lg:px-[296px]'>
+		<div className='flex flex-col gap-2.5 lg:gap-[104px] items-center lg:flex-row lg:h-screen lg:px-[296px]'>
 			<div className='flex flex-col items-center pt-2.5 md:pt-[2.5rem]'>
 				<span className='text-[20px] md:text-2xl'>Welcome to 같이달램!</span>
 				<div className='text-sm md:text-base'>
@@ -13,10 +13,10 @@ export default function SignupPage() {
 				<img
 					src='/images/imgLogin.png'
 					alt='main image'
-					className='px-[1.625rem] md:px-[6.5rem]  pt-2'
+					className='md:px-[104px] lg:px-0 pt-2'
 				/>
 			</div>
-			<div className='w-full h-auto md:max-w-[608px] lg:max-w-[510px]'>
+			<div className='w-full h-auto md:max-w-[608px] lg:max-w-[510px] mb-[58px]'>
 				<Signup />
 			</div>
 		</div>

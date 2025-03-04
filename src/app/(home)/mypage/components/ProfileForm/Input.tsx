@@ -8,6 +8,7 @@ function Input({
 			{...props}
 			value={value}
 			className={`bg-transparent resize-none w-full h-full outline-none`}
+			onChange={onChange}
 		/>
 	);
 }

@@ -39,7 +39,7 @@ export const CalenderTime = ({
 			]}
 			dateFormat='yyyy-MM-dd h:mm aa'
 			showIcon
-			className='border border-gray-300 rounded-lg text-center cursor-pointer sm:flex xs:w-[300px] mr-4'
+			className='w-[300px] md:w-[350px] border border-gray-300 rounded-lg text-center cursor-pointer sm:flex mr-4'
 		/>
 	);
 };
