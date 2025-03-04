@@ -16,8 +16,10 @@ export const CalenderTime = ({
 	selectedDate,
 	onDateChange,
 }: CalenderPropsType) => {
+	const now = new Date();
+	const adjustedTime = setMinutes(now, 30);
 	const [startDate, setStartDate] = useState<Date | null>(
-		selectedDate ?? setHours(setMinutes(new Date(), 30), 16),
+		selectedDate ?? adjustedTime,
 	);
 
 	return (
