@@ -22,11 +22,7 @@ const AttendeeProfiles = ({
 		const fetchAttendees = async () => {
 			try {
 				const res: MeetingAttendee[] = await getMeetingAttendee(gatheringId);
-				const images = res.map((item) =>
-					item.User.image && item.User.image.trim() !== ''
-						? item.User.image
-						: '/icons/profileDefault.svg',
-				);
+				const images = res.map((item) => item.User.image);
 				setProfiles(images);
 			} catch (error) {
 				console.error('Error fetching meeting attendees:', error);
