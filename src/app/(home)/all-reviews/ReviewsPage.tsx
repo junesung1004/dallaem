@@ -18,7 +18,7 @@ export default function ReviewsPage() {
 				<ReviewSummary />
 				<FilterList enabledFilters={['location', 'date', 'sortByReview']} />
 			</div>
-			<div className='flex flex-wrap'>
+			<div>
 				<ReviewCardList />
 			</div>
 		</FilterProvider>
