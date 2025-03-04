@@ -34,7 +34,7 @@ const AttendeeProfiles = ({
 
 	return (
 		<div className='h-full w-full flex justify-center items-center space-x-[-10px]'>
-			{/* 프로필 사진을 4개까지 렌더링 */}
+			{/* 프로필을 4개까지 렌더링 */}
 			{profiles.slice(0, maxProfiles).map((value, index) => (
 				<div
 					key={index}
