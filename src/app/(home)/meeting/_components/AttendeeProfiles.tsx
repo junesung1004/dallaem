@@ -22,7 +22,11 @@ const AttendeeProfiles = ({
 		const fetchAttendees = async () => {
 			try {
 				const res: MeetingAttendee[] = await getMeetingAttendee(gatheringId);
-				const images = res.map((item) => item.User.image);
+				const images = res.map((item) =>
+					item.User.image && item.User.image.trim() !== ''
+						? item.User.image
+						: '/icons/profileDefault.svg',
+				);
 				setProfiles(images);
 			} catch (error) {
 				console.error('Error fetching meeting attendees:', error);
@@ -38,6 +42,7 @@ const AttendeeProfiles = ({
 			{profiles.slice(0, maxProfiles).map((value, index) => (
 				<div
 					key={index}
+					className={`relative w-${imgSize} h-${imgSize}`}
 					style={{
 						width: imgSize,
 						height: imgSize,
@@ -49,10 +54,11 @@ const AttendeeProfiles = ({
 				>
 					<Image
 						key={index}
-						width={imgSize}
-						height={imgSize}
 						src={value ? value : '/icons/profileDefault.svg'}
 						alt={`profile-${index}`}
+						priority
+						fill
+						className='object-cover rounded-full overflow-hidden'
 					/>
 				</div>
 			))}
