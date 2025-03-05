@@ -26,6 +26,11 @@ const ProfileTooltip = () => {
 		}
 	}, [pathname]);
 
+	/** 임시 */
+	useEffect(() => {
+		getData();
+	}, []);
+
 	if (!data) return null; // 여기에서 return null을 해야 함
 
 	const image = data.image;
