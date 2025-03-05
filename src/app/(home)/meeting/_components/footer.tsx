@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
 import { useRouter, useParams } from 'next/navigation';
-import { participantsGroup } from '@/api/detail-meeting/participantsGroup';
+import useParticipantsData from '@/hooks/query/useParticipantsData';
 import { useGroupMutations } from '@/hooks/mutation/useGroupMutations';
 import Button from '@/components/Button/Button';
 
@@ -28,12 +28,7 @@ export function Footer({
 	const { openModal, closeModal } = useGlobalModal();
 	const router = useRouter();
 	const params = useParams();
-
-	// 소유자 여부와 모집 마감 상태 설정
-	useEffect(() => {
-		setIsOwner(userId !== null && userId === createdBy);
-		setIsDeadline(participantCount >= capacity);
-	}, [userId, createdBy, capacity, participantCount]);
+	const { data: participants, isLoading } = useParticipantsData(id);
 
 	useEffect(() => {
 		if (params.id) {
@@ -41,26 +36,25 @@ export function Footer({
 		}
 	}, [params.id]);
 
+	// 소유자 여부와 모집 마감 상태 설정
+	useEffect(() => {
+		setIsOwner(userId !== null && userId === createdBy);
+		setIsDeadline(participantCount >= capacity);
+	}, [userId, createdBy, capacity, participantCount]);
+
 	// 참여 여부 확인
 	useEffect(() => {
-		const checkParticipation = async () => {
-			if (userId && id) {
-				try {
-					const participants = await participantsGroup(id);
-					const hasParticipated = participants.some(
-						(participant: { userId: number }) => participant.userId === userId,
-					);
-					if (hasParticipated) {
-						setIsJoinDisabled(true);
-					}
-				} catch (error) {
-					console.error('참여자 목록 조회 실패:', error);
-				}
+		if (!isLoading && participants && userId) {
+			const hasParticipated = participants.some(
+				(p: { userId: number }) => p.userId === userId,
+			);
+			if (hasParticipated) {
+				setIsJoinDisabled(true);
 			}
-		};
-		checkParticipation();
-	}, [userId, id]);
+		}
+	}, [isLoading, participants, userId]);
 
+	// 참가, 참가 취소, 모집공고 취소
 	const { joinMutation, leaveMutation, cancelMutation } = useGroupMutations({
 		groupId: id ?? 0,
 		onSuccessJoin: () => {
