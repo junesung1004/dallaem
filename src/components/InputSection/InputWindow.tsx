@@ -59,7 +59,7 @@ const InputWindow = ({
 		}
 	};
 
-	// 부모로부터 error 전달 받을 경우 error state 설정
+	// 부모로부터 error 전달 받을 경우 error 설정
 	useEffect(() => {
 		if (isError) {
 			setTypeStatus('error');
