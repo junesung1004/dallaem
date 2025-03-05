@@ -63,9 +63,16 @@ function ProfileForm() {
 		const formData = new FormData(e.currentTarget);
 		const data = await editProfile(formData);
 
+		const refreshPreviousPage = () => {
+			router.back(); // 이전 페이지로 이동
+			setTimeout(() => {
+				router.refresh(); // 이전 페이지 새로고침
+			}, 100); // 약간의 딜레이를 줘야 적용됨
+		};
+
 		if (data) {
 			// useMutation 으로 변경 예정
-			return router.back();
+			refreshPreviousPage();
 		}
 	};
 	return (
