@@ -15,8 +15,20 @@ function CardList() {
 		useFavoriteMeetings();
 	const router = useRouter();
 
+	if (isLoading || !meetings?.length) {
+		return (
+			<div className='min-h-[534px] md:min-h-[821px] lg:min-h-[771px] flex items-center justify-center'>
+				<span>
+					{(isLoading && '데이터를 불러오는 중입니다...') ||
+						!meetings ||
+						'아직 찜한 모임이 없어요'}
+				</span>
+			</div>
+		);
+	}
+
 	return (
-		<div className='flex flex-col items-center gap-6'>
+		<div className='flex flex-col items-center gap-6 min-h-[534px] md:min-h-[821px] lg:min-h-[771px]'>
 			{meetings?.map((el) => (
 				<Card
 					id={el.id}
