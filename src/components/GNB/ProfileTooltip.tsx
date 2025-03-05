@@ -5,20 +5,26 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks/customs/useAuth';
 import { IUser } from '@/types/userType';
 import { getUserData } from '@/api/getUserData';
+import { usePathname } from 'next/navigation';
 
 const ProfileTooltip = () => {
 	const { logoutUser } = useAuth(); //Tooltip에서 pathname 바뀔 때마다 자동 valdiateToken도 진행함 (useEffect)
 	const [data, setData] = useState<IUser | null>(null);
 	const [visible, setVisible] = useState(false);
 
+	const pathname = usePathname();
+
 	const getData = async () => {
 		const userData = await getUserData();
 		setData(userData);
 	};
 
+	/** 임시 */
 	useEffect(() => {
-		getData();
-	}, []);
+		if (pathname === '/mypage') {
+			getData();
+		}
+	}, [pathname]);
 
 	if (!data) return null; // 여기에서 return null을 해야 함
 
