@@ -54,9 +54,7 @@ const InputWindow = ({
 
 	const handleFocusOut = () => {
 		onBlur?.();
-		if (value === '') {
-			setTypeStatus('empty');
-		}
+		setTypeStatus('empty');
 	};
 
 	// 부모로부터 error 전달 받을 경우 error 설정
@@ -72,7 +70,7 @@ const InputWindow = ({
 			? 'border border-2 border-red-600 rounded-xl '
 			: typeStatus === 'typing'
 				? 'border border-2 border-primary-600 rounded-xl '
-				: null;
+				: 'rounded-xl';
 
 	//return
 	return (
