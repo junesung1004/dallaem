@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/customs/useAuth';
@@ -7,7 +7,7 @@ import { IUser } from '@/types/userType';
 import { getUserData } from '@/api/getUserData';
 
 const ProfileTooltip = () => {
-	const { logoutUser } = useAuth();
+	const { logoutUser } = useAuth(); //Tooltip에서 pathname 바뀔 때마다 자동 valdiateToken도 진행함 (useEffect)
 	const [data, setData] = useState<IUser | null>(null);
 	const [visible, setVisible] = useState(false);
 
