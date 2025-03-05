@@ -34,25 +34,27 @@ const AttendeeProfiles = ({
 
 	return (
 		<div className='h-full w-full flex justify-center items-center space-x-[-10px]'>
-			{/* 프로필 사진을 4개까지 렌더링 */}
+			{/* 프로필을 4개까지 렌더링 */}
 			{profiles.slice(0, maxProfiles).map((value, index) => (
 				<div
 					key={index}
+					className={`relative w-${imgSize} h-${imgSize}`}
 					style={{
 						width: imgSize,
 						height: imgSize,
 						backgroundImage: `url(/icons/profileDefault.svg)`,
 						backgroundSize: 'cover', // 이미지가 div에 꽉 차도록
 						backgroundPosition: 'center', // 이미지가 중앙에 위치하도록
-						borderRadius: '50%', // 원형으로 만들기 (프로필 이미지 효과)
+						borderRadius: '50%', // 원형으로 만들기
 					}}
 				>
 					<Image
 						key={index}
-						width={imgSize}
-						height={imgSize}
 						src={value ? value : '/icons/profileDefault.svg'}
 						alt={`profile-${index}`}
+						priority
+						fill
+						className='object-cover rounded-full overflow-hidden'
 					/>
 				</div>
 			))}
