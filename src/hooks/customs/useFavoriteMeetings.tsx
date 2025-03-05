@@ -16,13 +16,6 @@ export const useFavoriteMeetings = () => {
 	const { type } = useFilter();
 	// 데이터 가져오는 함수
 	const getData = async () => {
-		// console.log(
-		// 	'로컬에서 가져온 userId값 있음?',
-		// 	'ID값: ',
-		// 	userId,
-		// 	hasHydrated,
-		// );
-
 		// 아이디 목록을 기준으로 API 호출
 		const res = await meetingService.getFavoriteMeetings({
 			userId,
@@ -46,10 +39,9 @@ export const useFavoriteMeetings = () => {
 			: null;
 
 	const { data, isLoading, error } = useQuery({
-		queryKey: likerKey
-			? ['favorite', likerKey, likeList[likerKey]?.join('')]
-			: [],
-		queryFn: getData,
+		queryKey: ['favorite', likerKey ? likeList[likerKey]?.join('') : ''],
+		queryFn: () => (likerKey ? getData() : null),
+		enabled: !!likerKey,
 	});
 
 	// data가 업데이트되면 상태를 변경
