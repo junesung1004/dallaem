@@ -6,7 +6,7 @@ function ProfileInput({
 	image,
 	onImageChange,
 }: {
-	image: string;
+	image: string | null;
 	onImageChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }) {
 	const [preview, setPreview] = useState<string | null | FileReader['result']>(
