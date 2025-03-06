@@ -3,9 +3,17 @@ import { useInView } from 'react-intersection-observer';
 import ReviewCard from '@/components/ReviewCard/ReviewCard';
 import { ReviewType } from '@/types/paginationType';
 import useFetchReviewsData from '@/hooks/query/useFetchReviewData';
+import { FilterContextType } from '@/types/filterType';
 
-function ReviewCardList() {
-	const { data, fetchNextPage, hasNextPage } = useFetchReviewsData();
+function ReviewCardList({
+	filters,
+}: {
+	filters: Pick<
+		FilterContextType,
+		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
+	> | null;
+}) {
+	const { data, fetchNextPage, hasNextPage } = useFetchReviewsData(filters);
 	const reviews: ReviewType[] = data?.pages.flatMap((page) => page.data) ?? [];
 	const isReviewEmpty = reviews.length === 0;
 
