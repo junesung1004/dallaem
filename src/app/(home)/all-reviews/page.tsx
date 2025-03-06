@@ -8,28 +8,33 @@ import { reviewService } from '@/service/reviewService';
 
 export default async function AllReviews() {
 	const queryClient = new QueryClient();
+	// useFilter와 동일하게 설정
+	const filters = {
+		type: 'DALLAEMFIT',
+		location: '',
+		date: '',
+		sortBy: '',
+		sortOrder: 'desc',
+	};
 
-	// 서버에서 초기 리뷰 데이터를 가져오기
 	await queryClient.prefetchInfiniteQuery({
-		queryKey: ['reviews', { page: 1 }],
+		queryKey: ['reviews', filters],
 		queryFn: async () => {
 			const data = await reviewService.getDetailReviewData({
-				currentPage: 1,
-				limit: 4,
+				limit: 5,
+				sortOrder: 'desc',
 			});
 			return {
 				data: data.data,
 				totalItemCount: data.totalItemCount,
-				currentPage: 1,
+				currentPage: data.currentPage,
 				totalPages: data.totalPages,
 			};
 		},
 		initialPageParam: 1,
 	});
 
-	// `dehydratedState`를 생성하여 클라이언트로 전달
 	const dehydratedState = dehydrate(queryClient);
-
 	return (
 		<HydrationBoundary state={dehydratedState}>
 			<ReviewsPage />

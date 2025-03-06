@@ -6,8 +6,8 @@ function useFetchReviewsData() {
 	const filters = useFilter();
 
 	return useInfiniteQuery({
-		queryKey: ['reviews', filters ?? { page: 1 }],
-		queryFn: async ({ pageParam = 1 }) => {
+		queryKey: ['reviews', filters],
+		queryFn: async () => {
 			const params = new URLSearchParams();
 			if (filters.type) params.append('type', filters.type);
 			if (filters.location) params.append('location', filters.location);
@@ -16,7 +16,6 @@ function useFetchReviewsData() {
 			if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
 
 			const response = await reviewService.getDetailReviewData({
-				currentPage: pageParam,
 				limit: 4,
 				...Object.fromEntries(params),
 			});
@@ -28,7 +27,7 @@ function useFetchReviewsData() {
 			return {
 				data: response.data,
 				totalItemCount: response.totalItemCount,
-				currentPage: pageParam,
+				currentPage: response.currentPage,
 				totalPages: response.totalPages,
 			};
 		},
