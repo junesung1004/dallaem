@@ -47,7 +47,7 @@ export default function Home() {
 				<div className='border-b-2'></div>
 
 				{/* 모임 목록 */}
-				<CardListInfinite />
+				<CardListInfinite filters={currentFilter} />
 			</FilterProvider>
 		</div>
 	);

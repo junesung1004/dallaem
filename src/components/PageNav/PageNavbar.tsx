@@ -12,7 +12,7 @@ interface NavBarProps {
 	pageKey: string;
 	onMainClick?: (id: string) => void;
 	onSubClick?: (id: string | undefined) => void;
-	filter: Pick<
+	filter?: Pick<
 		FilterContextType,
 		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
 	>;

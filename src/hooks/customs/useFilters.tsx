@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FilterContextType } from '@/types/filterType';
 export const useFilters = (
 	initialFilter: Pick<
 		FilterContextType,
 		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
 	> | null,
+	onFilter?: <T = void>(
+		filter: Pick<
+			FilterContextType,
+			'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
+		> | null,
+	) => T,
 ) => {
 	// 필터는 상태 값으로 관리한다
 	const [type, setType] = useState(initialFilter?.type ?? '');
@@ -51,6 +57,17 @@ export const useFilters = (
 	// 사실 얘는 구분을 몰라도 됨
 	// useEffect 안에서 callback으로 받아온 데이터 함수 실행
 	// callback 은 상태값을 기반으로 이거 데이터 요청해
+	useEffect(() => {
+		if (typeof onFilter === 'function') {
+			onFilter({
+				type,
+				location,
+				date,
+				sortBy,
+				sortOrder,
+			});
+		}
+	}, [type, location, date, sortBy, sortOrder]);
 
 	// pathname 구분해서 or pageKey 값을 받아서 sortBy 처리
 

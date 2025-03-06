@@ -5,7 +5,10 @@ export const getMeetingInfiniteData = async ({
 	filters,
 }: {
 	pageParam: number;
-	filters: FilterContextType;
+	filters: Pick<
+		FilterContextType,
+		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
+	> | null;
 }) => {
 	const limit = 3;
 	const offset = pageParam;

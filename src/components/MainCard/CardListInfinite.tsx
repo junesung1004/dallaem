@@ -11,8 +11,16 @@ import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { useHomeMeetingCardList } from '@/hooks/query/useHomeMeetingCardList';
 import { useInView } from 'react-intersection-observer';
+import { FilterContextType } from '@/types/filterType';
 
-const CardListInfinite = React.memo(function CardListInfinite() {
+const CardListInfinite = React.memo(function CardListInfinite({
+	filters,
+}: {
+	filters: Pick<
+		FilterContextType,
+		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
+	> | null;
+}) {
 	const router = useRouter();
 	const { ref, inView } = useInView();
 	const [isDelayed, setIsDelayed] = useState(false);
@@ -24,7 +32,7 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 		fetchNextPage,
 		hasNextPage,
 		isFetchingNextPage,
-	} = useHomeMeetingCardList();
+	} = useHomeMeetingCardList(filters);
 
 	const meetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
 
