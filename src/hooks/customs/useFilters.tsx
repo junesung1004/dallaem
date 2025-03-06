@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import type { FilterContextType } from '@/types/filterType';
-export const useFilters = (initialFilter: FilterContextType | null) => {
+export const useFilters = (
+	initialFilter: Pick<
+		FilterContextType,
+		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
+	> | null,
+) => {
 	// 필터는 상태 값으로 관리한다
 	const [type, setType] = useState(initialFilter?.type ?? '');
 	const [location, setLocation] = useState(initialFilter?.location ?? '');
 	const [date, setDate] = useState(initialFilter?.date ?? '');
 	const [sortBy, setSortBy] = useState(initialFilter?.sortBy ?? '');
-	const [sortOrder, setSortOrder] = useState(initialFilter?.sortOrder ?? '');
+	const [sortOrder, setSortOrder] = useState(
+		initialFilter?.sortOrder ?? ('desc' as const),
+	);
 
 	// setter 를 모아서 setter가 있고 이건 change handler/click handler 등으로 사용되도록,
 	// chage 될 때마다 UI 에서 사용되는 콜백함수
@@ -56,5 +63,13 @@ export const useFilters = (initialFilter: FilterContextType | null) => {
 		setSortOrder,
 	};
 
-	return { handleChangeFilter, handleTypeHandler };
+	const currentFilter = {
+		type,
+		location,
+		date,
+		sortBy,
+		sortOrder,
+	};
+
+	return { handleChangeFilter, handleTypeHandler, currentFilter };
 };

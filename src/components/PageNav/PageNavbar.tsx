@@ -6,33 +6,43 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_DATA } from '../../constants/index';
 import PageNavButton from './PageNavButton';
 import { useFilter } from '@/hooks/customs/useFilter';
+import type { FilterContextType } from '@/types/filterType';
 
 interface NavBarProps {
 	pageKey: string;
 	onMainClick?: (id: string) => void;
 	onSubClick?: (id: string | undefined) => void;
+	filter: Pick<
+		FilterContextType,
+		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
+	>;
 }
 
-function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
+function PageNavbar({ pageKey, onMainClick, onSubClick, filter }: NavBarProps) {
 	const pathname = usePathname();
 	const isMyPage = pageKey === 'mypage';
 	const pageNavData = NAV_DATA[pageKey];
 
 	// 실제 데이터 state
-	const { type, setType } = useFilter();
+	// const { type, setType } = useFilter();
+	const { type } = filter ?? {};
 	const [selectedType, setSelectedType] = useState(
 		type || NAV_DATA[pageKey][0].id,
 	);
 
+	console.log('필터링 타입 :', type);
+
 	// UI 관련 state(애니메이션)
 	const [activeMainItem, setActiveMainItem] = useState<string>(
-		pageNavData[0]?.id || '',
+		type || pageNavData[0]?.id || '',
 	);
+
+	console.log('activeItem :', activeMainItem);
 
 	const pathSegments = pathname.split('/');
 	const initialMainId = isMyPage
 		? pathSegments[2] || pageNavData[0]?.id
-		: pageNavData[0]?.id;
+		: type || pageNavData[0]?.id;
 	const initialSubId = isMyPage
 		? pathSegments[3] ||
 			pageNavData.find((item) => item.id === initialMainId)?.subItems?.[0]?.id
@@ -41,9 +51,10 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 	// 초기 상태 설정
 	useEffect(() => {
 		setActiveMainItem(initialMainId);
+		console.log('초기 아이템 :', initialMainId);
 		const newType = initialSubId ? initialSubId : initialMainId;
 		setSelectedType(newType);
-		setType(newType);
+		// setType(newType);
 	}, [initialMainId, initialSubId]);
 
 	const handleMainClick = (id: string) => {
@@ -52,7 +63,7 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 
 		// 서브 아이템이 없으면 mainItem을 적용
 		setSelectedType(firstSubItem ?? id);
-		setType(firstSubItem ?? id);
+		// setType(firstSubItem ?? id);
 
 		setActiveMainItem(id);
 		onMainClick?.(id);
@@ -60,7 +71,7 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 
 	const handleSubClick = (id: string) => {
 		setSelectedType(id);
-		setType(id);
+		// setType(id);
 		onSubClick?.(id);
 	};
 

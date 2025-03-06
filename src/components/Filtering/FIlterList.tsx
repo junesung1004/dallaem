@@ -5,24 +5,33 @@ import { FITERING_DATA } from '@/constants';
 import CalenderFilter from '../Calendar/CalendarFilter';
 import { useFilter } from '@/hooks/customs/useFilter';
 import FilterDropdown from './FilterDropdown';
+import type { FilterContextType } from '@/types/filterType';
 
 interface FilterListProps {
+	handleFilter: (name: string, value: unknown) => void;
+	filter: Pick<
+		FilterContextType,
+		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
+	>;
 	enabledFilters?: ('location' | 'date' | 'sortByMeeting' | 'sortByReview')[];
 }
 
 function FilterList({
+	handleFilter,
+	filter,
 	enabledFilters = ['location', 'date', 'sortByMeeting', 'sortByReview'],
 }: FilterListProps) {
-	const {
-		location,
-		setLocation,
-		date,
-		setDate,
-		sortBy,
-		setSortBy,
-		sortOrder,
-		setSortOrder,
-	} = useFilter();
+	// const {
+	// 	location,
+	// 	setLocation,
+	// 	date,
+	// 	setDate,
+	// 	sortBy,
+	// 	setSortBy,
+	// 	sortOrder,
+	// 	setSortOrder,
+	// } = useFilter();
+	const { location, date, sortBy, sortOrder } = filter ?? {};
 
 	const [selectedLocation, setSelectedLocation] = useState(
 		location || FITERING_DATA.location[0].value,
@@ -53,20 +62,44 @@ function FilterList({
 
 	useEffect(() => {
 		// 상태를 Context API를 통해 동기화
-		setLocation(enabledFilters.includes('location') ? selectedLocation : '');
-		setDate(enabledFilters.includes('date') ? formattedDate : '');
-		setSortBy(
+		// setLocation(enabledFilters.includes('location') ? selectedLocation : '');
+		if (typeof handleFilter !== 'function') {
+			return;
+		}
+		handleFilter(
+			'location',
+			enabledFilters.includes('location') ? selectedLocation : '',
+		);
+		handleFilter('date', enabledFilters.includes('date') ? formattedDate : '');
+		// setDate(enabledFilters.includes('date') ? formattedDate : '');
+		handleFilter(
+			'sortBy',
 			enabledFilters.includes('sortByMeeting') ||
 				enabledFilters.includes('sortByReview')
 				? selectedSortBy
 				: '',
 		);
-		setSortOrder(
+		// setSortBy(
+		// 	enabledFilters.includes('sortByMeeting') ||
+		// 		enabledFilters.includes('sortByReview')
+		// 		? selectedSortBy
+		// 		: '',
+		// );
+		handleFilter(
+			'sortOrder',
 			enabledFilters.includes('sortByMeeting') ||
 				enabledFilters.includes('sortByReview')
 				? selectedSortOrder
 				: 'desc',
 		);
+		// 	setSortOrder(
+		// 		enabledFilters.includes('sortByMeeting') ||
+		// 		enabledFilters.includes('sortByReview')
+		// 		? selectedSortOrder
+		// 		: 'desc',
+		// );
+
+		console.log('데이터', filter);
 	}, [selectedLocation, selectedDate, selectedSortBy, selectedSortOrder]);
 
 	return (
