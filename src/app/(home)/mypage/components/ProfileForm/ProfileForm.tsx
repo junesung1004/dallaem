@@ -13,6 +13,7 @@ import { useProfile, useProfileActions } from '@/store/useAuthStore';
 function ProfileForm() {
 	const router = useRouter();
 	const { image, companyName, email } = useProfile();
+	const { setImage, setCompanyName } = useProfileActions();
 	const [formState, setFormState] = useState<Record<string, string | null>>({
 		image: image,
 		companyName: companyName,
@@ -45,18 +46,12 @@ function ProfileForm() {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
-		const data = await editProfile(formData);
-
-		const refreshPreviousPage = () => {
-			router.back(); // 이전 페이지로 이동
-			setTimeout(() => {
-				router.refresh(); // 이전 페이지 새로고침
-			}, 100); // 약간의 딜레이를 줘야 적용됨
-		};
+		const data: IUser = await editProfile(formData);
 
 		if (data) {
-			// useMutation 으로 변경 예정
-			refreshPreviousPage();
+			setImage(data.image);
+			setCompanyName(data.companyName);
+			router.back();
 		}
 	};
 	return (
