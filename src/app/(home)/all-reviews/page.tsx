@@ -13,7 +13,7 @@ export default async function AllReviews() {
 		type: 'DALLAEMFIT',
 		location: '',
 		date: '',
-		sortBy: '',
+		sortBy: 'createdAt',
 		sortOrder: 'desc',
 	};
 
@@ -22,6 +22,7 @@ export default async function AllReviews() {
 		queryFn: async () => {
 			const data = await reviewService.getDetailReviewData({
 				limit: 5,
+				sortBy: 'createdAt',
 				sortOrder: 'desc',
 			});
 			return {
