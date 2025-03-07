@@ -1,4 +1,8 @@
-import Members from '@/components/Members/Members';
+import dynamic from 'next/dynamic';
+
+const Members = dynamic(() => import('@/components/Members/Members'), {
+	ssr: !!false,
+});
 
 export interface MeetingCardInfoProps {
 	id?: number;

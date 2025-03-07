@@ -6,7 +6,10 @@ import { leaveGroup } from '@/api/detail-meeting/participantsGroup';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
 
-export const useMyMeetings = (pageKey: 'joined' | 'review' | 'hosted') => {
+export const useMyMeetings = (
+	pageKey: 'joined' | 'review' | 'hosted',
+	initialData: MyMeeting[],
+) => {
 	const router = useRouter();
 	const { openModal, closeModal } = useGlobalModal();
 	const { userId } = useAuthStore();
@@ -102,6 +105,7 @@ export const useMyMeetings = (pageKey: 'joined' | 'review' | 'hosted') => {
 				return 0;
 			});
 		},
+		initialData,
 	});
 
 	/** 예약 취소 submit */
