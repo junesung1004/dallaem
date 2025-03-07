@@ -9,8 +9,8 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
 
-function ProfileHeader() {
-	const [data, setData] = useState<IUser>();
+function ProfileHeader({ initialPropfile }: { initialPropfile: IUser }) {
+	const [data, setData] = useState<IUser>(initialPropfile);
 
 	/** 임시 */
 	const pathname = usePathname();
