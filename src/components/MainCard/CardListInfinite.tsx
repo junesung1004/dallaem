@@ -1,6 +1,6 @@
-'use client';
 
-import React, { useEffect, useState } from 'react';
+
+import React, { useEffect } from 'react';
 import Card from './Card';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 import { DateBadge } from '../Badge/DateBadge';
@@ -28,7 +28,7 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 	const meetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
 
 	useEffect(() => {
-		//console.log('data : ', data);
+		console.log('data : ', data);
 	}, [data]);
 
 	// 요청 지연 로직 추가

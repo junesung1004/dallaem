@@ -14,7 +14,7 @@ export default async function Home() {
 		location: '',
 		date: '',
 		sortBy: 'dateTime',
-		sortOrder: 'asc',
+		sortOrder: 'desc',
 	};
 
 	await queryClient.prefetchInfiniteQuery({
@@ -23,13 +23,10 @@ export default async function Home() {
 			const data = await getMeetingInfiniteData({
 				limit: 4,
 				sortBy: 'dateTime',
-				sortOrder: 'asc',
+				sortOrder: 'desc',
 			});
 			return {
 				data: data.data,
-				totalItemCount: data.totalItemCount,
-				currentPage: data.currentPage,
-				totalPages: data.totalPages,
 			};
 		},
 		initialPageParam: 1,

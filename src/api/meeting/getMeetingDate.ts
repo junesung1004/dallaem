@@ -28,10 +28,7 @@ export const getMeetingInfiniteData = async (option: MeetingQueryType) => {
 		const data = await res.json();
 		//console.log('data1 : ', data);
 		return {
-			data: data.results,
-			totalItemCount: data.totalItemCount,
-			totalPages: data.totalPages,
-			currentPage: data.currentPage,
+			data: data,
 		};
 	} catch (error) {
 		console.log('상세 페이지 리뷰 데이터 가져오기 실패:', error);
