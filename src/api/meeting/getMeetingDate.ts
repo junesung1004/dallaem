@@ -8,7 +8,7 @@ export const getMeetingInfiniteData = async ({
 	filters: FilterContextType;
 }) => {
 	const limit = 5;
-	const offset = pageParam * limit;
+	const offset = Math.max((pageParam - 1) * limit, 0);
 
 	const params = new URLSearchParams();
 	if (filters.type) params.append('type', filters.type);
@@ -17,11 +17,8 @@ export const getMeetingInfiniteData = async ({
 	if (filters.sortBy) params.append('sortBy', filters.sortBy);
 	if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
 
-	console.log('Generated URL Params:', params.toString());
-
 	try {
 		const url = `${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`;
-		console.log('Full API URL:', url);
 
 		const res = await fetch(url);
 		if (!res.ok) {

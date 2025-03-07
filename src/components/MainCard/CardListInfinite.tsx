@@ -23,7 +23,15 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 		isFetchingNextPage,
 	} = useHomeMeetingCardList();
 
-	const meetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+	const meetings = React.useMemo(() => {
+    const allMeetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+    // ID 기반 중복 제거
+    const uniqueMeetings = allMeetings.filter(
+      (meeting, index, self) =>
+        index === self.findIndex((m) => m.id === meeting.id)
+    );
+    return uniqueMeetings;
+  }, [data?.pages]);
 
 	// 요청 지연 로직 추가
 	useEffect(() => {
@@ -31,10 +39,6 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 			fetchNextPage();
 		}
 	}, [inView, hasNextPage, isFetchingNextPage]);
-
-	useEffect(() => {
-		console.log('data1 : ', data);
-	}, [data]);
 
 	// 📌 로딩 중일 때 처리
 	if (isLoading) {
