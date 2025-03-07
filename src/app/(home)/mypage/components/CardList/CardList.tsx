@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import { useMyMeetings } from '@/hooks/customs/useMyMeetings';
 import CardBase from './CardBase';
@@ -19,11 +19,10 @@ const noDataMsg = {
 };
 
 function CardList({ cardType, pageKey, initialData }: CardListProps) {
-	// const { meetings, onCancelClick } = useMyMeetings(pageKey, initialData ?? []);
+	// const { meetings, onCancelClick } = useMyMeetings(pageKey, initialData);
 
 	// const data = initialData || meetings;
 	const data = initialData;
-	console.log('데이터 보여주세요', data);
 	/** 데이터 없을 경우 처리 */
 	if (!data?.length) {
 		return (

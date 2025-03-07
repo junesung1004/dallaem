@@ -13,7 +13,9 @@ async function MyPage() {
 			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token?.value}`,
 		},
+		cache: 'no-store',
 	});
+
 	const initialMyMeetings: MyMeeting[] = await res?.json();
 
 	return (

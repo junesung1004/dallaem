@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 export const useMyMeetings = (
 	pageKey: 'joined' | 'review' | 'hosted',
-	initialData: MyMeeting[],
+	initialData?: MyMeeting[],
 ) => {
 	const router = useRouter();
 	const { openModal, closeModal } = useGlobalModal();
@@ -90,7 +90,7 @@ export const useMyMeetings = (
 		}
 	};
 
-	const { data, refetch } = useSuspenseQuery({
+	const { data, refetch } = useSuspenseQuery<MyMeeting[] | null>({
 		queryKey: [userId, pageKey],
 		queryFn: () => (userId ? fetchMeetings(pageKey) : null),
 		select: (data) => {
@@ -106,6 +106,7 @@ export const useMyMeetings = (
 			});
 		},
 		initialData,
+		staleTime: () => (initialData || userId ? 0 : 1000 * 60 * 5), // 데이터가 없으면 즉시 refetch, 아니면 5분 유지
 	});
 
 	/** 예약 취소 submit */
