@@ -36,3 +36,18 @@ export interface MyMeeting extends IMeeting {
 	isCompleted: boolean;
 	isReviewed: boolean;
 }
+
+//
+
+export interface MeetingQueryType {
+	gatheringId?: string;
+	limit?: number;
+	currentPage?: number;
+	userId?: number;
+	type?: string;
+	location?: '건대입구' | '을지로 3가' | '신림' | '홍대입구' | '';
+	registrationEnd?: string;
+	date?: string;
+	sortOrder?: 'asc' | 'desc';
+	sortBy?: string;
+}

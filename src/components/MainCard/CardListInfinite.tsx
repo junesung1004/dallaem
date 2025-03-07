@@ -15,7 +15,6 @@ import { useInView } from 'react-intersection-observer';
 const CardListInfinite = React.memo(function CardListInfinite() {
 	const router = useRouter();
 	const { ref, inView } = useInView();
-	const [isDelayed, setIsDelayed] = useState(false);
 
 	const {
 		data,
@@ -28,21 +27,16 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 
 	const meetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
 
+	useEffect(() => {
+		//console.log('data : ', data);
+	}, [data]);
+
 	// 요청 지연 로직 추가
 	useEffect(() => {
 		if (inView && hasNextPage && !isFetchingNextPage) {
 			fetchNextPage();
 		}
 	}, [inView, hasNextPage, isFetchingNextPage]);
-
-	useEffect(() => {
-		const filteredData = meetings
-			? meetings.filter((el) => new Date(el.registrationEnd) >= new Date())
-			: [];
-
-		// console.log('meetings-filtered : ', filteredData);
-		// console.log('meetings :', meetings);
-	}, [data]);
 
 	// 📌 로딩 중일 때 처리
 	if (isLoading) {
@@ -60,6 +54,7 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 		return (
 			<p className='text-center text-red-500'>
 				❌ 데이터를 불러오는 중 오류가 발생했습니다.
+				{error.message}
 			</p>
 		);
 	}

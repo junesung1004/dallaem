@@ -1,37 +1,44 @@
-import PageInfo from '@/components/PageInfo/PageInfo';
-import PageNavbar from '@/components/PageNav/PageNavbar';
-import HomeButton from './_components/HomeButton';
-import CardListInfinite from '@/components/MainCard/CardListInfinite';
-import FilterProvider from '@/context/FilterContent';
-import FilterList from '@/components/Filtering/FIlterList';
+import {
+	dehydrate,
+	HydrationBoundary,
+	QueryClient,
+} from '@tanstack/react-query';
+import MainPage from './MainPage';
+import { getMeetingInfiniteData } from '@/api/meeting/getMeetingDate';
 
 export default async function Home() {
+	const queryClient = new QueryClient();
+
+	const filters = {
+		type: 'DALLAEMFIT',
+		location: '',
+		date: '',
+		sortBy: 'dateTime',
+		sortOrder: 'asc',
+	};
+
+	await queryClient.prefetchInfiniteQuery({
+		queryKey: ['home-meetings-cardlist', filters],
+		queryFn: async () => {
+			const data = await getMeetingInfiniteData({
+				limit: 4,
+				sortBy: 'dateTime',
+				sortOrder: 'asc',
+			});
+			return {
+				data: data.data,
+				totalItemCount: data.totalItemCount,
+				currentPage: data.currentPage,
+				totalPages: data.totalPages,
+			};
+		},
+		initialPageParam: 1,
+	});
+	const dehydratedState = dehydrate(queryClient);
+	//console.log('dehydratedState : ', dehydratedState);
 	return (
-		<div className='flex flex-col gap-5'>
-			{/* 함께 할 사람이 없나요? */}
-			<PageInfo pageKey='meetings' />
-
-			<FilterProvider>
-				{/* 필터 드롭다운 메뉴  */}
-				<FilterList
-					// 사용 가능한 필터 선택
-					enabledFilters={['location', 'date', 'sortByMeeting']}
-				/>
-
-				{/* 달램핏 nav 및 filter 및 모임 만들기 */}
-				<div className='flex relative mt-10 mb-5'>
-					<PageNavbar pageKey='meetings' />
-					<div className='absolute right-0'>
-						<HomeButton />
-					</div>
-				</div>
-
-				{/* 보더 콘테이너 */}
-				<div className='border-b-2'></div>
-
-				{/* 모임 목록 */}
-				<CardListInfinite />
-			</FilterProvider>
-		</div>
+		<HydrationBoundary state={dehydratedState}>
+			<MainPage />
+		</HydrationBoundary>
 	);
 }
