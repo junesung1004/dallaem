@@ -4,11 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useFilter } from '../customs/useFilter';
 import { FilterContextType } from '@/types/filterType';
 
-function useFetchReviewScores({ gatheringId }: { gatheringId: string }) {
+function useFetchReviewScores() {
 	const { type } = useFilter() as FilterContextType;
 	const { data, isLoading, error } = useQuery<ReviewScore, Error>({
-		queryKey: ['reviewScores', type, gatheringId],
-		queryFn: () => getReviewScore({ gatheringId, type }),
+		queryKey: ['reviewScores', type],
+		queryFn: () => getReviewScore({ type }),
 		enabled: !!type,
 	});
 
