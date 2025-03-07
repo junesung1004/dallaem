@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Card from './Card';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 import { DateBadge } from '../Badge/DateBadge';
@@ -15,7 +13,6 @@ import { useInView } from 'react-intersection-observer';
 const CardListInfinite = React.memo(function CardListInfinite() {
 	const router = useRouter();
 	const { ref, inView } = useInView();
-	const [isDelayed, setIsDelayed] = useState(false);
 
 	const {
 		data,
@@ -36,12 +33,7 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 	}, [inView, hasNextPage, isFetchingNextPage]);
 
 	useEffect(() => {
-		const filteredData = meetings
-			? meetings.filter((el) => new Date(el.registrationEnd) >= new Date())
-			: [];
-
-		// console.log('meetings-filtered : ', filteredData);
-		// console.log('meetings :', meetings);
+		console.log('data1 : ', data);
 	}, [data]);
 
 	// 📌 로딩 중일 때 처리
