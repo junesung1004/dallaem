@@ -2,11 +2,9 @@ import { BASE_URL, REVIEW_SCORES } from '@/constants';
 import { GetReviewsParams, ReviewScore } from '@/types/reviewType';
 
 export const getReviewScore = async ({
-	gatheringId,
 	type,
 }: GetReviewsParams): Promise<ReviewScore> => {
 	const params = new URLSearchParams();
-	if (gatheringId) params.append('gatheringId', gatheringId);
 	if (type) params.append('type', type);
 
 	const res = await fetch(`${BASE_URL}/reviews/scores?${params.toString()}`, {
