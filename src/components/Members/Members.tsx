@@ -1,3 +1,5 @@
+'use client';
+
 import { motion, animate, useMotionValue, useTransform } from 'motion/react';
 import { useEffect } from 'react';
 
