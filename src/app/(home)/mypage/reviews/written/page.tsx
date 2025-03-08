@@ -1,8 +1,8 @@
-'use client';
-
 import ReviewCard from '@/components/ReviewCard/ReviewCard';
-import { useMyReviews } from '@/hooks/customs/useMyReviews';
-import { IReview } from '@/types/reviewType';
+import { BASE_URL } from '@/constants';
+import { reviewService } from '@/service/reviewService';
+import type { IUser } from '@/types/userType';
+import { cookies } from 'next/headers';
 
 /** 모임 종류별 치환 */
 const typeMap: {
@@ -14,8 +14,24 @@ const typeMap: {
 	WORKATION: '워케이션',
 };
 
-function Page() {
-	const { reviews }: { reviews?: IReview['data'] } = useMyReviews();
+async function Page() {
+	const cookieStore = await cookies();
+	const token = cookieStore.get('token');
+
+	const userInfoRes = await fetch(`${BASE_URL}/auths/user`, {
+		headers: {
+			Authorization: `Bearer ${token?.value}`,
+		},
+	});
+
+	if (!userInfoRes?.ok) return new Error('invalid token');
+	const userInfo: IUser = await userInfoRes.json();
+	const userId = userInfo.id;
+
+	const { data: reviews } = await reviewService.getDetailReviewData({
+		userId,
+	});
+
 	return (
 		<div className='flex min-h-[380px] md:min-h-[688px] lg:min-h-[617px]'>
 			<div>
