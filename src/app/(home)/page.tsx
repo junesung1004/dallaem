@@ -4,15 +4,14 @@ import PageInfo from '@/components/PageInfo/PageInfo';
 import PageNavbar from '@/components/PageNav/PageNavbar';
 import HomeButton from './_components/HomeButton';
 import CardListInfinite from '@/components/MainCard/CardListInfinite';
-import FilterProvider from '@/context/FilterContent';
 import FilterList from '@/components/Filtering/FIlterList';
 import { useFilters } from '@/hooks/customs/useFilters';
 
 export default function Home() {
 	const { currentFilter, handleChangeFilter, handleTypeHandler } = useFilters({
 		type: 'WORKATION',
-		location: '신림',
-		date: '2025-02-27T07:30:06.000',
+		location: '',
+		date: '',
 		sortBy: 'dateTime',
 		sortOrder: 'desc',
 	});
@@ -21,34 +20,32 @@ export default function Home() {
 			{/* 함께 할 사람이 없나요? */}
 			<PageInfo pageKey='meetings' />
 
-			<FilterProvider>
-				{/* 필터 드롭다운 메뉴  */}
-				<FilterList
-					// 사용 가능한 필터 선택
+			{/* 필터 드롭다운 메뉴  */}
+			<FilterList
+				// 사용 가능한 필터 선택
+				filter={currentFilter}
+				enabledFilters={['location', 'date', 'sortByMeeting']}
+				handleFilter={handleChangeFilter}
+			/>
+
+			{/* 달램핏 nav 및 filter 및 모임 만들기 */}
+			<div className='flex relative mt-10 mb-5'>
+				<PageNavbar
+					pageKey='meetings'
+					onMainClick={handleTypeHandler}
+					onSubClick={handleTypeHandler}
 					filter={currentFilter}
-					enabledFilters={['location', 'date', 'sortByMeeting']}
-					handleFilter={handleChangeFilter}
 				/>
-
-				{/* 달램핏 nav 및 filter 및 모임 만들기 */}
-				<div className='flex relative mt-10 mb-5'>
-					<PageNavbar
-						pageKey='meetings'
-						onMainClick={handleTypeHandler}
-						onSubClick={handleTypeHandler}
-						filter={currentFilter}
-					/>
-					<div className='absolute right-0'>
-						<HomeButton />
-					</div>
+				<div className='absolute right-0'>
+					<HomeButton />
 				</div>
+			</div>
 
-				{/* 보더 콘테이너 */}
-				<div className='border-b-2'></div>
+			{/* 보더 콘테이너 */}
+			<div className='border-b-2'></div>
 
-				{/* 모임 목록 */}
-				<CardListInfinite filters={currentFilter} />
-			</FilterProvider>
+			{/* 모임 목록 */}
+			<CardListInfinite filters={currentFilter} />
 		</div>
 	);
 }
