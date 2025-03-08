@@ -7,9 +7,10 @@ export const useHomeMeetingCardList = () => {
 
 	return useInfiniteQuery({
 		queryKey: ['home-meetings-cardlist', filters],
-		queryFn: ({ pageParam }) => getMeetingInfiniteData({ pageParam, filters }),
+		queryFn: ({ pageParam = 1 }) =>
+			getMeetingInfiniteData({ pageParam, filters }),
 		getNextPageParam: (lastPage) =>
 			lastPage ? lastPage.nextOffset : undefined,
-		initialPageParam: 0,
+		initialPageParam: 1,
 	});
 };

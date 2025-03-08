@@ -43,7 +43,7 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 		setActiveMainItem(initialMainId);
 		const newType = initialSubId ? initialSubId : initialMainId;
 		setSelectedType(newType);
-		setType(newType);
+		setType?.(newType);
 	}, [initialMainId, initialSubId]);
 
 	const handleMainClick = (id: string) => {
@@ -52,7 +52,7 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 
 		// 서브 아이템이 없으면 mainItem을 적용
 		setSelectedType(firstSubItem ?? id);
-		setType(firstSubItem ?? id);
+		setType?.(firstSubItem ?? id);
 
 		setActiveMainItem(id);
 		onMainClick?.(id);
@@ -60,7 +60,7 @@ function PageNavbar({ pageKey, onMainClick, onSubClick }: NavBarProps) {
 
 	const handleSubClick = (id: string) => {
 		setSelectedType(id);
-		setType(id);
+		setType?.(id);
 		onSubClick?.(id);
 	};
 

@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Card from './Card';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 import { DateBadge } from '../Badge/DateBadge';
@@ -15,7 +13,6 @@ import { useInView } from 'react-intersection-observer';
 const CardListInfinite = React.memo(function CardListInfinite() {
 	const router = useRouter();
 	const { ref, inView } = useInView();
-	const [isDelayed, setIsDelayed] = useState(false);
 
 	const {
 		data,
@@ -26,7 +23,15 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 		isFetchingNextPage,
 	} = useHomeMeetingCardList();
 
-	const meetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+	const meetings = React.useMemo(() => {
+    const allMeetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+    // ID 기반 중복 제거
+    const uniqueMeetings = allMeetings.filter(
+      (meeting, index, self) =>
+        index === self.findIndex((m) => m.id === meeting.id)
+    );
+    return uniqueMeetings;
+  }, [data?.pages]);
 
 	// 요청 지연 로직 추가
 	useEffect(() => {
@@ -34,15 +39,6 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 			fetchNextPage();
 		}
 	}, [inView, hasNextPage, isFetchingNextPage]);
-
-	useEffect(() => {
-		const filteredData = meetings
-			? meetings.filter((el) => new Date(el.registrationEnd) >= new Date())
-			: [];
-
-		// console.log('meetings-filtered : ', filteredData);
-		// console.log('meetings :', meetings);
-	}, [data]);
 
 	// 📌 로딩 중일 때 처리
 	if (isLoading) {
