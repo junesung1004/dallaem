@@ -5,14 +5,13 @@ import PageNavbar from '@/components/PageNav/PageNavbar';
 import PageInfo from '@/components/PageInfo/PageInfo';
 import ReviewCardList from './_components/ReviewCardList';
 import ReviewSummary from './_components/ReviewSummary';
-import FilterProvider from '@/context/FilterContent';
 import { useFilters } from '@/hooks/customs/useFilters';
 
 export default function ReviewsPage() {
 	const { currentFilter, handleChangeFilter, handleTypeHandler } = useFilters({
-		type: 'WORKATION',
+		type: 'DALLAEMFIT',
 		location: '',
-		date: '2025-02-27T07:30:06.000',
+		date: '',
 		sortBy: 'createdAt',
 		sortOrder: 'desc',
 	});
@@ -24,6 +23,7 @@ export default function ReviewsPage() {
 					pageKey='meetings'
 					onMainClick={handleTypeHandler}
 					onSubClick={handleTypeHandler}
+					filter={currentFilter}
 				/>
 			</div>
 			<div className='flex flex-col gap-4 pt-5 pb-2 sticky top-0 z-10 bg-gray-50'>
