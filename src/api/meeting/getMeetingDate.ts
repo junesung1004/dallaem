@@ -1,24 +1,21 @@
-import { FilterContextType } from '@/types/filterType';
+import { FilterType } from '@/types/filterType';
 
 export const getMeetingInfiniteData = async ({
 	pageParam = 3,
 	filters,
 }: {
 	pageParam: number;
-	filters: Pick<
-		FilterContextType,
-		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
-	> | null;
+	filters: FilterType;
 }) => {
 	const limit = 3;
 	const offset = pageParam;
 
 	const params = new URLSearchParams();
-	if (filters.type) params.append('type', filters.type);
-	if (filters.location) params.append('location', filters.location);
-	if (filters.date) params.append('date', filters.date);
-	if (filters.sortBy) params.append('sortBy', filters.sortBy);
-	if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
+	if (filters?.type) params.append('type', filters.type);
+	if (filters?.location) params.append('location', filters.location);
+	if (filters?.date) params.append('date', filters.date);
+	if (filters?.sortBy) params.append('sortBy', filters.sortBy);
+	if (filters?.sortOrder) params.append('sortOrder', filters.sortOrder);
 
 	try {
 		const res = await fetch(

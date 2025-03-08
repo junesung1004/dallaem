@@ -1,16 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { FilterContextType } from '@/types/filterType';
+import type { FilterType, OnFilterType } from '@/types/filterType';
 export const useFilters = (
-	initialFilter: Pick<
-		FilterContextType,
-		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
-	> | null,
-	onFilter?: <T = void>(
-		filter: Pick<
-			FilterContextType,
-			'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
-		> | null,
-	) => T,
+	initialFilter: FilterType,
+	onFilter?: OnFilterType,
 ) => {
 	// 필터는 상태 값으로 관리한다
 	const [type, setType] = useState(initialFilter?.type ?? '');
@@ -41,7 +33,7 @@ export const useFilters = (
 				setSortBy(value);
 				break;
 			case 'sortOrder':
-				setSortOrder(value);
+				setSortOrder(value as 'asc' | 'desc');
 				break;
 			default:
 				console.warn(`Unknown filter name: ${name}`);

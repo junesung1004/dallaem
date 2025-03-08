@@ -1,15 +1,10 @@
 import { getMeetingInfiniteData } from '@/api/meeting/getMeetingDate';
 import { useInfiniteQuery } from '@tanstack/react-query';
 // import { useFilter } from '../customs/useFilter';
-import { FilterContextType } from '@/types/filterType';
+import { FilterType } from '@/types/filterType';
 
 // export const useHomeMeetingCardList = () => {
-export const useHomeMeetingCardList = (
-	curFilters: Pick<
-		FilterContextType,
-		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
-	> | null,
-) => {
+export const useHomeMeetingCardList = (curFilters: FilterType) => {
 	// const filters = useFilter();
 
 	return useInfiniteQuery({

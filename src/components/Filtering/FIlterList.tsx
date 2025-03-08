@@ -3,16 +3,12 @@
 import { useState, useEffect } from 'react';
 import { FITERING_DATA } from '@/constants';
 import CalenderFilter from '../Calendar/CalendarFilter';
-import { useFilter } from '@/hooks/customs/useFilter';
 import FilterDropdown from './FilterDropdown';
-import type { FilterContextType } from '@/types/filterType';
+import type { FilterType } from '@/types/filterType';
 
 interface FilterListProps {
-	handleFilter: (name: string, value: unknown) => void;
-	filter: Pick<
-		FilterContextType,
-		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
-	>;
+	handleFilter: (name: string, value: string) => void;
+	filter: FilterType;
 	enabledFilters?: ('location' | 'date' | 'sortByMeeting' | 'sortByReview')[];
 }
 

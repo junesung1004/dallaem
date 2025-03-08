@@ -11,15 +11,12 @@ import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { useHomeMeetingCardList } from '@/hooks/query/useHomeMeetingCardList';
 import { useInView } from 'react-intersection-observer';
-import { FilterContextType } from '@/types/filterType';
+import { FilterType } from '@/types/filterType';
 
 const CardListInfinite = React.memo(function CardListInfinite({
 	filters,
 }: {
-	filters: Pick<
-		FilterContextType,
-		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
-	> | null;
+	filters: FilterType;
 }) {
 	const router = useRouter();
 	const { ref, inView } = useInView();

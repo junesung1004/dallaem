@@ -1,14 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { reviewService } from '@/service/reviewService';
-import { useFilter } from '../customs/useFilter';
-import { FilterContextType } from '@/types/filterType';
+import { FilterType } from '@/types/filterType';
 
-function useFetchReviewsData(
-	filters: Pick<
-		FilterContextType,
-		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
-	> | null,
-) {
+function useFetchReviewsData(filters: FilterType) {
 	// const filters = useFilter();
 
 	return useInfiniteQuery({
