@@ -5,17 +5,13 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_DATA } from '../../constants/index';
 import PageNavButton from './PageNavButton';
-import { useFilter } from '@/hooks/customs/useFilter';
-import type { FilterContextType } from '@/types/filterType';
+import type { FilterType } from '@/types/filterType';
 
 interface NavBarProps {
 	pageKey: string;
 	onMainClick?: (id: string) => void;
 	onSubClick?: (id: string | undefined) => void;
-	filter?: Pick<
-		FilterContextType,
-		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
-	>;
+	filter?: FilterType;
 }
 
 function PageNavbar({ pageKey, onMainClick, onSubClick, filter }: NavBarProps) {
@@ -50,12 +46,21 @@ function PageNavbar({ pageKey, onMainClick, onSubClick, filter }: NavBarProps) {
 
 	// 초기 상태 설정
 	useEffect(() => {
-		setActiveMainItem(initialMainId);
-		console.log('초기 아이템 :', initialMainId);
-		const newType = initialSubId ? initialSubId : initialMainId;
-		setSelectedType(newType);
-		// setType(newType);
+		if (!activeMainItem) {
+			setActiveMainItem(initialMainId);
+		}
+		if (!selectedType) {
+			setSelectedType(initialSubId ? initialSubId : initialMainId);
+		}
 	}, [initialMainId, initialSubId]);
+
+	// useEffect(() => {
+	// 	setActiveMainItem(initialMainId);
+	// 	console.log('초기 아이템 :', initialMainId);
+	// 	const newType = initialSubId ? initialSubId : initialMainId;
+	// 	setSelectedType(newType);
+	// 	// setType(newType);
+	// }, [initialMainId, initialSubId]);
 
 	const handleMainClick = (id: string) => {
 		const selectedMainItem = pageNavData.find((item) => item.id === id);
@@ -71,6 +76,7 @@ function PageNavbar({ pageKey, onMainClick, onSubClick, filter }: NavBarProps) {
 
 	const handleSubClick = (id: string) => {
 		setSelectedType(id);
+		setActiveMainItem(activeMainItem);
 		// setType(id);
 		onSubClick?.(id);
 	};
