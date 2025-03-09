@@ -33,11 +33,10 @@ const ProfileTooltip = () => {
 
 	if (!data) return null; // 여기에서 return null을 해야 함
 
-	const image = data.image;
+	const image = data.image ?? '/icons/profileDefault.svg';
 
 	const toggleTooltip = () => setVisible((prev) => !prev);
 
-	const src = image ?? '/icons/profileDefault.svg';
 	console.log('Profile Image: ', image);
 	return (
 		<div
