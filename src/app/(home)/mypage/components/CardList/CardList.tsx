@@ -1,9 +1,14 @@
 'use client';
 
-import { useMyMeetings } from '@/hooks/customs/useMyMeetings';
 import CardBase from './CardBase';
 import Link from 'next/link';
-
+import { MyMeeting } from '@/types/meetingsType';
+import {
+	useQuery,
+	useSuspenseQuery,
+	UseSuspenseQueryOptions,
+} from '@tanstack/react-query';
+import { myMeetingService } from './Services/myMeetingService';
 interface CardListProps {
 	cardType: 'joined' | 'hosted';
 	pageKey: 'joined' | 'review' | 'hosted';
@@ -16,9 +21,36 @@ const noDataMsg = {
 	hosted: '아직 만든 모임이 없어요',
 };
 
-function CardList({ cardType, pageKey }: CardListProps) {
-	const { meetings, onCancelClick } = useMyMeetings(pageKey);
+function CardList({ cardType, pageKey, initialData }: CardListProps) {
+	// const { meetings, onCancelClick } = useMyMeetings(pageKey, initialData);
+	let authToken = null;
+	if (typeof window !== 'undefined') {
+		// 브라우저 환경에서만 실행
+		authToken = localStorage.getItem('authToken') ?? ''; // 값이 없으면 빈 문자열로 보내기
+	}
 
+	const queryFunction = () => {
+		return myMeetingService.getMyMeetings({
+			headers: {
+				Authorization: `Bearer ${authToken}`,
+			},
+		});
+	};
+
+	const queryOptions: UseSuspenseQueryOptions<MyMeeting[] | null> = {
+		queryKey: ['mypage', pageKey, !!authToken],
+		queryFn:
+			['joined', 'review'].includes(pageKey) && authToken
+				? queryFunction
+				: () => {
+						return null;
+					},
+		initialData,
+	};
+
+	// 클라이언트 fetch
+	const { data } = useSuspenseQuery<MyMeeting[] | null>(queryOptions);
+	// const data = initialData;
 	/** 데이터 없을 경우 처리 */
 	if (!meetings?.length) {
 		return (
