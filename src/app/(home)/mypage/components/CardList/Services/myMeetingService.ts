@@ -124,14 +124,20 @@ export const myMeetingService = {
 	async getMyCompletedMeetings(
 		options: meetingOptions,
 	): Promise<MyMeeting[] | null> {
-		// 모임 날짜가 남은 순으로 정렬하기 위함
 		const params = {
-			// sortBy: 'joinedAt',
-			completed: 'true',
-			reviewed: 'false',
+			completed: 'true' as const,
+			reviewed: 'false' as const,
 		};
-		const meetingsData = api(params, options);
-		return meetingsData.json();
+
+		try {
+			const meetings = api(params, options);
+			// meetings 가 없다면
+			if (!meetings) return null;
+			return meetings;
+		} catch (e) {
+			// 호출 컴포넌트에 에러처리 위임
+			throw new Error(e);
+		}
 	},
 
 	// 내가 만든 모임
