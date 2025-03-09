@@ -4,7 +4,9 @@ import {
 } from '@/api/meeting/myMeeting';
 import { getUserInfo } from '@/api/users';
 import { BASE_URL } from '@/constants';
+import { reviewService } from '@/service/reviewService';
 import { MyMeeting } from '@/types/meetingsType';
+import { IReview, IReviewData } from '@/types/reviewType';
 interface meetingOptions {
 	headers: {
 		Authorization: string;
@@ -164,6 +166,31 @@ export const myMeetingService = {
 			// meetings 가 없다면
 			if (!meetings) return null;
 			return meetings;
+		} catch (e) {
+			// 호출 컴포넌트에 에러처리 위임
+			throw new Error(e);
+		}
+	},
+
+	// 내가 작성한 리뷰
+	async getMyReviews(options: meetingOptions): Promise<IReviewData[] | null> {
+		// userId 얻어오기
+		const userInfo = await getUserInfo(options);
+		const userId = userInfo?.id;
+
+		if (!userId) return null;
+
+		const params = {
+			userId,
+		};
+
+		try {
+			const { data } = await reviewService.getDetailReviewData(params);
+			const reviews = data;
+
+			// reviews 가 없다면
+			if (!reviews) return null;
+			return reviews;
 		} catch (e) {
 			// 호출 컴포넌트에 에러처리 위임
 			throw new Error(e);

@@ -45,6 +45,16 @@ export interface Datum {
 	User: User;
 }
 
+// Review interface
+export interface IReviewData extends Omit<Datum, 'teamId'> {
+	id: number;
+	score: number;
+	comment: string;
+	createdAt: string;
+	Gathering: Gathering;
+	User: User;
+}
+
 interface User {
 	teamId: number;
 	id: number;
