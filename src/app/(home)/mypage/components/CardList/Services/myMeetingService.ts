@@ -1,4 +1,8 @@
-import { fetchMyMeetings as api } from '@/api/meeting/myMeeting';
+import {
+	fetchMyMeetings as api,
+	fetchMyHostedMeetings as aapi,
+} from '@/api/meeting/myMeeting';
+import { getUserInfo } from '@/api/users';
 import { BASE_URL } from '@/constants';
 import { MyMeeting } from '@/types/meetingsType';
 interface meetingOptions {
@@ -145,7 +149,7 @@ export const myMeetingService = {
 		options: meetingOptions,
 	): Promise<MyMeeting[] | null> {
 		// userId 얻어오기
-		const userInfo = await getUser(option);
+		const userInfo = await getUserInfo(options);
 		const userId = userInfo?.id;
 
 		if (!userId) return null;
@@ -154,7 +158,15 @@ export const myMeetingService = {
 			createdBy: userId,
 		};
 
-		const meetingsData = api(params, options);
-		return meetingsData.json();
+		try {
+			const meetings = aapi(params, options);
+
+			// meetings 가 없다면
+			if (!meetings) return null;
+			return meetings;
+		} catch (e) {
+			// 호출 컴포넌트에 에러처리 위임
+			throw new Error(e);
+		}
 	},
 };

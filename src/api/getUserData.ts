@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/constants';
 import { isTokenExpired } from '@/hooks/customs/useAuth';
 import type { IUser } from '@/types/userType';
 
