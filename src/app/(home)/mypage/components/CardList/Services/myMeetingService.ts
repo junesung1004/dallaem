@@ -97,24 +97,27 @@ export const myMeetingService = {
 			sortBy: 'joinedAt' as const,
 		};
 
-		const meetingsData = await api(params, options);
-		const meetings = await meetingsData.json();
+		try {
+			const meetings = await api(params, options);
 
-		// meetings 가 없다면
-		if (!meetings) return null;
+			// meetings 가 없다면
+			if (!meetings) return null;
 
-		// 취소되지 않은 모임만 보이기
-		const unCancelMeetings = meetings.filter((item) => !item.canceledAt);
+			// 취소되지 않은 모임만 보이기
+			const unCancelMeetings = meetings.filter((item) => !item.canceledAt);
 
-		/** 참여하지 않은 항목이 상단으로 */
-		const sortedMeetings = unCancelMeetings?.sort((a, b) => {
-			if (a.isCompleted !== b.isCompleted) {
-				return a.isCompleted ? 1 : -1;
-			}
-			return 0;
-		});
-
-		return sortedMeetings || null;
+			/** 참여하지 않은 항목이 상단으로 */
+			const sortedMeetings = unCancelMeetings?.sort((a, b) => {
+				if (a.isCompleted !== b.isCompleted) {
+					return a.isCompleted ? 1 : -1;
+				}
+				return 0;
+			});
+			return sortedMeetings || null;
+		} catch (e) {
+			// 호출 컴포넌트에 에러처리 위임
+			throw new Error(e);
+		}
 	},
 
 	// 작성 가능한 리뷰
