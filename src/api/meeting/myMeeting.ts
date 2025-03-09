@@ -1,4 +1,5 @@
 import { BASE_URL } from '@/constants';
+import { MyMeeting } from '@/types/meetingsType';
 
 interface FetchOptions {
 	headers: {
@@ -23,7 +24,7 @@ function toQueryParams(params: ParamsOptions): string {
 export const fetchMyMeetings = async (
 	params: ParamsOptions,
 	options: FetchOptions,
-) => {
+): Promise<MyMeeting[]> => {
 	const url = `${BASE_URL}/gatherings/joined`;
 	const meetingParams = toQueryParams(params);
 	const res = await fetch(
@@ -36,7 +37,7 @@ export const fetchMyMeetings = async (
 		 * 향후 에러 공통화 되면 수정할 부분
 		 */
 		const error = await res.json();
-		console.error(error.meesage);
+		console.error(error.message);
 		throw new Error(error?.code);
 	}
 	return res.json();

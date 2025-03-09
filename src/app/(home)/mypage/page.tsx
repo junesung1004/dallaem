@@ -1,22 +1,35 @@
-import { BASE_URL } from '@/constants';
-import CardList from './components/CardList/CardList';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { MyMeeting } from '@/types/meetingsType';
+import { myMeetingService } from './components/CardList/Services/myMeetingService';
+import CardList from './components/CardList/CardList';
 
 async function MyPage() {
 	const cookieStore = await cookies();
 	const token = cookieStore.get('token');
+	if (!token) redirect('/login');
 
-	const res = await fetch(`${BASE_URL}/gatherings/joined/?sortBy=joinedAt`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token?.value}`,
-		},
-		cache: 'no-store',
-	});
+	let initialMyMeetings: MyMeeting[] = [];
 
-	const initialMyMeetings: MyMeeting[] = await res?.json();
+	try {
+		const meetings = await myMeetingService.getMyMeetings({
+			headers: {
+				Authorization: `Bearer ${token?.value}`,
+			},
+		});
+
+		initialMyMeetings = meetings ?? [];
+	} catch (e) {
+		const status = e;
+
+		switch (status) {
+			case 'INVALID_TOKEN':
+			case 'UNAUTHORIZED':
+				return redirect('/login');
+			default:
+				return redirect('/login');
+		}
+	}
 
 	return (
 		<div className='flex min-h-[436px] md:min-h-[744px] lg:min-h-[832px]'>
