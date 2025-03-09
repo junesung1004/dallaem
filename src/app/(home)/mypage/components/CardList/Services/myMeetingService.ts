@@ -1,3 +1,4 @@
+import { fetchMyMeetings as api } from '@/api/meeting/myMeeting';
 import { BASE_URL } from '@/constants';
 import { MyMeeting } from '@/types/meetingsType';
 interface meetingOptions {
@@ -93,7 +94,7 @@ export const myMeetingService = {
 	async getMyMeetings(options: meetingOptions): Promise<MyMeeting[] | null> {
 		// 모임 날짜가 남은 순으로 정렬하기 위함
 		const params = {
-			sortBy: 'joinedAt',
+			sortBy: 'joinedAt' as const,
 		};
 
 		const meetingsData = await api(params, options);
@@ -135,7 +136,7 @@ export const myMeetingService = {
 		options: meetingOptions,
 	): Promise<MyMeeting[] | null> {
 		// userId 얻어오기
-		const userInfo = await getUserApi(option);
+		const userInfo = await getUser(option);
 		const userId = userInfo?.id;
 
 		if (!userId) return null;
