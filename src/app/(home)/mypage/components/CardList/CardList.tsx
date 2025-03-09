@@ -30,8 +30,22 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 		authToken = localStorage.getItem('authToken') ?? ''; // 값이 없으면 빈 문자열로 보내기
 	}
 
+	// page 별 queryFuncSetter
+	const returnQueryFunc = (pageKey: 'joined' | 'review' | 'hosted') => {
+		const funcMap = {
+			joined: myMeetingService.getMyMeetings,
+			review: myMeetingService.getMyCompletedMeetings,
+			hosted: myMeetingService.getMyHostedMeetings,
+		};
+
+		return funcMap[pageKey] || null;
+	};
+
 	const queryFunction = () => {
-		return myMeetingService.getMyMeetings({
+		const queryFunc = returnQueryFunc(pageKey);
+		if (!queryFunc) return null;
+
+		return queryFunc({
 			headers: {
 				Authorization: `Bearer ${authToken}`,
 			},
