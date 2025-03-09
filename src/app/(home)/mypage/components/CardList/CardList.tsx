@@ -53,12 +53,7 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 
 	const queryOptions: UseSuspenseQueryOptions<MyMeeting[] | null> = {
 		queryKey: ['mypage', pageKey, !!authToken],
-		queryFn:
-			['joined', 'review'].includes(pageKey) && authToken
-				? queryFunction
-				: () => {
-						return null;
-					},
+		queryFn: queryFunction,
 		initialData,
 	};
 
