@@ -1,29 +1,35 @@
 import { cookies } from 'next/headers';
 import CardList from '../components/CardList/CardList';
-import { BASE_URL } from '@/constants';
 import type { MyMeeting } from '@/types/meetingsType';
-import { IUser } from '@/types/userType';
+import { redirect } from 'next/navigation';
+import { myMeetingService } from '../components/CardList/Services/myMeetingService';
 
 async function Page() {
 	const cookieStore = await cookies();
 	const token = cookieStore.get('token');
+	if (!token) redirect('/login');
 
-	const userInfoRes = await fetch(`${BASE_URL}/auths/user`, {
-		headers: {
-			Authorization: `Bearer ${token?.value}`,
-		},
-	});
+	let initialMyMeetings: MyMeeting[] = [];
 
-	if (!userInfoRes?.ok) return new Error('invalid token');
-	const userInfo: IUser = await userInfoRes.json();
-	const userId = userInfo.id;
+	try {
+		const meetings = await myMeetingService.getMyHostedMeetings({
+			headers: {
+				Authorization: `Bearer ${token?.value}`,
+			},
+		});
 
-	const res = await fetch(`${BASE_URL}/gatherings/?createdBy=${userId}`, {
-		method: 'GET',
-		cache: 'no-store',
-	});
+		initialMyMeetings = meetings ?? [];
+	} catch (e) {
+		const status = e;
 
-	const initialMyMeetings: MyMeeting[] = await res?.json();
+		switch (status) {
+			case 'INVALID_TOKEN':
+			case 'UNAUTHORIZED':
+				return redirect('/login');
+			default:
+				return redirect('/login');
+		}
+	}
 
 	return (
 		<div className='flex min-h-[436px] md:min-h-[744px] lg:min-h-[673px]'>
