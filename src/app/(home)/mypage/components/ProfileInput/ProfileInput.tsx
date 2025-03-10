@@ -58,7 +58,7 @@ function ProfileInput({
 			<label htmlFor='profile-file' className='cursor-pointer inline-block'>
 				{!preview && <ProfileIcon.EditProfile />}
 				{!!preview && (
-					<div className='relative rounded-full max-w-[56px] min-w-[56px] min-h-[56px] overflow-hidden'>
+					<div className='relative rounded-full max-w-[56px] min-w-[56px] min-h-[56px] overflow-hidden bg-[url(/icons/profileDefault.svg)] bg-cover bg-center'>
 						<Image
 							src={preview as string}
 							alt='프로필 사진'
