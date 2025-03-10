@@ -6,17 +6,14 @@ export const createMeeting = async (form: FormData) => {
 		throw new Error('인증 토큰이 없습니다.');
 	}
 
-	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings`,
-		{
-			method: 'POST',
-			headers: {
-				// 'Content-Type': 'application/json',
-				Authorization: `Beare ${token}`,
-			},
-			body: form,
+	const response = await fetch(`${process.env.BASE_URL}/gatherings`, {
+		method: 'POST',
+		headers: {
+			// 'Content-Type': 'application/json',
+			Authorization: `Beare ${token}`,
 		},
-	);
+		body: form,
+	});
 
 	if (!response.ok) {
 		console.error('서버 응답 상태 코드:', response.status);
@@ -38,16 +35,13 @@ export const joinMeeting = async (id: number) => {
 	}
 
 	try {
-		const res = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${id}/join`,
-			{
-				method: 'POST',
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
+		const res = await fetch(`${process.env.BASE_URL}/gatherings/${id}/join`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
 			},
-		);
+		});
 
 		if (!res.ok) {
 			throw new Error(`서버 오류 ${res.status} ${res.statusText}`);
