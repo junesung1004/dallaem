@@ -18,9 +18,9 @@ export const getMeetingInfiniteData = async ({
 	if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
 
 	try {
-		const url = `${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`;
-
-		const res = await fetch(url);
+		const res = await fetch(
+			`${process.env.BASE_URL}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`,
+		);
 		if (!res.ok) {
 			const errorMessage = await res.text(); // 텍스트로 에러 메시지 확인
 			console.error(`Error status: ${res.status} ${res.statusText}`);
@@ -45,7 +45,7 @@ export const getFavoriteMeetingData = async (filters: { id: string }) => {
 	const queryParams = new URLSearchParams(filters);
 	try {
 		const res = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?${queryParams.toString()}`,
+			`${process.env.BASE_URL}/gatherings?${queryParams.toString()}`,
 		);
 
 		if (!res.ok) {
