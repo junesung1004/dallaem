@@ -1,4 +1,5 @@
 import { ReviewQueryType } from '@/types/reviewType';
+import { BASE_URL } from '@/constants';
 
 export const reviewService = {
 	async getDetailReviewData(option: ReviewQueryType) {
@@ -18,7 +19,8 @@ export const reviewService = {
 			const offset = (currentPage - 1) * limit;
 
 			const res = await fetch(
-				`${process.env.BASE_URL}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
+				// `${process.env.NEXT_PUBLIC_BASE_URL}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
+				`${BASE_URL}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
 			);
 
 			if (!res.ok) {

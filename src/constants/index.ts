@@ -5,8 +5,10 @@ import {
 } from '@/types/pageComponentType';
 
 /** API URL */
-// export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-export const BASE_URL = process.env.BASE_URL;
+export const BASE_URL =
+	typeof window !== 'undefined'
+		? process.env.NEXT_PUBLIC_BASE_URL // 클라이언트에서 사용
+		: process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL; // 서버에서 사용
 
 export const PAGE_INFO: Record<string, PageInfoData> = {
 	meetings: {
