@@ -18,7 +18,7 @@ export const getMeetingInfiniteData = async ({
 	if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
 
 	try {
-		const url = `${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`;
+		const url = `https://fe-adv-project-together-dallaem.vercel.app/7-1/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`;
 
 		const res = await fetch(url);
 		if (!res.ok) {
