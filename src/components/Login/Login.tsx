@@ -26,7 +26,16 @@ const Login = () => {
 	const router = useRouter();
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
-	const { setUserId, setToken, setIsLoggedIn } = useAuthStore();
+	const {
+		setUserId,
+		setImage,
+		setCompanyName,
+		setEmail,
+		setName,
+		setToken,
+		setIsLoggedIn,
+	} = useAuthStore();
+
 	//상태관리 변수
 	const [formData, setFormData] = useState<Record<FieldType, string>>({
 		id: '',
@@ -72,6 +81,10 @@ const Login = () => {
 			setToken(localStorage.getItem('authToken'));
 			const user = await getUserData();
 			setUserId(user.id);
+			setImage(user.image);
+			setCompanyName(user.companyName);
+			setName(user.name);
+			setEmail(user.email);
 
 			// 에러 초기화 후 이전 페이지로 이동
 			setErrors({

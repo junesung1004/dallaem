@@ -18,7 +18,7 @@ export default function ReviewsPage() {
 				<ReviewSummary />
 				<FilterList enabledFilters={['location', 'date', 'sortByReview']} />
 			</div>
-			<div className='flex flex-col gap-4 p-4'>
+			<div>
 				<ReviewCardList />
 			</div>
 		</FilterProvider>
