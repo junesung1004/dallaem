@@ -81,7 +81,8 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 					<CardBase data={meeting}>
 						{cardType === 'joined' ? (
 							<CardBase.JoinedMeetingCard
-								onCancelClick={(e, id) => onCancelClick!(e, id)} // 전달 시, e와 id를 넘겨줌
+								// onCancelClick={(e, id) => onCancelClick!(e, id)} // 전달 시, e와 id를 넘겨줌
+								onCancelClick={() => {}} // 전달 시, e와 id를 넘겨줌
 							/>
 						) : (
 							<CardBase.HostedMeetingCard />
