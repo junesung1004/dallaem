@@ -6,7 +6,7 @@ export const joinGroup = async (id: number) => {
 	}
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${id}/join`,
+			`${process.env.BASE_URL}/gatherings/${id}/join`,
 			{
 				method: 'POST',
 				headers: {
