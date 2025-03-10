@@ -18,7 +18,7 @@ export const reviewService = {
 			const offset = (currentPage - 1) * limit;
 
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
+				`https://fe-adv-project-together-dallaem.vercel.app/7/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
 			);
 
 			if (!res.ok) {
