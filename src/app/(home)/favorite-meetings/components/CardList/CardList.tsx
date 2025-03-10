@@ -31,6 +31,7 @@ function CardList() {
 		<div className='flex flex-col items-center gap-6 min-h-[534px] md:min-h-[821px] lg:min-h-[771px]'>
 			{meetings?.map((el) => (
 				<Card
+					onClick={() => router.push(`meeting/${el.id}`)}
 					id={el.id}
 					key={el.id ?? 0}
 					registrationEnd={new Date(el.registrationEnd) < new Date()}
