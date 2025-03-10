@@ -7,7 +7,7 @@ function useFetchReviewsData() {
 
 	return useInfiniteQuery({
 		queryKey: ['reviews', filters],
-		queryFn: async ({ pageParam = 1 }) => {
+		queryFn: ({ pageParam = 1 }) => {
 			const params = new URLSearchParams();
 			if (filters.type) params.append('type', filters.type);
 			if (filters.location) params.append('location', filters.location);
@@ -15,27 +15,15 @@ function useFetchReviewsData() {
 			if (filters.sortBy) params.append('sortBy', filters.sortBy);
 			if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
 
-			const response = await reviewService.getDetailReviewData({
+			return reviewService.getDetailReviewData({
+				limit: 4,
 				currentPage: pageParam,
-				limit: 5,
 				...Object.fromEntries(params),
 			});
-
-			if (!response || !response.data) {
-				throw new Error('API에서 데이터를 가져오지 못했습니다.');
-			}
-
-			return {
-				data: response.data,
-				totalItemCount: response.totalItemCount,
-				currentPage: response.currentPage,
-				totalPages: response.totalPages,
-			};
 		},
 		initialPageParam: 1,
 		getNextPageParam: (lastPage, allPages) => {
 			const nextPage = lastPage.currentPage + 1;
-
 			return nextPage <= lastPage.totalPages &&
 				!allPages.some((p) => p.currentPage === nextPage)
 				? nextPage

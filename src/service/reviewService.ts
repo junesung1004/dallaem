@@ -11,6 +11,7 @@ export const reviewService = {
 		});
 
 		const paramsValue = params.toString();
+		console.log(process.env.BASE_URL);
 
 		try {
 			const currentPage = option.currentPage || 1;
@@ -18,7 +19,7 @@ export const reviewService = {
 			const offset = (currentPage - 1) * limit;
 
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
+				`${process.env.BASE_URL}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
 			);
 
 			if (!res.ok) {
