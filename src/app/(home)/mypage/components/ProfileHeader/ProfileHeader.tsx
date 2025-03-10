@@ -1,49 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import Image from 'next/image';
-import type { IUser } from '@/types/userType';
-import { getUserData } from '@/api/getUserData';
-import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
-import { useAuthStore } from '@/store/useAuthStore';
+import ProfileIcon from '../ProfileIcon/ProfileIcon';
+import { useProfile } from '@/store/useAuthStore';
+
 
 function ProfileHeader({ initialPropfile }: { initialPropfile: IUser }) {
 	const [data, setData] = useState<IUser>(initialPropfile);
+function ProfileHeader() {
+	const { name, email, companyName, image } = useProfile();
 
-	/** 임시 */
-	const pathname = usePathname();
-	const userSetter = useAuthStore();
-
-	const setters: { [key: string]: (value: any) => void } = {
-		setImage: userSetter.setImage,
-	};
-
-	const getData = async () => {
-		const userData = await getUserData();
-		setData(userData);
-
-		/** 임시 */
-		/** 전역에도 반영 */
-		// 데이터 순회하면서 각 setter 함수 호출
-		Object.keys(setters).forEach((key) => {
-			const setterFunction = setters[key];
-			const field = key.replace('set', '').toLowerCase(); // 예: setUserId -> userId
-			setterFunction(userData[field as keyof typeof userData]); // 동적으로 setter 함수 호출
-		});
-	};
-
-	/** 임시 */
-	useEffect(() => {
-		if (pathname === '/mypage') {
-			getData();
-		}
-	}, [pathname]);
-
-	const { name, email, companyName, image } = data ?? {};
-
-	/** zustand/reactQuery 로 변경할 예정 */
 	return (
 		<section className='border border-2 border-gray-200 rounded-3xl overflow-hidden'>
 			<div className='bg-primary-400 flex items-center justify-between pl-6 pr-4 py-4'>
@@ -63,7 +30,7 @@ function ProfileHeader({ initialPropfile }: { initialPropfile: IUser }) {
 					<ProfileIcon.Avatar size='small' className='relative bottom-5' />
 				)}
 				{!!image && (
-					<div className='relative bottom-5 border border-2 border-white max-h-[56px] basis-[56px] rounded-full overflow-hidden'>
+					<div className='relative bottom-5 border border-2 border-white max-h-[56px] basis-[56px] rounded-full overflow-hidden bg-[url(/icons/profileDefault.svg)] bg-cover bg-center'>
 						<Image src={image} alt='' fill className='object-cover' />
 					</div>
 				)}
