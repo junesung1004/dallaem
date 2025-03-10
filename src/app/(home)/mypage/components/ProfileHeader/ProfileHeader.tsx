@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import Image from 'next/image';
+import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import { useProfile } from '@/store/useAuthStore';
 
 function ProfileHeader() {
