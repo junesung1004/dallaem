@@ -30,6 +30,7 @@ export const reviewService = {
 				data: data.data,
 				totalItemCount: data.totalItemCount,
 				totalPages: data.totalPages,
+				currentPage: data.currentPage,
 			};
 		} catch (error) {
 			console.log(`상세 페이지 리뷰 데이터 가져오기 실패:`, error);
