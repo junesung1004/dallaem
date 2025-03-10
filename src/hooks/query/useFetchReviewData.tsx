@@ -1,8 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { reviewService } from '@/service/reviewService';
 import { useFilter } from '../customs/useFilter';
+import { IReviewInfiniteData } from '@/types/reviewType';
 
-function useFetchReviewsData() {
+function useFetchReviewsData(initialReviews: IReviewInfiniteData) {
 	const filters = useFilter();
 
 	return useInfiniteQuery({
@@ -17,7 +18,7 @@ function useFetchReviewsData() {
 
 			return reviewService.getDetailReviewData({
 				limit: 4,
-				currentPage: pageParam,
+				currentPage: pageParam as number,
 				...Object.fromEntries(params),
 			});
 		},
@@ -29,7 +30,8 @@ function useFetchReviewsData() {
 				? nextPage
 				: undefined;
 		},
-		enabled: !!filters,
+		enabled: !!true,
+		initialData: initialReviews,
 	});
 }
 

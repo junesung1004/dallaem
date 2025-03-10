@@ -1,3 +1,5 @@
+import { InfiniteData } from '@tanstack/react-query';
+
 export interface ReviewScore {
 	gatheringId?: number;
 	teamId?: string;
@@ -61,3 +63,5 @@ interface Gathering {
 	location: string;
 	image: string;
 }
+
+export type IReviewInfiniteData = InfiniteData<IReview, unknown> | undefined;

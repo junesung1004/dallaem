@@ -6,8 +6,13 @@ import PageInfo from '@/components/PageInfo/PageInfo';
 import ReviewCardList from './_components/ReviewCardList';
 import ReviewSummary from './_components/ReviewSummary';
 import FilterProvider from '@/context/FilterContent';
+import { IReviewInfiniteData } from '@/types/reviewType';
 
-export default function ReviewsPage() {
+export default function ReviewsPage({
+	initialReviews,
+}: {
+	initialReviews: IReviewInfiniteData;
+}) {
 	return (
 		<FilterProvider defaultSortBy='createdAt'>
 			<div className='flex flex-col gap-3 pb-4 border-b-2 border-gray-200 '>
@@ -19,7 +24,7 @@ export default function ReviewsPage() {
 				<FilterList enabledFilters={['location', 'date', 'sortByReview']} />
 			</div>
 			<div>
-				<ReviewCardList />
+				<ReviewCardList initialReviews={initialReviews} />
 			</div>
 		</FilterProvider>
 	);
