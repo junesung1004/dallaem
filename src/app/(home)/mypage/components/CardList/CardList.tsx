@@ -12,6 +12,7 @@ import { myMeetingService } from './Services/myMeetingService';
 interface CardListProps {
 	cardType: 'joined' | 'hosted';
 	pageKey: 'joined' | 'review' | 'hosted';
+	initialData?: MyMeeting[];
 }
 
 /** no data const */
@@ -53,15 +54,20 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 
 	const queryOptions: UseSuspenseQueryOptions<MyMeeting[] | null> = {
 		queryKey: ['mypage', pageKey, !!authToken],
-		queryFn: queryFunction,
+		queryFn:
+			['joined', 'review'].includes(pageKey) && authToken
+				? queryFunction
+				: () => {
+						return null;
+					},
 		initialData,
 	};
 
 	// 클라이언트 fetch
-	const { data } = useSuspenseQuery<MyMeeting[] | null>(queryOptions);
-	// const data = initialData;
+	// const { data } = useSuspenseQuery<MyMeeting[] | null>(queryOptions);
+	const data = initialData;
 	/** 데이터 없을 경우 처리 */
-	if (!meetings?.length) {
+	if (!data?.length) {
 		return (
 			<div className='flex justify-center items-center mx-auto my-auto'>
 				<span>{noDataMsg[pageKey ?? 'joined']}</span>
@@ -71,7 +77,7 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 
 	return (
 		<div className='grow overflow-hidden'>
-			{meetings?.map((meeting) => (
+			{data?.map((meeting) => (
 				<Link
 					href={`/meeting/${meeting.id}`}
 					key={meeting.id}
@@ -80,7 +86,8 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 					<CardBase data={meeting}>
 						{cardType === 'joined' ? (
 							<CardBase.JoinedMeetingCard
-								onCancelClick={(e, id) => onCancelClick!(e, id)} // 전달 시, e와 id를 넘겨줌
+								// onCancelClick={(e, id) => onCancelClick!(e, id)} // 전달 시, e와 id를 넘겨줌
+								onCancelClick={() => {}} // 전달 시, e와 id를 넘겨줌
 							/>
 						) : (
 							<CardBase.HostedMeetingCard />

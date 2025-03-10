@@ -6,7 +6,7 @@ import { getUserInfo } from '@/api/users';
 import { BASE_URL } from '@/constants';
 import { reviewService } from '@/service/reviewService';
 import { MyMeeting } from '@/types/meetingsType';
-import { IReview, IReviewData } from '@/types/reviewType';
+import { IReviewData } from '@/types/reviewType';
 interface meetingOptions {
 	headers: {
 		Authorization: string;
@@ -122,7 +122,7 @@ export const myMeetingService = {
 			return sortedMeetings || null;
 		} catch (e) {
 			// 호출 컴포넌트에 에러처리 위임
-			throw new Error(e);
+			throw new Error(e as string);
 		}
 	},
 
@@ -142,7 +142,7 @@ export const myMeetingService = {
 			return meetings;
 		} catch (e) {
 			// 호출 컴포넌트에 에러처리 위임
-			throw new Error(e);
+			throw new Error(e as string);
 		}
 	},
 
@@ -168,7 +168,7 @@ export const myMeetingService = {
 			return meetings;
 		} catch (e) {
 			// 호출 컴포넌트에 에러처리 위임
-			throw new Error(e);
+			throw new Error(e as string);
 		}
 	},
 
@@ -193,7 +193,7 @@ export const myMeetingService = {
 			return reviews;
 		} catch (e) {
 			// 호출 컴포넌트에 에러처리 위임
-			throw new Error(e);
+			throw new Error(e as string);
 		}
 	},
 };

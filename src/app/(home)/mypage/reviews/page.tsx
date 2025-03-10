@@ -1,7 +1,8 @@
-import CardList from '../components/CardList/CardList';
+import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { myMeetingService } from '../components/CardList/Services/myMeetingService';
-import { redirect } from 'next/navigation';
+import type { MyMeeting } from '@/types/meetingsType';
+import CardList from '../components/CardList/CardList';
 
 async function Page() {
 	const cookieStore = await cookies();
@@ -32,7 +33,11 @@ async function Page() {
 
 	return (
 		<div className='flex min-h-[380px] md:min-h-[688px] lg:min-h-[617px]'>
-			<CardList cardType='joined' pageKey='review' />
+			<CardList
+				cardType='joined'
+				pageKey='review'
+				initialData={initialMyMeetings}
+			/>
 		</div>
 	);
 }
