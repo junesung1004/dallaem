@@ -1,6 +1,6 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import Image from 'next/image';
+import { ChangeEvent, useEffect, useState } from 'react';
+import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 function ProfileInput({
 	image,
