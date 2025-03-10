@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/constants';
 import { ReviewQueryType } from '@/types/reviewType';
 
 export const reviewService = {
@@ -18,7 +19,7 @@ export const reviewService = {
 			const offset = (currentPage - 1) * limit;
 
 			const res = await fetch(
-				`https://fe-adv-project-together-dallaem.vercel.app/7-1/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
+				`${BASE_URL}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
 			);
 
 			if (!res.ok) {
