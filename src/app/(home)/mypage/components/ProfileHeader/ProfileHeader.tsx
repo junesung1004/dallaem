@@ -5,8 +5,8 @@ import Image from 'next/image';
 import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import { useProfile } from '@/store/useAuthStore';
 
-function ProfileHeader({ initialPropfile }: { initialPropfile: IUser }) {
-	const [data, setData] = useState<IUser>(initialPropfile);
+function ProfileHeader({ initialProfile }: { initialProfile: IUser }) {
+	const [data, setData] = useState<IUser>(initialProfile);
 
 	/** 임시 */
 	const pathname = usePathname();
