@@ -24,14 +24,14 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 	} = useHomeMeetingCardList();
 
 	const meetings = React.useMemo(() => {
-    const allMeetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
-    // ID 기반 중복 제거
-    const uniqueMeetings = allMeetings.filter(
-      (meeting, index, self) =>
-        index === self.findIndex((m) => m.id === meeting.id)
-    );
-    return uniqueMeetings;
-  }, [data?.pages]);
+		const allMeetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+		// ID 기반 중복 제거
+		const uniqueMeetings = allMeetings.filter(
+			(meeting, index, self) =>
+				index === self.findIndex((m) => m.id === meeting.id),
+		);
+		return uniqueMeetings;
+	}, [data?.pages]);
 
 	// 요청 지연 로직 추가
 	useEffect(() => {
@@ -67,6 +67,7 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 				?.filter((el) => new Date(el.registrationEnd) >= new Date())
 				.map((el) => (
 					<Card
+						onClick={() => router.push(`meeting/${el.id}`)}
 						id={el.id}
 						key={el.id ?? 0}
 						registrationEnd={new Date(el.registrationEnd) < new Date()}
@@ -112,13 +113,7 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 								</Card.Header.Right>
 							</Card.Header>
 
-							<Card.Footer
-								max={40}
-								value={30}
-								onClick={() => {
-									router.push(`meeting/${el.id}`);
-								}}
-							>
+							<Card.Footer max={40} value={30}>
 								<div className='flex gap-2'>
 									<Members max={el.capacity ?? 0} value={el.participantCount} />
 									<StatusBadge participantCount={el.participantCount} />
