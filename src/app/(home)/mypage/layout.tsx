@@ -26,7 +26,7 @@ async function MyPageLayout({ children, review, profile }: Props) {
 	return (
 		<section className='mt-6 flex flex-col gap-5 md:max-w-[996px] mx-auto min-h-screen'>
 			<h2 className='text-2xl font-semibold'>마이 페이지</h2>
-			<ProfileHeader initialProfile={userInfo} />
+			<ProfileHeader />
 			<div className='border-t-2 border-gray-900 px-4 py-6 bg-white'>
 				<MyPageNav />
 				{children}
