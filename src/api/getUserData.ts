@@ -29,7 +29,6 @@ const getUserData = async (): Promise<IUser> => {
 	}
 
 	const data = await response.json();
-	console.log(data);
 	return data;
 };
 
