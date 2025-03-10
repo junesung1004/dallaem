@@ -3,6 +3,9 @@ module.exports = {
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
+	env: {
+		BASE_URL: process.env.BASE_URL,
+	},
 	//@ts-ignore
 	webpack: (config, { isServer }) => {
 		// 서버 사이드에서만 환경 변수를 확인하려면
