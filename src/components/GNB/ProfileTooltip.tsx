@@ -8,12 +8,10 @@ import { useState } from 'react';
 const ProfileTooltip = () => {
 	const { logoutUser } = useAuth();
 	const [visible, setVisible] = useState(false);
+
 	const { image } = useProfile();
-
+  const src = image ?? '/icons/profileDefault.svg';
 	const toggleTooltip = () => setVisible((prev) => !prev);
-
-	const src = image ?? '/icons/profileDefault.svg';
-	console.log('Profile Image: ', image);
 	return (
 		<div
 			className='relative '
