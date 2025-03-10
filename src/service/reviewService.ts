@@ -11,9 +11,8 @@ export const reviewService = {
 		});
 
 		const paramsValue = params.toString();
-		const urltest =
-			process.env.NEXT_PUBLIC_BASE_URL ??
-			'https://fe-adv-project-together-dallaem.vercel.app/7-1';
+
+		const urltest = process.env.NEXT_PUBLIC_BASE_URL ?? process.env.BASE_URL;
 
 		try {
 			const currentPage = option.currentPage || 1;

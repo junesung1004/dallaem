@@ -10,9 +10,7 @@ export const getMeetingInfiniteData = async ({
 	const limit = 5;
 	const offset = Math.max((pageParam - 1) * limit, 0);
 
-	const urltest =
-		process.env.NEXT_PUBLIC_BASE_URL ??
-		'https://fe-adv-project-together-dallaem.vercel.app/7-1';
+	const urltest = process.env.NEXT_PUBLIC_BASE_URL ?? process.env.BASE_URL;
 
 	const params = new URLSearchParams();
 	if (filters.type) params.append('type', filters.type);
