@@ -1,4 +1,3 @@
-import { BASE_URL } from '@/constants';
 import { FilterContextType } from '@/types/filterType';
 
 export const getMeetingInfiniteData = async ({
@@ -11,6 +10,10 @@ export const getMeetingInfiniteData = async ({
 	const limit = 5;
 	const offset = Math.max((pageParam - 1) * limit, 0);
 
+	const urltest =
+		process.env.NEXT_PUBLIC_BASE_URL ??
+		'https://fe-adv-project-together-dallaem.vercel.app/7-1';
+
 	const params = new URLSearchParams();
 	if (filters.type) params.append('type', filters.type);
 	if (filters.location) params.append('location', filters.location);
@@ -19,7 +22,7 @@ export const getMeetingInfiniteData = async ({
 	if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
 
 	try {
-		const url = `${BASE_URL}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`;
+		const url = `${urltest}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`;
 
 		const res = await fetch(url);
 		if (!res.ok) {
