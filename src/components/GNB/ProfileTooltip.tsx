@@ -1,44 +1,17 @@
 'use client';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/customs/useAuth';
-import { IUser } from '@/types/userType';
-import { getUserData } from '@/api/getUserData';
-import { usePathname } from 'next/navigation';
+import { useProfile } from '@/store/useAuthStore';
+import { useState } from 'react';
 
 const ProfileTooltip = () => {
-	const { logoutUser } = useAuth(); //Tooltip에서 pathname 바뀔 때마다 자동 valdiateToken도 진행함 (useEffect)
-	const [data, setData] = useState<IUser | null>(null);
+	const { logoutUser } = useAuth();
 	const [visible, setVisible] = useState(false);
 
-	const pathname = usePathname();
-
-	const getData = async () => {
-		const userData = await getUserData();
-		setData(userData);
-	};
-
-	/** 임시 */
-	useEffect(() => {
-		if (pathname === '/mypage') {
-			getData();
-		}
-	}, [pathname]);
-
-	/** 임시 */
-	useEffect(() => {
-		getData();
-	}, []);
-
-	if (!data) return null; // 여기에서 return null을 해야 함
-
-	const image = data.image;
-
-	const toggleTooltip = () => setVisible((prev) => !prev);
-
+	const { image } = useProfile();
 	const src = image ?? '/icons/profileDefault.svg';
-	console.log('Profile Image: ', image);
+	const toggleTooltip = () => setVisible((prev) => !prev);
 	return (
 		<div
 			className='relative '
@@ -53,7 +26,7 @@ const ProfileTooltip = () => {
 			}}
 		>
 			<Image
-				src={image}
+				src={src}
 				alt=''
 				fill
 				className='object-cover rounded-full overflow-hidden'

@@ -6,15 +6,17 @@ import ProfileInput from '../ProfileInput/ProfileInput';
 import FormControl from './FormControl';
 import { useEffect, useState } from 'react';
 import { editProfile } from '@/api/users';
-import { getUserData } from '@/api/getUserData';
 import type { IUser } from '@/types/userType';
 import { useRouter } from 'next/navigation';
+import { useProfile, useProfileActions } from '@/store/useAuthStore';
 
 function ProfileForm() {
-	const [userData, setUserData] = useState<IUser | null>();
-	const [formState, setFormState] = useState<Record<string, string>>({
-		image: '',
-		companyName: '',
+	const router = useRouter();
+	const { image, companyName, email } = useProfile();
+	const { setImage, setCompanyName } = useProfileActions();
+	const [formState, setFormState] = useState<Record<string, string | null>>({
+		image: image,
+		companyName: companyName,
 	});
 
 	// 폼 유효성 상태
@@ -41,38 +43,15 @@ function ProfileForm() {
 		setIsValid(isValid);
 	}, [formState]); // formState가 변경될 때마다 실행됨
 
-	const router = useRouter();
-
-	const getData = async () => {
-		const data = await getUserData();
-		setUserData(data);
-		setFormState({ image: data?.image ?? '', companyName: data?.companyName });
-	};
-	// const userData: Promise<IUser> = getData();
-
-	useEffect(() => {
-		getData();
-	}, []);
-
-	if (!userData) {
-		return <div>로딩 중...</div>;
-	}
-
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
-		const data = await editProfile(formData);
-
-		const refreshPreviousPage = () => {
-			router.back(); // 이전 페이지로 이동
-			setTimeout(() => {
-				router.refresh(); // 이전 페이지 새로고침
-			}, 100); // 약간의 딜레이를 줘야 적용됨
-		};
+		const data: IUser = await editProfile(formData);
 
 		if (data) {
-			// useMutation 으로 변경 예정
-			refreshPreviousPage();
+			setImage(data.image);
+			setCompanyName(data.companyName);
+			router.back();
 		}
 	};
 	return (
@@ -81,14 +60,14 @@ function ProfileForm() {
 				<Dialog.Content title='프로필 수정하기'>
 					<div className='flex flex-col gap-4 mb-[24px]'>
 						<ProfileInput
-							image={userData?.image}
+							image={formState.image}
 							onImageChange={handleFormChange}
 						/>
 						<FormControl.InputControl
 							id='company'
 							title='회사'
 							name='companyName'
-							value={formState.companyName}
+							value={formState.companyName ?? ''}
 							onChange={handleFormChange}
 						/>
 						<FormControl.InputControl
@@ -96,7 +75,7 @@ function ProfileForm() {
 							title='이메일'
 							name='email'
 							disabled={true}
-							value={userData?.email}
+							value={email ?? ''}
 							readOnly={true}
 						/>
 					</div>

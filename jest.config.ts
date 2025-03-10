@@ -13,7 +13,6 @@ const config: Config = {
 	moduleNameMapper: {
 		'^@/(.*)$': '<rootDir>/src/$1', // "@/api/userAuth"를 "src/api/userAuth"로 매핑
 	},
-
 	// Add more setup options before each test is run
 	// setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
