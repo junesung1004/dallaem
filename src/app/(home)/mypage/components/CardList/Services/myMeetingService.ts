@@ -6,7 +6,7 @@ import { getUserInfo } from '@/api/users';
 import { BASE_URL } from '@/constants';
 import { reviewService } from '@/service/reviewService';
 import { MyMeeting } from '@/types/meetingsType';
-import { IReview, IReviewData } from '@/types/reviewType';
+import { IReviewData } from '@/types/reviewType';
 interface meetingOptions {
 	headers: {
 		Authorization: string;
