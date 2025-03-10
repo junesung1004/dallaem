@@ -10,11 +10,6 @@ export const getMeetingInfiniteData = async ({
 	const limit = 5;
 	const offset = Math.max((pageParam - 1) * limit, 0);
 
-	const urltest =
-		process.env.NODE_ENV === 'production'
-			? process.env.BASE_URL // 서버 사이드에서만 사용
-			: process.env.NEXT_PUBLIC_BASE_URL; // 클라이언트 사이드에서만 사용
-
 	const params = new URLSearchParams();
 	if (filters.type) params.append('type', filters.type);
 	if (filters.location) params.append('location', filters.location);
@@ -23,7 +18,7 @@ export const getMeetingInfiniteData = async ({
 	if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
 
 	try {
-		const url = `${urltest}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`;
+		const url = `${process.env.NEXT_PUBLIC_BASE_URL}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`;
 
 		const res = await fetch(url);
 		if (!res.ok) {

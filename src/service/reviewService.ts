@@ -12,18 +12,13 @@ export const reviewService = {
 
 		const paramsValue = params.toString();
 
-		const urltest =
-			process.env.NODE_ENV === 'production'
-				? process.env.BASE_URL // 서버 사이드에서만 사용
-				: process.env.NEXT_PUBLIC_BASE_URL; // 클라이언트 사이드에서만 사용
-
 		try {
 			const currentPage = option.currentPage || 1;
 			const limit = option.limit || 4;
 			const offset = (currentPage - 1) * limit;
 
 			const res = await fetch(
-				`${urltest}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
+				`${process.env.NEXT_PUBLIC_BASE_URL}/reviews?${paramsValue}&limit=${limit}&offset=${offset}`,
 			);
 
 			if (!res.ok) {
