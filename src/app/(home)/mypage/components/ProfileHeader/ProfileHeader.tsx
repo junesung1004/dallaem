@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import Image from 'next/image';
+import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import { useProfile } from '@/store/useAuthStore';
 
 function ProfileHeader() {
@@ -26,7 +26,7 @@ function ProfileHeader() {
 					<ProfileIcon.Avatar size='small' className='relative bottom-5' />
 				)}
 				{!!image && (
-					<div className='relative bottom-5 border border-2 border-white max-h-[56px] basis-[56px] rounded-full overflow-hidden'>
+					<div className='relative bottom-5 border border-2 border-white max-h-[56px] basis-[56px] rounded-full overflow-hidden bg-[url(/icons/profileDefault.svg)] bg-cover bg-center'>
 						<Image src={image} alt='' fill className='object-cover' />
 					</div>
 				)}
