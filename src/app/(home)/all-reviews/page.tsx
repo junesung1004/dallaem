@@ -5,11 +5,12 @@ import {
 } from '@tanstack/react-query';
 import ReviewsPage from './ReviewsPage';
 import { reviewService } from '@/service/reviewService';
+import { FilterType } from '@/types/filterType';
 
 export default async function AllReviews() {
 	const queryClient = new QueryClient();
-	// useFilter와 동일하게 설정
-	const filters = {
+
+	const filters: FilterType = {
 		type: 'DALLAEMFIT',
 		location: '',
 		date: '',
@@ -38,7 +39,7 @@ export default async function AllReviews() {
 	const dehydratedState = dehydrate(queryClient);
 	return (
 		<HydrationBoundary state={dehydratedState}>
-			<ReviewsPage />
+			<ReviewsPage initialFilters={filters} />
 		</HydrationBoundary>
 	);
 }
