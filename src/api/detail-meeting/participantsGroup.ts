@@ -6,7 +6,7 @@ export const participantsGroup = async (id: number) => {
 	}
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${id}/participants`,
+			`${process.env.BASE_URL}/gatherings/${id}/participants`,
 			{
 				method: 'GET',
 				headers: {
@@ -37,7 +37,7 @@ export const leaveGroup = async (id: number) => {
 	}
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${id}/leave`,
+			`${process.env.BASE_URL}/gatherings/${id}/leave`,
 			{
 				method: 'DELETE',
 				headers: {

@@ -24,8 +24,8 @@ export interface ReviewQueryType {
 	location?: '건대입구' | '을지로 3가' | '신림' | '홍대입구' | '';
 	registrationEnd?: string;
 	date?: string;
-	sortOrder?: string;
-	sortBy?: 'asc' | 'desc';
+	sortBy?: string;
+	sortOrder?: 'asc' | 'desc';
 }
 
 export interface IReview {
