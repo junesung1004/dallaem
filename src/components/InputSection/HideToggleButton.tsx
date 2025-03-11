@@ -10,7 +10,13 @@ const HideToggleButton = ({
 	className,
 }: HideToggleProps) => {
 	return (
-		<button onClick={onClick} className={className} type='button' tabIndex={-1}>
+		<button
+			onClick={onClick}
+			className={className}
+			type='button'
+			tabIndex={-1}
+			aria-label='비밀번호 표시/숨기기'
+		>
 			<img
 				src={isHidden ? 'icons/visibilityOff.png' : 'icons/visibilityOn.png'}
 			/>

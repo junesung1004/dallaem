@@ -83,3 +83,57 @@ describe('로그인: handleFocus 검증', () => {
 		jest.clearAllMocks();
 	});
 });
+
+describe('로그인: 버튼 활성화 테스트', () => {
+	test('모든 필드가 채워지면 버튼이 활성화된다', () => {
+		render(<Login />);
+
+		const emailInput = screen.getByPlaceholderText('이메일을 입력해주세요.');
+		const passwordInput =
+			screen.getByPlaceholderText('비밀번호를 입력해주세요.');
+		const submitButton = screen.getByRole('button', { name: '확인' });
+
+		fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+		fireEvent.change(passwordInput, { target: { value: 'password123' } });
+
+		expect(submitButton).not.toHaveClass('bg-gray-400'); // 비활성화 상태 아님
+		expect(submitButton).toHaveClass('bg-primary-600'); // 활성화 상태
+	});
+
+	test('오류가 있으면 버튼이 활성화되지 않는다', () => {
+		render(<Login />);
+
+		const emailInput = screen.getByPlaceholderText('이메일을 입력해주세요.');
+		const passwordInput =
+			screen.getByPlaceholderText('비밀번호를 입력해주세요.');
+		const submitButton = screen.getByRole('button', { name: '확인' });
+
+		fireEvent.change(emailInput, { target: { value: 'test' } });
+		fireEvent.blur(emailInput); // <- 이걸 추가해야 validators.id()가 실행됨
+		fireEvent.change(passwordInput, { target: { value: 'password123' } });
+		fireEvent.blur(passwordInput); // <- 비밀번호도 blur 필요
+
+		expect(submitButton).toHaveClass('bg-gray-400'); // 비활성화 상태여야 함
+		expect(submitButton).not.toHaveClass('bg-primary-600'); // 활성화 상태 아님
+	});
+});
+
+describe('로그인: hideToggleButton 테스트', () => {
+	test('비밀번호 숨기기 버튼을 클릭하면 입력 타입이 변경된다', () => {
+		render(<Login />);
+
+		const passwordInput =
+			screen.getByPlaceholderText('비밀번호를 입력해주세요.');
+		const toggleButton = screen.getByRole('button', {
+			name: '비밀번호 표시/숨기기',
+		});
+
+		expect(passwordInput).toHaveAttribute('type', 'password');
+
+		fireEvent.click(toggleButton);
+		expect(passwordInput).toHaveAttribute('type', 'text');
+
+		fireEvent.click(toggleButton);
+		expect(passwordInput).toHaveAttribute('type', 'password');
+	});
+});
