@@ -8,11 +8,12 @@ import Card from '@/components/MainCard/Card';
 import Members from '@/components/Members/Members';
 import ProgressBar from '@/components/ProgressBar/ProgressBar';
 import { useFavoriteMeetings } from '@/hooks/customs/useFavoriteMeetings';
+import type { FilterType } from '@/types/filterType';
 import { useRouter } from 'next/navigation';
 
-function CardList() {
+function CardList({ currentFilter }: { currentFilter: FilterType }) {
 	const { meetings, isLoading, error, deleteLikeMeetings } =
-		useFavoriteMeetings();
+		useFavoriteMeetings(currentFilter);
 	const router = useRouter();
 
 	if (isLoading || !meetings?.length) {
