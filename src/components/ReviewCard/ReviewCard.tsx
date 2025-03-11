@@ -15,7 +15,7 @@ export default function ReviewCard({
 			<div className='flex flex-col flex-wrap md:flex-row w-full md:w-full h-full relative'>
 				{children}
 				{isDetailPage === false && (
-					<div className='flex absolute -bottom-4 mb-3 sm:mb-0 w-full border-t border-5 border-dashed border-gray-200'></div>
+					<div className='flex absolute -bottom-4 mb-3 sm:mb-0 w-full border-t-2 border-5 border-dashed border-gray-200'></div>
 				)}
 			</div>
 		</div>
@@ -54,13 +54,13 @@ function ReviewLayout({
 }) {
 	return (
 		<div
-			className={`flex-1 relative h-full text-gray-700 font-medium ${
+			className={`flex-1 relative text-gray-700 font-medium ${
 				isDetailPage ? 'min-h-[100px]' : 'min-h-[156px]'
 			}`}
 		>
 			{children}
 			{isDetailPage && (
-				<div className='flex absolute bottom-0 w-full border-t border-dashed border-gray-200'></div>
+				<div className='flex absolute -bottom-4 w-full border-t-2 border-5 border-dashed border-gray-200'></div>
 			)}
 		</div>
 	);
