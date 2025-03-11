@@ -21,10 +21,12 @@ export default async function AllReviews() {
 	await queryClient.prefetchInfiniteQuery({
 		queryKey: ['reviews', filters],
 		queryFn: async () => {
+			const { type, sortBy, sortOrder } = filters;
 			const data = await reviewService.getDetailReviewData({
 				limit: 5,
-				sortBy: 'createdAt',
-				sortOrder: 'desc',
+				type,
+				sortBy,
+				sortOrder,
 			});
 			return {
 				data: data.data,
