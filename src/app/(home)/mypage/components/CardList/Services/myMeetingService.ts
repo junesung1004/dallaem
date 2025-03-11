@@ -22,8 +22,8 @@ function getTrueQueryParameters(options: {
 	[key: string]: boolean;
 }): string | null {
 	const trueParameters = Object.entries(options)
-		.filter(([key, value]) => value)
-		.map(([key]) => `${key}=true`)
+		// .filter(([key, value]) => value)
+		.map(([key]) => `${key}=${options[key] === false ? 'false' : 'true'}`)
 		.join('&');
 	return trueParameters ? `?${trueParameters}` : null;
 }
@@ -31,17 +31,19 @@ function getTrueQueryParameters(options: {
 export const myMeetingService = {
 	/** 나의 모임, 작성 가능한 리뷰 가져오는 api */
 	async fetchMyMeetings<T>(options: {
-		completed: boolean;
-		reviewed: boolean;
+		completed?: boolean;
+		reviewed?: boolean;
 		sortBy?: 'joinedAt';
 	}): Promise<T> {
 		/** authorize 구조 변경되면 개선할 부분 */
 		const token =
 			typeof window !== 'undefined' ? localStorage.getItem('authToken') : '';
-		const params = getTrueQueryParameters({
-			completed: options.completed,
-			reviewed: options.reviewed,
-		});
+		const params = options.completed
+			? getTrueQueryParameters({
+					completed: options.completed ?? false,
+					reviewed: options.reviewed ?? false,
+				})
+			: null;
 
 		const responseData = await fetch(
 			`${BASE_URL}/gatherings/joined${params ?? '?'}${options.sortBy === 'joinedAt' ? '&sortBy=joinedAt&sortOrder=asc' : ''}`,
