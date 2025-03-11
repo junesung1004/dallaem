@@ -53,15 +53,15 @@ function FilterList({
 
 	useEffect(() => {
 		// 상태를 Context API를 통해 동기화
-		setLocation(enabledFilters.includes('location') ? selectedLocation : '');
-		setDate(enabledFilters.includes('date') ? formattedDate : '');
-		setSortBy(
+		setLocation?.(enabledFilters.includes('location') ? selectedLocation : '');
+		setDate?.(enabledFilters.includes('date') ? formattedDate : '');
+		setSortBy?.(
 			enabledFilters.includes('sortByMeeting') ||
 				enabledFilters.includes('sortByReview')
 				? selectedSortBy
 				: '',
 		);
-		setSortOrder(
+		setSortOrder?.(
 			enabledFilters.includes('sortByMeeting') ||
 				enabledFilters.includes('sortByReview')
 				? selectedSortOrder

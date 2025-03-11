@@ -7,15 +7,20 @@ import { LikeButton } from '../Button/LikeButton';
 export default function Card({
 	children,
 	registrationEnd,
+	onClick,
 	id,
 }: {
 	children: React.ReactNode;
 	registrationEnd: boolean;
 	id: number;
+	onClick?: () => void;
 }) {
 	return (
 		<section
-			className={`flex flex-col md:flex-row h-[316px] md:h-[156px] w-full  border-2 rounded-[24px] mt-6 relative overflow-hidden
+			onClick={onClick}
+			className={`
+				transition-shadow duration-300 ease-in-out hover:shadow-md hover:shadow-gray-400
+				flex flex-col md:flex-row h-[316px] md:h-[156px] w-full  border-2 cursor-pointer rounded-[24px] mt-6 relative overflow-hidden
 				`}
 		>
 			{children}
@@ -99,12 +104,10 @@ Header.Right = function Right({ children }: { children?: React.ReactNode }) {
 
 // 카드 하단 정보(진행 상태)
 function Footer({
-	onClick,
 	children,
 }: {
 	max: number;
 	value: number;
-	onClick: () => void;
 	children: React.ReactNode;
 }) {
 	return (
@@ -114,7 +117,6 @@ function Footer({
 
 			{/* 오른쪽 버튼 */}
 			<div
-				onClick={onClick}
 				className={`flex gap-2 cursor-pointer text-primary-600 font-semibold`}
 			>
 				<p>join now</p>

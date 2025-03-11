@@ -72,7 +72,7 @@ const InputWindow = ({
 			? 'border border-2 border-red-600 rounded-xl '
 			: typeStatus === 'typing'
 				? 'border border-2 border-primary-600 rounded-xl '
-				: null;
+				: 'rounded-xl';
 
 	//return
 	return (

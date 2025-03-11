@@ -1,14 +1,14 @@
 import { FilterContextType } from '@/types/filterType';
 
 export const getMeetingInfiniteData = async ({
-	pageParam = 3,
+	pageParam = 1,
 	filters,
 }: {
 	pageParam: number;
 	filters: FilterContextType;
 }) => {
-	const limit = 3;
-	const offset = pageParam;
+	const limit = 5;
+	const offset = Math.max((pageParam - 1) * limit, 0);
 
 	const params = new URLSearchParams();
 	if (filters.type) params.append('type', filters.type);
@@ -22,20 +22,21 @@ export const getMeetingInfiniteData = async ({
 			`${process.env.BASE_URL}/gatherings?limit=${limit}&offset=${offset}&${params.toString()}`,
 		);
 		if (!res.ok) {
+			const errorMessage = await res.text(); // 텍스트로 에러 메시지 확인
+			console.error(`Error status: ${res.status} ${res.statusText}`);
+			console.error('Error details:', errorMessage);
+
 			throw new Error(`서버 오류 : ${res.status} ${res.statusText}`);
 		}
 
 		const data = await res.json();
 
-		const filteredData = data.filter(
-			(item: { image: string | null }) => item.image !== null,
-		);
+		const nextOffset = data.length >= limit ? pageParam + 1 : undefined;
 
-		const nextOffset = filteredData.length > 0 ? pageParam + limit : undefined;
-
-		return { data: filteredData, nextOffset };
+		return { data: data, nextOffset };
 	} catch (error) {
 		console.error('모임 목록 api 호출 에러 : ', error);
+		return { data: [], nextOffset: undefined };
 	}
 };
 

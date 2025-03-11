@@ -31,6 +31,7 @@ function CardList() {
 		<div className='flex flex-col items-center gap-6 min-h-[534px] md:min-h-[821px] lg:min-h-[771px]'>
 			{meetings?.map((el) => (
 				<Card
+					onClick={() => router.push(`meeting/${el.id}`)}
 					id={el.id}
 					key={el.id ?? 0}
 					registrationEnd={new Date(el.registrationEnd) < new Date()}
@@ -90,13 +91,7 @@ function CardList() {
 							</Card.Header.Right>
 						</Card.Header>
 
-						<Card.Footer
-							max={40}
-							value={30}
-							onClick={() => {
-								router.push(`meeting/${el.id}`);
-							}}
-						>
+						<Card.Footer max={40} value={30}>
 							<div className='flex gap-2'>
 								<Members max={el.capacity ?? 0} value={el.participantCount} />
 								<StatusBadge participantCount={el.participantCount} />
