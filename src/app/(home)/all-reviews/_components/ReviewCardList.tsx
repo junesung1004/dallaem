@@ -6,6 +6,7 @@ import useFetchReviewsData from '@/hooks/query/useFetchReviewData';
 
 function ReviewCardList() {
 	const { data, fetchNextPage, hasNextPage, isLoading } = useFetchReviewsData();
+	// 리뷰 키 값 중복 제거
 	const reviews: ReviewType[] =
 		data?.pages
 			.flatMap((page) => page.data)
