@@ -115,7 +115,7 @@ function JoinedMeetingCard({
 				</div>
 				<CardInfo {...(props as MeetingCardInfoProps)} />
 			</div>
-			{!isReviewed && <CreateReviewButton meetingId={id} />}
+			{!!isDone && !isReviewed && <CreateReviewButton meetingId={id} />}
 			{!isDone && canLeave && (
 				<Button
 					variation='outline'
