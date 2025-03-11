@@ -101,6 +101,7 @@ export const myMeetingService = {
 		// 모임 날짜가 남은 순으로 정렬하기 위함
 		const params = {
 			sortBy: 'joinedAt' as const,
+			limit: 40,
 		};
 
 		try {

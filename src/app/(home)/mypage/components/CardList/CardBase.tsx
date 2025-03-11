@@ -88,6 +88,11 @@ function CardBase({
 }
 
 /** 나의 모임 */
+const CreateReviewButton = dynamic(() => import('./CreateReviewButton'), {
+	loading: () => <Button>리뷰 작성하기</Button>,
+	ssr: !!false,
+});
+
 function JoinedMeetingCard({
 	id,
 	isDone,
@@ -99,11 +104,6 @@ function JoinedMeetingCard({
 }: Partial<MeetingCardBaseProps> & {
 	onCancelClick: (e: React.MouseEvent, id: number) => void;
 }) {
-	const CreateReviewButton = dynamic(() => import('./CreateReviewButton'), {
-		loading: () => <Button>리뷰 작성하기</Button>,
-		ssr: !!false,
-	});
-
 	if (!props || !id) return null;
 
 	return (
