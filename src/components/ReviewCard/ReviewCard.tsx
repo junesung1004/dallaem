@@ -23,9 +23,8 @@ export default function ReviewCard({
 }
 
 function ImageSection({ src }: { src?: string }) {
-	const sizes = '(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw';
 	return (
-		<div className='relative w-full md:w-[280px] h-[156px] md:mb-3 md:mr-5 rounded-[24px] overflow-hidden'>
+		<div className='relative w-full sm:w-[280px] h-[156px] md:mb-3 md:mr-5 rounded-[24px] overflow-hidden'>
 			{src && src.trim() ? (
 				<Image
 					src={src}
@@ -33,7 +32,6 @@ function ImageSection({ src }: { src?: string }) {
 					fill
 					priority
 					className='object-cover'
-					sizes={sizes}
 				/>
 			) : (
 				<Image
@@ -41,7 +39,6 @@ function ImageSection({ src }: { src?: string }) {
 					alt='기본 리뷰 이미지'
 					fill
 					className='object-cover'
-					sizes={sizes}
 				/>
 			)}
 		</div>
