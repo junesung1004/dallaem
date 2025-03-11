@@ -9,6 +9,8 @@ import {
 	UseSuspenseQueryOptions,
 } from '@tanstack/react-query';
 import { myMeetingService } from './Services/myMeetingService';
+import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
+import { leaveGroup } from '@/api/detail-meeting/participantsGroup';
 interface CardListProps {
 	cardType: 'joined' | 'hosted';
 	pageKey: 'joined' | 'review' | 'hosted';
@@ -64,8 +66,9 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 	};
 
 	// 클라이언트 fetch
-	// const { data } = useSuspenseQuery<MyMeeting[] | null>(queryOptions);
-	const data = initialData;
+	const { data, refetch } = useSuspenseQuery<MyMeeting[] | null>(queryOptions);
+	const { openModal, closeModal } = useGlobalModal();
+	// const data = initialData;
 	/** 데이터 없을 경우 처리 */
 	if (!data?.length) {
 		return (
@@ -74,6 +77,32 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 			</div>
 		);
 	}
+
+	const handleClickCancel = (e: React.MouseEvent, id: number) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		openModal({
+			content: '예약을 취소하시겠습니까?',
+			confirmType: 'Confirm',
+			onConfirm: async () => {
+				const res = await leaveGroup(id);
+
+				if (res) {
+					const data = await myMeetingService.fetchMyMeetings<MyMeeting[]>({
+						completed: false,
+						reviewed: false,
+					});
+
+					if (data) {
+						await refetch();
+						return closeModal();
+					}
+				}
+			},
+			onDismiss: closeModal,
+		});
+	};
 
 	return (
 		<div className='grow overflow-hidden'>
@@ -86,8 +115,7 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 					<CardBase data={meeting}>
 						{cardType === 'joined' ? (
 							<CardBase.JoinedMeetingCard
-								// onCancelClick={(e, id) => onCancelClick!(e, id)} // 전달 시, e와 id를 넘겨줌
-								onCancelClick={() => {}} // 전달 시, e와 id를 넘겨줌
+								onCancelClick={(e, id) => handleClickCancel!(e, id)}
 							/>
 						) : (
 							<CardBase.HostedMeetingCard />
