@@ -89,7 +89,8 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 									'canLeave' in meeting &&
 									(meeting.canLeave as MyMeetingCardType['canLeave'])
 								}
-								onCancelClick={(e, id) => handleClickCancel!(e, id)}
+								// onCancelClick={(e, id) => handleClickCancel!(e, id)}
+								onCancelClick={(e, id) => {}}
 							/>
 						) : (
 							<CardBase.HostedMeetingCard />
