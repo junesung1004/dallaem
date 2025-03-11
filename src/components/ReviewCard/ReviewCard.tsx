@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import HeartRatings from '../HeartRatings/HeartRatings';
 import ProfileIcon from '@/app/(home)/mypage/components/ProfileIcon/ProfileIcon';
+import { useState } from 'react';
 
 export default function ReviewCard({
 	children,
@@ -77,7 +78,36 @@ function HeartScore({ score }: { score: number }) {
 }
 
 function Content({ comment }: { comment: string }) {
-	return <div className='text-md mb-3'>{comment}</div>;
+	const [expanded, setExpanded] = useState(false);
+	const MAX_LENGTH = 300;
+
+	const shouldTruncate = comment.length > MAX_LENGTH;
+	const displayedText =
+		expanded || !shouldTruncate ? comment : comment.slice(0, MAX_LENGTH);
+
+	return (
+		<div className='text-md mb-3'>
+			<p>
+				{displayedText}
+				{shouldTruncate && !expanded && (
+					<span
+						onClick={() => setExpanded(true)}
+						className='text-gray-500 font-normal hover:text-gray-900 cursor-pointer'
+					>
+						...더보기
+					</span>
+				)}
+			</p>
+			{expanded && (
+				<button
+					onClick={() => setExpanded(false)}
+					className='text-gray-500 font-normal hover:text-gray-900'
+				>
+					접기
+				</button>
+			)}
+		</div>
+	);
 }
 
 function EtcInfo({
