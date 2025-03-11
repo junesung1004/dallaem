@@ -9,7 +9,7 @@ import FilterProvider from '@/context/FilterContent';
 
 export default function ReviewsPage() {
 	return (
-		<FilterProvider>
+		<FilterProvider defaultSortBy='createdAt'>
 			<div className='flex flex-col gap-3 pb-4 border-b-2 border-gray-200 '>
 				<PageInfo pageKey='reviews' />
 				<PageNavbar pageKey='meetings' />
@@ -18,7 +18,7 @@ export default function ReviewsPage() {
 				<ReviewSummary />
 				<FilterList enabledFilters={['location', 'date', 'sortByReview']} />
 			</div>
-			<div className='flex flex-col gap-4 p-4'>
+			<div>
 				<ReviewCardList />
 			</div>
 		</FilterProvider>

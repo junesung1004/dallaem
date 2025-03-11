@@ -23,7 +23,7 @@ function ProgressBar({
 			controls.start('full');
 		} else {
 			controls.start({
-				width: calculatePercentage(value, max),
+				width: `${calculatePercentage(value, max)}%`,
 				transition: {
 					duration: 0,
 				},

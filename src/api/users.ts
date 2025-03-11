@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.BASE_URL;
 
 /** 사용자 정보 수정 / formData 사용 */
 export const editProfile = async (data: FormData) => {

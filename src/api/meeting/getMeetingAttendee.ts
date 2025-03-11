@@ -1,6 +1,6 @@
 const getMeetingAttendee = async (meetingId: number) => {
 	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/gatherings/${meetingId}/participants`,
+		`${process.env.BASE_URL}/gatherings/${meetingId}/participants`,
 		{
 			method: 'GET',
 			headers: {

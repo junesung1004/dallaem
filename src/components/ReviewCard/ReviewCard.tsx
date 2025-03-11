@@ -10,11 +10,11 @@ export default function ReviewCard({
 	isDetailPage?: boolean;
 }) {
 	return (
-		<div className='mb-8'>
-			<div className='flex flex-col sm:flex-row w-[311px] sm:w-full h-full relative'>
+		<div className='mb-8 items-center'>
+			<div className='flex flex-col flex-wrap md:flex-row w-full md:w-full h-full relative'>
 				{children}
 				{isDetailPage === false && (
-					<div className='flex absolute -bottom-4 w-full border-t border-5 border-dashed border-gray-200'></div>
+					<div className='flex absolute -bottom-4 mb-3 sm:mb-0 w-full border-t border-5 border-dashed border-gray-200'></div>
 				)}
 			</div>
 		</div>
@@ -24,7 +24,7 @@ export default function ReviewCard({
 function ImageSection({ src }: { src?: string }) {
 	const sizes = '(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw';
 	return (
-		<div className='relative w-[311px] sm:w-[280px] h-[156px] sm:mb-3 sm:mr-5 rounded-[24px] overflow-hidden'>
+		<div className='relative w-full md:w-[280px] h-[156px] md:mb-3 md:mr-5 rounded-[24px] overflow-hidden'>
 			{src && src.trim() ? (
 				<Image
 					src={src}
@@ -70,14 +70,14 @@ function ReviewLayout({
 
 function HeartScore({ score }: { score: number }) {
 	return (
-		<div className='mb-3 mt-5 sm:mt-1'>
+		<div className='mb-3 mt-5 md:mt-1'>
 			<HeartRatings rating={score} maxHearts={5} />
 		</div>
 	);
 }
 
 function Content({ comment }: { comment: string }) {
-	return <div className='text-sm mb-3'>{comment}</div>;
+	return <div className='text-md mb-3'>{comment}</div>;
 }
 
 function EtcInfo({
