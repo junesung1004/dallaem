@@ -5,7 +5,7 @@ import {
 import { getUserInfo } from '@/api/users';
 import { BASE_URL } from '@/constants';
 import { reviewService } from '@/service/reviewService';
-import { MyMeeting } from '@/types/meetingsType';
+import { MyMeeting, MyMeetingCardType } from '@/types/meetingsType';
 import { IReviewData } from '@/types/reviewType';
 interface meetingOptions {
 	headers: {
@@ -195,5 +195,31 @@ export const myMeetingService = {
 			// 호출 컴포넌트에 에러처리 위임
 			throw new Error(e as string);
 		}
+	},
+
+	// 리뷰 가능 여부/취소 가능 여부 업데이트하여 반환하는 함수
+	async getMarkedMyMeetings(
+		options: meetingOptions,
+	): Promise<MyMeetingCardType[] | null> {
+		const userInfo = await getUserInfo(options);
+		const userId = userInfo?.id;
+
+		if (!userId) return null;
+
+		const getMeetings = async function () {
+			return await myMeetingService.getMyMeetings(options);
+		};
+
+		const myMeetings = await getMeetings();
+
+		if (!myMeetings) return null;
+
+		const markedMeetings = myMeetings.map((meeting) => ({
+			...meeting,
+			canReview: meeting.isReviewed ? false : true,
+			canLeave: meeting.createdBy === userId ? false : true,
+		}));
+
+		return markedMeetings;
 	},
 };

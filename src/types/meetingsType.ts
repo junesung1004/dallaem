@@ -36,3 +36,8 @@ export interface MyMeeting extends IMeeting {
 	isCompleted: boolean;
 	isReviewed: boolean;
 }
+
+export interface MyMeetingCardType extends MyMeeting {
+	canReview: boolean;
+	canLeave: boolean;
+}
