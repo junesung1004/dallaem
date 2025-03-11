@@ -1,12 +1,12 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import Image from 'next/image';
+import { ChangeEvent, useEffect, useState } from 'react';
+import ProfileIcon from '../ProfileIcon/ProfileIcon';
 
 function ProfileInput({
 	image,
 	onImageChange,
 }: {
-	image: string;
+	image: string | null;
 	onImageChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }) {
 	const [preview, setPreview] = useState<string | null | FileReader['result']>(
@@ -58,7 +58,7 @@ function ProfileInput({
 			<label htmlFor='profile-file' className='cursor-pointer inline-block'>
 				{!preview && <ProfileIcon.EditProfile />}
 				{!!preview && (
-					<div className='relative rounded-full max-w-[56px] min-w-[56px] min-h-[56px] overflow-hidden'>
+					<div className='relative rounded-full max-w-[56px] min-w-[56px] min-h-[56px] overflow-hidden bg-[url(/icons/profileDefault.svg)] bg-cover bg-center'>
 						<Image
 							src={preview as string}
 							alt='프로필 사진'

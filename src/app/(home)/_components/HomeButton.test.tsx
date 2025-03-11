@@ -10,9 +10,11 @@ jest.mock('next/navigation', () => ({
 	useRouter: jest.fn(),
 }));
 
+
 jest.mock('@/store/useAuthStore', () => ({
 	useAuthStore: jest.fn(),
 }));
+
 
 jest.mock('@/hooks/customs/useGlobalModal', () => ({
 	useGlobalModal: jest.fn(() => ({
@@ -20,6 +22,7 @@ jest.mock('@/hooks/customs/useGlobalModal', () => ({
 		closeModal: jest.fn(),
 	})),
 }));
+
 
 describe('홈 모임 만들기 버튼 컴포넌트', () => {
 	it('홈 안에 버튼 dom이 잘 렌더링 되는지 test code', () => {
