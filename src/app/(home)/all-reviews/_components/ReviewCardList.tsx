@@ -5,7 +5,7 @@ import { ReviewType } from '@/types/paginationType';
 import useFetchReviewsData from '@/hooks/query/useFetchReviewData';
 
 function ReviewCardList() {
-	const { data, fetchNextPage, hasNextPage } = useFetchReviewsData();
+	const { data, fetchNextPage, hasNextPage, isLoading } = useFetchReviewsData();
 	const reviews: ReviewType[] = data?.pages.flatMap((page) => page.data) ?? [];
 	const isReviewEmpty = reviews.length === 0;
 
@@ -17,16 +17,22 @@ function ReviewCardList() {
 		}
 	}, [inView, hasNextPage, fetchNextPage]);
 
+	const Msg = ({ message }: { message: string }) => (
+		<div className='flex justify-center items-center h-40 text-gray-500'>
+			{message}
+		</div>
+	);
+
 	return (
 		<div className='w-full h-full p-4 min-h-[400px] justify-center'>
-			{isReviewEmpty ? (
-				<div className='justify-center content-center text-gray-500'>
-					아직 리뷰가 없어요
-				</div>
+			{isLoading ? (
+				<Msg message='로딩 중...' />
+			) : isReviewEmpty ? (
+				<Msg message='아직 리뷰가 없어요' />
 			) : (
 				<>
-					{reviews.map((review: ReviewType, index) => (
-						<ReviewCard key={review.id ?? `review-${index}`}>
+					{reviews.map((review: ReviewType) => (
+						<ReviewCard key={review.id}>
 							<ReviewCard.ImageSection
 								src={review.Gathering.image || undefined}
 							/>
