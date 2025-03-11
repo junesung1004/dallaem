@@ -15,10 +15,23 @@ function CardList() {
 		useFavoriteMeetings();
 	const router = useRouter();
 
+	if (isLoading || !meetings?.length) {
+		return (
+			<div className='min-h-[534px] md:min-h-[821px] lg:min-h-[771px] flex items-center justify-center'>
+				<span>
+					{(isLoading && '데이터를 불러오는 중입니다...') ||
+						!meetings ||
+						'아직 찜한 모임이 없어요'}
+				</span>
+			</div>
+		);
+	}
+
 	return (
-		<div className='flex flex-col items-center gap-6'>
+		<div className='flex flex-col items-center gap-6 min-h-[534px] md:min-h-[821px] lg:min-h-[771px]'>
 			{meetings?.map((el) => (
 				<Card
+					onClick={() => router.push(`meeting/${el.id}`)}
 					id={el.id}
 					key={el.id ?? 0}
 					registrationEnd={new Date(el.registrationEnd) < new Date()}
@@ -78,13 +91,7 @@ function CardList() {
 							</Card.Header.Right>
 						</Card.Header>
 
-						<Card.Footer
-							max={40}
-							value={30}
-							onClick={() => {
-								router.push(`meeting/${el.id}`);
-							}}
-						>
+						<Card.Footer max={40} value={30}>
 							<div className='flex gap-2'>
 								<Members max={el.capacity ?? 0} value={el.participantCount} />
 								<StatusBadge participantCount={el.participantCount} />

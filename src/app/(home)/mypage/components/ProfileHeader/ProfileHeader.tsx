@@ -1,26 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import ProfileIcon from '../ProfileIcon/ProfileIcon';
 import Image from 'next/image';
-import type { IUser } from '@/types/userType';
-import { getUserData } from '@/api/getUserData';
-import { useEffect, useState } from 'react';
+import ProfileIcon from '../ProfileIcon/ProfileIcon';
+import { useProfile } from '@/store/useAuthStore';
 
 function ProfileHeader() {
-	const [data, setData] = useState<IUser>();
-	const getData = async () => {
-		const userData = await getUserData();
-		setData(userData);
-	};
-
-	useEffect(() => {
-		getData();
-	}, []);
-
-	const { name, email, companyName, image } = data ?? {};
-
-	/** zustand/reactQuery 로 변경할 예정 */
+	const { name, email, companyName, image } = useProfile();
 	return (
 		<section className='border border-2 border-gray-200 rounded-3xl overflow-hidden'>
 			<div className='bg-primary-400 flex items-center justify-between pl-6 pr-4 py-4'>
@@ -40,7 +26,7 @@ function ProfileHeader() {
 					<ProfileIcon.Avatar size='small' className='relative bottom-5' />
 				)}
 				{!!image && (
-					<div className='relative bottom-5 border border-2 border-white max-h-[56px] basis-[56px] rounded-full overflow-hidden'>
+					<div className='relative bottom-5 border border-2 border-white max-h-[56px] basis-[56px] rounded-full overflow-hidden bg-[url(/icons/profileDefault.svg)] bg-cover bg-center'>
 						<Image src={image} alt='' fill className='object-cover' />
 					</div>
 				)}

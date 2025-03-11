@@ -14,16 +14,13 @@ const getUserData = async (): Promise<IUser> => {
 	}
 	console.log('현재 로그인 된 유저의 토큰: ', token);
 
-	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/auths/user`,
-		{
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
-			},
+	const response = await fetch(`${process.env.BASE_URL}/auths/user`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
 		},
-	);
+	});
 
 	if (!response.ok) {
 		const error = await response.json();
