@@ -136,10 +136,10 @@ export const myMeetingService = {
 		};
 
 		try {
-			const meetings = api(params, options);
+			const meetings = await api(params, options);
 			// meetings 가 없다면
 			if (!meetings) return null;
-			return meetings;
+			return meetings.filter((item) => !item.canceledAt);
 		} catch (e) {
 			// 호출 컴포넌트에 에러처리 위임
 			throw new Error(e as string);
