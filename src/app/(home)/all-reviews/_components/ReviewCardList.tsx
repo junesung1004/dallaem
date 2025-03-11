@@ -6,7 +6,13 @@ import useFetchReviewsData from '@/hooks/query/useFetchReviewData';
 
 function ReviewCardList() {
 	const { data, fetchNextPage, hasNextPage, isLoading } = useFetchReviewsData();
-	const reviews: ReviewType[] = data?.pages.flatMap((page) => page.data) ?? [];
+	const reviews: ReviewType[] =
+		data?.pages
+			.flatMap((page) => page.data)
+			.filter(
+				(review, index, self) =>
+					self.findIndex((r) => r.id === review.id) === index,
+			) ?? [];
 	const isReviewEmpty = reviews.length === 0;
 
 	const { ref, inView } = useInView();
