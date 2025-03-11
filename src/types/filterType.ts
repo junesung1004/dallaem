@@ -10,3 +10,15 @@ export interface FilterContextType {
 	setSortBy?: (sortBy: string) => void;
 	setSortOrder?: (sortOrder: 'asc' | 'desc') => void;
 }
+
+export type FilterType = Pick<
+	FilterContextType,
+	'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
+> | null;
+
+export type OnFilterType = <T = void>(
+	filter: Pick<
+		FilterContextType,
+		'type' | 'location' | 'date' | 'sortBy' | 'sortOrder'
+	> | null,
+) => T;
