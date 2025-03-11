@@ -4,20 +4,39 @@ import { useState } from 'react';
 import { Pagination } from '../_components/Pagination';
 import { useParams } from 'next/navigation';
 import useDetailReviewData from '@/hooks/query/useDetailReviewData';
+import { ReviewInitialData } from '@/types/paginationType';
 import ReviewCard from '@/components/ReviewCard/ReviewCard';
 
-export default function ReviewClient() {
+export default function ReviewClient({
+	initialReviews,
+}: {
+	initialReviews: ReviewInitialData;
+}) {
 	const [currentPage, setCurrentPage] = useState(1);
 	const params = useParams();
 	const id = params.id as string;
 	const limit = 4;
+
+	const queryOptions =
+		currentPage === 1
+			? {
+					initialData: {
+						data: initialReviews.data,
+						totalItemCount: initialReviews.totalItemCount,
+						totalPages: initialReviews.totalPages,
+					},
+				}
+			: undefined;
 
 	const {
 		data: reviewData,
 		isLoading: isReviewLoading,
 		isError: isReviewError,
 		error: reviewError,
-	} = useDetailReviewData({ gatheringId: id, limit, currentPage });
+	} = useDetailReviewData(
+		{ gatheringId: id, limit, currentPage },
+		queryOptions,
+	);
 
 	const reviews = reviewData?.data || [];
 	const totalPages = Math.ceil((reviewData?.totalItemCount || 0) / limit);
