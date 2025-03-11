@@ -47,6 +47,8 @@ interface TagProps {
 
 interface MeetingCardBaseProps extends MeetingCardInfoProps, TagProps {
 	canceledAt: IMeeting['canceledAt'];
+	isReviewed: boolean;
+	canLeave: boolean;
 }
 
 /** Base 가 되는 카드 */
@@ -91,6 +93,8 @@ function JoinedMeetingCard({
 	isDone,
 	isCreated,
 	onCancelClick,
+	isReviewed,
+	canLeave,
 	...props
 }: Partial<MeetingCardBaseProps> & {
 	onCancelClick: (e: React.MouseEvent, id: number) => void;
@@ -111,8 +115,8 @@ function JoinedMeetingCard({
 				</div>
 				<CardInfo {...(props as MeetingCardInfoProps)} />
 			</div>
-			{!!isDone && <CreateReviewButton meetingId={id} />}
-			{!isDone && (
+			{!isReviewed && <CreateReviewButton meetingId={id} />}
+			{!isDone && canLeave && (
 				<Button
 					variation='outline'
 					onClick={(e) => {
