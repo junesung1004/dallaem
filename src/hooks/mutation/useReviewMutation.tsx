@@ -16,7 +16,16 @@ export const useReviewMutation = (
 		onSuccess: (res) => {
 			if (res) {
 				closeAllModal();
-				queryClient.invalidateQueries({ queryKey: [userId, 'review'] });
+				queryClient.invalidateQueries({
+					predicate: (query) => {
+						return query.queryKey.includes('review');
+					},
+				});
+				queryClient.invalidateQueries({
+					predicate: (query) => {
+						return query.queryKey.includes('joined');
+					},
+				});
 			}
 		},
 		// throwOnError: true,
