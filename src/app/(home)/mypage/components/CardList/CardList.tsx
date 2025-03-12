@@ -2,17 +2,14 @@
 
 import CardBase from './CardBase';
 import Link from 'next/link';
-import { MyMeeting } from '@/types/meetingsType';
-import {
-	useQuery,
-	useSuspenseQuery,
-	UseSuspenseQueryOptions,
-} from '@tanstack/react-query';
+import type { MyMeeting, MyMeetingCardType } from '@/types/meetingsType';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import type { UseSuspenseQueryOptions } from '@tanstack/react-query';
 import { myMeetingService } from './Services/myMeetingService';
 interface CardListProps {
 	cardType: 'joined' | 'hosted';
 	pageKey: 'joined' | 'review' | 'hosted';
-	initialData?: MyMeeting[];
+	initialData?: MyMeeting[] | MyMeetingCardType[];
 }
 
 /** no data const */
@@ -33,7 +30,7 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 	// page 별 queryFuncSetter
 	const returnQueryFunc = (pageKey: 'joined' | 'review' | 'hosted') => {
 		const funcMap = {
-			joined: myMeetingService.getMyMeetings,
+			joined: myMeetingService.getMarkedMyMeetings,
 			review: myMeetingService.getMyCompletedMeetings,
 			hosted: myMeetingService.getMyHostedMeetings,
 		};
@@ -52,14 +49,15 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 		});
 	};
 
-	const queryOptions: UseSuspenseQueryOptions<MyMeeting[] | null> = {
+	const queryOptions: UseSuspenseQueryOptions<
+		MyMeetingCardType[] | MyMeeting[] | null
+	> = {
 		queryKey: ['mypage', pageKey, !!authToken],
-		queryFn:
-			['joined', 'review'].includes(pageKey) && authToken
-				? queryFunction
-				: () => {
-						return null;
-					},
+		queryFn: authToken
+			? queryFunction
+			: () => {
+					return null;
+				},
 		initialData,
 	};
 
@@ -86,8 +84,13 @@ function CardList({ cardType, pageKey, initialData }: CardListProps) {
 					<CardBase data={meeting}>
 						{cardType === 'joined' ? (
 							<CardBase.JoinedMeetingCard
-								// onCancelClick={(e, id) => onCancelClick!(e, id)} // 전달 시, e와 id를 넘겨줌
-								onCancelClick={() => {}} // 전달 시, e와 id를 넘겨줌
+								isReviewed={meeting.isReviewed}
+								canLeave={
+									'canLeave' in meeting &&
+									(meeting.canLeave as MyMeetingCardType['canLeave'])
+								}
+								// onCancelClick={(e, id) => handleClickCancel!(e, id)}
+								onCancelClick={(e, id) => {}}
 							/>
 						) : (
 							<CardBase.HostedMeetingCard />
