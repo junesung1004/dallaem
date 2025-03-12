@@ -1,39 +1,34 @@
-'use client';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { getUserInfo } from '@/api/users';
+import type { IReview } from '@/types/reviewType';
+import { reviewService } from '@/service/reviewService';
+import CardList from './components/CardList';
 
-import ReviewCard from '@/components/ReviewCard/ReviewCard';
-import { useMyReviews } from '@/hooks/customs/useMyReviews';
-import { IReview } from '@/types/reviewType';
+async function Page() {
+	const cookieStore = await cookies();
+	const token = cookieStore.get('token');
 
-/** 모임 종류별 치환 */
-const typeMap: {
-	[x: string]: string;
-} = {
-	DALLAEMFIT: '달램핏',
-	OFFICE_STRETCHING: '오피스 스트레칭',
-	MINDFULNESS: '마인드풀니스 ',
-	WORKATION: '워케이션',
-};
+	if (!token) redirect('/login');
 
-function Page() {
-	const { reviews }: { reviews?: IReview['data'] } = useMyReviews();
+	const userInfo = await getUserInfo({
+		headers: {
+			Authorization: `Bearer ${token?.value}`,
+		},
+	});
+
+	if (!userInfo) redirect('/login');
+	const userId = userInfo.id;
+
+	const { data } = await reviewService.getDetailReviewData({
+		userId,
+	});
+
+	const reviews: IReview['data'] = data ?? [];
+
 	return (
-		<div className='flex min-h-[380px] md:min-h-[688px] lg:min-h-[617px]'>
-			<div>
-				{reviews?.map((review) => (
-					<ReviewCard key={review.id}>
-						<ReviewCard.ImageSection src={review.Gathering.image} />
-						<ReviewCard.ReviewLayout>
-							<ReviewCard.HeartScore score={review.score} />
-							<ReviewCard.Content comment={review.comment} />
-							<ReviewCard.EtcInfo
-								type={typeMap[review.Gathering.type] ?? ''}
-								location={review.Gathering.location}
-								date={review.Gathering.dateTime}
-							/>
-						</ReviewCard.ReviewLayout>
-					</ReviewCard>
-				))}
-			</div>
+		<div className='flex min-h-[436px] md:min-h-[744px] lg:min-h-[832px]'>
+			<CardList pageKey='reviewed' initialData={reviews} />
 		</div>
 	);
 }
