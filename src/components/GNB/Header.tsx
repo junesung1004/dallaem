@@ -19,7 +19,7 @@ export default function Header() {
 				<nav className='md:mx-auto w-full flex justify-between items-center text-xs md:text-base lg:text-lg text-white font-semibold'>
 					<ul className='flex gap-2 sm:gap-4 lg:gap-5'>
 						<li className='font-extrabold'>
-							<Link href={'/'}>같이 달램</Link>
+							<Link href={'/'}>마음 달램</Link>
 						</li>
 						<li>
 							<Link
