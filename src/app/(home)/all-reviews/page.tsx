@@ -5,11 +5,12 @@ import {
 } from '@tanstack/react-query';
 import ReviewsPage from './ReviewsPage';
 import { reviewService } from '@/service/reviewService';
+import { FilterType } from '@/types/filterType';
 
 export default async function AllReviews() {
 	const queryClient = new QueryClient();
-	// useFilter와 동일하게 설정
-	const filters = {
+
+	const filters: FilterType = {
 		type: 'DALLAEMFIT',
 		location: '',
 		date: '',
@@ -20,10 +21,12 @@ export default async function AllReviews() {
 	await queryClient.prefetchInfiniteQuery({
 		queryKey: ['reviews', filters],
 		queryFn: async () => {
+			const { type, sortBy, sortOrder } = filters;
 			const data = await reviewService.getDetailReviewData({
 				limit: 5,
-				sortBy: 'createdAt',
-				sortOrder: 'desc',
+				type,
+				sortBy,
+				sortOrder,
 			});
 			return {
 				data: data.data,
@@ -38,7 +41,7 @@ export default async function AllReviews() {
 	const dehydratedState = dehydrate(queryClient);
 	return (
 		<HydrationBoundary state={dehydratedState}>
-			<ReviewsPage />
+			<ReviewsPage initialFilters={filters} />
 		</HydrationBoundary>
 	);
 }

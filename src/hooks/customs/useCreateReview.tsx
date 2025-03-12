@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useGlobalModal } from './useGlobalModal';
-import { useParams, useRouter } from 'next/navigation';
-import { createReview } from '@/api/reivews';
+import { useParams } from 'next/navigation';
+import { useReviewMutation } from '../mutation/useReviewMutation';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export interface IReviewState {
 	valid: boolean;
@@ -13,9 +14,11 @@ export interface IReviewState {
 
 export function useCreateReview(initialState: IReviewState) {
 	const [state, setState] = useState(initialState);
-	const { openModal, closeModal, closeAllModal } = useGlobalModal(); // 전역 모달 제어
+	const { openModal, closeAllModal } = useGlobalModal(); // 전역 모달 제어
 	const params = useParams<{ id: string }>();
-	const router = useRouter();
+	const { userId } = useAuthStore();
+
+	const { mutation } = useReviewMutation(userId, params?.id, state);
 
 	/** 유효성 검사 */
 	const validate = (
@@ -60,96 +63,7 @@ export function useCreateReview(initialState: IReviewState) {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		try {
-			const res = await createReview(params?.id, state);
-			if (res) {
-				closeAllModal();
-			}
-		} catch (e) {
-			if (!(e instanceof Error)) {
-				console.error('Unknown error');
-				return null;
-			}
-
-			switch (e.message) {
-				case 'token invalid':
-					openModal({
-						content: (
-							<span>
-								로그인이 만료되었습니다.
-								<br />
-								로그인 페이지로 이동합니다
-							</span>
-						),
-						confirmType: 'Alert',
-						onConfirm: () => {
-							closeAllModal();
-							router.push('/login');
-						},
-					});
-					break;
-				case 'FORBIDDEN':
-					openModal({
-						content: (
-							<span>
-								모임에 참여하지 않아 리뷰를 작성할 수 없어요
-								<br />
-								작성 중인 내용을 모두 삭제하고 나가시겠어요?
-							</span>
-						),
-						confirmType: 'Alert',
-						onConfirm: () => {
-							closeAllModal();
-						},
-						onDismiss: closeModal,
-					});
-					break;
-				case 'NOT_FOUND':
-					openModal({
-						content: (
-							<span>
-								모임을 찾을 수 없습니다.
-								<br />
-								작성 중인 내용을 모두 삭제하고 나가시겠어요?
-							</span>
-						),
-						confirmType: 'Confirm',
-						onConfirm: () => {
-							closeAllModal();
-						},
-						onDismiss: closeModal,
-					});
-					break;
-				case 'ALREADY_REVIEWED':
-					openModal({
-						content: (
-							<span>
-								이 모임에 이미 작성한 리뷰가 있어
-								<br />
-								새로운 리뷰를 남길 수 없어요
-								<br />
-								작성 중인 내용을 모두 삭제하고 나가시겠어요?
-							</span>
-						),
-						confirmType: 'Confirm',
-						onConfirm: () => {
-							closeAllModal();
-						},
-						onDismiss: closeModal,
-					});
-					break;
-
-				default:
-					console.error(e);
-					openModal({
-						content: '문제가 발생하였습니다. 다시 시도해주세요',
-						confirmType: 'Alert',
-						onConfirm: () => {
-							closeAllModal();
-						},
-					});
-			}
-		}
+		mutation.mutate();
 	};
 
 	// 작성 중간에 이탈 시 실행 함수

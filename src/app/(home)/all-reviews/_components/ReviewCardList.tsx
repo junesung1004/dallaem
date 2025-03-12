@@ -3,9 +3,12 @@ import { useInView } from 'react-intersection-observer';
 import ReviewCard from '@/components/ReviewCard/ReviewCard';
 import { ReviewType } from '@/types/paginationType';
 import useFetchReviewsData from '@/hooks/query/useFetchReviewData';
+import { FilterType } from '@/types/filterType';
 
-function ReviewCardList() {
-	const { data, fetchNextPage, hasNextPage, isLoading } = useFetchReviewsData();
+function ReviewCardList({ filters }: { filters: FilterType }) {
+	const { data, fetchNextPage, hasNextPage, isLoading } =
+		useFetchReviewsData(filters);
+
 	// 리뷰 키 값 중복 제거
 	const reviews: ReviewType[] =
 		data?.pages

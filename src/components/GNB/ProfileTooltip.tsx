@@ -3,17 +3,35 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/customs/useAuth';
 import { useProfile } from '@/store/useAuthStore';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const ProfileTooltip = () => {
 	const { logoutUser } = useAuth();
 	const [visible, setVisible] = useState(false);
 
 	const { image } = useProfile();
-  const src = image ?? '/icons/profileDefault.svg';
+	const src = image ?? '/icons/profileDefault.svg';
 	const toggleTooltip = () => setVisible((prev) => !prev);
+	const tooltipRef = useRef<HTMLDivElement>(null); // 참조 생성
+
+	// 외부 클릭 감지
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (!tooltipRef.current) return; // 🔥 `null` 체크 추가
+			if (!tooltipRef.current.contains(event.target as Node)) {
+				setVisible(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
+
 	return (
 		<div
+			ref={tooltipRef}
 			className='relative '
 			onClick={toggleTooltip}
 			style={{
