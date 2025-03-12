@@ -13,8 +13,8 @@ export default function Header() {
 			<div className='max-w-[1200px] w-full'>
 				<nav className='md:mx-auto w-full flex justify-between items-center text-xs md:text-base lg:text-lg text-white'>
 					<ul className='flex gap-2 sm:gap-4 lg:gap-5'>
-						<li className='font-bold'>
-							<Link href={'/'}>같이 달램</Link>
+						<li className='font-extrabold'>
+							<Link href={'/'}>마음 달램</Link>
 						</li>
 						<li>
 							<Link href={'/'}>모임 찾기</Link>
