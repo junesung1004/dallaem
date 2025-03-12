@@ -12,7 +12,7 @@ async function MyPage() {
 	let initialMyMeetings: MyMeeting[] = [];
 
 	try {
-		const meetings = await myMeetingService.getMyMeetings({
+		const meetings = await myMeetingService.getMarkedMyMeetings({
 			headers: {
 				Authorization: `Bearer ${token?.value}`,
 			},

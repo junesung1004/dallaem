@@ -22,6 +22,7 @@ const useAuthStore = create<Store & { hasHydrated: boolean }>()(
 			setCompanyName: (companyName: string | null) =>
 				set({ companyName: companyName }),
 			setImage: (image: string | null) => set({ image: image }),
+			setState: (newState) => set((state) => ({ ...state, ...newState })),
 			setUserNull: () =>
 				set({
 					isLoggedIn: false,
