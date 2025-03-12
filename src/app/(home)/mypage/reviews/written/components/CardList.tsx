@@ -25,7 +25,6 @@ function CardList({
 	pageKey: 'reviewed';
 	initialData?: IReviewData[] | null;
 }) {
-	// const { meetings, onCancelClick } = useMyMeetings(pageKey, initialData);
 	let authToken = null;
 	if (typeof window !== 'undefined') {
 		// 브라우저 환경에서만 실행
