@@ -77,7 +77,6 @@ const Login = () => {
 				companyName: user.companyName,
 				name: user.name,
 				email: user.email,
-				image: user.image,
 			});
 
 			// 에러 초기화 후 이전 페이지로 이동
