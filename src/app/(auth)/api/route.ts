@@ -35,3 +35,16 @@ export async function POST(request: NextRequest) {
 		status: 200,
 	});
 }
+
+// cookie 에 token을 삭제하는 api
+export async function DELETE(request: NextRequest) {
+	const cookieStore = await cookies();
+	const token = cookieStore.get('token');
+
+	if (token) {
+		cookieStore.delete('token');
+	}
+	return new Response('token saved', {
+		status: 200,
+	});
+}
