@@ -3,12 +3,12 @@ coverage:
     project: #add everything under here, more options at https://docs.codecov.com/docs/commit-status
       default:
         # basic
-        target: auto #default
+        target: 40% #default
         threshold: 0%
         base: auto
 
 comment: #this is a top-level key
-  layout: " diff, flags, files"
+  layout: ' diff, flags, files'
   behavior: default
   require_changes: false # if true: only post the comment if coverage changes
   require_base: false # [true :: must have a base report to post]

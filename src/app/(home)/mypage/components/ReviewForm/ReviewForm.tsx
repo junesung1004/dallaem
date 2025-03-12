@@ -7,6 +7,10 @@ import Button from '@/components/Button/Button';
 import { useCreateReview } from '@/hooks/customs/useCreateReview';
 
 function ReviewForm() {
+	return <ReviewFormComponent />;
+}
+
+function ReviewFormComponent() {
 	const { state, handleChange, handleSubmit, handleClose } = useCreateReview({
 		valid: false,
 		comment: '',

@@ -1,5 +1,5 @@
-import CardList from './components/CardList/CardList';
+import PageContent from './components/PageContent';
 
 export default function FavoriteMeetingPage() {
-	return <CardList />;
+	return <PageContent />;
 }
