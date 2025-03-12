@@ -32,7 +32,7 @@ const useAuth = () => {
 		setUserNull();
 		resetNotifications();
 		console.log('로그아웃 되었습니다. 메인 페이지로 이동합니다');
-		router.push('/login');
+		router.push('/');
 	};
 
 	// 함수: 토큰 유효성 검증
