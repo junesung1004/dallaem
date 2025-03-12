@@ -32,14 +32,12 @@ const useAuth = () => {
 		setUserNull();
 		resetNotifications();
 		console.log('로그아웃 되었습니다. 메인 페이지로 이동합니다');
-		router.push('/login');
+		router.push('/');
 	};
 
 	// 함수: 토큰 유효성 검증
 	const validateToken = () => {
 		const currentToken = useAuthStore.getState().token; //최신 값 가져옴
-		const currentIsLoggedIn = useAuthStore.getState().isLoggedIn;
-		const currentUserId = useAuthStore.getState().userId;
 		if (!currentToken) {
 			console.log('현재 로그인 상태: 토큰 없음');
 			return;
@@ -50,12 +48,6 @@ const useAuth = () => {
 			logoutUser();
 			return;
 		}
-		console.log(
-			'현재 로그인 상태: ',
-			currentIsLoggedIn,
-			currentToken,
-			currentUserId,
-		);
 	};
 
 	// 페이지 이동 시 토큰 검증
