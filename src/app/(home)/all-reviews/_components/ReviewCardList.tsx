@@ -64,6 +64,7 @@ function ReviewCardList({ filters }: { filters: FilterType }) {
 									type={review.Gathering.type}
 									location={review.Gathering.location}
 									date={review.createdAt}
+									gatheringDate={review.Gathering.dateTime}
 								/>
 							</ReviewCard.ReviewLayout>
 						</ReviewCard>
