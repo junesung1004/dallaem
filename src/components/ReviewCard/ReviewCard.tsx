@@ -85,6 +85,20 @@ function EtcInfo({
 	nickname?: string;
 	date: string;
 }) {
+	const formatDate = (date: Date | string): string => {
+		return new Date(date).toISOString().split('T')[0].replace(/-/g, '.');
+	};
+
+	const formatType = (type: string) => {
+		if (type === 'MINDFULNESS') {
+			return '심리지원 상담 프로그램';
+		} else if (type === 'OFFICE_STRETCHING') {
+			return '심리지원 마음의 캔버스';
+		} else if (type === 'WORKATION') {
+			return '마음쉼터';
+		}
+	};
+
 	return (
 		<div className='flex flex-col text-xs'>
 			{type && location && (

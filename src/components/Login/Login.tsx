@@ -159,22 +159,32 @@ const Login = () => {
 					)}
 				</div>
 
-				{/* Section: 로그인 버튼 */}
-				<div className='flex flex-col justify-center items-center gap-[24px]'>
-					<button
-						className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
-						onClick={handleSubmit}
-					>
-						확인
-					</button>
-					<div className='text-[15px] text-gray-800 flex gap-[4px]'>
-						<span>같이달램이 처음이신가요?</span>
-						<span
-							className='text-orange-600'
-							onClick={() => router.push('/signup')}
-						>
-							회원가입
-						</span>
+					{/* Section: 로그인 버튼. 활성화 / 비활성화 */}
+					<div className='Button flex flex-col justify-center items-center gap-[24px]'>
+						{isActive ? (
+							<button
+								className='w-full h-[40px] md:h-[44px] bg-primary-600 rounded-xl text-white'
+								onClick={handleSubmit}
+								type='submit'
+							>
+								확인
+							</button>
+						) : (
+							<button
+								className='w-full h-[40px] md:h-[44px] bg-gray-400 rounded-xl'
+								onClick={handleSubmit}
+								type='submit'
+							>
+								확인
+							</button>
+						)}
+
+						<div className='text-[15px] text-gray-800 flex gap-[4px]'>
+							<span>같이달램이 처음이신가요?</span>
+							<Link className='text-primary-600' href={'/signup'}>
+								회원가입
+							</Link>
+						</div>
 					</div>
 				</div>
 			</div>

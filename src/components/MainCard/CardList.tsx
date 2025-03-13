@@ -52,11 +52,11 @@ export default function CardList({
 								<Card.Header.Left
 									title={
 										el.type === 'OFFICE_STRETCHING'
-											? '달램핏 마인드풀니스 |'
+											? '심리지원 상담 프로그램|'
 											: el.type === 'MINDFULNESS'
-												? '달램핏 마인드풀니스 |'
+												? '심리지원 마음의 캔버스 |'
 												: el.type === 'WORKATION'
-													? '워크에이션 리프레쉬 |'
+													? '마음쉼터 리프레쉬 |'
 													: ''
 									}
 									place={el.location}
@@ -136,11 +136,11 @@ export default function CardList({
 									<Card.Header.Left
 										title={
 											el.type === 'OFFICE_STRETCHING'
-												? '달램핏 마인드풀니스 |'
+												? '심리지원 상담 프로그램 |'
 												: el.type === 'MINDFULNESS'
-													? '달램핏 마인드풀니스 |'
+													? '심리지원 마음의 캔버스 |'
 													: el.type === 'WORKATION'
-														? '워크에이션 리프레쉬 |'
+														? '마음쉼터 리프레쉬 |'
 														: ''
 										}
 										place={el.location}
