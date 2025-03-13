@@ -120,7 +120,7 @@ function EtcInfo({
 	userIcon?: string;
 	nickname?: string;
 	date: string;
-	gatheringDate: string;
+	gatheringDate?: string;
 }) {
 	const formatDate = (date: Date | string): string => {
 		return new Date(date).toISOString().split('T')[0].replace(/-/g, '.');
@@ -138,7 +138,7 @@ function EtcInfo({
 
 	return (
 		<div className='flex flex-col text-xs'>
-			{type && location && (
+			{type && location && gatheringDate && (
 				<div className='mb-2'>
 					<span>{formatType(type)}</span>
 					<span className='mx-1'>·</span>
