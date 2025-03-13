@@ -231,7 +231,7 @@ const Login = () => {
 						)}
 
 						<div className='text-[15px] text-gray-800 flex gap-[4px]'>
-							<span>같이달램이 처음이신가요?</span>
+							<span>마음달램이 처음이신가요?</span>
 							<Link className='text-primary-600' href={'/signup'}>
 								회원가입
 							</Link>
