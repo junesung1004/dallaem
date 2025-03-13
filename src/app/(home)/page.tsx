@@ -5,13 +5,13 @@ import {
 } from '@tanstack/react-query';
 import MainPage from './MainPage';
 import { getMeetingInfiniteData } from '@/api/meeting/getMeetingDate';
-import { FilterContextType } from '@/types/filterType';
+import { FilterType } from '@/types/filterType';
 
 export default async function Home() {
 	const queryClient = new QueryClient();
 
 	// 필터 설정
-	const filters: FilterContextType = {
+	const filters: FilterType = {
 		type: 'DALLAEMFIT',
 		location: '',
 		date: '',
@@ -37,7 +37,7 @@ export default async function Home() {
 
 	return (
 		<HydrationBoundary state={dehydratedState}>
-			<MainPage />
+			<MainPage initialFilters={filters} />
 		</HydrationBoundary>
 	);
 }
