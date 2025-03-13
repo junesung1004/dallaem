@@ -3,17 +3,18 @@ import { meetingService } from '@/app/(home)/favorite-meetings/meetingService';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import type { IMeeting } from '@/types/meetingsType';
-import { useFilter } from './useFilter';
-
 import {
 	deleteLikeId,
 	getLikerKey,
 	getLocalStorageItem,
 } from '@/utils/localStorage';
 import type { ILikeListJSON } from '@/types/likeButtonType';
+import { FilterType } from '@/types/filterType';
 
-export const useFavoriteMeetings = () => {
-	const { type } = useFilter();
+export const useFavoriteMeetings = (currentFilter: FilterType) => {
+	const initialType = { type: 'DALLAEMFIT' };
+	const { type } = currentFilter || initialType;
+
 	// 데이터 가져오는 함수
 	const getData = async () => {
 		// 아이디 목록을 기준으로 API 호출

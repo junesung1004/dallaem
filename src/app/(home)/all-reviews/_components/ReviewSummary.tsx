@@ -5,9 +5,10 @@ import ProgressBar from '@/components/ProgressBar/ProgressBar';
 import { REVIEW_SCORES } from '@/constants';
 import { useMemo } from 'react';
 import useFetchReviewScores from '@/hooks/query/useFetchReviewsScore';
+import { FilterType } from '@/types/filterType';
 
-const ReviewSummary = () => {
-	const reviewScore = useFetchReviewScores();
+const ReviewSummary = ({ filters }: { filters: FilterType }) => {
+	const reviewScore = useFetchReviewScores(filters);
 
 	const rating = ['5점', '4점', '3점', '2점', '1점'];
 	const starKeys = [

@@ -34,7 +34,7 @@ export const reviewService = {
 			};
 		} catch (error) {
 			console.log(`상세 페이지 리뷰 데이터 가져오기 실패:`, error);
-			return { data: [], totalItemCount: 0 };
+			return { data: [], totalItemCount: 0, totalPages: 0 };
 		}
 	},
 };
