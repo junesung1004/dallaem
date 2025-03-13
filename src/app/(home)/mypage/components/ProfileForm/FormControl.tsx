@@ -31,6 +31,7 @@ function InputControl({
 	disabled,
 	value,
 	onChange,
+	...props
 }: InputControlProps) {
 	return (
 		<FormControl id={id} title={title}>
@@ -41,6 +42,7 @@ function InputControl({
 					disabled={disabled}
 					value={value}
 					onChange={onChange}
+					{...props}
 				/>
 			</div>
 		</FormControl>

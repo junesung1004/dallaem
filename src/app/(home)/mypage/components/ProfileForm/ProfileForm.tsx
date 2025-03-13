@@ -55,7 +55,7 @@ function ProfileForm() {
 		}
 	};
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} role='form'>
 			<Dialog>
 				<Dialog.Content title='프로필 수정하기'>
 					<div className='flex flex-col gap-4 mb-[24px]'>

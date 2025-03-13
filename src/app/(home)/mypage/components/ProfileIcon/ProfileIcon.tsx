@@ -1,5 +1,5 @@
 function ProfileIcon({ children }: { children: React.ReactNode }) {
-	return { children };
+	return <>{children}</>;
 }
 
 interface AvatarProps {
@@ -10,6 +10,7 @@ interface AvatarProps {
 function Avatar({ size, className }: AvatarProps) {
 	return (
 		<svg
+			role='img'
 			xmlns='http://www.w3.org/2000/svg'
 			width='56'
 			height='56'
@@ -81,6 +82,7 @@ interface PencilProps {
 function Pencil({ size, className }: PencilProps) {
 	return (
 		<svg
+			role='img'
 			xmlns='http://www.w3.org/2000/svg'
 			width={`${size === 'small' ? '18' : '32'}`}
 			height={`${size === 'small' ? '18' : '32'}`}
