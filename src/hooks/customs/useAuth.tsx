@@ -27,11 +27,16 @@ const useAuth = () => {
 	const setUserNull = useAuthStore((state) => state.setUserNull);
 
 	// 함수: 로그아웃
-	const logoutUser = () => {
+	const logoutUser = async () => {
 		localStorage.removeItem('authToken');
 		setUserNull();
 		resetNotifications();
 		console.log('로그아웃 되었습니다. 메인 페이지로 이동합니다');
+
+		// cookie 삭제
+		await fetch('/api', {
+			method: 'DELETE',
+		});
 		router.push('/');
 	};
 

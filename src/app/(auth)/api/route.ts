@@ -1,5 +1,6 @@
 import { BASE_URL } from '@/constants';
 import { cookies, headers } from 'next/headers';
+import { NextRequest } from 'next/server';
 
 export async function GET() {
 	const headersList = await headers();
@@ -15,29 +16,35 @@ export async function GET() {
 	return Response.json({ data });
 }
 
-export async function POST(request: Request) {
-	const reqBody = await request.json();
+// cookie 에 token을 저장하는 api
+export async function POST(request: NextRequest) {
+	const requestHeaders = new Headers(request.headers);
+	const bearerToken = requestHeaders.get('Authorization');
+	const token = bearerToken?.replace('Bearer ', '');
 
-	const res = await fetch(`${BASE_URL}/auths/signin`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(reqBody),
-	});
-
-	const data = await res.json();
-
-	// data 가 제대로 넘어오면 token cookie 에 심기
-	if (data) {
+	if (token) {
 		const cookieStore = await cookies();
-
 		cookieStore.set({
 			name: 'token',
-			value: data.token,
+			value: token,
 			httpOnly: true,
 			path: '/',
 		});
 	}
-	return Response.json(data);
+	return new Response('token saved', {
+		status: 200,
+	});
+}
+
+// cookie 에 token을 삭제하는 api
+export async function DELETE(request: NextRequest) {
+	const cookieStore = await cookies();
+	const token = cookieStore.get('token');
+
+	if (token) {
+		cookieStore.delete('token');
+	}
+	return new Response('token saved', {
+		status: 200,
+	});
 }
