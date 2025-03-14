@@ -15,7 +15,6 @@ export default function Header() {
 
 	return (
 		<header className='flex items-center justify-center w-full h-[56px] md:h-[60px] bg-gradient-to-r from-primary-600 to-secondary-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px]'>
-		<header className='flex items-center justify-center w-full h-[56px] md:h-[60px] bg-gradient-to-r from-primary-600 to-secondary-600 border-black border-b-2 px-4 md:px-6 lg:px-[106px]'>
 			<div className='max-w-[1200px] w-full'>
 				<nav className='md:mx-auto w-full flex justify-between items-center text-xs md:text-base lg:text-lg text-white font-semibold'>
 					<ul className='flex gap-2 sm:gap-4 lg:gap-5'>
@@ -39,7 +38,7 @@ export default function Header() {
 							>
 								찜한 모임
 							</Link>
-							{isLoggedIn && likeNotification.hasNotification && (
+							{likeNotification.hasNotification && (
 								<Badge content={likeNotification.count} />
 							)}
 						</li>
