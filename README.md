@@ -1,4 +1,4 @@
-# 진달램⭐
+# 마음달램⭐
 
 <img width="724" alt="image" src="public/movies/프로젝트-소개-영상.gif">
 
