@@ -48,7 +48,7 @@ function ImageSection({ src, alt }: { src: string; alt: string }) {
 				src={src}
 				fill
 				priority
-				className='h-full w-full object-cover'
+				className='h-full w-full object-fit'
 				sizes='(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw'
 			/>
 		</div>
@@ -115,7 +115,7 @@ function Footer({
 			{/* 오른쪽 버튼 */}
 			<div
 				onClick={onClick}
-				className={`flex gap-2 cursor-pointer text-orange-600 font-semibold`}
+				className={`flex gap-2 cursor-pointer text-primary-600 font-semibold`}
 			>
 				<p>join now</p>
 				<motion.p

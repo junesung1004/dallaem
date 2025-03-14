@@ -47,5 +47,5 @@ export const useMyMeetings = (
 		fetchMeetings(pageKey, options || {});
 	}, []);
 
-	return { meetings };
+	return { meetings, setMeetings };
 };

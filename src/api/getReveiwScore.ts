@@ -1,4 +1,4 @@
-import { BASE_URL } from '@/constants';
+import { BASE_URL, REVIEW_SCORES } from '@/constants';
 import { GetReviewsParams, ReviewScore } from '@/types/reviewType';
 
 export const getReviewScore = async ({
@@ -17,16 +17,5 @@ export const getReviewScore = async ({
 		throw new Error(`${res.status}`);
 	}
 	const result = await res.json();
-	return result.length === 0
-		? {
-				teamId: '7',
-				averageScore: 0,
-				fiveStars: 0,
-				fourStars: 0,
-				threeStars: 0,
-				twoStars: 0,
-				oneStar: 0,
-				type: type,
-			}
-		: result[0];
+	return result.length === 0 ? { REVIEW_SCORES } : result;
 };

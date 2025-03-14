@@ -2,17 +2,9 @@
 import { getMeetingAttendee } from '@/api/meeting/getMeetingAttendee';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { IUser } from '@/types/userType';
+import { MeetingAttendee } from '@/types/userType';
 
-interface MeetingAttendee {
-	teamId: string;
-	userId: number;
-	gatheringId: number;
-	joinedAt: string;
-	User: IUser;
-}
-
-interface AttendeeProfilesInterface {
+interface AttendeeProfilesProps {
 	gatheringId: number;
 	imgSize?: number;
 	participantCount: number;
@@ -22,7 +14,7 @@ const AttendeeProfiles = ({
 	participantCount,
 	gatheringId,
 	imgSize = 29,
-}: AttendeeProfilesInterface) => {
+}: AttendeeProfilesProps) => {
 	const maxProfiles = 4;
 	const [profiles, setProfiles] = useState<string[]>([]);
 

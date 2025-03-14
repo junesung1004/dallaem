@@ -3,14 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useGlobalModal } from '@/hooks/customs/useGlobalModal';
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
-import { joinGroup } from '@/api/detail-meeting/joinGroup';
-import {
-	participantsGroup,
-	leaveGroup,
-} from '@/api/detail-meeting/participantsGroup';
-import { cancelGroup } from '@/api/detail-meeting/cancelGroup';
+import { useRouter, useParams } from 'next/navigation';
+import { participantsGroup } from '@/api/detail-meeting/participantsGroup';
+import { useGroupMutations } from '@/hooks/mutation/useGroupMutations';
 
 export function Footer({
 	createdBy,
@@ -26,17 +21,17 @@ export function Footer({
 	const [isJoinDisabled, setIsJoinDisabled] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
 	const [isDeadline, setIsDeadline] = useState(false);
-	const userId = useAuthStore((state) => state.userId);
-	const params = useParams();
 	const [id, setId] = useState<number | null>(null);
+
+	const userId = useAuthStore((state) => state.userId);
 	const { openModal, closeModal } = useGlobalModal();
 	const router = useRouter();
+	const params = useParams();
 
+	// 소유자 여부와 모집 마감 상태 설정
 	useEffect(() => {
 		setIsOwner(userId !== null && userId === createdBy);
-		if (participantCount >= capacity) {
-			setIsDeadline(true);
-		}
+		setIsDeadline(participantCount >= capacity);
 	}, [userId, createdBy, capacity, participantCount]);
 
 	useEffect(() => {
@@ -45,7 +40,7 @@ export function Footer({
 		}
 	}, [params.id]);
 
-	// 모임에 참여한 userId들
+	// 참여 여부 확인
 	useEffect(() => {
 		const checkParticipation = async () => {
 			if (userId && id) {
@@ -54,7 +49,6 @@ export function Footer({
 					const hasParticipated = participants.some(
 						(participant: { userId: number }) => participant.userId === userId,
 					);
-
 					if (hasParticipated) {
 						setIsJoinDisabled(true);
 					}
@@ -66,86 +60,27 @@ export function Footer({
 		checkParticipation();
 	}, [userId, id]);
 
-	// 참가자 모임 참여, 참여취소
-	const handleJoinClick = async () => {
-		if (userId === null) {
+	const { joinMutation, leaveMutation, cancelMutation } = useGroupMutations({
+		groupId: id ?? 0,
+		onSuccessJoin: () => {
+			updateParticipantCount(1);
 			openModal({
-				content: '로그인이 필요해요',
+				content: '참여 완료했습니다',
 				confirmType: 'Alert',
 				buttonPosition: 'right',
-
-				onConfirm: () => {
-					closeModal();
-					router.push('/login');
-				},
+				onConfirm: closeModal,
 			});
-			return;
-		}
-		if (userId && isJoinDisabled) {
-			try {
-				await leaveGroup(Number(id));
-				updateParticipantCount(-1);
-
-				setIsJoinDisabled(false);
-				openModal({
-					content: '참여가 취소되었습니다',
-					confirmType: 'Alert',
-					buttonPosition: 'right',
-					onConfirm: () => {
-						closeModal();
-						console.log('참여 취소 완료');
-					},
-				});
-			} catch (error) {
-				const errorMessage = (error as Error).message.replace(/^Error:\s*/, '');
-				openModal({
-					content: `${errorMessage}`,
-					confirmType: 'Alert',
-					buttonPosition: 'right',
-					onConfirm: () => {
-						closeModal();
-						console.log('참여 취소 중 오류 발생', error);
-					},
-				});
-			}
-			return;
-		}
-
-		if (userId) {
-			try {
-				await joinGroup(Number(id));
-				updateParticipantCount(1);
-				setIsJoinDisabled(true);
-				openModal({
-					content: '참여 완료했습니다',
-					confirmType: 'Alert',
-					buttonPosition: 'right',
-
-					onConfirm: () => {
-						closeModal();
-						console.log('참여완료');
-					},
-				});
-			} catch (error) {
-				const errorMessage = (error as Error).message.replace(/^Error:\s*/, '');
-				openModal({
-					content: `${errorMessage}`,
-					confirmType: 'Alert',
-					buttonPosition: 'right',
-
-					onConfirm: () => {
-						closeModal();
-						console.log('참여 중 오류 발생', error);
-					},
-				});
-			}
-		}
-	};
-
-	// 주최자 관련 로직
-	const handleCancelClick = async () => {
-		try {
-			await cancelGroup(Number(id));
+		},
+		onSuccessLeave: () => {
+			updateParticipantCount(-1);
+			openModal({
+				content: '참여가 취소되었습니다',
+				confirmType: 'Alert',
+				buttonPosition: 'right',
+				onConfirm: closeModal,
+			});
+		},
+		onSuccessCancel: () => {
 			openModal({
 				content: '모집 공고가 취소되었습니다',
 				confirmType: 'Alert',
@@ -153,21 +88,46 @@ export function Footer({
 				onConfirm: () => {
 					closeModal();
 					router.push('/');
-					console.log('모집 취소 완료');
 				},
 			});
-		} catch (error) {
-			const errorMessage = (error as Error).message.replace(/^Error:\s*/, '');
+		},
+		onError: (error) => {
 			openModal({
-				content: `${errorMessage}`,
+				content:
+					error instanceof Error ? error.message : '에러가 발생했습니다.',
+				confirmType: 'Alert',
+				buttonPosition: 'right',
+				onConfirm: closeModal,
+			});
+		},
+	});
+
+	//  참여하기/취소하기 버튼 클릭 핸들러
+	const handleJoinClick = () => {
+		if (userId === null) {
+			openModal({
+				content: '로그인이 필요해요',
 				confirmType: 'Alert',
 				buttonPosition: 'right',
 				onConfirm: () => {
 					closeModal();
-					console.log('모집 취소 중 오류 발생', error);
+					router.push('/login');
 				},
 			});
+			return;
 		}
+
+		if (isJoinDisabled) {
+			leaveMutation.mutate();
+			setIsJoinDisabled(false);
+		} else {
+			joinMutation.mutate();
+			setIsJoinDisabled(true);
+		}
+	};
+
+	const handleCancelClick = () => {
+		cancelMutation.mutate();
 	};
 
 	const handleShareClick = () => {
@@ -176,8 +136,8 @@ export function Footer({
 			confirmType: 'Alert',
 			buttonPosition: 'right',
 			onConfirm: () => {
-				router.push('/');
 				closeModal();
+				router.push('/');
 			},
 		});
 	};
@@ -186,7 +146,11 @@ export function Footer({
 		<div>
 			<div
 				className={`flex p-3 md:justify-between shrink-0
-					 bg-gray-100 border-t-2 border-black ${isOwner ? 'gap-3 flex-wrap justify-center items-center' : 'justify-between flex-nowrap'} 2xl:px-96 xl:px-72 lg:px-64 md:px-36 xs:items-center`}
+					 bg-gray-100 border-t-2 border-black ${
+							isOwner
+								? 'gap-3 flex-wrap justify-center items-center'
+								: 'justify-between flex-nowrap'
+						} 2xl:px-96 xl:px-72 lg:px-64 md:px-36 xs:items-center`}
 			>
 				<div className='text-start xs:mb-2'>
 					<div className='font-bold text-sm'>
@@ -200,13 +164,13 @@ export function Footer({
 					<div>
 						<button
 							onClick={handleCancelClick}
-							className='px-5 py-2 border-[1px] border-orange-500 text-orange-500 rounded-xl font-bold text-sm mr-2'
+							className='px-5 py-2 border-[1px] border-primary-500 text-primary-500 rounded-xl font-bold text-sm mr-2'
 						>
 							취소하기
 						</button>
 						<button
 							onClick={handleShareClick}
-							className='px-5 py-2 bg-orange-600 text-white rounded-xl text-sm'
+							className='px-5 py-2 bg-primary-600 text-white rounded-xl text-sm'
 						>
 							공유하기
 						</button>
@@ -218,11 +182,10 @@ export function Footer({
 				) : (
 					<button
 						onClick={handleJoinClick}
-						disabled={!isJoinDisabled ? false : false}
 						className={`px-5 py-2 rounded-xl text-sm transition-colors whitespace-nowrap max-h-[40px] ${
 							isJoinDisabled
-								? 'border-orange-600 border text-orange-600 font-bold'
-								: 'bg-orange-600 text-white'
+								? 'border-primary-600 border text-primary-600 font-bold'
+								: 'bg-primary-600 text-white'
 						}`}
 					>
 						{isJoinDisabled ? '참여 취소하기' : '참여하기'}

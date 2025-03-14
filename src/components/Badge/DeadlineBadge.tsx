@@ -16,7 +16,7 @@ const formatDeadlineText = (endString: string): string | null => {
 	} else if (diffMinutes < 60) {
 		return `잠시 후 마감`;
 	} else if (diffHours < 24) {
-		return `${diffHours - 1}시간 후 마감`;
+		return `${diffHours}시간 후 마감`;
 	} else {
 		return `${Math.floor(diffHours / 24)}일 후 마감`;
 	}
@@ -29,7 +29,7 @@ export const DeadlineBadge = ({ registrationEnd }: DeadlineBadgeProps) => {
 
 	return (
 		<div
-			className={`absolute top-0 right-0 bg-orange-500 text-white px-3 py-1 flex items-center gap-2 rounded-bl-2xl`}
+			className={`absolute top-0 right-0 bg-primary-500 text-white px-3 py-1 flex items-center gap-2 rounded-bl-2xl`}
 		>
 			<Image src='/icons/alarm.png' alt='시계 아이콘' width={18} height={18} />
 			<div className='text-sm font-medium mr-2'>{formattedText}</div>

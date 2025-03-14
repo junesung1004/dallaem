@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
 import { jwtDecode } from 'jwt-decode';
+import useNotificationStore from '@/store/useNotificationStore';
 
 //함수: 토큰 디코딩하여 시간 만료되었는지 유효성 검증
 const isTokenExpired = (token: string): boolean => {
@@ -21,6 +22,7 @@ const isTokenExpired = (token: string): boolean => {
 const useAuth = () => {
 	const pathname = usePathname();
 	const router = useRouter();
+	const { resetNotifications } = useNotificationStore();
 	// 상태관리 변수
 	const setUserNull = useAuthStore((state) => state.setUserNull);
 
@@ -28,6 +30,7 @@ const useAuth = () => {
 	const logoutUser = () => {
 		localStorage.removeItem('authToken');
 		setUserNull();
+		resetNotifications();
 		console.log('로그아웃 되었습니다. 메인 페이지로 이동합니다');
 		router.push('/login');
 	};

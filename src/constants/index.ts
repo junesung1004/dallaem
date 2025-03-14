@@ -16,7 +16,7 @@ export const PAGE_INFO: Record<string, PageInfoData> = {
 	saved: {
 		title: '찜한 모임',
 		description: '지금 모임에 참여해보세요',
-		src: '/images/head/headSaved.png',
+		src: '/images/head/headSaved.svg',
 	},
 	reviews: {
 		title: '모든 리뷰',
@@ -98,7 +98,7 @@ export const FITERING_DATA: Record<string, FilteringData[]> = {
 		},
 		{
 			label: '을지로 3가',
-			value: '을지로 3가',
+			value: '을지로3가',
 		},
 		{
 			label: '신림',
@@ -143,4 +143,13 @@ export const FITERING_DATA: Record<string, FilteringData[]> = {
 			value: 'participantCount',
 		},
 	],
+};
+
+export const REVIEW_SCORES = {
+	averageScore: 0,
+	fiveStars: 0,
+	fourStars: 0,
+	threeStars: 0,
+	twoStars: 0,
+	oneStar: 0,
 };

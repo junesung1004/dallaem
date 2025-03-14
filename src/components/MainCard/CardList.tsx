@@ -22,7 +22,6 @@ export default function CardList({
 
 	const { meetings } = useMainCard(initialData || [], meetingType);
 
-
 	return (
 		<div className='flex flex-col items-center gap-6'>
 			{/* 찜한 모임 목록 페이지일 경우 */}
@@ -94,7 +93,7 @@ export default function CardList({
 							>
 								<div className='flex gap-2'>
 									<Members max={el.capacity ?? 0} value={el.participantCount} />
-									<StatusBadge />
+									<StatusBadge participantCount={el.participantCount} />
 								</div>
 								<ProgressBar
 									max={el.capacity}
@@ -181,7 +180,7 @@ export default function CardList({
 											max={el.capacity ?? 0}
 											value={el.participantCount}
 										/>
-										<StatusBadge />
+										<StatusBadge participantCount={el.participantCount} />
 									</div>
 									<ProgressBar
 										max={el.capacity}

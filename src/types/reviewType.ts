@@ -3,16 +3,16 @@ export interface ReviewScore {
 	teamId?: string;
 	type?: string;
 	averageScore?: number;
-	oneStar?: number;
-	twoStars?: number;
-	threeStars?: number;
-	fourStars?: number;
-	fiveStars?: number;
+	oneStar: number;
+	twoStars: number;
+	threeStars: number;
+	fourStars: number;
+	fiveStars: number;
 }
 
 export interface GetReviewsParams {
 	gatheringId?: string;
-	type?: '' | 'DALLAEMFIT' | 'OFFICE_STRETCHING' | 'MINDFULNESS' | 'WORKATION';
+	type?: string;
 }
 
 export interface ReviewQueryType {
@@ -20,7 +20,7 @@ export interface ReviewQueryType {
 	limit?: number;
 	currentPage?: number;
 	userId?: number;
-	type?: '' | 'DALLAEMFIT' | 'OFFICE_STRETCHING' | 'MINDFULNESS' | 'WORKATION';
+	type?: string;
 	location?: '건대입구' | '을지로 3가' | '신림' | '홍대입구' | '';
 	registrationEnd?: string;
 	date?: string;
@@ -35,7 +35,7 @@ export interface IReview {
 	totalPages: number;
 }
 
-interface Datum {
+export interface Datum {
 	teamId: number;
 	id: number;
 	score: number;

@@ -27,7 +27,7 @@ function ReviewForm() {
 								/>
 							</FormControl>
 							<FormControl title='경험에 대해 남겨주세요.'>
-								<div className='md:min-w-[471px] md:min-h-[120px] md:max-w-[471px] md:max-h-[120px] min-w-[308px] min-h-[156px] bg-gray-50 px-4 py-2 focus-within:outline focus-within:outline-2 focus-within:outline-orange-600 rounded-xl'>
+								<div className='md:min-w-[471px] h-[120px] md:max-w-[471px] md:max-h-[120px] min-w-[308px] bg-gray-50 px-4 py-2 rounded-xl'>
 									<TextBox
 										placeholder={
 											'남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다.'
@@ -43,8 +43,7 @@ function ReviewForm() {
 					</Dialog.Content>
 					<Dialog.ButtonContainer>
 						<Button
-							state='default'
-							isOutlined={true}
+							variation='outline'
 							isFull={true}
 							onClick={handleClose}
 							type='button'

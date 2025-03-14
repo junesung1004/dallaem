@@ -11,7 +11,7 @@ function MeetingState({ isDone }: { isDone: boolean }) {
 			이용 완료
 		</div>
 	) : (
-		<div className={`${defaultTagClass} bg-orange-100 text-orange-600`}>
+		<div className={`${defaultTagClass} bg-primary-100 text-primary-600`}>
 			이용 예정
 		</div>
 	);
@@ -20,7 +20,7 @@ function MeetingState({ isDone }: { isDone: boolean }) {
 function MeetingCreateState({ isCreated }: { isCreated: boolean }) {
 	return isCreated ? (
 		<div
-			className={`${defaultTagClass} border border-1 border-orange-100 text-orange-500 inline-flex items-center gap-1`}
+			className={`${defaultTagClass} border border-1 border-primary-100 text-primary-500 inline-flex items-center gap-1`}
 		>
 			<ConfirmCheck />
 			개설확정

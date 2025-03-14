@@ -15,7 +15,7 @@ const getUserData = async (): Promise<IUser> => {
 	console.log('현재 로그인 된 유저의 토큰: ', token);
 
 	const response = await fetch(
-		`https://fe-adv-project-together-dallaem.vercel.app/7/auths/user`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/auths/user`,
 		{
 			method: 'GET',
 			headers: {

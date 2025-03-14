@@ -54,7 +54,7 @@ export default function ServiceSelector({
 							>
 								{/* 체크 시 V 표시 */}
 								{selected === item.id && (
-									<span className='text-orange-500 font-bold'>✓</span>
+									<span className='text-primary-500 font-bold'>✓</span>
 								)}
 							</div>
 							<h2 className='font-semibold'>{item.name}</h2>
