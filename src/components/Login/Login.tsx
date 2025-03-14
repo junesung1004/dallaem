@@ -14,8 +14,19 @@ const Login = () => {
 	const { isLoggedIn, token, userId, setIsLoggedIn, setToken, setUserId } =
 		useAuthStore(); //zustand 상태
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
-	const [id, setId] = useState('');
-	const [password, setPassword] = useState('');
+	const { setState, email } = useAuthStore();
+
+	//상태관리 변수
+	const [formData, setFormData] = useState<Record<FieldType, string>>({
+		id: '',
+		password: '',
+	});
+
+	const [errors, setErrors] = useState<Record<FieldType, string>>({
+		id: '',
+		password: '',
+	});
+
 	const [isHidden, setIsHidden] = useState(true); //비밀번호 숨김 토글 관리
 	const [errorId, setErrorId] = useState(''); //로그인 에러 관리
 	const [errorPassword, setErrorPassword] = useState('');
@@ -39,18 +50,21 @@ const Login = () => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			//로그인 성공. 에러 메시지 초기화. 이전 페이지로 돌아감
-			await signinUser({ email: id, password: password });
-			setErrorId('');
-			setErrorPassword('');
-			console.log('로그인 성공');
-
-			// 상태관리 변수에 저장
-			const currentToken = localStorage.getItem('authToken');
-			setIsLoggedIn(true);
-			setToken(currentToken);
-			const getId = (await getUserData()).id;
-			setUserId(getId);
+			await signinUser({
+				email: formData.id.trim(),
+				password: formData.password.trim(),
+			});
+			// 전역 상태변수 저장
+			const user = await getUserData();
+			setState({
+				isLoggedIn: true,
+				token: localStorage.getItem('authToken'),
+				userId: user.id,
+				companyName: user.companyName,
+				name: user.name,
+				email: user.email,
+				image: user.image,
+			});
 
 			//이전 페이지로 돌아감 (외부 사이트에서 접속했을 경우 홈으로 돌아감)
 			if (!referrer || !referrer.includes(window.location.hostname)) {
@@ -180,7 +194,7 @@ const Login = () => {
 						)}
 
 						<div className='text-[15px] text-gray-800 flex gap-[4px]'>
-							<span>같이달램이 처음이신가요?</span>
+							<span>마음달램이 처음이신가요?</span>
 							<Link className='text-primary-600' href={'/signup'}>
 								회원가입
 							</Link>
