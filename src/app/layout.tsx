@@ -6,7 +6,7 @@ import Header from '@/components/GNB/Header';
 import { ModalProvider } from '@/lib/ModalProvider';
 
 export const metadata: Metadata = {
-	title: '같이달램',
+	title: '마음달램',
 	description: '오프라인 모임을 주최하는 플랫폼',
 };
 

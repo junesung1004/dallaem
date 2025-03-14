@@ -24,6 +24,7 @@ export interface Store {
 	setName: (name: string | null) => void;
 	setCompanyName: (companyName: string | null) => void;
 	setImage: (image: string | null) => void;
+	setState: (state: Partial<Store>) => void;
 	setUserNull: () => void;
 }
 
