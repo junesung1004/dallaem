@@ -17,9 +17,9 @@ export default function ServiceSelector({
 	// console.log('selected : ', selected);
 
 	const services = [
-		{ id: 'OFFICE_STRETCHING', name: '달램핏', description: '오피스 스트레칭' },
-		{ id: 'MINDFULNESS', name: '달램핏', description: '마인드풀니스' },
-		{ id: 'WORKATION', name: '워크에이션', description: '리프레쉬' },
+		{ id: 'OFFICE_STRETCHING', name: '심리지원', description: '상담 프로그램' },
+		{ id: 'MINDFULNESS', name: '심리지원', description: '마음의 캔버스' },
+		{ id: 'WORKATION', name: '마음쉼터', description: '리프레쉬' },
 	];
 
 	const handleServiceSelect = (service: OnselectProps) => {
