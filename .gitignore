@@ -41,3 +41,8 @@ yarn-error.log*
 next-env.d.ts
 
 *storybook.log
+
+
+# pwa 관련 자동 생성 파일
+sw.js
+workbox-*.js

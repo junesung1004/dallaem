@@ -1,5 +1,15 @@
 // next.config.js
-module.exports = {
+import nextPWA from 'next-pwa';
+import 'dotenv/config';
+
+const withPWA = nextPWA({
+	dest: 'public',
+	register: true,
+	skipWaiting: true,
+	disable: process.env.BASE_URL === 'development',
+});
+
+module.exports = withPWA({
 	env: {
 		BASE_URL: process.env.BASE_URL,
 	},
@@ -24,4 +34,4 @@ module.exports = {
 			},
 		],
 	},
-};
+});
