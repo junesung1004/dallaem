@@ -71,7 +71,6 @@ export default function ReviewClient({
 					<ul>
 						{reviews.map((review) => (
 							<ReviewCard key={review.id} isDetailPage={true}>
-								<ReviewCard.ImageSection />
 								<ReviewCard.ReviewLayout isDetailPage={true}>
 									<ReviewCard.HeartScore score={review.score} />
 									<ReviewCard.Content comment={review.comment} />
