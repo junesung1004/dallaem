@@ -39,6 +39,7 @@ export const LikeButton = ({
 						alt='Discard Text'
 						width={116}
 						height={36}
+						priority
 					/>
 				</div>
 			)}
@@ -51,6 +52,7 @@ export const LikeButton = ({
 						alt='Discard Image'
 						width={34}
 						height={34}
+						priority
 					/>
 				</div>
 			)}
@@ -70,6 +72,7 @@ export const LikeButton = ({
 						width={24}
 						height={24}
 						className={`rounded-full ${scaleUp ? 'animate-scaleUp' : ''}`}
+						priority
 					/>
 				</div>
 			)}
