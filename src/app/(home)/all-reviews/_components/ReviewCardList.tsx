@@ -18,15 +18,7 @@ function ReviewCardList({ filters }: { filters: FilterType }) {
 					self.findIndex((r) => r.id === review.id) === index,
 			) ?? [];
 
-	// 모임 날짜, 필터링 날짜 비교 로직
-	const filteredReviews = filters?.date
-		? reviews.filter((review) => {
-				const reviewDate = review.Gathering.dateTime.split('T')[0];
-				return reviewDate === filters.date;
-			})
-		: reviews;
-
-	const isReviewEmpty = filteredReviews.length === 0;
+	const isReviewEmpty = reviews.length === 0;
 
 	const { ref, inView } = useInView();
 
@@ -50,7 +42,7 @@ function ReviewCardList({ filters }: { filters: FilterType }) {
 				<Msg message='아직 리뷰가 없어요' />
 			) : (
 				<>
-					{filteredReviews.map((review: ReviewType) => (
+					{reviews.map((review: ReviewType) => (
 						<ReviewCard key={review.id}>
 							<ReviewCard.ImageSection
 								src={review.Gathering.image || undefined}
