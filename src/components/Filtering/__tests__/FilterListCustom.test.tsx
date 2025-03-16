@@ -3,6 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import FilterList from '../FIlterListCustom';
 import { FITERING_DATA } from '@/constants';
 import type { FilterType } from '@/types/filterType';
+import { ComponentProps } from 'react';
+
+type FilterListProps = ComponentProps<typeof FilterList>;
 
 jest.mock('../../Calendar/CalendarFilter', () => {
 	return function MockCalendarFilter() {
@@ -19,15 +22,10 @@ describe('FilterList', () => {
 		sortOrder: 'desc',
 	};
 
-	const defaultProps = {
+	const defaultProps: FilterListProps = {
 		handleFilter: mockHandleFilter,
 		filter: mockFilter,
-		enabledFilters: [
-			'location',
-			'date',
-			'sortByMeeting',
-			'sortByReview',
-		] as const,
+		enabledFilters: ['location', 'date', 'sortByMeeting', 'sortByReview'],
 	};
 
 	beforeEach(() => {
