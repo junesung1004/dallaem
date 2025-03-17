@@ -22,7 +22,10 @@ export default function RootLayout({
 				<link rel='manifest' href='/manifest.json' />
 				<link rel='apple-touch-icon' href='/apple-touch-icon.png' />
 				<meta name='theme-color' content='#ffffff' />
-				<meta name='description' content='앱 설명을 여기에 입력하세요.' />
+				<meta
+					name='description'
+					content='함께라서 더 빛나는 마음, 마음의 쉼표'
+				/>
 			</head>
 			<body className='font-sans antialiased'>
 				<ReactQueryProvider>
