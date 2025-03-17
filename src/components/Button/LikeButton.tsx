@@ -15,7 +15,10 @@ export const LikeButton = ({
 		onLikeChangeHandler,
 	);
 	const [scaleUp, setScaleUp] = useState(false);
-	const handleToggle = async () => {
+	const handleToggle = async (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+
 		setScaleUp(true);
 
 		await originToggleLike();

@@ -5,34 +5,43 @@ import {
 } from '@tanstack/react-query';
 import ReviewsPage from './ReviewsPage';
 import { reviewService } from '@/service/reviewService';
+import { FilterType } from '@/types/filterType';
 
 export default async function AllReviews() {
 	const queryClient = new QueryClient();
 
-	// 서버에서 초기 리뷰 데이터를 가져오기
+	const filters: FilterType = {
+		type: 'DALLAEMFIT',
+		location: '',
+		date: '',
+		sortBy: 'createdAt',
+		sortOrder: 'desc',
+	};
+
 	await queryClient.prefetchInfiniteQuery({
-		queryKey: ['reviews', { page: 1 }],
+		queryKey: ['reviews', filters],
 		queryFn: async () => {
+			const { type, sortBy, sortOrder } = filters;
 			const data = await reviewService.getDetailReviewData({
-				currentPage: 1,
-				limit: 4,
+				limit: 5,
+				type,
+				sortBy,
+				sortOrder,
 			});
 			return {
 				data: data.data,
 				totalItemCount: data.totalItemCount,
-				currentPage: 1,
+				currentPage: data.currentPage,
 				totalPages: data.totalPages,
 			};
 		},
 		initialPageParam: 1,
 	});
 
-	// `dehydratedState`를 생성하여 클라이언트로 전달
 	const dehydratedState = dehydrate(queryClient);
-
 	return (
 		<HydrationBoundary state={dehydratedState}>
-			<ReviewsPage />
+			<ReviewsPage initialFilters={filters} />
 		</HydrationBoundary>
 	);
 }

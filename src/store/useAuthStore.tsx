@@ -1,6 +1,7 @@
 import { Store } from '@/types/userType';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { useShallow } from 'zustand/react/shallow';
 
 const useAuthStore = create<Store & { hasHydrated: boolean }>()(
 	persist(
@@ -21,6 +22,7 @@ const useAuthStore = create<Store & { hasHydrated: boolean }>()(
 			setCompanyName: (companyName: string | null) =>
 				set({ companyName: companyName }),
 			setImage: (image: string | null) => set({ image: image }),
+			setState: (newState) => set((state) => ({ ...state, ...newState })),
 			setUserNull: () =>
 				set({
 					isLoggedIn: false,
@@ -42,5 +44,30 @@ const useAuthStore = create<Store & { hasHydrated: boolean }>()(
 		},
 	),
 );
+
+// 프로필 관련 state 반환
+export const useProfile = () =>
+	useAuthStore(
+		useShallow((state) => {
+			return {
+				name: state.name,
+				image: state.image,
+				companyName: state.companyName,
+				email: state.email,
+			};
+		}),
+	);
+
+// 프로필 관련 actions 반환
+export const useProfileActions = () =>
+	useAuthStore(
+		useShallow((state) => {
+			const { setCompanyName, setImage } = state;
+			return {
+				setCompanyName,
+				setImage,
+			};
+		}),
+	);
 
 export { useAuthStore };

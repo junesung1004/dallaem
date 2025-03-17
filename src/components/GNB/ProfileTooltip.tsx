@@ -1,41 +1,37 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/customs/useAuth';
-import { IUser } from '@/types/userType';
-import { getUserData } from '@/api/getUserData';
-import { usePathname } from 'next/navigation';
+import { useProfile } from '@/store/useAuthStore';
+import { useState, useEffect, useRef } from 'react';
 
 const ProfileTooltip = () => {
 	const { logoutUser } = useAuth();
-	const [data, setData] = useState<IUser | null>(null);
 	const [visible, setVisible] = useState(false);
 
-	const pathname = usePathname();
-
-	const getData = async () => {
-		const userData = await getUserData();
-		setData(userData);
-	};
-
-	/** 임시 */
-	useEffect(() => {
-		if (pathname === '/mypage') {
-			getData();
-		}
-	}, [pathname]);
-
-	if (!data) return null; // 여기에서 return null을 해야 함
-
-	const image = data.image;
-
-	const toggleTooltip = () => setVisible((prev) => !prev);
-
+	const { image } = useProfile();
 	const src = image ?? '/icons/profileDefault.svg';
-	console.log('Profile Image: ', image);
+	const toggleTooltip = () => setVisible((prev) => !prev);
+	const tooltipRef = useRef<HTMLDivElement>(null); // 참조 생성
+
+	// 외부 클릭 감지
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (!tooltipRef.current) return; // 🔥 `null` 체크 추가
+			if (!tooltipRef.current.contains(event.target as Node)) {
+				setVisible(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
+
 	return (
 		<div
+			ref={tooltipRef}
 			className='relative '
 			onClick={toggleTooltip}
 			style={{
@@ -48,7 +44,7 @@ const ProfileTooltip = () => {
 			}}
 		>
 			<Image
-				src={image}
+				src={src}
 				alt=''
 				fill
 				className='object-cover rounded-full overflow-hidden'

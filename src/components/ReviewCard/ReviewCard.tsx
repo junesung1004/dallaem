@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import HeartRatings from '../HeartRatings/HeartRatings';
 import ProfileIcon from '@/app/(home)/mypage/components/ProfileIcon/ProfileIcon';
+import { useState } from 'react';
 
 export default function ReviewCard({
 	children,
@@ -14,7 +15,7 @@ export default function ReviewCard({
 			<div className='flex flex-col flex-wrap md:flex-row w-full md:w-full h-full relative'>
 				{children}
 				{isDetailPage === false && (
-					<div className='flex absolute -bottom-4 mb-3 sm:mb-0 w-full border-t border-5 border-dashed border-gray-200'></div>
+					<div className='flex absolute -bottom-4 mb-3 sm:mb-0 w-full border-t-2 border-5 border-dashed border-gray-200'></div>
 				)}
 			</div>
 		</div>
@@ -22,9 +23,8 @@ export default function ReviewCard({
 }
 
 function ImageSection({ src }: { src?: string }) {
-	const sizes = '(max-width: 640px) 343px, (max-width: 1024px) 280px, 100vw';
 	return (
-		<div className='relative w-full md:w-[280px] h-[156px] md:mb-3 md:mr-5 rounded-[24px] overflow-hidden'>
+		<div className='relative w-full sm:w-[280px] h-[156px] md:mb-3 md:mr-5 rounded-[24px] overflow-hidden'>
 			{src && src.trim() ? (
 				<Image
 					src={src}
@@ -32,7 +32,6 @@ function ImageSection({ src }: { src?: string }) {
 					fill
 					priority
 					className='object-cover'
-					sizes={sizes}
 				/>
 			) : (
 				<Image
@@ -40,7 +39,6 @@ function ImageSection({ src }: { src?: string }) {
 					alt='기본 리뷰 이미지'
 					fill
 					className='object-cover'
-					sizes={sizes}
 				/>
 			)}
 		</div>
@@ -56,13 +54,13 @@ function ReviewLayout({
 }) {
 	return (
 		<div
-			className={`flex-1 relative h-full text-gray-700 font-medium ${
+			className={`flex-1 relative text-gray-700 font-medium ${
 				isDetailPage ? 'min-h-[100px]' : 'min-h-[156px]'
 			}`}
 		>
 			{children}
 			{isDetailPage && (
-				<div className='flex absolute bottom-0 w-full border-t border-dashed border-gray-200'></div>
+				<div className='flex absolute -bottom-4 w-full border-t-2 border-5 border-dashed border-gray-200'></div>
 			)}
 		</div>
 	);
@@ -77,7 +75,36 @@ function HeartScore({ score }: { score: number }) {
 }
 
 function Content({ comment }: { comment: string }) {
-	return <div className='text-md mb-3'>{comment}</div>;
+	const [expanded, setExpanded] = useState(false);
+	const MAX_LENGTH = 300;
+
+	const shouldTruncate = comment.length > MAX_LENGTH;
+	const displayedText =
+		expanded || !shouldTruncate ? comment : comment.slice(0, MAX_LENGTH);
+
+	return (
+		<div className='text-md mb-3'>
+			<p>
+				{displayedText}
+				{shouldTruncate && !expanded && (
+					<span
+						onClick={() => setExpanded(true)}
+						className='text-gray-500 font-normal hover:text-gray-900 cursor-pointer'
+					>
+						...더보기
+					</span>
+				)}
+			</p>
+			{expanded && (
+				<button
+					onClick={() => setExpanded(false)}
+					className='text-gray-500 font-normal hover:text-gray-900'
+				>
+					접기
+				</button>
+			)}
+		</div>
+	);
 }
 
 function EtcInfo({
@@ -99,11 +126,11 @@ function EtcInfo({
 
 	const formatType = (type: string) => {
 		if (type === 'MINDFULNESS') {
-			return '달램핏 마인드풀니스';
+			return '심리지원 상담 프로그램';
 		} else if (type === 'OFFICE_STRETCHING') {
-			return '달램핏 오피스 스트레칭';
+			return '심리지원 마음의 캔버스';
 		} else if (type === 'WORKATION') {
-			return '워케이션';
+			return '마음쉼터';
 		}
 	};
 

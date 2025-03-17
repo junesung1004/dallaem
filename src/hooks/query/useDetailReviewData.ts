@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { reviewService } from '@/service/reviewService';
 import { ReviewType } from '@/types/paginationType';
 
@@ -13,11 +13,15 @@ export interface DetailReviewData {
 	totalItemCount: number;
 }
 
-export default function useDetailReviewData({
-	gatheringId,
-	limit,
-	currentPage,
-}: DetailReviewParams) {
+type AdditionalOptions = Omit<
+	UseQueryOptions<DetailReviewData, Error>,
+	'queryKey' | 'queryFn' | 'enabled'
+>;
+
+export default function useDetailReviewData(
+	{ gatheringId, limit, currentPage }: DetailReviewParams,
+	options?: AdditionalOptions,
+) {
 	return useQuery<DetailReviewData>({
 		queryKey: ['detailReview', gatheringId, currentPage],
 		queryFn: () =>
@@ -27,5 +31,6 @@ export default function useDetailReviewData({
 				currentPage,
 			}),
 		enabled: Boolean(gatheringId),
+		...options,
 	});
 }

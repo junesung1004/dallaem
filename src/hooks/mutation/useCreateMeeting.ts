@@ -5,7 +5,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-
 export const useCreateMeeting = () => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
@@ -30,7 +29,6 @@ export const useCreateMeeting = () => {
 				autoClose: 3000,
 				position: 'top-center',
 			});
-
 			router.back();
 		},
 		onError: (error) => {

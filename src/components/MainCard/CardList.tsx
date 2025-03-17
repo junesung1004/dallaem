@@ -51,11 +51,11 @@ export default function CardList({
 								<Card.Header.Left
 									title={
 										el.type === 'OFFICE_STRETCHING'
-											? '달램핏 마인드풀니스 |'
+											? '심리지원 상담 프로그램|'
 											: el.type === 'MINDFULNESS'
-												? '달램핏 마인드풀니스 |'
+												? '심리지원 마음의 캔버스 |'
 												: el.type === 'WORKATION'
-													? '워크에이션 리프레쉬 |'
+													? '마음쉼터 리프레쉬 |'
 													: ''
 									}
 									place={el.location}
@@ -84,13 +84,7 @@ export default function CardList({
 								</Card.Header.Right>
 							</Card.Header>
 
-							<Card.Footer
-								max={40}
-								value={30}
-								onClick={() => {
-									router.push(`meeting/${el.id}`);
-								}}
-							>
+							<Card.Footer max={40} value={30}>
 								<div className='flex gap-2'>
 									<Members max={el.capacity ?? 0} value={el.participantCount} />
 									<StatusBadge participantCount={el.participantCount} />
@@ -112,6 +106,7 @@ export default function CardList({
 					?.filter((el) => new Date(el.registrationEnd) >= new Date())
 					.map((el) => (
 						<Card
+							onClick={() => router.push(`meeting/${el.id}`)}
 							id={el.id}
 							key={el.id ?? 0}
 							registrationEnd={new Date(el.registrationEnd) < new Date()}
@@ -135,11 +130,11 @@ export default function CardList({
 									<Card.Header.Left
 										title={
 											el.type === 'OFFICE_STRETCHING'
-												? '달램핏 마인드풀니스 |'
+												? '심리지원 상담 프로그램 |'
 												: el.type === 'MINDFULNESS'
-													? '달램핏 마인드풀니스 |'
+													? '심리지원 마음의 캔버스 |'
 													: el.type === 'WORKATION'
-														? '워크에이션 리프레쉬 |'
+														? '마음쉼터 리프레쉬 |'
 														: ''
 										}
 										place={el.location}
@@ -168,13 +163,7 @@ export default function CardList({
 									</Card.Header.Right>
 								</Card.Header>
 
-								<Card.Footer
-									max={40}
-									value={30}
-									onClick={() => {
-										router.push(`meeting/${el.id}`);
-									}}
-								>
+								<Card.Footer max={40} value={30}>
 									<div className='flex gap-2'>
 										<Members
 											max={el.capacity ?? 0}

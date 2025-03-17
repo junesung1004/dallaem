@@ -26,7 +26,8 @@ const Login = () => {
 	const router = useRouter();
 	const [referrer, setReferrer] = useState<string | null>(null); // referrer 상태 추가
 	const debouncingTimer = useRef<NodeJS.Timeout | null>(null);
-	const { setUserId, setToken, setIsLoggedIn } = useAuthStore();
+	const { setState, email } = useAuthStore();
+
 	//상태관리 변수
 	const [formData, setFormData] = useState<Record<FieldType, string>>({
 		id: '',
@@ -68,10 +69,16 @@ const Login = () => {
 				password: formData.password.trim(),
 			});
 			// 전역 상태변수 저장
-			setIsLoggedIn(true);
-			setToken(localStorage.getItem('authToken'));
 			const user = await getUserData();
-			setUserId(user.id);
+			setState({
+				isLoggedIn: true,
+				token: localStorage.getItem('authToken'),
+				userId: user.id,
+				companyName: user.companyName,
+				name: user.name,
+				email: user.email,
+				image: user.image,
+			});
 
 			// 에러 초기화 후 이전 페이지로 이동
 			setErrors({
@@ -94,6 +101,10 @@ const Login = () => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		console.log(email);
+	}, [email]);
 
 	//함수: 빈칸 유효성 검사 함수
 	const validateEmpty = (type: FieldType) => {
@@ -220,7 +231,7 @@ const Login = () => {
 						)}
 
 						<div className='text-[15px] text-gray-800 flex gap-[4px]'>
-							<span>같이달램이 처음이신가요?</span>
+							<span>마음달램이 처음이신가요?</span>
 							<Link className='text-primary-600' href={'/signup'}>
 								회원가입
 							</Link>

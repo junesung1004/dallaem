@@ -10,7 +10,7 @@ import ProgressBar from '@/components/ProgressBar/ProgressBar';
 
 export const MeetingCard = ({
 	location,
-	type,
+	name,
 	date,
 	id,
 	capacity,
@@ -31,7 +31,7 @@ export const MeetingCard = ({
 				</div>
 
 				<div className='flex flex-col gap-1'>
-					<div className='text-lg font-bold'>{type}</div>
+					<div className='text-lg font-bold'>{name}</div>
 					<div className='text-sm text-gray-600'>{location}</div>
 
 					<div className='flex items-center gap-2 my-2 mb-5'>

@@ -3,26 +3,20 @@ import { meetingService } from '@/app/(home)/favorite-meetings/meetingService';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import type { IMeeting } from '@/types/meetingsType';
-import { useFilter } from './useFilter';
-
 import {
 	deleteLikeId,
 	getLikerKey,
 	getLocalStorageItem,
 } from '@/utils/localStorage';
 import type { ILikeListJSON } from '@/types/likeButtonType';
+import { FilterType } from '@/types/filterType';
 
-export const useFavoriteMeetings = () => {
-	const { type } = useFilter();
+export const useFavoriteMeetings = (currentFilter: FilterType) => {
+	const initialType = { type: 'DALLAEMFIT' };
+	const { type } = currentFilter || initialType;
+
 	// 데이터 가져오는 함수
 	const getData = async () => {
-		// console.log(
-		// 	'로컬에서 가져온 userId값 있음?',
-		// 	'ID값: ',
-		// 	userId,
-		// 	hasHydrated,
-		// );
-
 		// 아이디 목록을 기준으로 API 호출
 		const res = await meetingService.getFavoriteMeetings({
 			userId,
@@ -46,10 +40,9 @@ export const useFavoriteMeetings = () => {
 			: null;
 
 	const { data, isLoading, error } = useQuery({
-		queryKey: likerKey
-			? ['favorite', likerKey, likeList[likerKey]?.join('')]
-			: [],
-		queryFn: getData,
+		queryKey: ['favorite', likerKey ? likeList[likerKey]?.join('') : ''],
+		queryFn: () => (likerKey ? getData() : null),
+		enabled: !!likerKey,
 	});
 
 	// data가 업데이트되면 상태를 변경

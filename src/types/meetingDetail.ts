@@ -1,5 +1,5 @@
 export interface MeetingCardProps {
-	type: string;
+	name: string;
 	location: string;
 	date: string;
 	id: number;

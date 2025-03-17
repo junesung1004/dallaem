@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Card from './Card';
 import { DeadlineBadge } from '../Badge/DeadlineBadge';
 import { DateBadge } from '../Badge/DateBadge';
@@ -11,11 +9,15 @@ import { StatusBadge } from '../Badge/StatusBadge';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { useHomeMeetingCardList } from '@/hooks/query/useHomeMeetingCardList';
 import { useInView } from 'react-intersection-observer';
+import { FilterType } from '@/types/filterType';
 
-const CardListInfinite = React.memo(function CardListInfinite() {
+const CardListInfinite = React.memo(function CardListInfinite({
+	filters,
+}: {
+	filters: FilterType;
+}) {
 	const router = useRouter();
 	const { ref, inView } = useInView();
-	const [isDelayed, setIsDelayed] = useState(false);
 
 	const {
 		data,
@@ -24,9 +26,17 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 		fetchNextPage,
 		hasNextPage,
 		isFetchingNextPage,
-	} = useHomeMeetingCardList();
+	} = useHomeMeetingCardList(filters);
 
-	const meetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+	const meetings = React.useMemo(() => {
+		const allMeetings = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+		// ID 기반 중복 제거
+		const uniqueMeetings = allMeetings.filter(
+			(meeting, index, self) =>
+				index === self.findIndex((m) => m.id === meeting.id),
+		);
+		return uniqueMeetings;
+	}, [data?.pages]);
 
 	// 요청 지연 로직 추가
 	useEffect(() => {
@@ -34,15 +44,6 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 			fetchNextPage();
 		}
 	}, [inView, hasNextPage, isFetchingNextPage]);
-
-	useEffect(() => {
-		const filteredData = meetings
-			? meetings.filter((el) => new Date(el.registrationEnd) >= new Date())
-			: [];
-
-		// console.log('meetings-filtered : ', filteredData);
-		// console.log('meetings :', meetings);
-	}, [data]);
 
 	// 📌 로딩 중일 때 처리
 	if (isLoading) {
@@ -71,6 +72,7 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 				?.filter((el) => new Date(el.registrationEnd) >= new Date())
 				.map((el) => (
 					<Card
+						onClick={() => router.push(`meeting/${el.id}`)}
 						id={el.id}
 						key={el.id ?? 0}
 						registrationEnd={new Date(el.registrationEnd) < new Date()}
@@ -116,13 +118,7 @@ const CardListInfinite = React.memo(function CardListInfinite() {
 								</Card.Header.Right>
 							</Card.Header>
 
-							<Card.Footer
-								max={40}
-								value={30}
-								onClick={() => {
-									router.push(`meeting/${el.id}`);
-								}}
-							>
+							<Card.Footer max={40} value={30}>
 								<div className='flex gap-2'>
 									<Members max={el.capacity ?? 0} value={el.participantCount} />
 									<StatusBadge participantCount={el.participantCount} />

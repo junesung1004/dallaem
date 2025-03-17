@@ -18,10 +18,14 @@ export const useMyMeetings = (pageKey: 'joined' | 'review' | 'hosted') => {
 			reviewed?: boolean;
 			sortBy?: 'joinedAt';
 		} = {};
-		options.completed = pageKey === 'review' ? true : false;
 
 		if (pageKey === 'joined') {
 			options.sortBy = 'joinedAt';
+		}
+
+		if (pageKey === 'review') {
+			options.completed = true;
+			options.reviewed = false;
 		}
 
 		try {
@@ -31,8 +35,8 @@ export const useMyMeetings = (pageKey: 'joined' | 'review' | 'hosted') => {
 				case 'joined':
 				case 'review': {
 					data = await myMeetingService.fetchMyMeetings<MyMeeting[]>({
-						completed: options?.completed || false,
-						reviewed: options?.reviewed || false,
+						completed: options?.completed || undefined,
+						reviewed: options?.reviewed || undefined,
 						sortBy: options?.sortBy || undefined,
 					});
 
