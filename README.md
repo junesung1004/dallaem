@@ -1,69 +1,90 @@
-# 진달램⭐
+# 함께라서 더 빛나는 마음, 마음의 쉼표 ⭐**마음 달램**⭐
 
-<img width="724" alt="image" src="public/movies/프로젝트-소개-영상.gif">
+![alt text](<Frame 1244830710.png>)
 
 <br />
 <br />
 
-## 📜 목차
+## 🎶 목차
 
-1. [프로젝트 소개](#프로젝트-소개)
-2. [기술 스택](#기술-스택)
-3. [팀원 구성](#팀원-구성)
-4. [페이지별 기능](#페이지별-기능)
-5. [디렉토리 구조](#디렉토리-구조)
-6. [컨벤션](#컨벤션)
-7. [세부 기술 스택과 채택한 이유](#세부-기술-스택과-채택한-이유)
-8. [유저 플로우 차트](#유저-플로우-차트)
-9. [화면 흐름도](#화면-흐름도)
-10. [트러블 슈팅](#트러블-슈팅)
+- [🎯 프로젝트 소개](#-프로젝트-소개)
+- [🔧 기술 스택](#-기술-스택)
+- [💖 역할 분담](#-역할-분담)
+- [📺 기능 소개](#-기능-소개)
+- [📜 디렉토리 구조](#디렉토리-구조)
+- [🧩 컨벤션](#컨벤션)
+- [🌱 세부 기술 스택과 채택한 이유](#세부-기술-스택과-채택한-이유)
+- [🙇‍♂️ 유저 플로우 차트](#유저-플로우-차트)
+- [🖥️ 화면 흐름도](#화면-흐름도)
+- [💾 시스템 아키텍처](#-시스템-아키텍처)
+- [📖 산출물](#산출물)
 
 <br />
 
 ## 🎬 시연 영상
 
-- [Youtube](https://youtube.com/)
+<a style="text-align: center;" href="https://youtube.com/">
+<img width="724" alt="image" src="public/movies/프로젝트-소개-영상.gif">
+</a>
 
-<br />
+> _위의 영상을 누르면 시연 영상으로 이동됩니다._ >
 
-## ✨프로젝트 소개
+ <br />
 
-진달램은 바쁜 일상 속에서 휴식을 원하는 유저들을 위해 오프라인 모임을 탐색하고 참여하며, 직접 모임을 개설하고 리뷰를 남길 수 있는 웹/앱 기반 반응형 플랫폼입니다.
+## ✨ 프로젝트 소개
 
-🔹 주요 기능
-<br />
-✅ 모임 탐색 및 참여: 다양한 카테고리의 모임을 확인하고 자유롭게 참여 가능
-<br />
-✅ 모임 개설: 회원이라면 누구나 쉽게 오프라인 모임을 생성 및 관리
-<br />
-✅ 리뷰 작성: 모임 참여 후 경험을 공유하고 피드백 제공
-<br />
-✅ 반응형 UI: 웹 및 모바일 환경에서 최적화된 사용자 경험 제공
-<br />
-✅ 로그인/비로그인 지원: 토큰 기반 인증 시스템을 활용하여 로그인 없이도 일부 기능 이용 가능
+### 함께라서 더 빛나는 마음, **마음 달램**
+
+> 마음 달램은 바쁜 일상 속에서 심리 상담과 취미 활동을 하나의 플랫폼에서 연결하여 보다 자연스럽게 정신적 건강을 관리할 수 있는 웹/앱 기반 반응형 플랫폼입니다.
+
+### 🔹 주요 기능
+
+**✅ 모임 탐색 및 참여**
+
+- 다양한 카테고리의 모임을 확인하고 자유롭게 참여 가능합니다.
+- 심리지원 / 마음쉼터 두 영역으로 원하는 모임을 필터링을 통해 찾을 수 있습니다.
+
+**✅ 모임 개설**
+
+- 회원이라면 누구나 쉽게 오프라인 모임을 생성 및 관리를 할 수 있습니다.
+- 회원만 모임 생성을 할 수 있습니다.
+
+**✅ 리뷰 작성**
+
+- 모임 참여 후 경험을 공유하거나 피드백을 남길 수 있습니다.
+- 1 ~ 5개의 하트를 통해서 점수를 매길 수 있습니다.
+
+**✅ 반응형 UI**
+
+- 웹 및 모바일 환경에서 최적화된 사용자 경험 제공합니다.
+
+**✅ 로그인/비로그인 지원**
+
+- 토큰 기반 인증 시스템을 활용하여 로그인 없이도 일부 기능 이용 가능
 
 <br>
 
-## 🔥기술 스택
+## 🔥 기술 스택
 
-⚛️ 프론트엔드
+**⚛️ 프론트엔드**
 
-<div> <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"> <img src="https://img.shields.io/badge/Zustand-000000?style=for-the-badge&logo=Zustand&logoColor=white"> <img src="https://img.shields.io/badge/TanStack%20Query-FF4154?style=for-the-badge&logo=React%20Query&logoColor=white"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=Tailwind%20CSS&logoColor=white"> </div>
+<div> <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"> <img src="https://img.shields.io/badge/Zustand-000000?style=for-the-badge&logo=Zustand&logoColor=white"> <img src="https://img.shields.io/badge/TanStack%20Query-FF4154?style=for-the-badge&logo=React%20Query&logoColor=white"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=Tailwind%20CSS&logoColor=white"> <img src="https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&amp;logo=pwa&amp;logoColor=white"></div>
 
-<br />
-🚀 배포 및 CI/CD
+<br/>
+
+**🚀 배포 및 CI/CD**
+
 <div> <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=Vercel&logoColor=white"> <img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=GitHub%20Actions&logoColor=white"> </div>
+
 <br />
 
-🤝 협업 도구
+**🤝 협업 도구**
 
 <div> <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=Jira&logoColor=white"> <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white"> <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white"> <img src="https://img.shields.io/badge/Zep-5C16C5?style=for-the-badge&logoColor=white"> </div>
 
 <br>
 
-## 👥팀원 구성
-
-## 구성원 역할
+## 👥 팀원 구성
 
 | 담당자 | 업무                                                                                                                               | 비고                                                                                 |
 | ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
@@ -77,11 +98,11 @@
 
 <br>
 
-## 📖페이지별 기능
+## 📖 페이지별 기능 소개
 
 <br>
 
-### [메인 페이지 기능]
+### ⭐ 메인 페이지
 
 - 비회원 유저가 사이트를 이용할 수 있고, 모임 상세 페이지, 모든 리뷰 페이지를 확인할 수 있습니다.
 - 비회원/회원으로 찜하기 기능을 사용할 수 있습니다.
@@ -101,7 +122,7 @@
 <br />
 <br />
 
-### [상세 페이지 기능]
+### ⭐ 상세 페이지
 
 - 비회원/회원으로 찜하기 기능을 사용할 수 있습니다.
 - 모임을 만든 주최자라면 모임을 취소 혹은 공유를 할 수 있습니다.
@@ -117,7 +138,7 @@
 
 <br />
 
-### [로그인, 회원가입 페이지 기능]
+### ⭐ 로그인, 회원가입 페이지
 
 - 비회원이라면 회원가입 페이지에서 유효성 검사를 마친 후 회원가입을 할 수 있습니다.
 - 회원가입을 마친 후 로그인 페이지에서 유효성 검사를 마친 후 로그인을 할 수 있습니다.
@@ -132,7 +153,7 @@
 
 <br />
 
-### [모든 리뷰 페이지 기능]
+### ⭐ 모든 리뷰 페이지
 
 - 비회원으로 모든 리뷰를 확인할 수 있습니다.
 - 필터링 기능을 사용할 수 있습니다.
@@ -148,7 +169,7 @@
 
 <br />
 
-### [찜한 페이지 기능]
+### ⭐ 찜한 페이지
 
 - 비회원/회원으로 찜한 모임 목록 리스트를 확인할 수 있습니다.
 - 필터링 기능을 사용할 수 있습니다.
@@ -164,7 +185,7 @@
 
 <br>
 
-### [마이 페이지 기능]
+### ⭐ 마이 페이지
 
 - 회원 기능으로 로그인 시 마이페이지를 확인할 수 있습니다.
 - 나의 모임을 확인할 수 있습니다.
@@ -182,7 +203,7 @@
 
 <br>
 
-## 📂디렉토리 구조
+## 📂 디렉토리 구조
 
 ```
 📦 프로젝트 루트
@@ -268,7 +289,7 @@
 
 <br>
 
-## 📜컨벤션
+## 📜 컨벤션
 
 ### 🔹 PR 템플릿 활용
 
@@ -276,16 +297,16 @@
 - 한 PR당 코드 변경 사항 300줄 이하로 제한
 - 코드리뷰는 1명이상 approve 승인을 받아야 머지 가능(1~2시간 내 리뷰 완료)
 
-### 🔹Husky
+### 🔹 Husky
 
 - 커밋 메시지에만 적용
 - 커밋 메시지 스타일을 통일하고 역할을 분리하는 데 집중
 
-### 🔹ES Lint
+### 🔹 ES Lint
 
 - 코드 스타일 및 일관성을 유지하기 위한 룰 설정 후 느슨한 적용 중
 
-### 🔹스크럼
+### 🔹 스크럼
 
 - 오전 / 오후 2회 진행(각 15분 미만)
 
@@ -293,7 +314,7 @@
 
 ---
 
-## 🔧세부 기술 스택과 채택한 이유
+## 🔧 세부 기술 스택과 채택한 이유
 
 ### <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white">
 
@@ -382,7 +403,7 @@
 </br>
 </br>
 
-## 🏄유저 플로우 차트
+## 🏄 유저 플로우 차트
 
 <img src="public/movies/유저 플로우 차트.jpg">
 
@@ -392,7 +413,7 @@
 
 </br>
 
-## 📺화면 흐름도
+## 📺 화면 흐름도
 
 <img src="public/movies/화면 흐름도.jpg">
 
@@ -402,6 +423,12 @@
 
 </br>
 
-## 👀트러블 슈팅
+## 💾 시스템 아키텍처
 
-- ㅇㅇ
+## 👀 산출물
+
+### ⭐ [컴포넌트 명세서](https://www.notion.so/18579e4031a6808c97cae5f2897cdf4d?v=18579e4031a680908082000c5b59b975)
+
+### ⭐ [트러블 슈팅](https://www.notion.so/Bug-Fix-18579e4031a680eba490d6a69105fb4e)
+
+### ⭐ [개발 컨벤션](https://www.notion.so/18579e4031a68079a0e8f78ec9dacb65)
