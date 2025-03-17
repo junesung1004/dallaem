@@ -97,7 +97,6 @@ const Login = () => {
 					[errorMessages[err.message]]: err.message,
 				}));
 			} else {
-				console.error(err.message);
 			}
 		}
 	};
