@@ -12,10 +12,10 @@ import { IReviewData } from '@/types/reviewType';
 const typeMap: {
 	[x: string]: string;
 } = {
-	DALLAEMFIT: '달램핏',
-	OFFICE_STRETCHING: '오피스 스트레칭',
-	MINDFULNESS: '마인드풀니스 ',
-	WORKATION: '워케이션',
+	DALLAEMFIT: '심리지원',
+	OFFICE_STRETCHING: '상담 프로그램',
+	MINDFULNESS: '마음의 캔버스',
+	WORKATION: '마음쉼터',
 };
 
 function CardList({

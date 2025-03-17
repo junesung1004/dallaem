@@ -126,11 +126,11 @@ function EtcInfo({
 
 	const formatType = (type: string) => {
 		if (type === 'MINDFULNESS') {
-			return '달램핏 마인드풀니스';
+			return '심리지원 상담 프로그램';
 		} else if (type === 'OFFICE_STRETCHING') {
-			return '달램핏 오피스 스트레칭';
+			return '심리지원 마음의 캔버스';
 		} else if (type === 'WORKATION') {
-			return '워케이션';
+			return '마음쉼터';
 		}
 	};
 

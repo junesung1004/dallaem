@@ -43,7 +43,7 @@ export default function DetailClient({
 				<div className='flex-1 min-w-[300px]'>
 					<MeetingCard
 						id={detailData.id}
-						type={detailData.type}
+						name={detailData.name}
 						location={detailData.location}
 						date={detailData.dateTime}
 						capacity={detailData.capacity}
