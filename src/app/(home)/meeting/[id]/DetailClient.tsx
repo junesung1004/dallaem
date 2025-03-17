@@ -37,6 +37,7 @@ export default function DetailClient({
 						width={400}
 						height={300}
 						className='w-full min-w-[300px] h-72'
+						priority
 					/>
 				</div>
 

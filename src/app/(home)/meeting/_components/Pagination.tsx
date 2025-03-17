@@ -27,6 +27,7 @@ export function Pagination({
 						alt={'Disabled Left Arrow'}
 						width={13}
 						height={13}
+						priority
 					/>
 				) : (
 					<Image
@@ -35,6 +36,7 @@ export function Pagination({
 						width={33}
 						height={33}
 						className='rotate-180'
+						priority
 					/>
 				)}
 			</button>
