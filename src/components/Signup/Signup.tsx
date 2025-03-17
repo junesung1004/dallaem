@@ -163,7 +163,7 @@ const Signup = () => {
 		}
 	};
 
-	/* 함수: onFocus) Input 창을 포커스 할 경우 1초 후에 빈값 유효성 검사 시작한다. 모든 필드에서 빈값 에러 처리 */
+	/* 함수: onFocus) Input 창을 포커스 할 경우 0.5초 후에 빈값 유효성 검사 시작한다. 모든 필드에서 빈값 에러 처리 */
 	const handleFocus = (type: FieldType) => {
 		if (debouncingTimer.current) clearTimeout(debouncingTimer.current);
 		debouncingTimer.current = setTimeout(() => validateEmpty(type), 500);
