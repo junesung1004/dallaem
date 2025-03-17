@@ -1,6 +1,6 @@
 'use client';
 
-import PageNavbar from '@/components/PageNav/PageNavbar';
+import PageNavbar from '@/components/PageNav/PageNavbarCustom';
 import { useRouter } from 'next/navigation';
 
 function MyPageNav() {
