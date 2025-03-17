@@ -17,6 +17,7 @@ function ReviewCardList({ filters }: { filters: FilterType }) {
 				(review, index, self) =>
 					self.findIndex((r) => r.id === review.id) === index,
 			) ?? [];
+
 	const isReviewEmpty = reviews.length === 0;
 
 	const { ref, inView } = useInView();
@@ -55,6 +56,7 @@ function ReviewCardList({ filters }: { filters: FilterType }) {
 									type={review.Gathering.type}
 									location={review.Gathering.location}
 									date={review.createdAt}
+									gatheringDate={review.Gathering.dateTime}
 								/>
 							</ReviewCard.ReviewLayout>
 						</ReviewCard>

@@ -66,6 +66,7 @@ const AttendeeProfiles = ({
 						height={imgSize}
 						src='/icons/profileDefault.svg'
 						alt='profiles-over4'
+						priority
 					/>
 					<span className='absolute inset-0 flex items-center justify-center text-[14px] font-semibold'>
 						+{profiles.length - maxProfiles}

@@ -1,18 +1,19 @@
 {
-	"name": "My Next.js App",
-	"short_name": "NextApp",
+	"name": "마음달램",
+	"short_name": "마음달램",
 	"start_url": "/",
 	"display": "standalone",
 	"background_color": "#ffffff",
 	"theme_color": "#ffffff",
+	"description": "함께라서 더 빛나는 마음, 마음의 쉼표",
 	"icons": [
 		{
-			"src": "/images/imgLogin.png",
+			"src": "/images/logo/madal.png",
 			"sizes": "192x192",
 			"type": "image/png"
 		},
 		{
-			"src": "/images/imgLogin.png",
+			"src": "/images/logo/madal.png",
 			"sizes": "512x512",
 			"type": "image/png"
 		}
