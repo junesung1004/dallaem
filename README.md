@@ -5,6 +5,8 @@
 <br />
 <br />
 
+🚀 배포 주소: [https://jindallaem.vercel.app](https://jindallaem.vercel.app)
+
 ## 🎶 목차
 
 - [🎯 프로젝트 소개](#-프로젝트-소개)
