@@ -30,7 +30,6 @@
 <img width="724" alt="image" src="public/movies/프로젝트-소개-영상.gif">
 </a>
 
-> _위의 영상을 누르면 시연 영상으로 이동됩니다._ >
 
  <br />
 
